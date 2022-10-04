@@ -36,14 +36,22 @@ rypeIDSM <- nimbleCode({
     #f0[t] <- 1/esw[t] #assuming all detected on the line
   }
   
+  psi.DA ~ dunif(0, 1) # DA parameter
+  
   ########################################################   
-  for (i in 1:N_obs){ 
-    # LIKELIHOOD
-    # using zeros trick
-    y[i] ~ dunif(0,W) 
-    L.f0[i] <- exp(-y[i]*y[i] / (2*sigma2[Year_obs[i]])) * 1/esw[Year_obs[i]] #y are the distances
-    nlogL.f0[i] <- -log(L.f0[i])
-    zeros.dist[i] ~ dpois(nlogL.f0[i])
+  ## Likelihood with data augmentation (from AHM1 chapter 8.3.1)
+  for(i in 1:(N_obs + N_aug)){
+    
+    # Process model
+    z[i] ~ dbern(psi.DA)   # DA variables
+    y[i] ~ dunif(0, W)  # Distribution of distances
+    
+    # Observation model
+    logp[i] <- -((y[i]*y[i])/(2*sigma2[Year_obs[i]])) # Half-normal detection fct.
+    p[i] <- exp(logp[i])
+    mu[i] <- z[i] * p[i]
+    aug[i] ~ dbern(mu[i]) # Simple Bernoulli measurement error process
+    # TODO: Fix year indexing for augmented observations
   }
   
   ## Hierarchical node: esw[t]; 

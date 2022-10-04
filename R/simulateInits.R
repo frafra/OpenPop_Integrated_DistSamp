@@ -16,6 +16,8 @@ simulateInits <- function(nim.data, nim.constants){
     mu.dd = runif(1, 4, 5), 
     sigma.dd = runif(1, 0.05, 2),
     b = runif(1, 1, 50), 
+    psi.DA = runif(1, 0, 1),
+    z = nim.data$aug,
     mu.D1 = mu.D1, 
     sigma.D = runif(1, 0.05, 2),
     mu.R = runif(1, -2, 2), 

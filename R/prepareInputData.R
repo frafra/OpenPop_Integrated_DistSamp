@@ -8,6 +8,10 @@
 #' @param d_cmr list with 2 elements. Surv1 and Surv2 are matrices of individuals 
 #' released (column 1) and known to have survived (column 2) in each year (row)
 #' for season 1 and season 2, respectively. Output of wrangleData_CMR().
+#' @param augment logical. If TRUE, augments line transect data with N_aug 
+#' (see below) entries. Default = FALSE.
+#' @param N_aug integer. The number of dummy observations to add to data if
+#' augment = TRUE (default = 1000).
 #' @param dataVSconstants logical. If TRUE (default) returns a list of 2 lists
 #' containing data and constants for analysis with Nimble. If FALSE, returns a
 #' list containing all data and constants. 
@@ -20,7 +24,7 @@
 #'
 #' @examples
 
-prepareInputData <- function(d_trans, d_obs, d_cmr, dataVSconstants = TRUE, save = TRUE){
+prepareInputData <- function(d_trans, d_obs, d_cmr, augment = FALSE, N_aug = 1000, dataVSconstants = TRUE, save = TRUE){
   
   # Constants #
   #-----------#
@@ -79,6 +83,11 @@ prepareInputData <- function(d_trans, d_obs, d_cmr, dataVSconstants = TRUE, save
   ## Vector of 0's of same length as y
   zeros_dist <- rep(0, length(y))
   
+  ## Augmented version of the data (if applicable)
+  if(augment){
+    aug <- c(rep(1, N_obs), rep(0, N_aug)) # Augmented inds. have y = 0 by definition
+    y_aug <- c(y, rep(NA, N_aug)) # Value of distance are missing for the augmented
+  }
   
   # Number of birds/line (pooled age classes) #
   #-------------------------------------------#
@@ -163,10 +172,12 @@ prepareInputData <- function(d_trans, d_obs, d_cmr, dataVSconstants = TRUE, save
     R_obs_year = R_obs_year, # Year of observed numbers of recruits
     N_R_obs = N_R_obs, # Total number of observations of numbers of recruits
     
-    y = y, # Distance to transect line for each individual observation
+    y = ifelse(augment, y_aug, y), # Distance to transect line for each individual observation
     zeros_dist = zeros_dist, # Vector of 0's of same length as y
     Year_obs = Year_obs, # Year of each observation
     N_obs = N_obs, # Total number of observations
+    N_aug = ifelse(augment, N_aug, NA), # Number of augmented observations
+    aug = ifelse(augment, aug, NA), # Dummy index to separate real and augmented data
     
     N_line_year = N_line_year, # Number of birds observed per site per year
     N_a_line_year = N_a_line_year, # Number of birds observed per ageclass per site per year
@@ -186,7 +197,8 @@ prepareInputData <- function(d_trans, d_obs, d_cmr, dataVSconstants = TRUE, save
   
   ## Assembling Nimble data
   nim.data <- list(R_obs = input.data$R_obs, y = input.data$y, 
-                   zeros.dist = input.data$zeros_dist, L = input.data$L, 
+                   zeros.dist = input.data$zeros_dist, L = input.data$L,
+                   aug = input.data$aug,
                    N_line_year = input.data$N_line_year, 
                    N_a_line_year = input.data$N_a_line_year, 
                    A = input.data$A,
@@ -194,6 +206,7 @@ prepareInputData <- function(d_trans, d_obs, d_cmr, dataVSconstants = TRUE, save
   
   ## Assembling Nimble constants
   nim.constants <- list(N_years = input.data$N_years, W = input.data$W, scale1 = scale1,
+                        N_aug = input.data$N_aug,
                         N_obs = input.data$N_obs, Year_obs = input.data$Year_obs,
                         N_sites = input.data$N_sites, 
                         R_obs_year = input.data$R_obs_year, N_R_obs = input.data$N_R_obs,

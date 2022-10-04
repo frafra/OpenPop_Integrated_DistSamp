@@ -59,6 +59,7 @@ d_cmr <- wrangleData_CMR()
 input_data <- prepareInputData(d_trans = LT_data$d_trans, 
                                d_obs = LT_data$d_obs,
                                d_cmr = d_cmr,
+                               augment = TRUE,
                                dataVSconstants = TRUE,
                                save = TRUE)
 
@@ -73,12 +74,12 @@ input_data <- prepareInputData(d_trans = LT_data$d_trans,
 #                           nim.constants = input_data$nim.constants,
 #                           testRun = FALSE, initVals.seed = 0)
   
-# Updated version (nimbleDistance::dHN)
-model_setup <- setupModel(modelCode.path = "NIMBLE Code/RypeIDSM_dHN.R",
-                          customDist = TRUE,
-                          nim.data = input_data$nim.data,
-                          nim.constants = input_data$nim.constants,
-                          testRun = FALSE, initVals.seed = 0)
+# # Updated version (nimbleDistance::dHN)
+# model_setup <- setupModel(modelCode.path = "NIMBLE Code/RypeIDSM_dHN.R",
+#                           customDist = TRUE,
+#                           nim.data = input_data$nim.data,
+#                           nim.constants = input_data$nim.constants,
+#                           testRun = FALSE, initVals.seed = 0)
 
 # Updated version (nimbleDistance::dHR)
 # NOTE: This does not work properly yet (calculation of esw likely needs adjusting)
@@ -87,6 +88,16 @@ model_setup <- setupModel(modelCode.path = "NIMBLE Code/RypeIDSM_dHN.R",
 #                           nim.data = input_data$nim.data, 
 #                           nim.constants = input_data$nim.constants,
 #                           testRun = FALSE, initVals.seed = 0)
+
+# Updated version (data augmentation)
+model_setup <- setupModel(modelCode.path = "NIMBLE Code/RypeIDSM_DA.R",
+                          customDist = FALSE,
+                          nim.data = input_data$nim.data,
+                          nim.constants = input_data$nim.constants,
+                          testRun = TRUE, initVals.seed = 0)
+
+# NOTE: The data augmentation model does not work yet because there is no
+# year indexing (Year_obs) provided for the augmented observations.
 
 # MODEL (TEST) RUN #
 #------------------#
