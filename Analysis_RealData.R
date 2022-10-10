@@ -59,7 +59,7 @@ d_cmr <- wrangleData_CMR()
 input_data <- prepareInputData(d_trans = LT_data$d_trans, 
                                d_obs = LT_data$d_obs,
                                d_cmr = d_cmr,
-                               augment = TRUE,
+                               augment = FALSE,
                                dataVSconstants = TRUE,
                                save = TRUE)
 

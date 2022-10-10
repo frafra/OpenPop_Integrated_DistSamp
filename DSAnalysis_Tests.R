@@ -6,7 +6,7 @@ source_lines <- function(file, lines){
 }
 
 ## Source workflow without model fitting
-source_lines(file = "Analysis_RealData.R", lines = c(1:63))
+source_lines(file = "Analysis_RealData.R", lines = c(1:70))
 
 ## Extract relevant data
 y <- input_data$nim.data$y

@@ -86,7 +86,8 @@ prepareInputData <- function(d_trans, d_obs, d_cmr, augment = FALSE, N_aug = 100
   ## Augmented version of the data (if applicable)
   if(augment){
     aug <- c(rep(1, N_obs), rep(0, N_aug)) # Augmented inds. have y = 0 by definition
-    y_aug <- c(y, rep(NA, N_aug)) # Value of distance are missing for the augmented
+    y_aug <- c(y, rep(NA, N_aug)) # Value of distance are missing for the augmented observation
+    y <- y_aug
   }
   
   # Number of birds/line (pooled age classes) #
@@ -172,7 +173,7 @@ prepareInputData <- function(d_trans, d_obs, d_cmr, augment = FALSE, N_aug = 100
     R_obs_year = R_obs_year, # Year of observed numbers of recruits
     N_R_obs = N_R_obs, # Total number of observations of numbers of recruits
     
-    y = ifelse(augment, y_aug, y), # Distance to transect line for each individual observation
+    y = y, # Distance to transect line for each individual observation
     zeros_dist = zeros_dist, # Vector of 0's of same length as y
     Year_obs = Year_obs, # Year of each observation
     N_obs = N_obs, # Total number of observations
