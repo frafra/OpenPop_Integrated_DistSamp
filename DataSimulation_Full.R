@@ -56,7 +56,7 @@ W <- 200 # Truncation distance (max. distance at which observation is possible)
   
 #pi <- 3.141593 # Approximation of pi
 
-Mu.dd <- 50 # Average width parameter for half-normal detection function
+Mu.dd <- 75 # Average width parameter for half-normal detection function
 sigmaT.dd <- 0 # SD of random year variation in detection probability
 sigmaJ.dd <- 0 # SD of random year variation in detection probability
 
