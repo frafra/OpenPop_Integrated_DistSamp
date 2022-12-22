@@ -122,7 +122,7 @@ modM3.code <- nimbleCode({
       
       ## Process model
       Density[j, t] <- (Density[j, t-1] * S) + (Density[j, t-1]*S*R_year[t]/2) 
-      N_exp[j, t] <- Density[j, t]*L[j, t]*(W*scale1)*2
+      N_exp[j, t] <- Density[j, t]*L[j, t]*(W/scale1)*2
       
       ## Detection model year 2 - T
       N_line_year[j, t] ~ dpois(p[t]*N_exp[j, t])
