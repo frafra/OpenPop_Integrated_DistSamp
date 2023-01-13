@@ -58,7 +58,7 @@ setupModel <- function(modelCode.path, customDist,
   
   ## Adjust MCMC parameters if doing a test run
   if(testRun){
-    niter <- 2
+    niter <- 50
     nthin <- 1
     nburn <- 0
   }

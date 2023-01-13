@@ -114,10 +114,9 @@ list(
                    N_areas = input_data$nim.constant$N_areas, 
                    area_names = input_data$nim.constant$area_names, 
                    N_sites = input_data$nim.constant$N_sites, 
-                   N_years = input_data$nim.constant$N_years, 
                    min_years = input_data$nim.constant$min_years, 
                    max_years = input_data$nim.constant$max_years, 
-                   minYear = minYear,
+                   minYear = minYear, maxYear = maxYear,
                    VitalRates = TRUE, DetectParams = TRUE, Densities = TRUE)
   )
 )

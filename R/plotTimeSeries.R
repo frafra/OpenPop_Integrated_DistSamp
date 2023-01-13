@@ -4,10 +4,10 @@
 #' @param N_areas integer. Number of areas included in analyses. 
 #' @param area_names character vector containing area/location names.
 #' @param N_sites matrix containing the number of sites per area/location.
-#' @param N_years integer vector. Number of years with available data for each area/location.
 #' @param min_years integer vector. Indices of first year with available data for each area/location. 
 #' @param max_years integer vector. Indices of last year with available data for each area/location. 
 #' @param minYear integer. The first year considered in analyses. 
+#' @param maxYear integer. The last year considered in analyses. 
 #' @param VitalRates logical. If TRUE (default), plots time series of vital rate parameters.
 #' @param DetectParams logical. If TRUE (default), plots time series of detection parameters.
 #' @param Densities logical. If TRUE (default), plots time series of average population densities.
@@ -19,7 +19,7 @@
 
 plotTimeSeries <- function(mcmc.out, 
                            N_areas, area_names, N_sites, 
-                           N_years, min_years, max_years, minYear,
+                           min_years, max_years, minYear, maxYear,
                            VitalRates = TRUE, DetectParams = TRUE, Densities = TRUE){
   
   ## Convert posterior samples to matrix format
@@ -38,13 +38,10 @@ plotTimeSeries <- function(mcmc.out,
     popDens.sum <-  data.frame()
   
     # Determine area-specific year range
-    area_yearIdxs <- (min_years:max_years)
+    area_yearIdxs <- (min_years[i]:max_years[i])
     area_years <- area_yearIdxs + (minYear - 1)
-    if(length(area_years) != N_years[i]){
-      stop(paste0("Length of year range and total year number not identical for area ", i, "."))
-    }
     
-    for(t in 1:N_years[i]){
+    for(t in 1:length(area_years)){
       
       # Summarize annual reproductive rates
       rRep_name <- paste0("R_year[",  i, ", ", area_yearIdxs[t], "]")
@@ -102,10 +99,12 @@ plotTimeSeries <- function(mcmc.out,
     for(i in 1:N_areas){
       
       print(
-        ggplot(subset(rRep, Area = area_names[i]), aes(x = Year)) + 
+        ggplot(subset(rRep, Area == area_names[i]), aes(x = Year)) + 
           geom_line(aes(y = Median), color = "#67008A") + 
           geom_ribbon(aes(ymin = lCI, ymax = uCI), alpha = 0.5, fill = "#67008A") + 
-          scale_x_continuous(breaks = c(min_years[i]:max_years[i]) + minYear - 1) + 
+          scale_x_continuous(breaks = c(min_years[i]:max_years[i]) + minYear - 1, 
+                             limits = c(minYear, maxYear)) + 
+          ylim(min(rRep$lCI), max(rRep$uCI)) + 
           ylab("Reproductive rate") +
           theme_bw() + 
           theme(panel.grid.minor = element_blank(), 
@@ -123,10 +122,12 @@ plotTimeSeries <- function(mcmc.out,
     for(i in 1:N_areas){
       
       print(
-        ggplot(subset(pSurv, Area = area_names[i]), aes(x = Year)) + 
+        ggplot(subset(pSurv, Area == area_names[i]), aes(x = Year)) + 
           geom_line(aes(y = Median), color = "#9A42B8") + 
           geom_ribbon(aes(ymin = lCI, ymax = uCI), alpha = 0.5, fill = "#9A42B8") + 
-          scale_x_continuous(breaks = c(min_years[i]:max_years[i]) + minYear - 1) + 
+          scale_x_continuous(breaks = c(min_years[i]:max_years[i]) + minYear - 1, 
+                             limits = c(minYear, maxYear)) +
+          ylim(min(pSurv$lCI), max(pSurv$uCI)) + 
           ylab("Annual survival probability") +
           theme_bw() + 
           theme(panel.grid.minor = element_blank(), 
@@ -144,10 +145,12 @@ plotTimeSeries <- function(mcmc.out,
     for(i in 1:N_areas){
       
       print(
-        ggplot(subset(pDetect, Area = area_names[i]), aes(x = Year)) + 
+        ggplot(subset(pDetect, Area == area_names[i]), aes(x = Year)) + 
           geom_line(aes(y = Median), color = "#856CEB") + 
           geom_ribbon(aes(ymin = lCI, ymax = uCI), alpha = 0.5, fill = "#856CEB") + 
-          scale_x_continuous(breaks = c(min_years[i]:max_years[i]) + minYear - 1) + 
+          scale_x_continuous(breaks = c(min_years[i]:max_years[i]) + minYear - 1, 
+                             limits = c(minYear, maxYear)) + 
+          ylim(min(pDetect$lCI), max(pDetect$uCI)) + 
           ylab("Detection probability") +
           theme_bw() + 
           theme(panel.grid.minor = element_blank(), 
@@ -161,14 +164,34 @@ plotTimeSeries <- function(mcmc.out,
   # Average population densities
   if(Densities){
     
-    pdf("Plots/TimeSeries/TimeSeries_popDens.pdf", width = 8, height = 5)
+    pdf("Plots/TimeSeries/TimeSeries_popDens1.pdf", width = 8, height = 5)
     for(i in 1:N_areas){
       
       print(
-        ggplot(subset(popDens, Area = area_names[i]), aes(x = Year)) + 
+        ggplot(subset(popDens, Area == area_names[i]), aes(x = Year)) + 
           geom_line(aes(y = Median), color = "#C2B391") + 
           geom_ribbon(aes(ymin = lCI, ymax = uCI), alpha = 0.5, fill = "#C2B391") + 
-          scale_x_continuous(breaks = c(min_years[i]:max_years[i]) + minYear - 1) + 
+          scale_x_continuous(breaks = c(min_years[i]:max_years[i]) + minYear - 1, 
+                             limits = c(minYear, maxYear)) + 
+          ylab(bquote("Average population density " (birds/km^2))) + 
+          theme_bw() + 
+          theme(panel.grid.minor = element_blank(), 
+                axis.text.x = element_text(angle = 45, vjust = 0.75))
+      )
+      
+    }
+    dev.off()
+    
+    pdf("Plots/TimeSeries/TimeSeries_popDens2.pdf", width = 8, height = 5)
+    for(i in 1:N_areas){
+      
+      print(
+        ggplot(subset(popDens, Area == area_names[i]), aes(x = Year)) + 
+          geom_line(aes(y = Median), color = "#C2B391") + 
+          geom_ribbon(aes(ymin = lCI, ymax = uCI), alpha = 0.5, fill = "#C2B391") + 
+          scale_x_continuous(breaks = c(min_years[i]:max_years[i]) + minYear - 1, 
+                             limits = c(minYear, maxYear)) + 
+          ylim(min(popDens$lCI), max(popDens$uCI)) + 
           ylab(bquote("Average population density " (birds/km^2))) + 
           theme_bw() + 
           theme(panel.grid.minor = element_blank(), 
