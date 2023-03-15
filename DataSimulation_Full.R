@@ -287,12 +287,12 @@ simulate.HDSdata <- function(Jmax, Tmax, G.age,
   
   # Summarise number of individuals observed per year-site combination
   #DS.count <- array(NA, nrow = Jmax, ncol = Tmax)
-  DS.count <- array(NA, c(Jmax, 2, Tmax))
+  DS.count <- array(NA, c(2, Jmax, Tmax))
   for(t in 1:Tmax){
     for(j in 1:Jmax){
       data.sub <- subset(data, year == t & site == j)
-      DS.count[j, 1, t] <- sum(data.sub$no_juv)
-      DS.count[j, 2, t] <- sum(data.sub$no_ad)
+      DS.count[1, j, t] <- sum(data.sub$no_juv)
+      DS.count[2, j, t] <- sum(data.sub$no_ad)
     }
   }
   
@@ -308,6 +308,10 @@ DS.data <- simulate.HDSdata(Jmax, Tmax, G.age = G.age,
                             W, discard0 = TRUE, 
                             min.Tlength, max.Tlength)
 
+## Function to extract reproductive data from distance sampling data
+extract.RepData <- function(){
+  
+}
 
 
 ########################################
@@ -322,19 +326,23 @@ DS.data <- simulate.HDSdata(Jmax, Tmax, G.age = G.age,
 simulate.RTdata <- function(nind.avg.RT, Tmin.RT, Tmax.RT, Tmax, SurvProbs){
   
   # Make vectors for storing data
-  n.rel <- n.surv <- rep(NA, Tmax)
+  n.rel.S1 <- n.surv.S1 <- rep(NA, Tmax)
+  n.rel.S2 <- n.surv.S2 <- rep(NA, Tmax)
   
   for(t in Tmin.RT:Tmax.RT){
     
     # Sample number of individuals fitted with transmitters each year
-    n.rel[t] <- rpois(1, nind.avg.RT)
+    n.rel.S1[t] <- rpois(1, nind.avg.RT)
+    n.rel.S2[t] <- rpois(1, nind.avg.RT)
     
     # Simulate survivors to the next year
-    n.surv[t] <- rbinom(1, size = n.rel[t], prob = SurvProbs[t])
+    n.surv.S1[t] <- rbinom(1, size = n.rel.S1[t], prob = sqrt(SurvProbs[t]))
+    n.surv.S2[t] <- rbinom(1, size = n.rel.S2[t], prob = sqrt(SurvProbs[t]))
   }
   
   # Assemble data in a list and return
-  RT.data <- list(n.rel = n.rel, n.surv = n.surv)
+  RT.data <- list(Survs1 = cbind(n.rel.S1, n.surv.S1),
+                  Survs2 = cbind(n.rel.S2, n.surv.S2))
   return(RT.data)
 }
 
