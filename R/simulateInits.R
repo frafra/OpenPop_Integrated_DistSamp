@@ -15,7 +15,7 @@ simulateInits <- function(nim.data, nim.constants){
   list(
     mu.dd = runif(1, 4, 5), 
     sigma.dd = runif(1, 0.05, 2),
-    b = runif(1, 1, 50), 
+    #b = runif(1, 1, 50), 
     mu.D1 = mu.D1, 
     sigma.D = runif(1, 0.05, 2),
     mu.R = runif(1, -2, 2), 

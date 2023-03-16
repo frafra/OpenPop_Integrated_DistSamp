@@ -71,6 +71,7 @@ input_data <- prepareInputData(d_trans = LT_data$d_trans,
                                d_cmr = d_cmr,
                                R_perF = R_perF,
                                R_parent_drop0 = R_parent_drop0,
+                               sumR.Level = sumR.Level,
                                dataVSconstants = TRUE,
                                save = TRUE)
 
@@ -110,13 +111,3 @@ Sys.time() - t.start
 
 saveRDS(IDSM.out, file = 'rypeIDSM_dHN_realData_Lierne.rds')
 
-
-# OPTIONAL: MODEL COMPARISON (PLOTS) #
-#------------------------------------#
-
-modelComp <- plotModelComparison(modelPaths = c("rypeIDSM_realData_Lierne.rds", 
-                                                "rypeIDSM_dHN_realData_Lierne.rds"), 
-                                 modelChars = c("Zeroes trick", "dHN"), 
-                                 N_sites = 58, N_years = 6,
-                                 plotPath = "Plots/ModelCompTest",
-                                 returnData = FALSE)
