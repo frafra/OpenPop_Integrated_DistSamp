@@ -19,6 +19,11 @@ sourceDir('R')
 # downloadData <- FALSE
 downloadData <- TRUE
 
+# Recruitment per adult or per adult female
+R_perF <- TRUE
+
+# Drop observations of juveniles with no adults present
+R_parent_drop0 <- FALSE
 
 # DOWNLOAD/FETCH DATA #
 #---------------------#
@@ -59,6 +64,8 @@ d_cmr <- wrangleData_CMR()
 input_data <- prepareInputData(d_trans = LT_data$d_trans, 
                                d_obs = LT_data$d_obs,
                                d_cmr = d_cmr,
+                               R_perF = R_perF,
+                               R_parent_drop0 = R_parent_drop0,
                                dataVSconstants = TRUE,
                                save = TRUE)
 
@@ -78,15 +85,7 @@ model_setup <- setupModel(modelCode.path = "NIMBLE Code/RypeIDSM_dHN.R",
                           customDist = TRUE,
                           nim.data = input_data$nim.data,
                           nim.constants = input_data$nim.constants,
-                          testRun = FALSE, initVals.seed = 0)
-
-# Updated version (nimbleDistance::dHR)
-# NOTE: This does not work properly yet (calculation of esw likely needs adjusting)
-# model_setup <- setupModel(modelCode.path = "NIMBLE Code/RypeIDSM_dHR.R",
-#                           customDist = TRUE,
-#                           nim.data = input_data$nim.data, 
-#                           nim.constants = input_data$nim.constants,
-#                           testRun = FALSE, initVals.seed = 0)
+                          testRun = TRUE, initVals.seed = 0)
 
 # MODEL (TEST) RUN #
 #------------------#
@@ -104,9 +103,7 @@ IDSM.out <- nimbleMCMC(code = model_setup$modelCode,
                        setSeed = 0)
 Sys.time() - t.start
 
-#saveRDS(IDSM.out, file = 'rypeIDSM_realData_Lierne.rds')
 saveRDS(IDSM.out, file = 'rypeIDSM_dHN_realData_Lierne.rds')
-#saveRDS(IDSM.out, file = 'rypeIDSM_dHR_realData_Lierne.rds')
 
 
 # OPTIONAL: MODEL COMPARISON (PLOTS) #

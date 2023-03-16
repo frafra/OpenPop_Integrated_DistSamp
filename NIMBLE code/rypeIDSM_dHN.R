@@ -64,9 +64,9 @@ rypeIDSM <- nimbleCode({
   R_year[1:N_years] <- exp(mu.R + eps.R[1:N_years])
   
   ## Likelihood;
-  for (i in 1:N_R_obs){
+  for (i in 1:N_sumR_obs){
     
-    R_obs[i] ~ dpois(R_year[R_obs_year[i]])
+    sumR_obs[i] ~ dpois(R_year[sumR_obs_year[i]]*sumAd_obs[i])
   }
   
   
@@ -143,8 +143,13 @@ rypeIDSM <- nimbleCode({
     for(t in 2:N_years){
       
       ## Process model
-      Density[2, j, t] <- sum(Density[1:N_ageC, j, t-1])*S[t-1] # Juveniles
-      Density[1, j, t] <- Density[2, j, t]*R_year[t]/2 # Adults
+      Density[2, j, t] <- sum(Density[1:N_ageC, j, t-1])*S[t-1] 
+      
+      if(R_perF){
+        Density[1, j, t] <- Density[2, j, t]/2*R_year[t] 
+      }else{
+        Density[1, j, t] <- Density[2, j, t]*R_year[t]
+      }
       
       N_exp[1:N_ageC, j, t] <- Density[1:N_ageC, j, t]*L[j, t]*(W*scale1)*2
       
