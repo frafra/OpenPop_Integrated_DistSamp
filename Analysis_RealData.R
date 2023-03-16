@@ -25,6 +25,11 @@ R_perF <- TRUE
 # Drop observations of juveniles with no adults present
 R_parent_drop0 <- FALSE
 
+# Aggregation level for reproduction data
+# NOTE: if this is not defined, will default to group level
+sumR.Level <- "line" # Summing at the line level
+
+
 # DOWNLOAD/FETCH DATA #
 #---------------------#
 
