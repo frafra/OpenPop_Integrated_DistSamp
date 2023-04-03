@@ -20,10 +20,10 @@ sourceDir('R')
 downloadData <- TRUE
 
 # Recruitment per adult or per adult female
-R_perF <- TRUE
+R_perF <- FALSE
 
 # Drop observations of juveniles with no adults present
-R_parent_drop0 <- FALSE
+R_parent_drop0 <- TRUE
 
 # Aggregation level for reproduction data
 # NOTE: if this is not defined, will default to group level
