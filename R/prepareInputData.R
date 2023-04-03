@@ -8,6 +8,14 @@
 #' @param d_cmr list with 2 elements. Surv1 and Surv2 are matrices of individuals 
 #' released (column 1) and known to have survived (column 2) in each year (row)
 #' for season 1 and season 2, respectively. Output of wrangleData_CMR().
+#' @param R_perF logical. If TRUE, treats recruitment rate as juvenile per adult female.
+#' If FALSE, treats recruitment rate as juvenile per adult (sum of both sexes).
+#' @param R_parent_drop0 logical. If TRUE, removes observations of juveniles without adults
+#' from recruitment data. If FALSE, sets 1 as the number of adults/adults females when none
+#' are observed. 
+#' @param sumR.Level character string. Default ("group") summarises reproduction/recruitment
+#' data at the group/observation level. Setting to "line" summarises data at the 
+#' transect line level instead. 
 #' @param dataVSconstants logical. If TRUE (default) returns a list of 2 lists
 #' containing data and constants for analysis with Nimble. If FALSE, returns a
 #' list containing all data and constants. 
@@ -20,7 +28,7 @@
 #'
 #' @examples
 
-prepareInputData <- function(d_trans, d_obs, d_cmr, dataVSconstants = TRUE, save = TRUE){
+prepareInputData <- function(d_trans, d_obs, d_cmr, R_perF, R_parent_drop0, sumR.Level = "group", dataVSconstants = TRUE, save = TRUE){
   
   # Constants #
   #-----------#
@@ -142,26 +150,70 @@ prepareInputData <- function(d_trans, d_obs, d_cmr, dataVSconstants = TRUE, save
   # Recruitment #
   #-------------#
   
+  # NOTE: For consistency with the population model, we need to define R as the number of recruits
+  # per adult (female)
+  # TODO: Check with Erlend about the need to keep dropping the groups of single males. As per now, 
+  # I do not see the reason for doing that any longer.
+  
+  # Reformat data
   temp_Rec <- d_obs %>% filter(between(DistanceToTransectLine, -0.1, W)) %>%
-    dplyr::mutate(R = unknownJuvenile + unknownunknown) %>%
-    dplyr::mutate(Maletemp = unknownJuvenile + unknownunknown + FemaleAdult, MaleIndeks = if_else(Maletemp == 0, 1, 0)) %>%
-    dplyr::select(Year, R, MaleIndeks) %>%
-    dplyr::mutate(Year2 = Year - (min(Year)) + 1) %>%
-    dplyr::filter(MaleIndeks == 0) # --> drop all observations of only males
+    dplyr::mutate(sumR = unknownJuvenile + unknownunknown,
+                  sumAd = MaleAdult + FemaleAdult,
+                  sumAdF = FemaleAdult) %>%
+    dplyr::mutate(Year2 = Year - (min(Year)) + 1)
+
+  # Optional: summarise data at line level (per year)
+  if(sumR.Level == "line"){
+    temp_Rec <- temp_Rec %>%
+      dplyr::group_by(locationID, Year, Year2) %>%
+      dplyr::summarise(sumR = sum(sumR),
+                       sumAd = sum(sumAd),
+                       sumAdF = sum(sumAdF), .groups = "keep")
+  }
   
-  R_obs <- temp_Rec$R
-  R_obs_year <- temp_Rec$Year2
-  N_R_obs <- length(R_obs)
+  # Extract relevant data vectors
+  sumR_obs <- temp_Rec$sumR
   
+  if(R_perF){
+    sumAd_obs <- temp_Rec$sumAdF
+  }else{
+    sumAd_obs <- temp_Rec$sumAd
+  }
+  
+  sumR_obs_year <- temp_Rec$Year2
+  
+  # Deal with instances of 0 adults observed
+  if(R_parent_drop0){ # --> Drop all cases of 0 adults observed
+    drop.idx <- which(sumAd_obs == 0)
+    sumR_obs <- sumR_obs[-drop.idx]
+    sumAd_obs <- sumAd_obs[-drop.idx]
+    sumR_obs_year <- sumR_obs_year[-drop.idx]
+    
+  }else{ # --> Drop only cases when neither adult (females) nor juveniles were observed and add +1 to adults otherwise
+    
+    drop.idx <- which(sumAd_obs + sumR_obs == 0)
+    
+    if(length(drop.idx > 0)){
+      sumR_obs <- sumR_obs[-drop.idx]
+      sumAd_obs <- sumAd_obs[-drop.idx]
+      sumR_obs_year <- sumR_obs_year[-drop.idx]
+    }
+    
+    sumAd_obs[which(sumAd_obs == 0)] <- 1
+  }
+  
+  # Count observations
+  N_sumR_obs <- length(sumR_obs)
   
   # Data assembly #
   #---------------#
   
   ## Assembling all data in a list
   input.data <- list(
-    R_obs = R_obs, # Observed numbers of recruits
-    R_obs_year = R_obs_year, # Year of observed numbers of recruits
-    N_R_obs = N_R_obs, # Total number of observations of numbers of recruits
+    sumR_obs = sumR_obs, # Observed numbers of recruits
+    sumAd_obs = sumAd_obs, # Observed numbers of adults/adult females
+    sumR_obs_year = sumR_obs_year, # Year of observed numbers of recruits
+    N_sumR_obs = N_sumR_obs, # Total number of observations of numbers of recruits
     
     y = y, # Distance to transect line for each individual observation
     zeros_dist = zeros_dist, # Vector of 0's of same length as y
@@ -185,7 +237,8 @@ prepareInputData <- function(d_trans, d_obs, d_cmr, dataVSconstants = TRUE, save
   )
   
   ## Assembling Nimble data
-  nim.data <- list(R_obs = input.data$R_obs, y = input.data$y, 
+  nim.data <- list(sumR_obs = input.data$sumR_obs, sumAd_obs = sumAd_obs,
+                   y = input.data$y, 
                    zeros.dist = input.data$zeros_dist, L = input.data$L, 
                    N_line_year = input.data$N_line_year, 
                    N_a_line_year = input.data$N_a_line_year, 
@@ -196,7 +249,7 @@ prepareInputData <- function(d_trans, d_obs, d_cmr, dataVSconstants = TRUE, save
   nim.constants <- list(N_years = input.data$N_years, W = input.data$W, scale1 = scale1,
                         N_obs = input.data$N_obs, Year_obs = input.data$Year_obs,
                         N_sites = input.data$N_sites, 
-                        R_obs_year = input.data$R_obs_year, N_R_obs = input.data$N_R_obs,
+                        sumR_obs_year = input.data$sumR_obs_year, N_sumR_obs = input.data$N_sumR_obs,
                         N_ageC = N_ageC)
   
   ## Make final data list to return

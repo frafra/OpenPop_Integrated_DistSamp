@@ -51,7 +51,7 @@ plotModelComparison <- function(modelPaths, modelChars, N_sites, N_years, plotPa
   pdf(paste0(plotPath, '/ModelComp_Mains.pdf'), width = 8, height = 5)
   print(
     ggplot(subset(data.all, Parameter %in% mains)) + 
-      geom_density(aes(x = Value, color = Model, fill = Model), alpha = 0.5) + 
+      geom_density(aes(x = Value, color = Model, fill = Model), alpha = 1/nMod) + 
       facet_wrap(~Parameter, scales = 'free') +
       scale_fill_viridis(discrete = T) + 
       scale_color_viridis(discrete = T) + 
@@ -65,7 +65,7 @@ plotModelComparison <- function(modelPaths, modelChars, N_sites, N_years, plotPa
   pdf(paste0(plotPath, '/ModelComp_Detects.pdf'), width = 8, height = 5)
   print(
     ggplot(subset(data.all, Parameter %in% detects)) + 
-      geom_density(aes(x = Value, color = Model, fill = Model), alpha = 0.5) + 
+      geom_density(aes(x = Value, color = Model, fill = Model), alpha = 1/nMod) + 
       facet_wrap(~Parameter, scales = 'free') +
       scale_fill_viridis(discrete = T) + 
       scale_color_viridis(discrete = T) + 
@@ -80,7 +80,7 @@ plotModelComparison <- function(modelPaths, modelChars, N_sites, N_years, plotPa
   pdf(paste0(plotPath, '/ModelComp_R_year.pdf'), width = 8, height = 5)
   print(
     ggplot(subset(data.all, Parameter %in% R_year)) + 
-      geom_density(aes(x = Value, color = Model, fill = Model), alpha = 0.5) + 
+      geom_density(aes(x = Value, color = Model, fill = Model), alpha = 1/nMod) + 
       facet_wrap(~Parameter, scales = 'free') +
       scale_fill_viridis(discrete = T) + 
       scale_color_viridis(discrete = T) + 
@@ -94,7 +94,7 @@ plotModelComparison <- function(modelPaths, modelChars, N_sites, N_years, plotPa
   pdf(paste0(plotPath, '/ModelComp_D.pdf'), width = 8, height = 5)
   print(
     ggplot(subset(data.all, Parameter %in% D)) + 
-      geom_density(aes(x = Value, color = Model, fill = Model), alpha = 0.5) + 
+      geom_density(aes(x = Value, color = Model, fill = Model), alpha = 1/nMod) + 
       facet_wrap(~Parameter, scales = 'free') +
       scale_fill_viridis(discrete = T) + 
       scale_color_viridis(discrete = T) + 
@@ -109,7 +109,7 @@ plotModelComparison <- function(modelPaths, modelChars, N_sites, N_years, plotPa
       ggplot(subset(data.all, Parameter %in% c(paste0('N_exp[1, ', j, ', ', 1:N_years, ']'), 
                                                paste0('N_exp[2, ', j, ', ', 1:N_years, ']')) &
                       Value != 0)) + 
-        geom_density(aes(x = Value, color = Model, fill = Model), alpha = 0.5) + 
+        geom_density(aes(x = Value, color = Model, fill = Model), alpha = 1/nMod) + 
         facet_wrap(~Parameter, scales = 'free') +
         scale_fill_viridis(discrete = T) + 
         scale_color_viridis(discrete = T) + 
@@ -127,7 +127,7 @@ plotModelComparison <- function(modelPaths, modelChars, N_sites, N_years, plotPa
       ggplot(subset(data.all, Parameter %in% c(paste0('Density[1, ', j, ', ', 1:N_years, ']'), 
                                                 paste0('Density[2, ', j, ', ', 1:N_years, ']')) &
                       Value != 0)) + 
-        geom_density(aes(x = Value, color = Model, fill = Model), alpha = 0.5) + 
+        geom_density(aes(x = Value, color = Model, fill = Model), alpha = 1/nMod) + 
         facet_wrap(~Parameter, scales = 'free') +
         scale_fill_viridis(discrete = T) + 
         scale_color_viridis(discrete = T) + 
