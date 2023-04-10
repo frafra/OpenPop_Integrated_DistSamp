@@ -233,7 +233,9 @@ prepareInputData <- function(d_trans, d_obs, d_cmr, R_perF, R_parent_drop0, sumR
     N_ageC = N_ageC, # Number of age classes
     
     Survs1 = d_cmr$Survs1, # Season 1 releases & survivors
-    Survs2 = d_cmr$Survs2 # Season 2 releases & survivors
+    Survs2 = d_cmr$Survs2, # Season 2 releases & survivors
+    Tmin.RT = Tmin.RT, # Index of first year with telemetry data
+    Tmax.RT = Tmax.RT # Index of last year with telemetry data
   )
   
   ## Assembling Nimble data
@@ -250,7 +252,7 @@ prepareInputData <- function(d_trans, d_obs, d_cmr, R_perF, R_parent_drop0, sumR
                         N_obs = input.data$N_obs, Year_obs = input.data$Year_obs,
                         N_sites = input.data$N_sites, 
                         sumR_obs_year = input.data$sumR_obs_year, N_sumR_obs = input.data$N_sumR_obs,
-                        N_ageC = N_ageC)
+                        N_ageC = N_ageC, Tmin.RT = input.data$Tmin.RT, Tmax.RT = input.data$Tmax.RT)
   
   ## Make final data list to return
   if(dataVSconstants){

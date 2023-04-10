@@ -8,7 +8,7 @@
 #'
 #' @examples
 
-wrangleData_CMR <- function(){
+wrangleData_CMR <- function(minYear){
   
   ## Load CMR data
   CMR_data <- tibble::as_tibble(read.csv("Demographic_data/CMR_Data.csv", header = T, sep = ",")) 
@@ -27,8 +27,13 @@ wrangleData_CMR <- function(){
     dplyr::select(-YearPeriod, -TimePeriod) %>%
     as.matrix()
   
+  # Time indices
+  Tmin.RT <- min(CMR_data$YearPeriod) - minYear + 1
+  Tmax.RT <- max(CMR_data$YearPeriod) - minYear + 1
+  
   ## Arrange in list
-  d_cmr <- list(Survs1 = Survs1, Survs2 = Survs2)
+  d_cmr <- list(Survs1 = Survs1, Survs2 = Survs2,
+                Tmin.RT = Tmin.RT, Tmax.RT = Tmax.RT)
   
   ## Return list
   return(d_cmr)

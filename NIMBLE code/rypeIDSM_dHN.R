@@ -127,7 +127,7 @@ rypeIDSM <- nimbleCode({
   S[1:N_years] <- S1[1:N_years]*S2[1:N_years]
   
   ## Data likelihoods
-  for (t in 1:4){
+  for (t in Tmin.RT:Tmax.RT){
     
     Survs1[t, 2] ~ dbinom(S1[t], Survs1[t, 1])
     Survs2[t, 2] ~ dbinom(S2[t], Survs2[t, 1])

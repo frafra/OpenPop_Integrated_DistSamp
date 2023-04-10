@@ -59,7 +59,7 @@ LT_data <- wrangleData_LineTrans(DwC_archive = Rype_arkiv,
 #-----------------------------#
 
 ## Read in and reformat CMR data
-d_cmr <- wrangleData_CMR()
+d_cmr <- wrangleData_CMR(minYear)
 
 
 # PREPARE INPUT DATA FOR INTEGRATED MODEL #
