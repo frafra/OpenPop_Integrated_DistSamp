@@ -14,8 +14,19 @@ sourceDir('R')
 
 
 ## Set switches
+
+# Re-simulate data
 resimulate <- TRUE
 
+# Recruitment per adult or per adult female
+R_perF <- FALSE
+
+# Drop observations of juveniles with no adults present
+R_parent_drop0 <- TRUE
+
+
+## Set scaling parameter
+scale1 <- 1000
 
 # SIMULATE DATA #
 #---------------#
@@ -33,24 +44,27 @@ if(resimulate){
 ## Reformat data into vector/array list for analysis with Nimble
 input_data <- list(
   nim.data = list(
-    R_obs
+    sumR_obs = AllSimData$Rep.data$sumR_obs,
+    sumAd_obs = AllSimData$Rep.data$sumAd_obs,
     y = AllSimData$DS.data$d,
     L = AllSimData$DS.data$L,
     N_a_line_year = AllSimData$DS.data$DS.count,
-    #A
     Survs1 = AllSimData$RT.data$Survs1,
     Survs2 = AllSimData$RT.data$Survs2
   ),
   
   nim.constants = list(
     N_years = AllSimData$SimParams$Tmax,
+    Tmin.RT = AllSimData$SimParams$Tmin.RT,
+    Tmax.RT = AllSimData$SimParams$Tmax.RT,
     W = AllSimData$SimParams$W,
-    #scale1,
+    scale1 = scale1,
+    A = colSums(AllSimData$DS.data$L)*(W/scale1)*2,
     N_obs = length(AllSimData$DS.data$d),
     Year_obs = AllSimData$DS.data$d_year,
     N_sites = AllSimData$SimParams$Jmax,
-    R_obs_year
-    N_R_obs
+    sumR_obs_year = AllSimData$Rep.data$sumR_obs_year,
+    N_sumR_obs = AllSimData$Rep.data$N_sumR_obs,
     N_ageC = AllSimData$SimParams$Amax
   )
 )
@@ -71,15 +85,7 @@ model_setup <- setupModel(modelCode.path = "NIMBLE Code/RypeIDSM_dHN.R",
                           customDist = TRUE,
                           nim.data = input_data$nim.data,
                           nim.constants = input_data$nim.constants,
-                          testRun = FALSE, initVals.seed = 0)
-
-# Updated version (nimbleDistance::dHR)
-# NOTE: This does not work properly yet (calculation of esw likely needs adjusting)
-# model_setup <- setupModel(modelCode.path = "NIMBLE Code/RypeIDSM_dHR.R",
-#                           customDist = TRUE,
-#                           nim.data = input_data$nim.data, 
-#                           nim.constants = input_data$nim.constants,
-#                           testRun = FALSE, initVals.seed = 0)
+                          testRun = TRUE, initVals.seed = 0)
 
 # MODEL (TEST) RUN #
 #------------------#

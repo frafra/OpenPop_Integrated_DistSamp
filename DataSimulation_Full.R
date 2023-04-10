@@ -15,29 +15,17 @@ Amax <- 2 # Number of age classes
 Tmax <- 15 # Number of years
 Jmax <- 50 # Number of sites/transect lines
 
-# Population parameters #
-#-----------------------#
-
-# Initial population numbers per site
-N1 <- matrix(NA, ncol = Amax, nrow = Jmax)
-for(j in 1:Jmax){
-  N1[j,1] <- round(runif(1, 100, 300)) # Number of juveniles
-  N1[j,2] <- rpois(1, 0.5*N1[j,1]) # Number of adults
-}
-
-# Average group size
-avg_Gsize <- 5.6
 
 # Vital rate parameters #
 #-----------------------#
 
 ## Annual survival
-Mu.S <- 0.4 # Average annual survival probability
+Mu.S <- 0.35 # Average annual survival probability
 sigmaT.S <- 0 # SD of random year variation in survival
 sigmaJ.S <- 0 # SD of random site variation in survival
 
 ## Reproduction
-Mu.R <- 3 # Average number of chicks in August
+Mu.R <- 2 # Average number of chicks in August
 sigmaT.R <- 0.5 # SD of random year variation in number of chicks
 sigmaJ.R <- 0 # SD of random site variation in number of chicks
 
@@ -45,6 +33,20 @@ sigmaJ.R <- 0 # SD of random site variation in number of chicks
 #Mu.sJ <- 0.2 # Average summer survival of chicks
 #sigmaT.sJ <- 0 # SD of random year variation in chick survival
 #sigmaJ.sJ <- 0 # SD of random site variation in survival
+
+
+# Population parameters #
+#-----------------------#
+
+# Initial population numbers per site
+N1 <- matrix(NA, ncol = Amax, nrow = Jmax)
+for(j in 1:Jmax){
+  N1[j,2] <- round(runif(1, 3, 8)) # Number of adults
+  N1[j,1] <- rpois(1, N1[j,2]*Mu.R) # Number of juveniles
+}
+
+# Average group size
+avg_Gsize <- 5.6
 
 
 # Data & observation parameters #
@@ -60,7 +62,7 @@ W <- 200 # Truncation distance (max. distance at which observation is possible)
 
 Mu.dd <- 75 # Average width parameter for half-normal detection function
 sigmaT.dd <- 0 # SD of random year variation in detection probability
-sigmaJ.dd <- 0 # SD of random year variation in detection probability
+sigmaJ.dd <- 0 # SD of random line variation in detection probability
 
 ## Known-fate radio-telemetry
 Tmin.RT <- 5 # First year for which radio-telemetry data has been collected
@@ -153,7 +155,7 @@ simulate.pop <- function(Amax, Tmax, Jmax, VR.list, N1, stochastic = TRUE, plot 
         N[j,2,t+1] <- rbinom(1, size = sum(N[j,1:Amax,t]), prob = VR.list$S[j,t])
       
         # - Reproduction of survivors
-        N[j,1,t+1] <- rpois(1, lambda = N[j,2,t+1]*(VR.list$R[j,t+1])/2)
+        N[j,1,t+1] <- rpois(1, lambda = N[j,2,t+1]*(VR.list$R[j,t+1]))
       
         # - Young-of-the-year recruiting in the end of summer
        # N[j,1,t+1] <- rbinom(1, size = Chicks[j,t+1], prob = VR.list$sJ[j,t+1])
@@ -165,7 +167,7 @@ simulate.pop <- function(Amax, Tmax, Jmax, VR.list, N1, stochastic = TRUE, plot 
         N[j,2,t+1] <- sum(N[j,1:Amax,t])*VR.list$S[j,t]
       
         # - Reproduction of survivors
-        N[j,1,t+1] <- N[j,2,t+1]*(VR.list$R[j,t+1]/2)
+        N[j,1,t+1] <- N[j,2,t+1]*(VR.list$R[j,t+1])
       
         # - Young-of-the-year recruiting in the end of summer
         #N[j,1,t+1] <- Chicks[j,t+1]*VR.list$sJ[j,t+1]
@@ -208,34 +210,37 @@ simulate.groups <- function(Jmax, Tmax, N.age, avg_Gsize, discard0 = TRUE){
   for(j in 1:Jmax){
     for(t in 1:Tmax){
       
-      # Set number of groups to simulate
-      G.noTot <- round(sum(N.age[j, 1:2, t])/avg_Gsize)
-      
-      # Distribute juveniles among groups
-      G.juv <- rmultinom(1, size = N.age[j, 1, t], prob = rep(1/G.noTot, G.noTot))
-      
-      # Distribute adults among groups
-      G.ad <- rmultinom(1, size = N.age[j, 2, t], prob = rep(1/G.noTot, G.noTot))
-
-      # Remove any potential 0 observations
-      if(discard0){
-        obs0 <- which(G.juv + G.ad == 0)
-        if(length(obs0) > 0){
-          G.juv <- G.juv[-obs0]
-          G.ad <- G.ad[-obs0]
+      if(sum(N.age[j, 1:2, t]) > 0){
+        # Set number of groups to simulate
+        G.noTot <- sum(N.age[j, 1:2, t])/avg_Gsize
+        G.noTot <- ifelse(G.noTot < 1, 1, round(G.noTot))
+        
+        # Distribute juveniles among groups
+        G.juv <- rmultinom(1, size = N.age[j, 1, t], prob = rep(1/G.noTot, G.noTot))
+        
+        # Distribute adults among groups
+        G.ad <- rmultinom(1, size = N.age[j, 2, t], prob = rep(1/G.noTot, G.noTot))
+        
+        # Remove any potential 0 observations
+        if(discard0){
+          obs0 <- which(G.juv + G.ad == 0)
+          if(length(obs0) > 0){
+            G.juv <- G.juv[-obs0]
+            G.ad <- G.ad[-obs0]
+          }
         }
+        
+        
+        # Collate in data frame
+        G.data <- data.frame(site = j,
+                             year = t,
+                             no_juv = G.juv,
+                             no_ad = G.ad)
+        G.age <- rbind(G.age, G.data)
+        
+        # Set number of groups for site-year
+        G.no[j, t] <- nrow(G.data)
       }
-
-      
-      # Collate in data frame
-      G.data <- data.frame(site = j,
-                           year = t,
-                           no_juv = G.juv,
-                           no_ad = G.ad)
-      G.age <- rbind(G.age, G.data)
-      
-      # Set number of groups for site-year
-      G.no[j, t] <- nrow(G.data)
     }
   }    
   
@@ -309,9 +314,31 @@ DS.data <- simulate.HDSdata(Jmax, Tmax, G.age = G.age,
                             min.Tlength, max.Tlength)
 
 ## Function to extract reproductive data from distance sampling data
-extract.RepData <- function(){
+extract.RepData <- function(Jmax, Tmax, DS.count){
+  
+  # Extract necessary data from DS counts
+  sumR_obs <- c(DS.count[1,,])
+  sumAd_obs <- c(DS.count[2,,])
+  sumR_obs_year <- rep(1:Tmax, each = Jmax)
+  
+  # Discard entries with 0 adults present
+  drop.idx <- which(sumAd_obs == 0)
+  sumR_obs <- sumR_obs[-drop.idx]
+  sumAd_obs <- sumAd_obs[-drop.idx]
+  sumR_obs_year <- sumR_obs_year[-drop.idx]
+  
+  # Count observations
+  N_sumR_obs <- length(sumR_obs)
+  
+  # Collate and return data
+  Rep.data <- list(sumR_obs = sumR_obs, sumAd_obs = sumAd_obs,
+                   sumR_obs_year = sumR_obs_year, N_sumR_obs = N_sumR_obs)
+  return(Rep.data)
   
 }
+
+## Extract reproductive data
+Rep.data <- extract.RepData(Jmax, Tmax, DS.count = DS.data$DS.count)
 
 
 ########################################
@@ -419,6 +446,7 @@ AllSimData <- list(
   N.data = SimData$N,
   group.data = G.age,
   DS.data = DS.data,
+  Rep.data = Rep.data,
   RT.data = RT.data
 )
 
