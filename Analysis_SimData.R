@@ -16,7 +16,7 @@ sourceDir('R')
 ## Set switches
 
 # Re-simulate data
-resimulate <- TRUE
+resimulate <- FALSE
 
 # Recruitment per adult or per adult female
 R_perF <- FALSE
@@ -34,7 +34,7 @@ scale1 <- 1000
 if(resimulate){
   source("DataSimulation_Full.R")
 }else{
-  AllSimData <- readRDS(SimData_Full.rds)
+  AllSimData <- readRDS("SimData_Full.rds")
 }
 
 
@@ -85,7 +85,8 @@ model_setup <- setupModel(modelCode.path = "NIMBLE Code/RypeIDSM_dHN.R",
                           customDist = TRUE,
                           nim.data = input_data$nim.data,
                           nim.constants = input_data$nim.constants,
-                          testRun = TRUE, initVals.seed = 0)
+                          niter = 35000, nburn = 15000, 
+                          testRun = FALSE, initVals.seed = 0)
 
 # MODEL (TEST) RUN #
 #------------------#
@@ -103,6 +104,5 @@ IDSM.out <- nimbleMCMC(code = model_setup$modelCode,
                        setSeed = 0)
 Sys.time() - t.start
 
-#saveRDS(IDSM.out, file = 'rypeIDSM_realData_Lierne.rds')
-saveRDS(IDSM.out, file = 'rypeIDSM_dHN_realData_Lierne.rds')
-#saveRDS(IDSM.out, file = 'rypeIDSM_dHR_realData_Lierne.rds')
+saveRDS(IDSM.out, file = 'rypeIDSM_dHN_simData_t15.rds')
+
