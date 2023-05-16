@@ -16,7 +16,7 @@ sourceDir('R')
 ## Set switches
 
 # Re-simulate data
-resimulate <- FALSE
+resimulate <- TRUE
 
 # Recruitment per adult or per adult female
 R_perF <- FALSE
@@ -104,5 +104,6 @@ IDSM.out <- nimbleMCMC(code = model_setup$modelCode,
                        setSeed = 0)
 Sys.time() - t.start
 
-saveRDS(IDSM.out, file = 'rypeIDSM_dHN_simData_t15.rds')
+#saveRDS(IDSM.out, file = 'rypeIDSM_dHN_simData_t15.rds')
+saveRDS(IDSM.out, file = 'rypeIDSM_dHN_simData_t30.rds')
 

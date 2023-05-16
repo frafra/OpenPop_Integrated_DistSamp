@@ -12,7 +12,8 @@ set.seed(mySeed)
 #-------------------------------#
 
 Amax <- 2 # Number of age classes
-Tmax <- 15 # Number of years
+#Tmax <- 15 # Number of years
+Tmax <- 30 # Number of years
 Jmax <- 50 # Number of sites/transect lines
 
 
