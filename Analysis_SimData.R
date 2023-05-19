@@ -16,7 +16,7 @@ sourceDir('R')
 ## Set switches
 
 # Re-simulate data
-resimulate <- TRUE
+resimulate <- FALSE
 
 # Recruitment per adult or per adult female
 R_perF <- FALSE
@@ -59,7 +59,7 @@ input_data <- list(
     Tmax.RT = AllSimData$SimParams$Tmax.RT,
     W = AllSimData$SimParams$W,
     scale1 = scale1,
-    A = colSums(AllSimData$DS.data$L)*(W/scale1)*2,
+    A = colSums(AllSimData$DS.data$L)*(AllSimData$SimParams$W/scale1)*2,
     N_obs = length(AllSimData$DS.data$d),
     Year_obs = AllSimData$DS.data$d_year,
     N_sites = AllSimData$SimParams$Jmax,
@@ -85,7 +85,6 @@ model_setup <- setupModel(modelCode.path = "NIMBLE Code/RypeIDSM_dHN.R",
                           customDist = TRUE,
                           nim.data = input_data$nim.data,
                           nim.constants = input_data$nim.constants,
-                          niter = 35000, nburn = 15000, 
                           testRun = FALSE, initVals.seed = 0)
 
 # MODEL (TEST) RUN #
@@ -106,5 +105,6 @@ Sys.time() - t.start
 
 #saveRDS(IDSM.out, file = 'rypeIDSM_dHN_simData_t15.rds')
 #saveRDS(IDSM.out, file = 'rypeIDSM_dHN_simData_t30.rds')
-saveRDS(IDSM.out, file = 'rypeIDSM_dHN_simData_t30_MuR.rds')
+saveRDS(IDSM.out, file = 'rypeIDSM_dHN_simData_t15_MuR.rds')
+#saveRDS(IDSM.out, file = 'rypeIDSM_dHN_simData_t30_MuR.rds')
 
