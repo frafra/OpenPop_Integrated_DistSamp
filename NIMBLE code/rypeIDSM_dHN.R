@@ -57,11 +57,11 @@ rypeIDSM <- nimbleCode({
     eps.R[t] ~ dnorm(0, sd = sigma.R)
   }
   
-  mu.R  ~ dunif(-5, 5)
-  sigma.R ~ dunif(0, 15)
+  Mu.R  ~ dunif(0, 10)
+  sigma.R ~ dunif(0, 5)
   
   ## Constraints;
-  R_year[1:N_years] <- exp(mu.R + eps.R[1:N_years])
+  R_year[1:N_years] <- exp(log(Mu.R) + eps.R[1:N_years])
   
   ## Likelihood;
   for (i in 1:N_sumR_obs){

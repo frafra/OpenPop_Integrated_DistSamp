@@ -18,7 +18,7 @@ simulateInits <- function(nim.data, nim.constants){
     #b = runif(1, 1, 50), 
     mu.D1 = mu.D1, 
     sigma.D = runif(1, 0.05, 2),
-    mu.R = runif(1, -2, 2), 
+    Mu.R = runif(1, 1, 3), 
     sigma.R = runif(1, 0.05, 2),
     eps.dd = rep(0, nim.constants$N_years), 
     eps.R = rep(0, nim.constants$N_years), 

@@ -40,7 +40,7 @@ setupModel <- function(modelCode.path, customDist,
   params <- c("esw", "R_year", "p", "D",
               "sigma", "mu.dd", "sigma.dd",
               "Density", "N_exp",
-              "mu.D1", "sigma.D", "mu.R", "sigma.R",
+              "mu.D1", "sigma.D", "Mu.R", "sigma.R",
               "Mu.S1", "Mu.S2", "ratio.JA1")
   
   if(grepl('dHR', modelCode.path, fixed = TRUE)){

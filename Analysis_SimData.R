@@ -105,5 +105,6 @@ IDSM.out <- nimbleMCMC(code = model_setup$modelCode,
 Sys.time() - t.start
 
 #saveRDS(IDSM.out, file = 'rypeIDSM_dHN_simData_t15.rds')
-saveRDS(IDSM.out, file = 'rypeIDSM_dHN_simData_t30.rds')
+#saveRDS(IDSM.out, file = 'rypeIDSM_dHN_simData_t30.rds')
+saveRDS(IDSM.out, file = 'rypeIDSM_dHN_simData_t30_MuR.rds')
 
