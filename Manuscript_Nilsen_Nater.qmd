@@ -1,0 +1,53 @@
+---
+title: "An open population age structured distance sampling model"
+format: docx
+author: Erlend B. Nilsen & Chloé Nater
+editor: visual
+---
+
+## Introduction
+
+Estimating abundance and demographic rates for wildlife populations is a key element of population ecology, demography, eco-evolution research, conservation and wildlife management (refs). Tremendous progress during the last few decades both in terms of new technologies that allow new types of field data being collected (e.g. eDNA ref; camera traps; refs) and the statistical machinery available to interpret the ecological and demographic signals in the data (refs). Nevertheless, large scale and long term data sets are still relatively rare (ref), due to high costs of field data collection.
+
+A cost efficient and well documented approach suitable is the use of line transect surveys. However, because the detectability is often less than 1 and variable between years and habitats,
+
+-   Importance of abundance trends and demography
+
+-   Short about methods -- detection probability -- marked vs unmarked animals
+
+-   Approaches to estimate abundance and demography from unmarked animals
+
+-   Distance sampling -- such methods are still lacking/not well utilized
+
+-   Integrated pop. Model;
+
+Here, we will present a novel integrated population model based on distance sampling line transect survey data and demographic data from marked birds.
+
+-   Estimate parameters with and without augmentation with demographic data -- compare estimates and precision
+-   Estimate latent variable (juv summer survival) -- compare to literature values
+-   Temporal variation in S and R -- via random effects models
+-   Simulate - robustness
+
+## Methods
+
+### Field data
+
+Two different sources of data were used in the open population demographic distance sampling (ODDS) model: i) data from a line transect survey program targeting willow ptarmigan operated as part of the natural resources management authorities, and ii) data from an individual based research project based on radio collared willow ptarmigan. The temporal coverage of the two data sets partially overlap, with the line transect survey spanning 2007-2019 (and ongoing) and the individual based data spanning 2015-2019 (and ongoing).
+
+Line transect survey data were collected in August each year, prior to the annual autumn harvest season. Line transects are surveyed by educated volunteers, using pointing dogs to located the birds. When located, the geographical coordinate, perpendicular distance from the sampling line, the number of birds as well as the age (juvenile and adult) and sex of the birds are recorded. Additional information about the surveys are found in Nilsen *et al.* (2020) and Bowler *et al.* (2020). \[Add sample sizes\].
+
+The individual longitudinal study based on radio collared willow ptarmigan was conducted in 2015-2020. Each winter (in February-March), willow ptarmigan were located at night using snowmobiles and large hand nets with prolonged handles, as described in Israelsen et al. (2020). To prevent birds from flying off before the field personnel were close enough to capture them, a high-powered head lamp was used to dazzle the birds. After capture, birds were placed in an opaque bag to reduce stress. Before releasing the birds, they were fitted with a uniquely numbered leg ring (\~ 2.4g) and a Holohil RI-2BM or Holohil RI-2DM radio transmitter (\~ 14.1g). The radio transmitters had an expected battery lifetime of 24 months (RI-2BM) or 30 months (RI-2DM), and included a mortality circuit that was activated if a bird had been immobile for 12 hours. We monitored the birds throughout the year, by triangulation from the ground at least once a month for 10 months of the year (February -- November) by qualified field personnel. If a mortality signal was heard from the transmitter, we recovered it as soon as possible to determine cause of death. A number of birds dispersed out of the main study areas and was thus out of signal range for field personnel on the ground. To avoid loss of data, we conducted aerial triangulation using a helicopter or airplane three times a year (May, September and November) in the years 2016-2020.
+
+### The open population demographic distance sampling model
+
+Distance sampling models have been applied to a wide range of contexts, and has in recent years been extended to allow a direct modelling of the population process by formulating the state process as a open population process (ref). Here, we extend this framework by directly modelling the underlying state dynamics in terms of annual survival and recruitment rates.
+
+In line with standard age- or stage structured modelling of wildlife populations, we first defined the life cycle for the focal species -- the willow ptarmigan. Based on previous models for willow ptarmigan (ref), and based on the age-structure of the data, the model included two age classes: juveniles and adults (Figure 1).  
+
+**Figure 1.** Life cycle graph
+
+We assumed that the population size and structured was surveyed each year at the end of the summer season in August, equivalent to the schedule of the real survey data. Ptarmigan breed annually, and the clutch hatch around last week of June. By the time of survey, they are around 1.5 months of age during the annual line transect surveys in August. Ptarmigan reach maturity at the age of one (ref). The life cycle is therefore described in term of i) annual survival probability (S~t~) which describe the probability to survive from August in year *t* to August in year *t+1*. Here, we assume no age-or sex-specificity in the survival rates, acknowledging that this is a simplifying assumption that could be alleviated with additional auxiliary data (Sandercock *et al.* 2011; Israelsen *et al.* 2020). Moreover, following the standard for post-breeding census models year specific recruitment (R~t~) will be given by the product of annual survival (S~t~) and fecundity (F~t~):
+
+(equation 1)
+
+Based on the life cycle and the timing of the annual surveys, the transition from August year *t* to year *t+1* is given by the year-specific transition matrix - defined as:
