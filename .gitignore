@@ -15,8 +15,8 @@ data/
 # Shape files
 *.shp
 
-# Others
-1b_Data_from_Hønsefuglportalen_wrangling.R
-manuscript
+# Word files
+*.docx
 
-
+# Quarto files
+Manuscript_Nilsen_Nater_files/
