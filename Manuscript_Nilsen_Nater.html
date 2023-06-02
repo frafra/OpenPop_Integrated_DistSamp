@@ -8,7 +8,7 @@
 
 <meta name="author" content="Erlend B. Nilsen &amp; Chloé R. Nater">
 
-<title>An open population age structured distance sampling model</title>
+<title>An integrated distance sampling approach for modelling age-structured populations</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,25 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
+}
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
 }
 </style>
 
@@ -46,7 +65,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">An open population age structured distance sampling model</h1>
+<h1 class="title">An integrated distance sampling approach for modelling age-structured populations</h1>
 </div>
 
 
@@ -88,8 +107,9 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="methods" class="level2">
 <h2 class="anchored" data-anchor-id="methods">Methods</h2>
-<section id="the-open-population-demographic-distance-sampling-model" class="level3">
-<h3 class="anchored" data-anchor-id="the-open-population-demographic-distance-sampling-model">The open population demographic distance sampling model</h3>
+<section id="an-integrated-age-structured-distance-sampling-model" class="level3">
+<h3 class="anchored" data-anchor-id="an-integrated-age-structured-distance-sampling-model">An integrated age-structured distance sampling model</h3>
+<p>Distance sampling models have been used for estimating animal abundance in a wide range of contexts and for a variety of taxa (+ref). In recent years, the framework has been extended and also applied for estimating changes in abundance over time in open populations by embedding a hidden state model representing population dynamics <span class="citation" data-cites="moore2011 sollmann2015">(<a href="#ref-moore2011" role="doc-biblioref">Moore and Barlow 2011</a>; <a href="#ref-sollmann2015" role="doc-biblioref">Sollmann et al. 2015</a>)</span>.</p>
 <p>Distance sampling models have been applied to a wide range of contexts, and has in recent years been extended to allow a direct modelling of the population process by formulating the state process as a open population process (ref). Here, we extend this framework by directly modelling the underlying state dynamics in terms of annual survival and recruitment rates.</p>
 <p>In line with standard age- or stage structured modelling of wildlife populations, we first defined the life cycle for the focal species – the willow ptarmigan. Based on previous models for willow ptarmigan (ref), and based on the age-structure of the data, the model included two age classes: juveniles and adults (Figure 1). &nbsp;</p>
 <div class="quarto-figure quarto-figure-center">
@@ -169,12 +189,20 @@ ul.task-list li input[type="checkbox"] {
 <section id="acknowledgements" class="level3">
 <h3 class="anchored" data-anchor-id="acknowledgements">Acknowledgements</h3>
 </section>
-<section id="data-and-code-availability" class="level3">
-<h3 class="anchored" data-anchor-id="data-and-code-availability">Data and code availability</h3>
+<section id="data-and-code-availability" class="level3 unnumbered">
+
+
 </section>
 </section>
 
-</main>
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">Data and code availability</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-moore2011" class="csl-entry" role="doc-biblioentry">
+Moore, Jeffrey E, and Jay Barlow. 2011. <span>“Bayesian State-Space Model of Fin Whale Abundance Trends from a 1991–2008 Time Series of Line-Transect Surveys in the California Current.”</span> <em>Journal of Applied Ecology</em> 48 (5): 1195–205.
+</div>
+<div id="ref-sollmann2015" class="csl-entry" role="doc-biblioentry">
+Sollmann, Rahel, Beth Gardner, Richard B Chandler, J Andrew Royle, and T Scott Sillett. 2015. <span>“An Open-Population Hierarchical Distance Sampling Model.”</span> <em>Ecology</em> 96 (2): 325–31.
+</div>
+</div></section></div></main>
 <!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
