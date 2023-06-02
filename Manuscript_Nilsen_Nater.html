@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.475">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Erlend B. Nilsen &amp; Chloé R. Nater">
+
+<title>An open population age structured distance sampling model</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="Manuscript_Nilsen_Nater_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Manuscript_Nilsen_Nater_files/libs/quarto-html/quarto.js"></script>
+<script src="Manuscript_Nilsen_Nater_files/libs/quarto-html/popper.min.js"></script>
+<script src="Manuscript_Nilsen_Nater_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Manuscript_Nilsen_Nater_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Manuscript_Nilsen_Nater_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Manuscript_Nilsen_Nater_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Manuscript_Nilsen_Nater_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Manuscript_Nilsen_Nater_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Manuscript_Nilsen_Nater_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">An open population age structured distance sampling model</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Erlend B. Nilsen &amp; Chloé R. Nater </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Estimating abundance and demographic rates for wildlife populations is a key element of population ecology, demography, eco-evolution research, conservation and wildlife management (refs). Tremendous progress during the last few decades both in terms of new technologies that allow new types of field data being collected (e.g.&nbsp;eDNA ref; camera traps; refs) and the statistical machinery available to interpret the ecological and demographic signals in the data (refs). Nevertheless, large scale and long term data sets are still relatively rare (ref), due to high costs of field data collection.</p>
+<p>A cost efficient and well documented approach suitable is the use of line transect surveys. However, because the detectability is often less than 1 and variable between years and habitats,</p>
+<ul>
+<li><p>Importance of abundance trends and demography</p></li>
+<li><p>Short about methods – detection probability – marked vs unmarked animals</p></li>
+<li><p>Approaches to estimate abundance and demography from unmarked animals</p></li>
+<li><p>Distance sampling – such methods are still lacking/not well utilized</p></li>
+<li><p>Integrated pop. Model;</p></li>
+</ul>
+<p>Here, we will present a novel integrated population model based on distance sampling line transect survey data and demographic data from marked birds.</p>
+<ul>
+<li>Estimate parameters with and without augmentation with demographic data – compare estimates and precision</li>
+<li>Estimate latent variable (juv summer survival) – compare to literature values</li>
+<li>Temporal variation in S and R – via random effects models</li>
+<li>Simulate - robustness</li>
+</ul>
+</section>
+<section id="methods" class="level2">
+<h2 class="anchored" data-anchor-id="methods">Methods</h2>
+<section id="the-open-population-demographic-distance-sampling-model" class="level3">
+<h3 class="anchored" data-anchor-id="the-open-population-demographic-distance-sampling-model">The open population demographic distance sampling model</h3>
+<p>Distance sampling models have been applied to a wide range of contexts, and has in recent years been extended to allow a direct modelling of the population process by formulating the state process as a open population process (ref). Here, we extend this framework by directly modelling the underlying state dynamics in terms of annual survival and recruitment rates.</p>
+<p>In line with standard age- or stage structured modelling of wildlife populations, we first defined the life cycle for the focal species – the willow ptarmigan. Based on previous models for willow ptarmigan (ref), and based on the age-structure of the data, the model included two age classes: juveniles and adults (Figure 1). &nbsp;</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Figures/RypeIDSM_structure.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption"><strong>Figure 1.</strong> Simplified graphical representation of the ptarmigan life cycle with two age classes and the data sources included in the integrated distance sampling model. Juv[t] = juveniles in year t. Ad[t] = adults in year t. R[t] = recruitment rate in year t. S[t] = survival probability from year t to t+1.</figcaption><p></p>
+</figure>
+</div>
+<p>We assumed that the population size and structured was surveyed each year at the end of the summer season in August, equivalent to the schedule of the real survey data. Ptarmigan breed annually, and the clutch hatch around last week of June. By the time of survey, they are around 1.5 months of age during the annual line transect surveys in August. Ptarmigan reach maturity at the age of one (ref). The life cycle is therefore described in term of i) annual survival probability (S<sub>t</sub>) which describe the probability to survive from August in year <em>t</em> to August in year <em>t+1</em>. Here, we assume no age-or sex-specificity in the survival rates, acknowledging that this is a simplifying assumption that could be alleviated with additional auxiliary data (Sandercock <em>et al.</em> 2011; Israelsen <em>et al.</em> 2020). Moreover, following the standard for post-breeding census models year specific recruitment (R<sub>t</sub>) will be given by the product of annual survival (S<sub>t</sub>) and fecundity (F<sub>t</sub>).</p>
+<p>Based on the life cycle and the timing of the annual surveys, the transition from August year <em>t</em> to year <em>t+1</em> is given by the year-specific transition matrix - defined as:</p>
+</section>
+<section id="field-data-case-study" class="level3">
+<h3 class="anchored" data-anchor-id="field-data-case-study">Field data (case study)</h3>
+<p>Two different sources of data were used in the open population demographic distance sampling (ODDS) model: i) data from a line transect survey program targeting willow ptarmigan operated as part of the natural resources management authorities, and ii) data from an individual based research project based on radio collared willow ptarmigan. The temporal coverage of the two data sets partially overlap, with the line transect survey spanning 2007-2019 (and ongoing) and the individual based data spanning 2015-2019 (and ongoing).</p>
+<p>Line transect survey data were collected in August each year, prior to the annual autumn harvest season. Line transects are surveyed by educated volunteers, using pointing dogs to located the birds. When located, the geographical coordinate, perpendicular distance from the sampling line, the number of birds as well as the age (juvenile and adult) and sex of the birds are recorded. Additional information about the surveys are found in Nilsen <em>et al.</em> (2020) and Bowler <em>et al.</em> (2020). [Add sample sizes and additional information on data processing/storage post collection, i.e.&nbsp;how do volunteers report data, storage in hønsefuglportalen, quality control, pushes to LivingNorway and GBIF].</p>
+<p>The individual longitudinal study based on radio collared willow ptarmigan was conducted in 2015-2020. Each winter (in February-March), willow ptarmigan were located at night using snowmobiles and large hand nets with prolonged handles, as described in Israelsen et al.&nbsp;(2020). To prevent birds from flying off before the field personnel were close enough to capture them, a high-powered head lamp was used to dazzle the birds. After capture, birds were placed in an opaque bag to reduce stress. Before releasing the birds, they were fitted with a uniquely numbered leg ring (~ 2.4g) and a Holohil RI-2BM or Holohil RI-2DM radio transmitter (~ 14.1g). The radio transmitters had an expected battery lifetime of 24 months (RI-2BM) or 30 months (RI-2DM), and included a mortality circuit that was activated if a bird had been immobile for 12 hours. We monitored the birds throughout the year, by triangulation from the ground at least once a month for 10 months of the year (February – November) by qualified field personnel. If a mortality signal was heard from the transmitter, we recovered it as soon as possible to determine cause of death. A number of birds dispersed out of the main study areas and was thus out of signal range for field personnel on the ground. To avoid loss of data, we conducted aerial triangulation using a helicopter or airplane three times a year (May, September and November) in the years 2016-2020.</p>
+<p>[Figure 2: Map of Lierne study area?]</p>
+</section>
+</section>
+<section id="results" class="level2">
+<h2 class="anchored" data-anchor-id="results">Results</h2>
+<section id="model-performance-on-simulated-datasets" class="level3">
+<h3 class="anchored" data-anchor-id="model-performance-on-simulated-datasets">Model performance on simulated datasets</h3>
+<p>[One or several figures of estimates vs.&nbsp;true values?]</p>
+</section>
+<section id="case-study-on-willow-ptarmigans-in-lierne" class="level3">
+<h3 class="anchored" data-anchor-id="case-study-on-willow-ptarmigans-in-lierne">Case study on willow ptarmigans in Lierne</h3>
+<section id="population-density" class="level4">
+<h4 class="anchored" data-anchor-id="population-density">Population density</h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Figures/TimeSeries_popDens.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption"><strong>Figure X.</strong> Estimated density of willow ptarmigans in Lierne from 2007 to 2021. Solid line represents the posterior median, ribbon marks 95% credible interval.</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="vital-rates" class="level4">
+<h4 class="anchored" data-anchor-id="vital-rates">Vital rates</h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Figures/PostDens_Mu_S_tR.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption"><strong>Figure X.</strong> Posterior densities of A) seasonal survival, B) average annual survival, and C) recruitment rate. For the latter, the yellow distribution is for the intercept, representing a baseline recruitment rate when rodent occupancy is low. The turquoise distributions are for year-specific estimates or recruitment rate, with darker colors indicating later years.</figcaption><p></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Figures/TimeSeries_rRep.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption"><strong>Figure X.</strong> Estimated recruitment rate of willow ptarmigans in Lierne from 2007 to 2021. Solid line represents the posterior median, ribbon marks the 95% credible interval.</figcaption><p></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Figures/Rep_betaR.R.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption"><strong>Figure X.</strong> Predicted effect of rodent occupancy on recruitment rate. Solid line represent the posterior median, ribbon marks the 95% credible interval.</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="detection-parameters" class="level4">
+<h4 class="anchored" data-anchor-id="detection-parameters">Detection parameters</h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Figures/TimeSeries_pDetect.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption"><strong>Figure X.</strong> Predicted average detection probabilities for distance sampling surveys in Lierne from 2007 to 2021. Solid line represents the posterior median, ribbon marks the 95% credible interval.</figcaption><p></p>
+</figure>
+</div>
+</section>
+</section>
+</section>
+<section id="discussion" class="level2">
+<h2 class="anchored" data-anchor-id="discussion">Discussion</h2>
+<section id="conclusion" class="level3">
+<h3 class="anchored" data-anchor-id="conclusion">Conclusion</h3>
+</section>
+<section id="author-contributions" class="level3">
+<h3 class="anchored" data-anchor-id="author-contributions">Author contributions</h3>
+</section>
+<section id="acknowledgements" class="level3">
+<h3 class="anchored" data-anchor-id="acknowledgements">Acknowledgements</h3>
+</section>
+<section id="data-and-code-availability" class="level3">
+<h3 class="anchored" data-anchor-id="data-and-code-availability">Data and code availability</h3>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
