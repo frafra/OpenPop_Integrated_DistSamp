@@ -18,9 +18,10 @@ A cost efficient and well documented approach suitable is the use of line transe
 
 -   Approaches to estimate abundance and demography from unmarked animals
 
--   Distance sampling -- such methods are still lacking/not well utilized
-
--   Integrated pop. Model;
+Distance sampling (DS) models have been used for estimating animal abundance in a wide range of contexts and for a variety of taxa [@buckland2015]. In recent years, they have been extended and also applied for estimating changes in abundance over time in open populations by embedding a hidden state model representing population dynamics [@moore2011; @sollmann2015]. These latter frameworks may allow to accurately quantify population changes but provide little information on the drivers of these changes, i.e. the underlying vital rates. 
+Concurrent with the development of more sophisticated DS models, another group of models has emerged and gained popularity, not least for their ability to disentangle demographic processes underlying population dynamic: integrated population models [IPMs, @schaub2021]. Through joint analysis of multiple datasets, IPMs allow simultaneous estimation of population size and composition, as well as all vital rates that form part of an underlying typically age- or stage-structured population model. 
+Since both DS models and IPMs estimate population size/density, a combination of the two frameworks has the potential to provide good estimates of both population- and demographic parameters and maximizing knowledge gained through transect surveys by augmenting them with other available data [e.g. @schmidt2020]. 
+In this study [...]
 
 Here, we will present a novel integrated population model based on distance sampling line transect survey data and demographic data from marked birds.
 
@@ -33,7 +34,7 @@ Here, we will present a novel integrated population model based on distance samp
 
 ### An integrated age-structured distance sampling model
 
-Distance sampling models have been used for estimating animal abundance in a wide range of contexts and for a variety of taxa (+ref). In recent years, the framework has been extended and also applied for estimating changes in abundance over time in open populations by embedding a hidden state model representing population dynamics [@moore2011; @sollmann2015]. 
+
 
 Distance sampling models have been applied to a wide range of contexts, and has in recent years been extended to allow a direct modelling of the population process by formulating the state process as a open population process (ref). Here, we extend this framework by directly modelling the underlying state dynamics in terms of annual survival and recruitment rates.
 
