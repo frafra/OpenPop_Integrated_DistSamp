@@ -1,8 +1,9 @@
 ---
-title: "An open population age structured distance sampling model"
+title: "An integrated distance sampling approach for modelling age-structured populations"
 format: html
 author: Erlend B. Nilsen & Chloé R. Nater
 editor: visual
+bibliography: rypeIDSM_MS1.bib
 ---
 
 ## Introduction
@@ -30,7 +31,9 @@ Here, we will present a novel integrated population model based on distance samp
 
 ## Methods
 
-### The open population demographic distance sampling model
+### An integrated age-structured distance sampling model
+
+Distance sampling models have been used for estimating animal abundance in a wide range of contexts and for a variety of taxa (+ref). In recent years, the framework has been extended and also applied for estimating changes in abundance over time in open populations by embedding a hidden state model representing population dynamics [@moore2011; @sollmann2015]. 
 
 Distance sampling models have been applied to a wide range of contexts, and has in recent years been extended to allow a direct modelling of the population process by formulating the state process as a open population process (ref). Here, we extend this framework by directly modelling the underlying state dynamics in terms of annual survival and recruitment rates.
 
