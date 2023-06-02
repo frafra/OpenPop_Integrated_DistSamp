@@ -1,16 +1,29 @@
 # Folders
 .Rproj.user/
 data/
+
 # History files
 .Rhistory
 .Rapp.history
+
 # RDS files
 *.rds
+
 # PDF files
 *.pdf
+
 # Shape files
 *.shp
+<<<<<<< HEAD
 # Others
 1b_Data_from_Hønsefuglportalen_wrangling.R
 manuscript
 Manuscript_Nilsen_Nater.docx
+=======
+
+# Word files
+*.docx
+
+# Quarto files
+Manuscript_Nilsen_Nater_files/
+>>>>>>> 3fb057aeea4b6c21305e0ace37a47ad4bad36d05
