@@ -18,10 +18,7 @@ A cost efficient and well documented approach suitable is the use of line transe
 
 -   Approaches to estimate abundance and demography from unmarked animals
 
-Distance sampling (DS) models have been used for estimating animal abundance in a wide range of contexts and for a variety of taxa [@buckland2015]. In recent years, they have been extended and also applied for estimating changes in abundance over time in open populations by embedding a hidden state model representing population dynamics [@moore2011; @sollmann2015]. These latter frameworks may allow to accurately quantify population changes but provide little information on the drivers of these changes, i.e. the underlying vital rates. 
-Concurrent with the development of more sophisticated DS models, another group of models has emerged and gained popularity, not least for their ability to disentangle demographic processes underlying population dynamic: integrated population models [IPMs, @schaub2021]. Through joint analysis of multiple datasets, IPMs allow simultaneous estimation of population size and composition, as well as all vital rates that form part of an underlying typically age- or stage-structured population model. 
-Since both DS models and IPMs estimate population size/density, a combination of the two frameworks has the potential to provide good estimates of both population- and demographic parameters and maximizing knowledge gained through transect surveys by augmenting them with other available data [e.g. @schmidt2020]. 
-In this study [...]
+Distance sampling (DS) models have been used for estimating animal abundance in a wide range of contexts and for a variety of taxa [@buckland2015]. In recent years, they have been extended and also applied for estimating changes in abundance over time in open populations by embedding a hidden state model representing population dynamics [@moore2011; @sollmann2015]. These latter frameworks may allow to accurately quantify population changes but provide little information on the drivers of these changes, i.e. the underlying vital rates. Concurrent with the development of more sophisticated DS models, another group of models has emerged and gained popularity, not least for their ability to disentangle demographic processes underlying population dynamic: integrated population models [IPMs, @schaub2021]. Through joint analysis of multiple datasets, IPMs allow simultaneous estimation of population size and composition, as well as all vital rates that form part of an underlying typically age- or stage-structured population model. Since both DS models and IPMs estimate population size/density, a combination of the two frameworks has the potential to provide good estimates of both population- and demographic parameters and maximizing knowledge gained through transect surveys by augmenting them with other available data [e.g. @schmidt2020]. In this study \[...\]
 
 Here, we will present a novel integrated population model based on distance sampling line transect survey data and demographic data from marked birds.
 
@@ -32,25 +29,62 @@ Here, we will present a novel integrated population model based on distance samp
 
 ## Methods
 
-### An integrated age-structured distance sampling model
+### An integrated distance sampling model
+
+Our open population integrated distance sampling model consists of two major components: a latent structured population model and a set of likelihoods for data originating from distance sampling surveys and auxiliary survival monitoring (radio-telemetry in the example case).
+
+#### Age-structured population model
+
+The population model follows a post-breeding census and includes two age classes: juveniles (young of the year) and adults (\> 1 year of age, @fig-model). This structure is inspired by earlier models for our focal species, the willow ptarmigan (+ref), and is commonly used for populations of passerine and game birds (+ref). In the context of our willow ptarmigan case study (see below), the census falls into late summer and coincides with the annual distance-sampling survey in August.
+
+Both juveniles and adults survive from year $t$ census to year $t+1$ census with survival probability $S_t$. As ptarmigan can reproduce already at 1-year old, all survivors then produce offspring in late June which recruit into the population as juveniles just prior to the census in year $t+1$ according to a recruitment rate $R_{t+1}$. The changes in densities (numbers) of juveniles and adults in the population, $D_{juv}$ and $D_{ad}$, can thus be expressed as
+
+$$
+\begin{aligned}
+  D_{juv, t+1} & = D_{ad,t+1} * R_{t+1} \\
+  D_{ad, t+1} & = S_t * (D_{juv,t} + D_{ad, t})  
+\end{aligned}
+$$ or, alternatively, in matrix notation as
+
+$$
+\left[
+\begin{array}{} 
+D_{juv,t+1} \\
+D_{ad,t+1}
+\end{array}
+\right]
+= 
+\left[
+\begin{array}{cc} 
+S_t*R_{t+1} & S_t*R_{t+1}\\
+S_t & S_t
+\end{array}
+\right]
+\left[\begin{array}{} 
+D_{juv,t} \\
+D_{ad,t}
+\end{array}\right]
+$$
+
+Note that recruitment rate $R$ is defined as juveniles/adult (not juveniles/female). We also make the simplifying assumption that there is no age- or sex-dependence of vital rates, but this assumption could be relaxed by including additional auxiliary data (Sandercock *et al.* 2011; Israelsen *et al.* 2020).
+
+![Simplified graphical representation of the ptarmigan life cycle with two age classes and the data sources included in the integrated distance sampling model. Juv\[t\] = juveniles in year t. Ad\[t\] = adults in year t. R\[t\] = recruitment rate in year t. S\[t\] = survival probability from year t to t+1.](Figures/RypeIDSM_structure.png){#fig-model}
+
+#### Likelihoods for distance sampling data
+
+The implementation of the modelling framework we present makes three assumptions about the distance sampling survey: 1) the survey consists of line transects, 2) animals may be detected alone or in groups, and 3) juveniles and adults can be distinguished during surveys. These assumptions are inspired by our willow ptarmigan case study (details below).
+Our model includes three likelihoods for different components of the age-structured distance sampling data. 
 
 
 
-Distance sampling models have been applied to a wide range of contexts, and has in recent years been extended to allow a direct modelling of the population process by formulating the state process as a open population process (ref). Here, we extend this framework by directly modelling the underlying state dynamics in terms of annual survival and recruitment rates.
 
-In line with standard age- or stage structured modelling of wildlife populations, we first defined the life cycle for the focal species -- the willow ptarmigan. Based on previous models for willow ptarmigan (ref), and based on the age-structure of the data, the model included two age classes: juveniles and adults (Figure 1).  
-
-![**Figure 1.** Simplified graphical representation of the ptarmigan life cycle with two age classes and the data sources included in the integrated distance sampling model. Juv\[t\] = juveniles in year t. Ad\[t\] = adults in year t. R\[t\] = recruitment rate in year t. S\[t\] = survival probability from year t to t+1.](Figures/RypeIDSM_structure.png)
-
-We assumed that the population size and structured was surveyed each year at the end of the summer season in August, equivalent to the schedule of the real survey data. Ptarmigan breed annually, and the clutch hatch around last week of June. By the time of survey, they are around 1.5 months of age during the annual line transect surveys in August. Ptarmigan reach maturity at the age of one (ref). The life cycle is therefore described in term of i) annual survival probability (S~t~) which describe the probability to survive from August in year *t* to August in year *t+1*. Here, we assume no age-or sex-specificity in the survival rates, acknowledging that this is a simplifying assumption that could be alleviated with additional auxiliary data (Sandercock *et al.* 2011; Israelsen *et al.* 2020). Moreover, following the standard for post-breeding census models year specific recruitment (R~t~) will be given by the product of annual survival (S~t~) and fecundity (F~t~).
-
-Based on the life cycle and the timing of the annual surveys, the transition from August year *t* to year *t+1* is given by the year-specific transition matrix - defined as:
+#### Likelihood for radio-telemetry data
 
 ### Field data (case study)
 
 Two different sources of data were used in the open population demographic distance sampling (ODDS) model: i) data from a line transect survey program targeting willow ptarmigan operated as part of the natural resources management authorities, and ii) data from an individual based research project based on radio collared willow ptarmigan. The temporal coverage of the two data sets partially overlap, with the line transect survey spanning 2007-2019 (and ongoing) and the individual based data spanning 2015-2019 (and ongoing).
 
-Line transect survey data were collected in August each year, prior to the annual autumn harvest season. Line transects are surveyed by educated volunteers, using pointing dogs to located the birds. When located, the geographical coordinate, perpendicular distance from the sampling line, the number of birds as well as the age (juvenile and adult) and sex of the birds are recorded. Additional information about the surveys are found in Nilsen *et al.* (2020) and Bowler *et al.* (2020). \[Add sample sizes and additional information on data processing/storage post collection, i.e. how do volunteers report data, storage in hønsefuglportalen, quality control, pushes to LivingNorway and GBIF\].
+Line transect survey data were collected in August each year, prior to the annual autumn harvest season. Line transects are surveyed by educated volunteers, using pointing dogs to located the birds. When located, the geographical coordinate, perpendicular distance from the sampling line, the number of birds as well as the age (juvenile and adult) and sex of the birds are recorded. \[Some more information on the surveys, e.g. why are individuals in groups, how are sexes and age classes distinguished, etc.\] Additional information about the surveys are found in Nilsen *et al.* (2020) and Bowler *et al.* (2020). \[Add sample sizes and additional information on data processing/storage post collection, i.e. how do volunteers report data, storage in hønsefuglportalen, quality control, pushes to LivingNorway and GBIF\].
 
 The individual longitudinal study based on radio collared willow ptarmigan was conducted in 2015-2020. Each winter (in February-March), willow ptarmigan were located at night using snowmobiles and large hand nets with prolonged handles, as described in Israelsen et al. (2020). To prevent birds from flying off before the field personnel were close enough to capture them, a high-powered head lamp was used to dazzle the birds. After capture, birds were placed in an opaque bag to reduce stress. Before releasing the birds, they were fitted with a uniquely numbered leg ring (\~ 2.4g) and a Holohil RI-2BM or Holohil RI-2DM radio transmitter (\~ 14.1g). The radio transmitters had an expected battery lifetime of 24 months (RI-2BM) or 30 months (RI-2DM), and included a mortality circuit that was activated if a bird had been immobile for 12 hours. We monitored the birds throughout the year, by triangulation from the ground at least once a month for 10 months of the year (February -- November) by qualified field personnel. If a mortality signal was heard from the transmitter, we recovered it as soon as possible to determine cause of death. A number of birds dispersed out of the main study areas and was thus out of signal range for field personnel on the ground. To avoid loss of data, we conducted aerial triangulation using a helicopter or airplane three times a year (May, September and November) in the years 2016-2020.
 
@@ -89,4 +123,3 @@ The individual longitudinal study based on radio collared willow ptarmigan was c
 ### Acknowledgements
 
 ### Data and code availability
-
