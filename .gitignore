@@ -1,6 +1,7 @@
 # Folders
 .Rproj.user/
 data/Kommuner_2018_WGS84
+data/NorgeKommuner_clipped_kystkontor
 *.zip
 
 # History files

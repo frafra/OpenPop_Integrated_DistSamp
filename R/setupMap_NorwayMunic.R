@@ -28,12 +28,12 @@ setupMap_NorwayMunic <- function(shp.path, d_trans,
     dplyr::filter(!(locality %in% c("Harodalen", "Savngovann"))) %>%
     dplyr::select(verbatimLocality, municipality_adj) %>%
     dplyr::distinct() %>%
-    dplyr::rename(KOMMUNENAV = municipality_adj,
+    dplyr::rename(navn = municipality_adj,
                   Area = verbatimLocality)
   
   ## Add area names to map data
   matchData <- as_tibble(mapNM@data) %>%
-    dplyr::left_join(., areaMunic, by = "KOMMUNENAV") 
+    dplyr::left_join(., areaMunic, by = "navn") 
 
   mapNM@data <- as.data.frame(matchData)
   

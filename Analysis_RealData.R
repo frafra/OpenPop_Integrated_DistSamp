@@ -177,7 +177,7 @@ plotTimeSeries(mcmc.out = IDSM.out.tidy,
 #---------------------#
 
 ## Make map of Norwegian municipalities ("fylke")
-NorwayMunic.map <- setupMap_NorwayMunic(shp.path = "data/Kommuner_2018_WGS84/Kommuner_2018_WGS84.shp",
+NorwayMunic.map <- setupMap_NorwayMunic(shp.path = "data/NorgeKommuner_clipped_kystkontor/NorgeKommuner_clipped_kystkontor.shp",
                                         d_trans = LT_data$d_trans,
                                         areas = areas, areaAggregation = TRUE)
 
