@@ -1,0 +1,26 @@
+---
+title: "Large-scale spatiotemporal variation in vital rates of an alpine bird"
+format: html
+author: Chloé R. Nater, James Martin, Erlend B. Nilsen
+editor: visual
+bibliography: rypeIDSM_MS2.bib
+---
+
+## Introduction
+
+
+## Methods
+
+
+## Results
+
+
+## Discussion
+
+### Conclusion
+
+### Author contributions
+
+### Acknowledgements
+
+### Data and code availability
