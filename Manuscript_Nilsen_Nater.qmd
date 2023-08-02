@@ -8,7 +8,9 @@ bibliography: rypeIDSM_MS1.bib
 
 ## Introduction
 
-Estimating abundance and demographic rates for wildlife populations is a key element of population ecology, demography, eco-evolution research, conservation and wildlife management (refs). Tremendous progress during the last few decades both in terms of new technologies that allow new types of field data being collected (e.g. eDNA ref; camera traps; refs) and the statistical machinery available to interpret the ecological and demographic signals in the data (refs). Nevertheless, large scale and long term data sets are still relatively rare (ref), due to high costs of field data collection.
+Estimating abundance and demographic rates for wildlife populations is an integral part of basic and applied ecology [@Skalski2005]. Over the last few decades, a tremendous progress have been made towards this end. This progress is partly driven the development and application of new field data collection methods and apporaches, such as citizen science data (ref), camera trap data (ref) and the collection of environmental DNA data (ref). In addition, developments of new analysis methods allow us to estimate abundance and demographic rates it situations where it was not feasible before (ref). combined, these advance put us in a much better position to estimate state variables needed for population management (ref) but also estimate indexes that are relevant for large scale policy applications, e.g. such as Essential Biodiversity Variables (ref).
+
+Nevertheless, large scale and long term data sets are still relatively rare (ref), due to high costs of field data collection.
 
 A cost efficient and well documented approach suitable is the use of line transect surveys. However, because the detectability is often less than 1 and variable between years and habitats,
 
@@ -44,7 +46,7 @@ $$
   D_{juv, t+1} & = D_{ad,t+1} * R_{t+1} \\
   D_{ad, t+1} & = S_t * (D_{juv,t} + D_{ad, t})  
 \end{aligned}
-$$ 
+$$
 
 or, alternatively, in matrix notation as
 
@@ -74,40 +76,34 @@ Note that recruitment rate $R$ is defined as juveniles/adult (not juveniles/fema
 
 #### Likelihoods for distance sampling data
 
-The implementation of the modelling framework we present makes three assumptions about the distance sampling survey: 1) the survey consists of line transects, 2) animals may be detected alone or in groups, and 3) juveniles and adults can be distinguished during surveys. These assumptions are inspired by our willow ptarmigan case study (details below).
-Our model includes three likelihoods for different components of the age-structured distance sampling data. 
-First is the likelihood for the perpendicular detection distances from line transect, $y$, which are linked to distance-dependent detection probability $p$ through a half-normal detection function: 
+The implementation of the modelling framework we present makes three assumptions about the distance sampling survey: 1) the survey consists of line transects, 2) animals may be detected alone or in groups, and 3) juveniles and adults can be distinguished during surveys. These assumptions are inspired by our willow ptarmigan case study (details below). Our model includes three likelihoods for different components of the age-structured distance sampling data. First is the likelihood for the perpendicular detection distances from line transect, $y$, which are linked to distance-dependent detection probability $p$ through a half-normal detection function:
 
 $$
 \begin{equation}
 p = exp(-\frac{y^2}{2\sigma^2})
 \end{equation}
-$$
-where $\sigma$ is the half-normal detection parameter. We assumed $\sigma$ to vary among years (index $t$) but not transect lines or animal group size. Following @moore2011, the resulting $\sigma_t$ can be used to calculate effective strip width ($esw_{t}$) and, consequently, average detection probability per line transect with a truncation distance $W$ according to: 
+$$ where $\sigma$ is the half-normal detection parameter. We assumed $\sigma$ to vary among years (index $t$) but not transect lines or animal group size. Following @moore2011, the resulting $\sigma_t$ can be used to calculate effective strip width ($esw_{t}$) and, consequently, average detection probability per line transect with a truncation distance $W$ according to:
 
 $$
 \begin{aligned}
   esw_t & = \sqrt{\frac{\pi * \sigma_{t}^2}{2}}  \\
   \hat{p_t} & = esw_t/W
 \end{aligned}
-$$ 
-The average detection probability $\hat{p_t}$ is an integral part of the second data likelihood which relates the observed number of animals in each age class $a$, $obsN_{a,j,t}$ ($j$ = transect) to the corresponding true number per transect, $N_{a,j,t}$:
+$$ The average detection probability $\hat{p_t}$ is an integral part of the second data likelihood which relates the observed number of animals in each age class $a$, $obsN_{a,j,t}$ ($j$ = transect) to the corresponding true number per transect, $N_{a,j,t}$:
 
 $$
 \begin{equation}
   obsN_{a,j,t} \sim Poisson(\hat{p_t}*N_{a,j,t})
 \end{equation}
-$$
-$N_{juv,j,t}$ and $N_{ad,j,t}$ are then linked back to the population model by converting them to densities through multiplication with $2L_{j,t}W$ (where $L_{j,t}$ is length of transect $j$ in year $t$). 
+$$ $N_{juv,j,t}$ and $N_{ad,j,t}$ are then linked back to the population model by converting them to densities through multiplication with $2L_{j,t}W$ (where $L_{j,t}$ is length of transect $j$ in year $t$).
 
-The third data likelihood focuses on the counts of adults ($obsAd_{j,t}$) and juveniles ($obsJuv_{j,t}$) observed during the distance sampling surveys and links them to time-specific recruitment rate: 
+The third data likelihood focuses on the counts of adults ($obsAd_{j,t}$) and juveniles ($obsJuv_{j,t}$) observed during the distance sampling surveys and links them to time-specific recruitment rate:
 
 $$
 \begin{equation}
   obsJuv_{j,t} \sim Poisson(R_t*obsAd_{j,t})
 \end{equation}
 $$
- 
 
 #### Likelihood for radio-telemetry data
 
@@ -117,25 +113,21 @@ $$
 \begin{equation}
   survivors_{k,t} \sim Binomial(released_{k,t}, Sk_t)
 \end{equation}
-$$
-Here, $Sk_t$ is the seasonal survival rate, and annual survival rate, $S_t$ is calculated as $S1_t * S2_t$.  
-
+$$ Here, $Sk_t$ is the seasonal survival rate, and annual survival rate, $S_t$ is calculated as $S1_t * S2_t$.
 
 #### Hierarchical models with time-variation in parameters
 
-Vital rates (survival probabilities $S$, recruitment rates $R$), detection parameters (half-normal detection parameters $\sigma$), and initial population densities can all be modelled as time-dependent in our framework. For both the tests with simulated data and the case study described below, we implemented log-normally distributed random year effects on all parameters except survival, which was set to be constant. In the case study, we additionally included an effect of rodent occupancy (see details below) on log recruitment rates, resulting in the following model: 
+Vital rates (survival probabilities $S$, recruitment rates $R$), detection parameters (half-normal detection parameters $\sigma$), and initial population densities can all be modelled as time-dependent in our framework. For both the tests with simulated data and the case study described below, we implemented log-normally distributed random year effects on all parameters except survival, which was set to be constant. In the case study, we additionally included an effect of rodent occupancy (see details below) on log recruitment rates, resulting in the following model:
 
 $$
 \begin{equation}
   log(R_t) = log(\mu_R) + \beta*RodentOcc_t + \epsilon_t
 \end{equation}
-$$
-where $\mu_R$ is the baseline recruitment rate, $\beta$ the slope of the effect of rodent occupancy, and $\epsilon_t$ the normally distributed random effects. 
+$$ where $\mu_R$ is the baseline recruitment rate, $\beta$ the slope of the effect of rodent occupancy, and $\epsilon_t$ the normally distributed random effects.
 
 ### Model testing with simulated data
 
 TBA
-
 
 ### Field data (case study)
 
@@ -151,8 +143,7 @@ The individual longitudinal study based on radio collared willow ptarmigan was c
 
 ### Bayesian implementation
 
-We implemented the model in a Bayesian framework using NIMBLE [@valpine2017] in R version 4.2.2 [@R2022]. The likelihood for line transect observation distances was set up using a custom half-normal distribution developed by Michael Scroggie as part of the "nimbleDistance" package (https://github.com/scrogster/nimbleDistance). We used non-informative uniform priors (with biologically reasonable boundaries where possible) for all parameters. For each model fit, we ran x MCMC chains with NIMBLE's standard samples for xxxk iterations. xxxk thereof were discarded as burn-in prior to thining with a factor x, leaving us with xxxx posterior samples per chain (total of xxxxx samples per run). 
-
+We implemented the model in a Bayesian framework using NIMBLE [@valpine2017] in R version 4.2.2 [@R2022]. The likelihood for line transect observation distances was set up using a custom half-normal distribution developed by Michael Scroggie as part of the "nimbleDistance" package (https://github.com/scrogster/nimbleDistance). We used non-informative uniform priors (with biologically reasonable boundaries where possible) for all parameters. For each model fit, we ran x MCMC chains with NIMBLE's standard samples for xxxk iterations. xxxk thereof were discarded as burn-in prior to thining with a factor x, leaving us with xxxx posterior samples per chain (total of xxxxx samples per run).
 
 ## Results
 
