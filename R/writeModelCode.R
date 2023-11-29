@@ -37,20 +37,25 @@ writeModelCode <- function(survVarT){
       mu.dd[x] ~ dnorm(h.mu.dd, sd = h.sigma.dd)
       
       for(t in 1:N_years){
-        epsT.dd[x, t] ~ dnorm(0, sd = sigmaT.dd)
+        epsR.dd[x, t] ~ dnorm(0, sd = sigmaR.dd)
       }
     }
     
-    sigmaT.dd ~ dunif(0, 20)
+    for(t in 1:N_years){
+      epsT.dd[t] ~ dnorm(0, sd = sigmaT.dd)
+    }
     
-    #TODO: Implement spatial correlation in temporal RE (epsT.dd[x, t])
+    sigmaT.dd ~ dunif(0, 20)
+    sigmaR.dd ~ dunif(0, 20)
+    
+    #TODO: Implement spatial correlation in residual RE (epsR.dd[x, t])
     
     
     ########################################################
     for(x in 1:N_areas){
       for(t in 1:N_years){
         
-        log(sigma[x, t]) <- mu.dd[x] + epsT.dd[x, t]
+        log(sigma[x, t]) <- mu.dd[x] + epsR.dd[x, t]
         
         sigma2[x, t] <- sigma[x, t] * sigma[x, t]
         
@@ -89,13 +94,18 @@ writeModelCode <- function(survVarT){
     }
     
     sigmaT.R ~ dunif(0, 5)
+    sigmaR.R ~ dunif(0, 5)
+    
+    for(t in 1:N_years){
+      epsT.R[t] ~ dnorm(0, sd = sigmaT.R)
+    }
     
     for(x in 1:N_areas){
       
       for (t in 1:N_years){
-        epsT.R[x, t] ~ dnorm(0, sd = sigmaT.R) # Temporal RE
+        epsR.R[x, t] ~ dnorm(0, sd = sigmaR.R) # Temporal RE
       }
-      #TODO: Implement spatial correlation in temporal RE (epsT.R[x, t])
+      #TODO: Implement spatial correlation in residual RE (epsR.R[x, t])
       
       Mu.R[x]  ~ dlnorm(meanlog = log(h.Mu.R), sdlog = h.sigma.R)
       
@@ -105,9 +115,9 @@ writeModelCode <- function(survVarT){
       
       ## Constraints;
       if(fitRodentCov){
-        R_year[x, 1:N_years] <- exp(log(Mu.R[x]) + betaR.R[x]*RodentOcc[x, 1:N_years] + epsT.R[x, 1:N_years])
+        R_year[x, 1:N_years] <- exp(log(Mu.R[x]) + betaR.R[x]*RodentOcc[x, 1:N_years] + epsT.R[1:N_years] + epsR.R[x, 1:N_years])
       }else{
-        R_year[x, 1:N_years] <- exp(log(Mu.R[x]) + epsT.R[x, 1:N_years])
+        R_year[x, 1:N_years] <- exp(log(Mu.R[x]) + epsT.R[1:N_years] + epsR.R[x, 1:N_years])
       }
       
       ## Likelihood;
@@ -172,8 +182,14 @@ writeModelCode <- function(survVarT){
     
     if(survVarT){
       sigmaT.S ~ dunif(0, 5)
-      epsT.S1.prop ~ dunif(0, 1) # Proportion of random year effect that will be allocated to season 1
+      sigmaR.S ~ dunif(0, 5)
+      epsR.S1.prop ~ dunif(0, 1) # Proportion of random year effect that will be allocated to season 1
+      
+      for(t in 1:Tmax){
+        epsT.S[t] ~ dnorm(0, sd = sigmaT.S)
+      }
     }
+    
     
     for(x in 1:N_areas){
       mu.S[x] ~ dnorm(logit(h.Mu.S), sd = h.sigma.S)
@@ -184,11 +200,11 @@ writeModelCode <- function(survVarT){
       
       if(survVarT){
         
-        logit(S[x, 1:N_years]) <- logit(Mu.S[x]) + epsT.S[x, 1:N_years]
-        logit(S1[1:N_years]) <- logit(Mu.S1) + epsT.S1.prop*epsT.S[SurvAreaIdx, 1:N_years]
+        logit(S[x, 1:N_years]) <- logit(Mu.S[x]) + epsT.S[1:N_years] + epsR.S[x, 1:N_years]
+        logit(S1[1:N_years]) <- logit(Mu.S1) + epsR.S1.prop*(epsT.S[1:N_years] + epsR.S[SurvAreaIdx, 1:N_years])
         
         for(t in 1:N_years){
-          epsT.S[x, t] ~ dnorm(0, sd = sigmaT.S) # Temporal RE
+          epsR.S[x, t] ~ dnorm(0, sd = sigmaR.S) # Residual variation
         }
         
       }else{
