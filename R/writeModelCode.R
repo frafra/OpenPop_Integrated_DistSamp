@@ -14,272 +14,330 @@ writeModelCode <- function(survVarT){
   
   IDSM.code <- nimble::nimbleCode({
     
-    ####################################################
-    #### Distance sampling half normal detection function; 
-    ## Data; 
+    # N_areas = number of areas
+    # N_sites[x] = number of sites in area x
+    # N_ageC = number of age classes
+    # N_years = number of years
+    # N_sumR_obs[x] = number of data points in juvenile:adult ratio counts
     
-    # y <- vector with distances to transect line; 
-    # N_years <- number of years
-    # N_obs <- number of observations
-    # Year_obs <- vector with year for each observation
+    # N_exp[x, a, j, t] = Number of age class a individuals in site j of area x in year t
+    # Density[x, a, j, t] = Density of age class a individuals in site j of area x in year t
+    # L[x, j, t] = length of transect line in site j of area x in year t
+    # W = truncation distance for line transect surveys
     
+    # Mu.D1[x] = average initial density in area x
+    # ratio.JA1[x] = average initial juvenile:adult ratio in area x
     
-    # priors for distance model; 
+    # S[x, t] = annual survival from year t to t+1 in area x
+    # R_year[x, t] = recruitment rate in year t in area x
+    # p[x, t] = average distance sampling detection rate in area x in year t
+    # sigma[x, t] = average distance sampling detection decay rate in area x in year t
     
-    pi <- 3.141593
+    # eps.D1[x, j] = random site effect on initial density area x (site j)
     
-    #random year effect for distance sampling model; 
-    ## Priors for hyper-parameters
-    h.mu.dd ~ dunif(-10, 100)
-    h.sigma.dd ~ dunif(0, 5)
+
     
-    for(x in 1:N_areas){
-      mu.dd[x] ~ dnorm(h.mu.dd, sd = h.sigma.dd)
-      
-      for(t in 1:N_years){
-        epsR.dd[x, t] ~ dnorm(0, sd = sigmaR.dd)
-      }
-    }
+    ####################
+    # POPULATION MODEL #
+    ####################
     
-    for(t in 1:N_years){
-      epsT.dd[t] ~ dnorm(0, sd = sigmaT.dd)
-    }
-    
-    sigmaT.dd ~ dunif(0, 20)
-    sigmaR.dd ~ dunif(0, 20)
-    
-    #TODO: Implement spatial correlation in residual RE (epsR.dd[x, t])
-    
-    
-    ########################################################
-    for(x in 1:N_areas){
-      for(t in 1:N_years){
-        
-        log(sigma[x, t]) <- mu.dd[x] + epsR.dd[x, t]
-        
-        sigma2[x, t] <- sigma[x, t] * sigma[x, t]
-        
-        # effective strip width
-        esw[x, t] <- sqrt(pi * sigma2[x, t] / 2) 
-        p[x, t] <- min(esw[x, t], W) / W
-      }
-    }
-    
-    ########################################################   
-    for(x in 1:N_areas){
-      for (i in 1:N_obs[x]){ 
-        # LIKELIHOOD
-        # using nimbleDistance::dHN
-        y[x, i] ~ dHN(sigma = sigma[x, Year_obs[x, i]], Xmax = W, point = 0)
-      }
-    }
-    
-    ###################################################
-    ## Random effects model for R (i.e. )
-    ## Data: 
-    
-    # R_obs <- vector with number of chicks / obs [0 - 12]
-    # N_Years <- number of years in time series 
-    # N_obs <- number of observations 
-    # Year_obs <- vector with years for each observation. 
-    
-    ## Priors; 
-    
-    h.Mu.R  ~ dunif(0, 15)
-    h.sigma.R ~ dunif(0, 5)
-    
-    if(fitRodentCov){
-      h.Mu.betaR.R ~ dunif(-5, 5)
-      h.sigma.betaR.R ~ dunif(0, 5)
-    }
-    
-    sigmaT.R ~ dunif(0, 5)
-    sigmaR.R ~ dunif(0, 5)
-    
-    for(t in 1:N_years){
-      epsT.R[t] ~ dnorm(0, sd = sigmaT.R)
-    }
+    #-----------------------------------------#
+    # Initial population size/density (t = 1) #
+    #-----------------------------------------#
     
     for(x in 1:N_areas){
-      
-      for (t in 1:N_years){
-        epsR.R[x, t] ~ dnorm(0, sd = sigmaR.R) # Temporal RE
-      }
-      #TODO: Implement spatial correlation in residual RE (epsR.R[x, t])
-      
-      Mu.R[x]  ~ dlnorm(meanlog = log(h.Mu.R), sdlog = h.sigma.R)
-      
-      if(fitRodentCov){
-        betaR.R[x] ~ dnorm(mean = h.Mu.betaR.R, sd = h.sigma.betaR.R)
-      }
-      
-      ## Constraints;
-      if(fitRodentCov){
-        R_year[x, 1:N_years] <- exp(log(Mu.R[x]) + betaR.R[x]*RodentOcc[x, 1:N_years] + epsT.R[1:N_years] + epsR.R[x, 1:N_years])
-      }else{
-        R_year[x, 1:N_years] <- exp(log(Mu.R[x]) + epsT.R[1:N_years] + epsR.R[x, 1:N_years])
-      }
-      
-      ## Likelihood;
-      for (i in 1:N_sumR_obs[x]){
-        sumR_obs[x, i] ~ dpois(R_year[x, sumR_obs_year[x, i]]*sumAd_obs[x, i])
-      }
-    }
-    
-    
-    ########################################################################
-    ### MODEL FOR Density in year 1:
-    ### Simple random effects model 
-    # Data; 
-    
-    # N_sites <- number of sites
-    # N_line_year <- number of birds pr. line 
-    # L <- length of transect lines
-    
-    for(x in 1:N_areas){
-      
-      ## Priors; 
-      
-      for(j in 1:N_sites[x]){
-        eps.D1[x, j] ~ dnorm(0, sd = sigma.D[x])
-      }
-      
-      Mu.D1[x] ~ dunif(0, 10)
-      sigma.D[x] ~ dunif(0, 20)
-      
-      ratio.JA1[x] ~ dunif(0, 1)
-      
-      ## State model
       for (j in 1:N_sites[x]){
-        
-        #for(a in 1:N_ageC){
-        #  N_exp[a, j, 1] ~ dpois(Density[a, j, 1]*L[1, j, 1]*W*2)      ## Expected number of birds
-        #}  
         
         N_exp[x, 1, j, 1] ~ dpois(Density[x, 1, j, 1]*L[x, j, 1]*W*2) 
         N_exp[x, 2, j, 1] ~ dpois(Density[x, 2, j, 1]*L[x, j, 1]*W*2) 
         
-        Density[x, 1, j, 1] <- exp(log(Mu.D1[x]) + eps.D1[x, j])*ratio.JA1[x]             ## random effects model for spatial variation in density for year 1
+        Density[x, 1, j, 1] <- exp(log(Mu.D1[x]) + eps.D1[x, j])*ratio.JA1[x]
         Density[x, 2, j, 1] <- exp(log(Mu.D1[x]) + eps.D1[x, j])*(1-ratio.JA1[x])
-        
-        ## Detection model year 1
-        for(a in 1:N_ageC){
-          N_a_line_year[x, a, j, 1] ~ dpois(p[x, 1]*N_exp[x, a, j, 1])
-        }
-        
-        #N_line_year[x, j, 1] ~ dpois(p[x, 1]* sum(N_exp[x, 1:N_ageC, j, 1]))
-      }
-    }
-    
-    #####################################################
-    ## Model for survival; 
-    
-    ## Priors
-    h.Mu.S ~ dunif(0, 1)
-    h.sigma.S ~ dunif(0, 5)
-    
-    Mu.S1 ~ dunif(0, 1) # Season 1 survival for Lierne
-    
-    if(survVarT){
-      sigmaT.S ~ dunif(0, 5)
-      sigmaR.S ~ dunif(0, 5)
-      epsR.S1.prop ~ dunif(0, 1) # Proportion of random year effect that will be allocated to season 1
-      
-      for(t in 1:Tmax){
-        epsT.S[t] ~ dnorm(0, sd = sigmaT.S)
       }
     }
     
     
-    for(x in 1:N_areas){
-      mu.S[x] ~ dnorm(logit(h.Mu.S), sd = h.sigma.S)
-      #TODO: Implement spatial correlation in survival averages
-      
-      ## Constraints
-      logit(Mu.S[x]) <- mu.S[x]
-      
-      if(survVarT){
-        
-        logit(S[x, 1:N_years]) <- logit(Mu.S[x]) + epsT.S[1:N_years] + epsR.S[x, 1:N_years]
-        logit(S1[1:N_years]) <- logit(Mu.S1) + epsR.S1.prop*(epsT.S[1:N_years] + epsR.S[SurvAreaIdx, 1:N_years])
-        
-        for(t in 1:N_years){
-          epsR.S[x, t] ~ dnorm(0, sd = sigmaR.S) # Residual variation
-        }
-        
-      }else{
-        
-        S[x, 1:N_years] <- Mu.S[x]
-        S1[1:N_years] <- Mu.S1
-      }
-
-      #TODO: Consider implementing spatially correlated random year variation
-      
-    }
-    
-    S2[1:N_years] <- S[SurvAreaIdx, 1:N_years]/S1[1:N_years]
-    
-    ## Data likelihoods
-    for (t in 1:N_years_RT){
-      
-      Survs1[t, 2] ~ dbinom(S1[year_Survs[t]], Survs1[t, 1])
-      Survs2[t, 2] ~ dbinom(S2[year_Survs[t]], Survs2[t, 1])
-      
-    }
-    
-    
-    #####################################################    
-    ### Model for year 2 - n.years; 
-    ### post-breeding census
+    #-------------------------------#
+    # Population dynamics for t > 1 #
+    #-------------------------------#
     
     for(x in 1:N_areas){
       for(j in 1:N_sites[x]){
         for(t in 2:N_years){
           
-          ## Process model
-          Density[x, 2, j, t] <- sum(Density[x, 1:N_ageC, j, t-1])*S[x, t-1] # Adults
+          ## Adult densities
+          Density[x, 2, j, t] <- sum(Density[x, 1:N_ageC, j, t-1])*S[x, t-1] 
           
+          ## Juvenile densities
           if(R_perF){
-            Density[x, 1, j, t] <- (Density[x, 2, j, t]/2)*R_year[x, t] # Juveniles 
+            Density[x, 1, j, t] <- (Density[x, 2, j, t]/2)*R_year[x, t] 
           }else{
-            Density[x, 1, j, t] <- Density[x, 2, j, t]*R_year[x, t] # Juveniles
+            Density[x, 1, j, t] <- Density[x, 2, j, t]*R_year[x, t]
           }
           
+          ## Adult and juvenile numbers
           N_exp[x, 1:N_ageC, j, t] <- Density[x, 1:N_ageC, j, t]*L[x, j, t]*W*2
-          
-          ## Detection model year 2 - T
-          for(a in 1:N_ageC){
-            N_a_line_year[x, a, j, t] ~ dpois(p[x, t]*N_exp[x, a, j, t])
-          }
-          
-          #N_line_year[x, j, t] ~ dpois(p[x, t]*sum(N_exp[x, 1:N_ageC, j, t]))
         }
       }
     }
     
-    ####################################################
-    ## Observation model
-    ## P is estimated in distance sampling component - based on 
-    ## distance to transect line data; 
+    #--------------------#
+    # Derived parameters #
+    #--------------------#
     
-    ####################################################
-    ### Derived parameters; Nt and Dt
+    ## Area- and year-specific total densities
     for(x in 1:N_areas){
       for (t in 1:N_years){
-        N_tot_exp[x, t] <- sum(N_exp[x, 1, 1:N_sites[x], t] + N_exp[x, 2, 1:N_sites[x], t])    ## Summing up expected number of birds in covered area; 
-        #D[x, t] <- N_tot_exp[x, t] / A[x, t]       ## Deriving density as N/A     
+        N_tot_exp[x, t] <- sum(N_exp[x, 1, 1:N_sites[x], t] + N_exp[x, 2, 1:N_sites[x], t])
       }
     }
     
-    ####################################################
-    ## Rodent covariate imputation model
+    
+    ####################
+    # DATA LIKELIHOODS #
+    ####################
+    
+    ## Age-specific line transect counts
+    # N_a_line_year[x, a, j, t] = number of age class a individuals detected in site j of area x in year t
+    for(x in 1:N_areas){
+      for(j in 1:N_sites[x]){
+        for(t in 1:N_years){
+          for(a in 1:N_ageC){
+            
+            N_a_line_year[x, a, j, t] ~ dpois(p[x, t]*N_exp[x, a, j, t])
+          }
+        }
+      }
+    }
+  
+    
+    ## Juvenile:adult ratios from line transect observations
+    # N_sumR_obs[x] = number of observations in juvenile:adult count data in area x
+    # sumR_obs[x, i] = i'th entry in juvenile count data for area x
+    # sumAd_obs[x, i] = i'th entry in adult count data for area x
+    for(x in 1:N_areas){
+      for (i in 1:N_sumR_obs[x]){
+        
+        sumR_obs[x, i] ~ dpois(R_year[x, sumR_obs_year[x, i]]*sumAd_obs[x, i])
+      }
+    }
+    
+    
+    ## Line transect observation distances (likelihood using nimbleDistance::dHN)
+    # N_obs[x] = number of observations in detection distance data in area x
+    # y[x, i] = i'th entry in detection distance data for area x
+    for(x in 1:N_areas){
+      for (i in 1:N_obs[x]){ 
+
+        y[x, i] ~ dHN(sigma = sigma[x, Year_obs[x, i]], Xmax = W, point = 0)
+      }
+    }
+    
+    
+    ## Known-fate telemetry data
+    # N_years_RT = number of yeard for which radio-telemetry data is available
+    # Survs1[t, z] = numbers of collared individuals released (z = 1) and 
+    # recovered alive (z = 2) during season 1 of year t
+    # Survs2[t, z] = numbers of collared individuals released (z = 1) and 
+    # recovered alive (z = 2) during season 2 of year t
+    # S1[t] = survival probability through season 1 of year t
+    # S2[t] = survival probability through season 2 of year t
+    
+    for (t in 1:N_years_RT){
+      
+      Survs1[t, 2] ~ dbinom(S1[year_Survs[t]], Survs1[t, 1])
+      Survs2[t, 2] ~ dbinom(S2[year_Survs[t]], Survs2[t, 1])
+    }
+
+    
+    ################################
+    # PARAMETER MODELS/CONSTRAINTS #
+    ################################
+    
+    ## Distance sampling detection parameters
+    for(x in 1:N_areas){
+      for(t in 1:N_years){
+        
+        # Detection decay
+        log(sigma[x, t]) <- mu.dd[x] + epsR.dd[x, t]
+        sigma2[x, t] <- sigma[x, t] * sigma[x, t]
+        
+        # Effective strip width
+        esw[x, t] <- sqrt(pi * sigma2[x, t] / 2) 
+        
+        # Average detection rate 
+        p[x, t] <- min(esw[x, t], W) / W
+      }
+    }
+    
+    
+    ## Annual recruitment rates
+    for(x in 1:N_areas){
+      
+      if(fitRodentCov){
+        R_year[x, 1:N_years] <- exp(log(Mu.R[x]) + betaR.R[x]*RodentOcc[x, 1:N_years] + epsT.R[1:N_years] + epsR.R[x, 1:N_years])
+      }else{
+        R_year[x, 1:N_years] <- exp(log(Mu.R[x]) + epsT.R[1:N_years] + epsR.R[x, 1:N_years])
+      }
+    }
+    
+    
+    ## Annual survival probabilities
+    for(x in 1:N_areas){
+      
+      logit(Mu.S[x]) <- mu.S[x]
+      
+      if(survVarT){
+        logit(S[x, 1:N_years]) <- logit(Mu.S[x]) + epsT.S[1:N_years] + epsR.S[x, 1:N_years]
+      }else{
+        S[x, 1:N_years] <- Mu.S[x]
+      }
+    }
+    
+    
+    ## Seasonal survival probabilities in area with radiotelemetry data
+    # Season 1
+    if(survVarT){
+      logit(S1[1:N_years]) <- logit(Mu.S1) + epsR.S1.prop*(epsT.S[1:N_years] + epsR.S[SurvAreaIdx, 1:N_years])
+    }else{
+      S1[1:N_years] <- Mu.S1
+    }
+    
+    # Season 2
+    S2[1:N_years] <- S[SurvAreaIdx, 1:N_years] / S1[1:N_years]
+    
+    
+    ###########
+    # PRIORS  #
+    ###########
+    
+    #-----------------------#
+    # Intercepts / averages #
+    #-----------------------#
+    
+    h.Mu.R  ~ dunif(0, 15) # Recruitment
+    h.Mu.S ~ dunif(0, 1) # Survival
+    h.mu.dd ~ dunif(-10, 100) # Detection
+    
+    for(x in 1:N_areas){
+      
+      ## Initial density
+      Mu.D1[x] ~ dunif(0, 10)
+      ratio.JA1[x] ~ dunif(0, 1)
+      
+      ## Recruitment
+      Mu.R[x]  ~ dlnorm(meanlog = log(h.Mu.R), sdlog = h.sigma.R)
+      
+      ## Survival
+      mu.S[x] ~ dnorm(logit(h.Mu.S), sd = h.sigma.S)
+      
+      ## Detection
+      mu.dd[x] ~ dnorm(h.mu.dd, sd = h.sigma.dd)
+    }
+    
+    
+    #----------------#
+    # Random effects #
+    #----------------#
+    
+    ## Standard deviations
+    
+    # Recruitment
+    h.sigma.R ~ dunif(0, 5)    
+    sigmaT.R ~ dunif(0, 5)
+    sigmaR.R ~ dunif(0, 5)
+    
+    # Survival 
+    h.sigma.S ~ dunif(0, 5)
+    Mu.S1 ~ dunif(0, 1)
+    
+    if(survVarT){
+      sigmaT.S ~ dunif(0, 5)
+      sigmaR.S ~ dunif(0, 5)
+      epsR.S1.prop ~ dunif(0, 1)
+    }
+    
+    # Detection
+    h.sigma.dd ~ dunif(0, 5)
+    sigmaT.dd ~ dunif(0, 20)
+    sigmaR.dd ~ dunif(0, 20)
+    
+    # Initial density
+    for(x in 1:N_areas){
+      sigma.D[x] ~ dunif(0, 20)
+    }
+    
+    
+    ## Random effect levels
+    
+    # Shared year variation
+    for(t in 1:N_years){
+      
+      epsT.R[t] ~ dnorm(0, sd = sigmaT.R) # Recruitment
+      
+      if(survVarT){
+        epsT.S[t] ~ dnorm(0, sd = sigmaT.S) # Survival
+      }
+      
+      epsT.dd[t] ~ dnorm(0, sd = sigmaT.dd) # Detection
+    }
+    
+    # Residual variation
+    for(x in 1:N_areas){
+      for (t in 1:N_years){
+        
+        epsR.R[x, t] ~ dnorm(0, sd = sigmaR.R)
+        
+        if(survTvar){
+          epsR.S[x, t] ~ dnorm(0, sd = sigmaR.S)
+        }
+        
+        epsR.dd[x, t] ~ dnorm(0, sd = sigmaR.dd)
+      }
+    }
+    
+    # Site/transect variation
+    for(j in 1:N_sites[x]){
+      eps.D1[x, j] ~ dnorm(0, sd = sigma.D[x])
+    }
+    
+    
+    #-------------------#
+    # Covariate effects #
+    #-------------------#
+    
+    ## Rodent effect on reproduction
+    if(fitRodentCov){
+      
+      h.Mu.betaR.R ~ dunif(-5, 5)
+      h.sigma.betaR.R ~ dunif(0, 5)
+      
+      for(x in 1:N_areas){
+        betaR.R[x] ~ dnorm(mean = h.Mu.betaR.R, sd = h.sigma.betaR.R)
+      }
+    }
+
+    
+    #------------------#
+    # Other parameters #
+    #------------------#
+
+    pi <- 3.141593
+    
+    
+    ###############################
+    # COVARIATE IMPUTATION MODELS #
+    ###############################
+    
     if(fitRodentCov){
       for(x in 1:N_areas){
         for (t in 1:N_years){
+          
           RodentOcc[x, t] ~ dunif(0, 1)
         }
       }
     }
+    
     
   })
   
