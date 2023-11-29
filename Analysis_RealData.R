@@ -112,20 +112,19 @@ input_data <- prepareInputData(d_trans = LT_data$d_trans,
 # MODEL SETUP #
 #-------------#
 
-## Determine correct code path
-code.path <- selectCodePath(shareRE = shareRE,
-                            survVarT = survVarT)
+## Write model code
+modelCode <- writeModelCode(survVarT = survVarT)
 
 ## Setup for model using nimbleDistance::dHN
-model_setup <- setupModel(modelCode.path = code.path,
-                          customDist = TRUE,
+model_setup <- setupModel(modelCode = modelCode,
                           R_perF = R_perF,
                           shareRE = shareRE, 
                           survVarT = survVarT, 
                           fitRodentCov = fitRodentCov,
                           nim.data = input_data$nim.data,
                           nim.constants = input_data$nim.constants,
-                          testRun = TRUE, nchains = 3,
+                          testRun = TRUE, 
+                          nchains = 3,
                           initVals.seed = 0)
 
 # MODEL (TEST) RUN #
