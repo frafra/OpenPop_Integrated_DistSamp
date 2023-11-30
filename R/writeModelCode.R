@@ -158,7 +158,7 @@ writeModelCode <- function(survVarT){
       for(t in 1:N_years){
         
         # Detection decay
-        log(sigma[x, t]) <- mu.dd[x] + epsR.dd[x, t]
+        log(sigma[x, t]) <- mu.dd[x] + epsT.dd[t] + epsR.dd[x, t]
         sigma2[x, t] <- sigma[x, t] * sigma[x, t]
         
         # Effective strip width
