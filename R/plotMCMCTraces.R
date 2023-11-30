@@ -2,6 +2,7 @@
 #'
 #' @param mcmc.out an mcmc list containing posterior samples from a model run.
 #' @param fitRodentCov logical. If TRUE, rodent covariate on reproduction is included.
+#' @param survVarT logical. If TRUE, temporal and residual variation in survival are included. 
 #' @param VitalRates logical. If TRUE (default), plots traces and posterior densities for vital rate parameters.
 #' @param DetectParams logical. If TRUE (default), plots traces and posterior densities for detection parameters.
 #' @param PopSizes logical. If TRUE (default), plots traces and posterior densities for population sizes.
@@ -12,19 +13,24 @@
 #'
 #' @examples
 #' 
-plotMCMCTraces <- function(mcmc.out, fitRodentCov, VitalRates = TRUE, DetectParams = TRUE, PopSizes = TRUE, Densities = TRUE){
+plotMCMCTraces <- function(mcmc.out, fitRodentCov, survVarT, VitalRates = TRUE, DetectParams = TRUE, PopSizes = TRUE, Densities = TRUE){
   
   ## Make parameter lists
-  mVR_params <- c("Mu.R", "h.Mu.R", "h.sigma.R", "sigmaT.R",
+  mVR_params <- c("Mu.R", "h.Mu.R", "h.sigma.R", "sigmaT.R", "sigmaR.R",
                   "Mu.D1", "sigma.D", "ratio.JA1",
                   "Mu.S", "Mu.S1", "h.Mu.S", "h.sigma.S")
+  
+  if(survVarT){
+    mVR_params <- c(mVR_params, c("sigmaT.S", "sigmaR.S"))
+  }
+  
   if(fitRodentCov){
     mVR_params <- c(mVR_params, "betaR.R", "h.Mu.betaR.R", "h.sigma.betaR.R")
   }
   
   tVR_params <- c("R_year", "S")
   
-  mDet_params <- c("mu.dd", "sigmaT.dd")
+  mDet_params <- c("mu.dd", "sigmaT.dd", "sigmaR.dd")
   
   tDet_params <- c("esw", "p", "sigma")
   

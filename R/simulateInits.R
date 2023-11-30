@@ -4,7 +4,6 @@
 #' @param nim.constants list of input objects representing constants
 #' @param R_perF logical. If TRUE, treats recruitment rate as juvenile per adult female.
 #' If FALSE, treats recruitment rate as juvenile per adult (sum of both sexes).
-#' @param shareRE logical. If TRUE, temporal random effects are shared across locations.
 #' @param survVarT logical. If TRUE, survival is simulated including annual variation.
 #' @param fitRodentCov logical. If TRUE, initial values are generated for rodent 
 #' covariate (effect) and covariate is included in data simulation.
@@ -14,7 +13,7 @@
 #'
 #' @examples
 
-simulateInits <- function(nim.data, nim.constants, R_perF, shareRE, survVarT, fitRodentCov){
+simulateInits <- function(nim.data, nim.constants, R_perF, survVarT, fitRodentCov){
   
   # Limits and constants #
   #----------------------#
@@ -63,28 +62,32 @@ simulateInits <- function(nim.data, nim.constants, R_perF, shareRE, survVarT, fi
   mu.S <- EnvStats::rnormTrunc(N_areas, qlogis(h.Mu.S), sd = h.sigma.S, max = qlogis(Mu.S1))
 
   sigmaT.S <- runif(1, 0, 0.05)
+  sigmaR.S <- runif(1, 0, 0.05)
   
   Mu.S <- rep(NA, N_areas)
   S <-  matrix(NA, nrow = N_areas, ncol = N_years)
   S1 <- S2 <- rep(NA, N_years)
   
-  epsT.S1.prop <- runif(1, 0.3, 0.8)
+  eps.S1.prop <- runif(1, 0.3, 0.8)
   
   if(survVarT){
-    epsT.S <- matrix(0, nrow = N_areas, ncol = N_years)
-    #epsT.S <- matrix(rnorm(N_areas*N_years, 0, sigmaS.R), nrow = N_areas, ncol = N_years)
+    epsT.S <- rep(0, N_years)
+    #epsT.S <- rnorm(N_years, 0, sigmaT.S)
+    epsR.S <- matrix(0, nrow = N_areas, ncol = N_years)
+    #epsR.S <- matrix(rnorm(N_areas*N_years, 0, sigmaR.S), nrow = N_areas, ncol = N_years)
     
   }else{
-    epsT.S <- matrix(0, nrow = N_areas, ncol = N_years)
+    epsT.S <- rep(0, N_years)
+    epsR.S <- matrix(0, nrow = N_areas, ncol = N_years)
   }
   
   for(x in 1:N_areas){
     Mu.S[x] <- plogis(mu.S[x])
-    S[x, 1:N_years] <- plogis(qlogis(Mu.S[x]) + epsT.S[x, 1:N_years])
+    S[x, 1:N_years] <- plogis(qlogis(Mu.S[x]) + epsT.S[1:N_years] + epsR.S[x, 1:N_years])
   }
 
-  S1[1:N_years] <- plogis(qlogis(Mu.S1) + epsT.S1.prop*epsT.S[nim.constants$SurvAreaIdx, 1:N_years])
-  S2[1:N_years] <- S[nim.constants$SurvAreaIdx, 1:N_years]/S1[1:N_years]
+  S1[1:N_years] <- plogis(qlogis(Mu.S1) + eps.S1.prop*(epsT.S[1:N_years] + epsR.S[nim.constants$SurvAreaIdx, 1:N_years]))
+  S2[1:N_years] <- S[nim.constants$SurvAreaIdx, 1:N_years] / S1[1:N_years]
   
   ## Area-specific reproductive parameters
   h.Mu.R  <- runif(1, 1, 4)
@@ -102,23 +105,17 @@ simulateInits <- function(nim.data, nim.constants, R_perF, shareRE, survVarT, fi
   }
     
   sigmaT.R <- runif(1, 0, 2)
+  sigmaR.R <- runif(1, 0, 2)
   
   R_year <- matrix(NA, nrow = N_areas, ncol = N_years)
   
-  if(shareRE){
-    epsT.R <- rep(0, N_years)
-    #epsT.R <- rnorm(N_year, 0, sigmaT.R)
-    
-    for(x in 1:N_areas){
-      R_year[x, 1:N_years] <- exp(log(Mu.R[x]) + betaR.R[x]*RodentOcc[x, 1:N_years] + epsT.R[1:N_years])
-    }
-  }else{
-    epsT.R <- matrix(0, nrow = N_areas, ncol = N_years)
-    #epsT.R <- matrix(rnorm(N_areas*N_years, 0, sigmaT.R), nrow = N_areas, ncol = N_years)
-    
-    for(x in 1:N_areas){
-      R_year[x, 1:N_years] <- exp(log(Mu.R[x]) + betaR.R[x]*RodentOcc[x, 1:N_years] + epsT.R[x, 1:N_years])
-    }
+  epsT.R <- rep(0, N_years)
+  #epsT.R <- rnorm(N_year, 0, sigmaT.R)
+  epsR.R <- matrix(0, nrow = N_areas, ncol = N_years)
+  #epsR.R <- matrix(rnorm(N_areas*N_years, 0, sigmaR.R), nrow = N_areas, ncol = N_years)
+
+  for(x in 1:N_areas){
+    R_year[x, 1:N_years] <- exp(log(Mu.R[x]) + betaR.R[x]*RodentOcc[x, 1:N_years] + epsT.R[1:N_years] + epsR.R[x, 1:N_years])
   }
 
   
@@ -132,29 +129,22 @@ simulateInits <- function(nim.data, nim.constants, R_perF, shareRE, survVarT, fi
   
   #mu.dd <- rnorm(N_areas, h.mu.dd, sd = h.sigma.dd)
   mu.dd <- rep(h.mu.dd, N_areas)
+  
   sigmaT.dd <- runif(1, 1, 10)
+  sigmaR.dd <- runif(1, 1, 10)
   
   sigma <- esw <- p <- matrix(NA, nrow = N_areas, ncol = N_years)
   
   
-  if(shareRE){
-    epsT.dd <- rep(0, N_years)
-    #epsT.dd <- rnorm(N_years, 0, sd = sigmaT.dd)
-    
-    for(x in 1:N_areas){
-      sigma[x, 1:N_years] <- exp(mu.dd[x] + epsT.dd[1:N_years])
-    }
-    
-  }else{
-    epsT.dd <- matrix(0, nrow = N_areas, ncol = N_years)
-    #epsT.dd <- matrix(rnorm(N_areas*N_years, 0, sigmaT.dd), nrow = N_areas, ncol = N_years)
-    
-    for(x in 1:N_areas){
-      sigma[x, 1:N_years] <- exp(mu.dd[x] + epsT.dd[x, 1:N_years])
-    }
+  epsT.dd <- rep(0, N_years)
+  #epsT.dd <- rnorm(N_years, 0, sd = sigmaT.dd)
+  epsR.dd <- matrix(0, nrow = N_areas, ncol = N_years)
+  #epsR.dd <- matrix(rnorm(N_areas*N_years, 0, sigmaR.dd), nrow = N_areas, ncol = N_years)
+  
+  for(x in 1:N_areas){
+    sigma[x, 1:N_years] <- exp(mu.dd[x] + epsT.dd[1:N_years] + epsR.dd[x, 1:N_years])
   }
 
-  
   for(x in 1:N_areas){
     esw[x, 1:N_years] <- sqrt(pi * sigma[x, 1:N_years]^2 / 2) 
     p[x, 1:N_years] <- min(esw[x, 1:N_years], W) / W
@@ -228,14 +218,14 @@ simulateInits <- function(nim.data, nim.constants, R_perF, shareRE, survVarT, fi
     Mu.R = Mu.R,
     h.Mu.betaR.R = h.Mu.betaR.R, h.sigma.betaR.R = h.sigma.betaR.R,
     h.Mu.R = h.Mu.R, h.sigma.R = h.sigma.R,
-    sigmaT.R = sigmaT.R,
-    epsT.R = epsT.R, 
+    sigmaT.R = sigmaT.R, sigmaR.R = sigmaR.R,
+    epsT.R = epsT.R, epsR.R = epsR.R,
     R_year = R_year,
     
     mu.dd = mu.dd,
     h.mu.dd = h.mu.dd, h.sigma.dd = h.sigma.dd,
-    sigmaT.dd = sigmaT.dd,
-    epsT.dd = epsT.dd,
+    sigmaT.dd = sigmaT.dd, sigmaR.dd = sigmaR.dd,
+    epsT.dd = epsT.dd, epsR.dd = epsR.dd,
     sigma = sigma, sigma2 = sigma^2,
     esw = esw,
     p = p,
@@ -243,10 +233,10 @@ simulateInits <- function(nim.data, nim.constants, R_perF, shareRE, survVarT, fi
     h.Mu.S = h.Mu.S,
     h.sigma.S = h.sigma.S,
     mu.S = mu.S, Mu.S = Mu.S, 
-    sigmaT.S = sigmaT.S,
-    epsT.S = epsT.S,
+    sigmaT.S = sigmaT.S, sigmaR.S = sigmaR.S,
+    epsT.S = epsT.S, epsR.S = epsR.S,
     Mu.S1 = Mu.S1,
-    epsT.S1.prop = epsT.S1.prop,
+    eps.S1.prop = eps.S1.prop,
     S1 = S1, S2 = S2, S = S,
     
     Density = Density,

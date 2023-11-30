@@ -6,9 +6,11 @@
 #' @param nim.constants list of input objects representing constants
 #' @param R_perF logical. If TRUE, treats recruitment rate as juvenile per adult female.
 #' If FALSE, treats recruitment rate as juvenile per adult (sum of both sexes).
-#' @param shareRE logical. If TRUE, temporal random effects are shared across locations.
 #' @param survVarT logical. If TRUE, survival is simulated including annual variation.
 #' @param fitRodentCov logical. If TRUE, rodent covariate on reproduction is included.
+#' @param addDummyDim logical. If TRUE (default) adds a dummy "area" dimension when 
+#' simulating initial values for a single area implementation. This is necessary 
+#' for the multi-area setup/model to run with data from only one area. 
 #' @param niter integer. Number of MCMC iterations (default = 25000)
 #' @param nthin integer. Thinning factor (default = 5)
 #' @param nburn integer. Number of iterations to discard as burn-in (default = 5000)
@@ -25,7 +27,7 @@
 
 setupModel <- function(modelCode, customDist,
                        nim.data, nim.constants,
-                       R_perF, shareRE, survVarT, fitRodentCov, addDummyDim = TRUE,
+                       R_perF, survVarT, fitRodentCov, addDummyDim = TRUE,
                        niter = 100000, nthin = 20, nburn = 40000, nchains = 3,
                        testRun = FALSE, initVals.seed){
   
@@ -34,8 +36,8 @@ setupModel <- function(modelCode, customDist,
   
   ## Set parameters to monitor
   params <- c("esw", "p", #"D",
-              "R_year", "Mu.R", "h.Mu.R", "h.sigma.R", "sigmaT.R",
-              "sigma", "mu.dd", "sigmaT.dd",
+              "R_year", "Mu.R", "h.Mu.R", "h.sigma.R", "sigmaT.R", "sigmaR.R",
+              "sigma", "mu.dd", "sigmaT.dd", "sigmaR.dd",
               "Density", "N_exp", "N_tot_exp",
               "Mu.D1", "sigma.D",
               "S", "Mu.S", "h.Mu.S", "h.sigma.S",
@@ -43,7 +45,7 @@ setupModel <- function(modelCode, customDist,
               "ratio.JA1")
   
   if(survVarT){
-    params <- c(params, "sigmaT.S", "epsT.S1.prop")
+    params <- c(params, "sigmaT.S", "sigmaR.S", "eps.S1.prop")
   }
   
   if(fitRodentCov){
@@ -71,8 +73,7 @@ setupModel <- function(modelCode, customDist,
       
       initVals[[c]] <- simulateInits(nim.data = nim.data, 
                                      nim.constants = nim.constants, 
-                                     R_perF = R_perF,
-                                     shareRE = shareRE, 
+                                     R_perF = R_perF, 
                                      survVarT = survVarT,
                                      fitRodentCov = fitRodentCov)
     }

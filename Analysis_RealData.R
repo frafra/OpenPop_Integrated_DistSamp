@@ -30,14 +30,11 @@ R_parent_drop0 <- TRUE
 # NOTE: if this is not defined, will default to group level
 sumR.Level <- "line" # Summing at the line level
 
-# Random effects shared across areas
-shareRE <- TRUE
-
 # Time variation in survival
-survVarT <- FALSE
+survVarT <- TRUE
 
 # Rodent covariate on reproduction
-fitRodentCov <- FALSE
+fitRodentCov <- TRUE
 
 # DOWNLOAD/FETCH DATA #
 #---------------------#
@@ -118,7 +115,6 @@ modelCode <- writeModelCode(survVarT = survVarT)
 ## Setup for model using nimbleDistance::dHN
 model_setup <- setupModel(modelCode = modelCode,
                           R_perF = R_perF,
-                          shareRE = shareRE, 
                           survVarT = survVarT, 
                           fitRodentCov = fitRodentCov,
                           nim.data = input_data$nim.data,
@@ -136,27 +132,31 @@ IDSM.out <- nimbleMCMC(code = model_setup$modelCode,
                        inits = model_setup$initVals, 
                        monitors = model_setup$modelParams,
                        nchains = model_setup$mcmcParams$nchains, 
-                       niter = model_setup$mcmcParams$niter, 
+                       #niter = model_setup$mcmcParams$niter, 
+                       niter = 500,
                        nburnin = model_setup$mcmcParams$nburn, 
                        thin = model_setup$mcmcParams$nthin, 
                        samplesAsCodaMCMC = TRUE, 
                        setSeed = 0)
 #Sys.time() - t.start
 
-saveRDS(IDSM.out, file = 'rypeIDSM_dHN_multiArea_realData_Lierne.rds')
+saveRDS(IDSM.out, file = "rypeIDSM_dHN_multiArea_realData_Lierne.rds")
 
 
 # TIDY UP POSTERIOR SAMPLES #
 #---------------------------#
 
-IDSM.out.tidy <- tidySamples(IDSM.out = IDSM.out, save = TRUE)
+IDSM.out.tidy <- tidySamples(IDSM.out = IDSM.out, 
+                             save = TRUE,
+                             fileName = "rypeIDSM_dHN_multiArea_realData_allAreas_tidy.rds")
 
 
 # OPTIONAL: MCMC TRACE PLOTS #
 #----------------------------#
 
 plotMCMCTraces(mcmc.out = IDSM.out.tidy,
-               fitRodentCov = fitRodentCov)
+               fitRodentCov = fitRodentCov,
+               survVarT = survVarT)
 
 
 # OPTIONAL: TIME SERIES PLOTS #
