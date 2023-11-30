@@ -211,11 +211,11 @@ plotMaps <- function(mcmc.out, mapNM,
   pdf("Plots/AreaMaps/Avg_rRep_Map.pdf", width = 5, height = 6)
   
   print(
-    tm_shape(mapNM.rRep) + tm_polygons("Median", palette = "plasma", style = "cont", colorNA = "grey80")
+    tmap::tm_shape(mapNM.rRep) + tmap::tm_polygons("Median", palette = "plasma", style = "cont", colorNA = "grey80")
   )
   
   print(
-    tm_shape(mapNM.rRep) + tm_polygons("SD", palette = rev("BuGn"), style = "cont", colorNA = "grey80")
+    tmap::tm_shape(mapNM.rRep) + tmap::tm_polygons("SD", palette = rev("BuGn"), style = "cont", colorNA = "grey80")
   )
   
   dev.off()
@@ -224,11 +224,11 @@ plotMaps <- function(mcmc.out, mapNM,
   pdf("Plots/AreaMaps/Avg_pSurv_Map.pdf", width = 5, height = 6)
   
   print(
-    tm_shape(mapNM.pSurv) + tm_polygons("Median", palette = "plasma", style = "cont", colorNA = "grey80")
+    tmap::tm_shape(mapNM.pSurv) + tmap::tm_polygons("Median", palette = "plasma", style = "cont", colorNA = "grey80")
   )
   
   print(
-    tm_shape(mapNM.pSurv) + tm_polygons("SD", palette = rev("BuGn"), style = "cont", colorNA = "grey80")
+    tmap::tm_shape(mapNM.pSurv) + tmap::tm_polygons("SD", palette = rev("BuGn"), style = "cont", colorNA = "grey80")
   )
   
   dev.off()
@@ -238,11 +238,11 @@ plotMaps <- function(mcmc.out, mapNM,
     pdf("Plots/AreaMaps/betaR_Map.pdf", width = 5, height = 6)
     
     print(
-      tm_shape(mapNM.betaR) + tm_polygons("Median", palette = colorspace::divergingx_hcl(10, palette = "Zissou1"), style = "cont", colorNA = "grey80")
+      tmap::tm_shape(mapNM.betaR) + tmap::tm_polygons("Median", palette = colorspace::divergingx_hcl(10, palette = "Zissou1"), style = "cont", colorNA = "grey80")
     )
     
     print(
-      tm_shape(mapNM.betaR) + tm_polygons("SD", palette = rev("BuGn"), style = "cont", colorNA = "grey80")
+      tmap::tm_shape(mapNM.betaR) + tmap::tm_polygons("SD", palette = rev("BuGn"), style = "cont", colorNA = "grey80")
     )
     
     dev.off()
@@ -253,23 +253,23 @@ plotMaps <- function(mcmc.out, mapNM,
   pdf("Plots/AreaMaps/Avg_popDens_Map.pdf", width = 5, height = 6)
   
   print(
-    tm_shape(mapNM.popDens1) + tm_polygons("Median", palette = "plasma", style = "cont", colorNA = "grey80") #+
-    #tm_layout(title = paste0("Average population density (", minYear, "-", maxYear, "), Median"))
+    tmap::tm_shape(mapNM.popDens1) + tmap::tm_polygons("Median", palette = "plasma", style = "cont", colorNA = "grey80") #+
+    #tmap::tm_layout(title = paste0("Average population density (", minYear, "-", maxYear, "), Median"))
   )
   
   print(
-    tm_shape(mapNM.popDens1) + tm_polygons("SD", palette = rev("BuGn"), style = "cont", colorNA = "grey80") #+ 
-    #tm_layout(title = paste0("Average population density (", minYear, "-", maxYear, "), SD"))
+    tmap::tm_shape(mapNM.popDens1) + tmap::tm_polygons("SD", palette = rev("BuGn"), style = "cont", colorNA = "grey80") #+ 
+    #tmap::tm_layout(title = paste0("Average population density (", minYear, "-", maxYear, "), SD"))
   )
   
   print(
-    tm_shape(mapNM.popDens2) + tm_polygons("Median", palette = "plasma", style = "cont", colorNA = "grey80") #+
-    #tm_layout(title = paste0("Average population density (", minYearIdx_shared + minYear - 1, "-", maxYearIdx_shared + minYear - 1, "), Median"))
+    tmap::tm_shape(mapNM.popDens2) + tmap::tm_polygons("Median", palette = "plasma", style = "cont", colorNA = "grey80") #+
+    #tmap::tm_layout(title = paste0("Average population density (", minYearIdx_shared + minYear - 1, "-", maxYearIdx_shared + minYear - 1, "), Median"))
   )
   
   print(
-    tm_shape(mapNM.popDens2) + tm_polygons("SD", palette = rev("BuGn"), style = "cont", colorNA = "grey80") #+ 
-    #tm_layout(title = paste0("Average population density (", minYearIdx_shared + minYear - 1, "-", maxYearIdx_shared + minYear - 1, "), SD"))
+    tmap::tm_shape(mapNM.popDens2) + tmap::tm_polygons("SD", palette = rev("BuGn"), style = "cont", colorNA = "grey80") #+ 
+    #tmap::tm_layout(title = paste0("Average population density (", minYearIdx_shared + minYear - 1, "-", maxYearIdx_shared + minYear - 1, "), SD"))
   )
   
   dev.off()
@@ -279,23 +279,23 @@ plotMaps <- function(mcmc.out, mapNM,
   pdf("Plots/AreaMaps/Avg_lambda_Map.pdf", width = 5, height = 6)
   
   print(
-    tm_shape(mapNM.lambda1) + tm_polygons("Median", palette = colorspace::divergingx_hcl(10, palette = "PiYG"), midpoint = 1, style = "cont", colorNA = "grey80") #+
-    #tm_layout(title = paste0("Average population growth rate (", minYear, "-", maxYear, "), Median"))
+    tmap::tm_shape(mapNM.lambda1) + tmap::tm_polygons("Median", palette = colorspace::divergingx_hcl(10, palette = "PiYG"), midpoint = 1, style = "cont", colorNA = "grey80") #+
+    #tmap::tm_layout(title = paste0("Average population growth rate (", minYear, "-", maxYear, "), Median"))
   )
   
   print(
-    tm_shape(mapNM.lambda1) + tm_polygons("SD", palette = rev("BuGn"), style = "cont", colorNA = "grey80") #+ 
-    #tm_layout(title = paste0("Average population growth rate (", minYear, "-", maxYear, "), SD"))
+    tmap::tm_shape(mapNM.lambda1) + tmap::tm_polygons("SD", palette = rev("BuGn"), style = "cont", colorNA = "grey80") #+ 
+    #tmap::tm_layout(title = paste0("Average population growth rate (", minYear, "-", maxYear, "), SD"))
   )
   
   print(
-    tm_shape(mapNM.lambda2) + tm_polygons("Median", palette = colorspace::divergingx_hcl(10, palette = "PiYG"), midpoint = 1, style = "cont", colorNA = "grey80") #+
-    #tm_layout(title = paste0("Average population growth rate (", minYearIdx_shared + minYear - 1, "-", maxYearIdx_shared + minYear - 1, "), Median"))
+    tmap::tm_shape(mapNM.lambda2) + tmap::tm_polygons("Median", palette = colorspace::divergingx_hcl(10, palette = "PiYG"), midpoint = 1, style = "cont", colorNA = "grey80") #+
+    #tmap::tm_layout(title = paste0("Average population growth rate (", minYearIdx_shared + minYear - 1, "-", maxYearIdx_shared + minYear - 1, "), Median"))
   )
   
   print(
-    tm_shape(mapNM.lambda2) + tm_polygons("SD", palette = rev("BuGn"), style = "cont", colorNA = "grey80") #+ 
-    #tm_layout(title = paste0("Average population growth rate (", minYearIdx_shared + minYear - 1, "-", maxYearIdx_shared + minYear - 1, "), SD"))
+    tmap::tm_shape(mapNM.lambda2) + tmap::tm_polygons("SD", palette = rev("BuGn"), style = "cont", colorNA = "grey80") #+ 
+    #tmap::tm_layout(title = paste0("Average population growth rate (", minYearIdx_shared + minYear - 1, "-", maxYearIdx_shared + minYear - 1, "), SD"))
   )
   
   dev.off()
