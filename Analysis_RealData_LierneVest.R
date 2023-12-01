@@ -131,7 +131,7 @@ model_setup <- setupModel(modelCode.path = "NIMBLE Code/RypeIDSM_multiArea_dHN.R
                           fitRodentCov = fitRodentCov,
                           nim.data = input_data$nim.data,
                           nim.constants = input_data$nim.constants,
-                          testRun = TRUE, nchains = 4,
+                          testRun = FALSE, nchains = 4,
                           initVals.seed = 0)
 
 # MODEL (TEST) RUN #
@@ -150,13 +150,14 @@ IDSM.out <- nimbleMCMC(code = model_setup$modelCode,
                        setSeed = 0)
 Sys.time() - t.start
 
-saveRDS(IDSM.out, file = 'rypeIDSM_dHN_multiArea_realData_Lierne.rds')
+saveRDS(IDSM.out, file = 'rypeIDSM_dHN_multiArea_realData_Lierne_ukukRemoved.rds')
 
 
 # TIDY UP POSTERIOR SAMPLES #
 #---------------------------#
 
-IDSM.out.tidy <- tidySamples(IDSM.out = IDSM.out, save = TRUE)
+IDSM.out.tidy <- tidySamples(IDSM.out = IDSM.out, save = FALSE)
+saveRDS(IDSM.out.tidy, file = 'rypeIDSM_dHN_multiArea_realData_Lierne_ukukRemoved_tidy.rds')
 
 
 # OPTIONAL: MCMC TRACE PLOTS #

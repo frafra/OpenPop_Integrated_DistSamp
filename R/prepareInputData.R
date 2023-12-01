@@ -186,7 +186,7 @@ prepareInputData <- function(d_trans, d_obs, d_cmr, d_rodent, localities = NULL,
 
     TaksObs <- d_obs_sub %>% 
       filter(between(DistanceToTransectLine, -0.1, W)) %>% # 
-      dplyr::mutate(cs = unknownJuvenile+unknownunknown+FemaleAdult+MaleAdult) %>%
+      dplyr::mutate(cs = unknownJuvenile+FemaleAdult+MaleAdult) %>%
       reshape2::dcast(locationID~Year, value.var = "cs", sum) %>%
       dplyr::right_join(., temp, by = c("locationID" = "locationID")) %>%
       replace(., is.na(.), 0) %>%
@@ -210,7 +210,7 @@ prepareInputData <- function(d_trans, d_obs, d_cmr, d_rodent, localities = NULL,
     ## Juveniles (& unknowns)
     TaksObs_J <- d_obs_sub %>% 
       filter(between(DistanceToTransectLine, -0.1, W)) %>%
-      dplyr::mutate(cs = unknownJuvenile + unknownunknown) %>%
+      dplyr::mutate(cs = unknownJuvenile) %>%
       reshape2::dcast(locationID~Year, value.var="cs", sum) %>%
       dplyr::right_join(., temp, by=c("locationID"="locationID")) %>%
       replace(., is.na(.), 0) %>%
@@ -262,7 +262,7 @@ prepareInputData <- function(d_trans, d_obs, d_cmr, d_rodent, localities = NULL,
     
     # Reformat data
     temp_Rec <- d_obs_sub %>% filter(between(DistanceToTransectLine, -0.1, W)) %>%
-      dplyr::mutate(sumR = unknownJuvenile + unknownunknown,
+      dplyr::mutate(sumR = unknownJuvenile,
                     sumAd = MaleAdult + FemaleAdult,
                     sumAdF = FemaleAdult) %>%
       dplyr::mutate(Year2 = Year - (min(Year)) + 1)
