@@ -160,6 +160,17 @@ IDSM.out.tidy <- tidySamples(IDSM.out = IDSM.out, save = FALSE)
 saveRDS(IDSM.out.tidy, file = 'rypeIDSM_dHN_multiArea_realData_Lierne_ukukRemoved_tidy.rds')
 
 
+# OPTIONAL: MODEL COMPARISON (PLOTS) #
+#------------------------------------#
+
+modelComp <- plotModelComparison(modelPaths = c("rypeIDSM_dHN_multiArea_realData_Lierne_tidy.rds",
+                                                 "rypeIDSM_dHN_multiArea_realData_Lierne_ukukRemoved_tidy.rds"),
+                                 modelChars = c("Unknowns = juveniles", 
+                                                "Unknowns removed"),
+                                 N_sites = input_data$nim.constants$N_sites[1], N_years = input_data$nim.constants$N_years[1],
+                                 plotPath = "Plots/ModelComp_UknownUnknown",
+                                 returnData = FALSE)
+
 # OPTIONAL: MCMC TRACE PLOTS #
 #----------------------------#
 

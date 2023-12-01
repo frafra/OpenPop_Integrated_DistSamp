@@ -30,14 +30,29 @@ plotModelComparison <- function(modelPaths, modelChars, N_sites, N_years, plotPa
   
   for(n in 1:nMod){
     out.sam <- as.matrix(readRDS(modelPaths[n]))
+    
+    # Calculate average density
+    for(t in 1:N_years){
+      popDens_juv <- out.sam[, paste0("Density[1, 1, ", 1:N_sites, ", ", t, "]")]
+      popDens_ad <- out.sam[, paste0("Density[1, 2, ", 1:N_sites, ", ", t, "]")]
+      
+      popDens_mean <- rowMeans(popDens_juv + popDens_ad)
+      rm(popDens_juv, popDens_ad)
+      out.sam <- cbind(out.sam, popDens_mean)
+      colnames(out.sam)[ncol(out.sam)] <- paste0("AvgDens[", t, "]")
+    }
+    
     out.data <- reshape2::melt(out.sam)
+    rm(out.sam)
     colnames(out.data) <- c('Sample', 'Parameter', 'Value')
     out.data$Model <- modelChars[n]
     data.list[[n]] <- out.data
+    rm(out.data)
   }
   
   ## Combine model data into single data frame
   data.all <- dplyr::bind_rows(data.list)
+  rm(data.list)
   
   ## Make plotting directory if necessary
   dir.create(plotPath, showWarnings = FALSE)
@@ -45,8 +60,9 @@ plotModelComparison <- function(modelPaths, modelChars, N_sites, N_years, plotPa
   ## Plot overlapping posterior densities for different parameter groups
   
   # "Main" parameters
-  mains <- c('mu.D1', 'sigma.D', 'Mu.R', 'sigmaT.R',
-             'Mu.S1', 'Mu.S', 'ratio.JA1')
+  mains <- c('Mu.D1[1]', 'sigma.D[1]', 'ratio.JA1[1]',
+             'Mu.R[1]', 'sigmaT.R',
+             'Mu.S[1]', 'sigmaT.S[1]', 'Mu.S1', 'epsT.S1.prop[1]')
   
   pdf(paste0(plotPath, '/ModelComp_Mains.pdf'), width = 8, height = 5)
   print(
@@ -60,7 +76,7 @@ plotModelComparison <- function(modelPaths, modelChars, N_sites, N_years, plotPa
   dev.off()
   
   # Detection parameters
-  detects <- c('mu.dd', 'sigma.dd', 'b', paste0('esw[', 1:N_years, ']'), paste0('p[', 1:N_years, ']'))
+  detects <- c('mu.dd[1]', 'sigmaT.dd', paste0('esw[1, ', 1:N_years, ']'), paste0('p[1, ', 1:N_years, ']'))
   
   pdf(paste0(plotPath, '/ModelComp_Detects.pdf'), width = 8, height = 5)
   print(
@@ -75,7 +91,7 @@ plotModelComparison <- function(modelPaths, modelChars, N_sites, N_years, plotPa
   
   
   # Annual Recruitment
-  R_year <- paste0('R_year[', 1:N_years, ']')
+  R_year <- paste0('R_year[1, ', 1:N_years, ']')
   
   pdf(paste0(plotPath, '/ModelComp_R_year.pdf'), width = 8, height = 5)
   print(
@@ -88,26 +104,13 @@ plotModelComparison <- function(modelPaths, modelChars, N_sites, N_years, plotPa
   )
   dev.off()
   
-  # Annual density (total)
-  # D <- paste0('D[', 1:N_years, ']') 
-  # 
-  # pdf(paste0(plotPath, '/ModelComp_D.pdf'), width = 8, height = 5)
-  # print(
-  #   ggplot(subset(data.all, Parameter %in% D)) + 
-  #     geom_density(aes(x = Value, color = Model, fill = Model), alpha = 0.5) + 
-  #     facet_wrap(~Parameter, scales = 'free') +
-  #     scale_fill_viridis(discrete = T) + 
-  #     scale_color_viridis(discrete = T) + 
-  #     theme_bw() + theme(panel.grid = element_blank())
-  # )
-  # dev.off()
   
   # Site- and age-specific population sizes
   pdf(paste0(plotPath, '/ModelComp_N_a_exp.pdf'), width = 8, height = 5)
   for(j in 1:N_sites){
     print(
-      ggplot(subset(data.all, Parameter %in% c(paste0('N_exp[1, ', j, ', ', 1:N_years, ']'), 
-                                               paste0('N_exp[2, ', j, ', ', 1:N_years, ']')) &
+      ggplot(subset(data.all, Parameter %in% c(paste0('N_exp[1, 1, ', j, ', ', 1:N_years, ']'), 
+                                               paste0('N_exp[1, 2, ', j, ', ', 1:N_years, ']')) &
                       Value != 0)) + 
         geom_density(aes(x = Value, color = Model, fill = Model), alpha = 0.5) + 
         facet_wrap(~Parameter, scales = 'free') +
@@ -124,8 +127,8 @@ plotModelComparison <- function(modelPaths, modelChars, N_sites, N_years, plotPa
   pdf(paste0(plotPath, '/ModelComp_Density_a.pdf'), width = 8, height = 5)
   for(j in 1:N_sites){
     print(
-      ggplot(subset(data.all, Parameter %in% c(paste0('Density[1, ', j, ', ', 1:N_years, ']'), 
-                                                paste0('Density[2, ', j, ', ', 1:N_years, ']')) &
+      ggplot(subset(data.all, Parameter %in% c(paste0('Density[1, 1, ', j, ', ', 1:N_years, ']'), 
+                                                paste0('Density[1, 2, ', j, ', ', 1:N_years, ']')) &
                       Value != 0)) + 
         geom_density(aes(x = Value, color = Model, fill = Model), alpha = 0.5) + 
         facet_wrap(~Parameter, scales = 'free') +
@@ -137,9 +140,33 @@ plotModelComparison <- function(modelPaths, modelChars, N_sites, N_years, plotPa
   }
   dev.off()
   
+  
+  # Average densities
+  data.dens.sum <- data.all %>%
+    dplyr::filter(Parameter %in% paste0("AvgDens[", 1:N_years, "]")) %>%
+    dplyr::mutate(YearIdx = readr::parse_number(as.character(Parameter))) %>%
+    dplyr::group_by(YearIdx, Model) %>%
+    dplyr::summarise(median = median(Value),
+                     lCI = quantile(Value, 0.025),
+                     uCI = quantile(Value, 0.975),
+                     .groups = "keep")
+  
+  pdf(paste0(plotPath, '/ModelComp_AvgDensity.pdf'), width = 8, height = 5)
+  print(
+    ggplot(data.dens.sum) + 
+      geom_line(aes(x = YearIdx, y = median, color = Model)) + 
+      geom_ribbon(aes(x = YearIdx, ymin = lCI, ymax = uCI, fill = Model), alpha = 0.5) + 
+      scale_fill_viridis(discrete = T) + 
+      scale_color_viridis(discrete = T) +
+      scale_x_continuous(breaks = 1:max(data.dens.sum$YearIdx)) + 
+      theme_bw() + theme(panel.grid = element_blank())
+  )
+  dev.off()
+  
+  
   ## Return all data
   if(returnData){
-    return()
+    return(data.all)
   }else{
     return()
   }
