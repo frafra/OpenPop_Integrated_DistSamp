@@ -40,7 +40,7 @@ plotCovPrediction <- function(mcmc.out,
       
       ## Make, summarise, and store predictions for each covariate value
       for(x in 1:100){
-        R.pred <- exp(log(Mu.R) + cov[x])
+        R.pred <- exp(log(Mu.R) + beta*cov[x])
         cov.pred.temp <- data.frame(Area = area_names[i], 
                                     covValue = cov[x], 
                                     pred_Median = median(R.pred),

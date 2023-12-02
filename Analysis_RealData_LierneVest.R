@@ -3,6 +3,9 @@ library(tidyverse)
 # SETUP #
 #-------#
 
+## Define seed for initial value simulation and MCMC
+mySeed <- 0
+
 ## Source all functions in "R" folder
 sourceDir <- function(path, trace = TRUE, ...) {
   for (nm in list.files(path, pattern = "[.][RrSsQq]$")) {
@@ -40,7 +43,7 @@ shareRE <- TRUE
 survVarT <- FALSE
 
 # Rodent covariate on reproduction
-fitRodentCov <- TRUE
+fitRodentCov <- FALSE
 
 # DOWNLOAD/FETCH DATA #
 #---------------------#
@@ -132,7 +135,7 @@ model_setup <- setupModel(modelCode.path = "NIMBLE Code/RypeIDSM_multiArea_dHN.R
                           nim.data = input_data$nim.data,
                           nim.constants = input_data$nim.constants,
                           testRun = FALSE, nchains = 4,
-                          initVals.seed = 0)
+                          initVals.seed = mySeed)
 
 # MODEL (TEST) RUN #
 #------------------#
@@ -147,7 +150,7 @@ IDSM.out <- nimbleMCMC(code = model_setup$modelCode,
                        nburnin = model_setup$mcmcParams$nburn, 
                        thin = model_setup$mcmcParams$nthin, 
                        samplesAsCodaMCMC = TRUE, 
-                       setSeed = 0)
+                       setSeed = mySeed)
 Sys.time() - t.start
 
 saveRDS(IDSM.out, file = 'rypeIDSM_dHN_multiArea_realData_Lierne_ukukRemoved.rds')
