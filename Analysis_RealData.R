@@ -222,6 +222,20 @@ plotMaps(mcmc.out = IDSM.out.tidy,
          fitRodentCov = fitRodentCov)
 
 
+# OPTIONAL: LONGITUDE PATTERN PLOTS #
+#-----------------------------------#
+
+plotLatitude(mcmc.out = IDSM.out.tidy, 
+             N_areas = input_data$nim.constant$N_areas, 
+             area_names = input_data$nim.constant$area_names, 
+             area_coord = LT_data$d_coord,
+             N_sites = input_data$nim.constant$N_sites, 
+             min_years = input_data$nim.constant$min_years, 
+             max_years = input_data$nim.constant$max_years, 
+             minYear = minYear, maxYear = maxYear,
+             fitRodentCov = fitRodentCov)
+
+
 # OPTIONAL: MODEL COMPARISON (PLOTS) #
 #------------------------------------#
 
