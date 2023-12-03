@@ -44,7 +44,7 @@ simulateInits <- function(nim.data, nim.constants, R_perF, survVarT, fitRodentCo
   }
   
   if(NA %in% RodentOcc){
-    RodentOcc[which(is.na(RodentOcc))] <- runif(length(which(is.na(RodentOcc))), 0, 1)
+    RodentOcc[which(is.na(RodentOcc))] <- rnorm(length(which(is.na(RodentOcc))), 0, 1)
   }
   
   Inits_RodentOcc <- RodentOcc

@@ -229,7 +229,7 @@ rypeIDSM <- nimbleCode({
   if(fitRodentCov){
     for(x in 1:N_areas){
       for (t in 1:N_years){
-        RodentOcc[x, t] ~ dunif(0, 1)
+        RodentOcc[x, t] ~ dnorm(0, sd = 1)
       }
     }
   }
