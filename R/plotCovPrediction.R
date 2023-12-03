@@ -33,7 +33,7 @@ plotCovPrediction <- function(mcmc.out,
   if(fitRodentCov){
     ## Make sequence of absolute and z-standardized covariate values to predict for
     cov_abs <- seq(minCov, maxCov, length.out = 100)
-    cov <- (cov_abs - meanCov) / sd_Cov
+    cov <- (cov_abs - meanCov) / sdCov
   
     ## Assemble dataframe for storing posterior summaries of predictions
     cov.pred.data <- data.frame()
