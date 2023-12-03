@@ -43,7 +43,7 @@ shareRE <- TRUE
 survVarT <- FALSE
 
 # Rodent covariate on reproduction
-fitRodentCov <- FALSE
+fitRodentCov <- TRUE
 
 # DOWNLOAD/FETCH DATA #
 #---------------------#
