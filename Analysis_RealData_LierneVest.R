@@ -103,7 +103,7 @@ d_rodent <- wrangleData_Rodent(duplTransects = duplTransects,
 input_data <- prepareInputData(d_trans = LT_data$d_trans, 
                                d_obs = LT_data$d_obs,
                                d_cmr = d_cmr,
-                               d_rodent = d_rodent,
+                               d_rodent = d_rodent$rodentAvg,
                                localities = localities, 
                                #areas = areas,
                                areaAggregation = areaAggregation,
@@ -153,14 +153,14 @@ IDSM.out <- nimbleMCMC(code = model_setup$modelCode,
                        setSeed = mySeed)
 Sys.time() - t.start
 
-saveRDS(IDSM.out, file = 'rypeIDSM_dHN_multiArea_realData_Lierne.rds')
+saveRDS(IDSM.out, file = 'rypeIDSM_dHN_multiArea_realData_Lierne_rodentEffZ.rds')
 
 
 # TIDY UP POSTERIOR SAMPLES #
 #---------------------------#
 
 IDSM.out.tidy <- tidySamples(IDSM.out = IDSM.out, save = FALSE)
-saveRDS(IDSM.out.tidy, file = 'rypeIDSM_dHN_multiArea_realData_Lierne_tidy.rds')
+saveRDS(IDSM.out.tidy, file = 'rypeIDSM_dHN_multiArea_realData_Lierne_rodentEffZ_tidy.rds')
 
 
 # OPTIONAL: MCMC TRACE PLOTS #
@@ -206,6 +206,8 @@ if(fitRodentCov){
                     covName = "Rodent occupancy",
                     minCov = 0, 
                     maxCov = 1,
+                    meanCov_std = d_rodent$meanCov,
+                    sdCov_std = d_rodent$sdCov,
                     N_areas = input_data$nim.constant$N_areas, 
                     area_names = input_data$nim.constant$area_names,
                     fitRodentCov = fitRodentCov)
