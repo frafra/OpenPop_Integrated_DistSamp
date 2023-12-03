@@ -9,6 +9,10 @@
 #' @param covName character string that defines the covariate.
 #' @param minCov numeric. Minimum covariate value to predict for.
 #' @param maxCov numeric. Maximum covariate value to predict for.
+#' @param meanCov numeric. Mean value of the original covariate (used for z-
+#' standardization).
+#' @param sdCov numeric. Standard deviation of the original covariate (used for 
+#' z-standardization).
 #' @param N_areas integer. Number of areas included in analyses. 
 #' @param area_names character vector containing area/location names.
 #' @param fitRodentCov logical. If TRUE, plots are made for predictions with 
@@ -22,13 +26,15 @@
 plotCovPrediction <- function(mcmc.out, 
                               effectParam, covName,
                               minCov, maxCov,
+                              meanCov, sdCov,
                               N_areas, area_names,
                               fitRodentCov){
   
   if(fitRodentCov){
-    ## Make sequence of covariate values to predict for
-    cov <- seq(minCov, maxCov, length.out = 100)
-    
+    ## Make sequence of absolute and z-standardized covariate values to predict for
+    cov_abs <- seq(minCov, maxCov, length.out = 100)
+    cov <- (cov_abs - meanCov) / sdCov
+  
     ## Assemble dataframe for storing posterior summaries of predictions
     cov.pred.data <- data.frame()
     
@@ -42,7 +48,8 @@ plotCovPrediction <- function(mcmc.out,
       for(x in 1:100){
         R.pred <- exp(log(Mu.R) + beta*cov[x])
         cov.pred.temp <- data.frame(Area = area_names[i], 
-                                    covValue = cov[x], 
+                                    covValue_z = cov[x], 
+                                    covValue = cov_abs[x], 
                                     pred_Median = median(R.pred),
                                     pred_lCI = unname(quantile(R.pred, probs = 0.025)),
                                     pred_uCI = unname(quantile(R.pred, probs = 0.975)))
