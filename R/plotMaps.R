@@ -158,52 +158,38 @@ plotMaps <- function(mcmc.out, mapNM,
   
   # Average reproductive rates
   mapNM.rRep <- mapNM
-  matchData <- as_tibble(mapNM@data) %>%
+  mapNM.rRep <- mapNM.rRep %>%
     dplyr::left_join(., rRep.sum, by = "Area") 
-  
-  mapNM.rRep@data <- as.data.frame(matchData)
   
   # Average annual survival 
   mapNM.pSurv <- mapNM
-  matchData <- as_tibble(mapNM@data) %>%
+  mapNM.pSurv <- mapNM.pSurv %>%
     dplyr::left_join(., pSurv.sum, by = "Area") 
-  
-  mapNM.pSurv@data <- as.data.frame(matchData)
   
   # Rodent effects 
   if(fitRodentCov){
     mapNM.betaR <- mapNM
-    matchData <- as_tibble(mapNM@data) %>%
+    mapNM.betaR <- mapNM.betaR %>%
       dplyr::left_join(., betaR.sum, by = "Area") 
-    
-    mapNM.betaR@data <- as.data.frame(matchData)
   }
   
   # Average population densities
   mapNM.popDens1 <- mapNM
-  matchData <- as_tibble(mapNM@data) %>%
+  mapNM.popDens1 <- mapNM.popDens1 %>%
     dplyr::left_join(., subset(popDens.sum, SummaryPeriod == paste0(minYear, "-", maxYear)), by = "Area") 
   
-  mapNM.popDens1@data <- as.data.frame(matchData)
-  
   mapNM.popDens2 <- mapNM
-  matchData <- as_tibble(mapNM@data) %>%
+  mapNM.popDens2 <- mapNM.popDens2 %>%
     dplyr::left_join(., subset(popDens.sum, SummaryPeriod != paste0(minYear, "-", maxYear)), by = "Area") 
-  
-  mapNM.popDens2@data <- as.data.frame(matchData)
-  
+
   # Average population growth rates
   mapNM.lambda1 <- mapNM
-  matchData <- as_tibble(mapNM@data) %>%
+  mapNM.lambda1 <- mapNM.lambda1 %>%
     dplyr::left_join(., subset(lambda.sum, SummaryPeriod == paste0(minYear, "-", maxYear)), by = "Area") 
-  
-  mapNM.lambda1@data <- as.data.frame(matchData)
-  
+
   mapNM.lambda2 <- mapNM
-  matchData <- as_tibble(mapNM@data) %>%
+  mapNM.lambda2 <- mapNM.lambda2 %>%
     dplyr::left_join(., subset(lambda.sum, SummaryPeriod != paste0(minYear, "-", maxYear)), by = "Area") 
-  
-  mapNM.lambda2@data <- as.data.frame(matchData)
   
   ## Plot maps and print to pdf
   

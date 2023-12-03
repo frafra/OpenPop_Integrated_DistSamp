@@ -11,8 +11,7 @@ setupMap_NorwayMunic <- function(shp.path, d_trans,
   Sys.setlocale(locale = 'no_NB.utf8')
   
   ## Reading in map of Norwegian municipalities
-  mapNM <- maptools::readShapeSpatial(shp.path, 
-                                      proj4string=CRS("+proj=longlat +ellps=WGS84"))
+  mapNM <- sf::st_read(shp.path)
   
   ## Extract list of localities and areas with corresponding municipality names
   areaMunic <- d_trans %>%
@@ -32,10 +31,8 @@ setupMap_NorwayMunic <- function(shp.path, d_trans,
                   Area = verbatimLocality)
   
   ## Add area names to map data
-  matchData <- as_tibble(mapNM@data) %>%
+  mapNM <- mapNM %>%
     dplyr::left_join(., areaMunic, by = "KOMMUNENAV") 
-
-  mapNM@data <- as.data.frame(matchData)
   
   ## Return set up map
   return(mapNM)
