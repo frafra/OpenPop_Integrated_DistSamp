@@ -331,7 +331,7 @@ writeModelCode <- function(survVarT){
       for(x in 1:N_areas){
         for (t in 1:N_years){
           
-          RodentOcc[x, t] ~ dunif(0, 1)
+          RodentOcc[x, t] ~ dnorm(mean = 0, sd = 1)
         }
       }
     }
