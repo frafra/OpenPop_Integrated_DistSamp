@@ -151,7 +151,7 @@ saveRDS(IDSM.out, file = "rypeIDSM_dHN_multiArea_realData_Lierne.rds")
 #---------------------------#
 
 IDSM.out.tidy <- tidySamples(IDSM.out = IDSM.out, save = FALSE)
-saveRDS(IDSM.out.tidy, file = 'rypeIDSM_dHN_multiArea_realData_Lierne_rodentEffZ_tidy.rds')
+saveRDS(IDSM.out.tidy, file = 'rypeIDSM_dHN_multiArea_realData_Lierne_tidy.rds')
 
 
 # OPTIONAL: MCMC TRACE PLOTS #
