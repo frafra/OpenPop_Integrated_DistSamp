@@ -144,7 +144,7 @@ IDSM.out <- nimbleMCMC(code = model_setup$modelCode,
                        setSeed = mySeed)
 Sys.time() - t.start
 
-saveRDS(IDSM.out, file = "rypeIDSM_dHN_multiArea_realData_Lierne.rds")
+saveRDS(IDSM.out, file = 'rypeIDSM_dHN_multiArea_realData_Lierne.rds')
 
 
 # TIDY UP POSTERIOR SAMPLES #
