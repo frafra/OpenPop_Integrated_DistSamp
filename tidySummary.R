@@ -102,12 +102,25 @@ R_year_tidy <- out.mcmc %>% tidybayes::spread_draws(R_year[area, year], sep = "[
   ungroup() %>%
   mutate(model_parameter = "R_year")
 
+################################################################################
+##### Effect of rodent covariate betaR.R
+
+betaR.R_tidy <- out.mcmc %>% tidybayes::spread_draws(betaR.R[area], 
+                                                     sep = "[,]", regex = FALSE) %>% 
+  group_by() %>%
+  summarise(Mean = mean(betaR.R), 
+            std = sd(betaR.R), 
+            Median = median(betaR.R), 
+            lower = quantile(betaR.R, probs = 0.025), 
+            upper = quantile(betaR.R, probs = 0.975)) %>%
+  mutate(model_parameter = "betaR.R")
+
 
 ################################################################################
 #### Putting together output
 
 pooled_results <- bind_rows(dens_tidy, R_year_tidy, muR_tidy, 
-                            muS_tidy, muS1_tidy, muS2_tidy)
+                            muS_tidy, muS1_tidy, muS2_tidy, betaR.R_tidy)
 
 
 pooled_results
