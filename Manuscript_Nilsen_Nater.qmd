@@ -6,36 +6,29 @@ editor: visual
 bibliography: rypeIDSM_MS1.bib
 ---
 
-## Introduction
+## Abstract
 
-Estimating abundance and demographic rates for wildlife populations is an integral part of basic and applied ecology [@Skalski2005]. Over the last few decades, a tremendous progress have been made towards this end. This progress is partly driven the development and application of new field data collection methods and approaches, such as citizen science data (ref), camera trap data (ref) and the collection of environmental DNA data (ref). In addition, developments of novel statistical methods allow researchers to estimate abundance and demographic rates it situations where it was not feasible before (ref). Combined, these advance put us in a much better position to estimate state variables needed for population management (ref) or to estimate indexes that are relevant for large scale policy applications, e.g. such as Essential Biodiversity Variables (ref).
+*Estimation of abundance and demographic rates for populations of wild vertebrate species is a challenging but fundamental issue for both management and research into ecology and evolution. One approach that has been used extensively to estimate abundance of wild living populations is Distance Sampling (DS) methods based on line transect survey data. Historically, DS models were only available as open population models, and did not allow for the direct estimation of changes in abundance through time. The advent of open population formulations based on the DS framework greatly extended the scope of the models, but so far models that estimate both temporal dynamics in abundance as well as the underlying demographic rates has not been implemented. Here, we present an integrated distance sampling apporach, that utilize age-structured survey data and auxiliary data from marked individuals to jointly estimate population dynamics and the temporal variation in the demographic rates (recruitment rate and survival probability) that determine the temporal transition. The underlying process model is based on a two-stage transition matrix (*$A_t$*), with matrix entries given by survival probabilities (*$S$*) and time-specific recruitment rates (*$R_t$*). This framework allow us to make full use of the available data, and to effectively integrate the two data sources in an integrated modelling framework. Moreover, demographic rates often respond to environmental variation, and our approach allow us to directly estimate the effect of such environmental covariates on demographic rate variation. We first fit the model to simulated data, to assess it's ability to recover the underlying population dynamics when the true values are known. Then, we use data from a study of willow ptarmigan (Lagopus lagopus) in Norway as a case study.*
 
-Nevertheless, large scale and long term data sets are still relatively rare (ref), due to high costs of field data collection.
+## 1. Introduction
 
-A cost efficient and well documented approach suitable is the use of line transect surveys. However, because the detectability is often less than 1 and variable between years and habitats,
+Estimating abundance and demographic rates for wildlife populations is an integral part of basic and applied ecology [@Skalski2005]. Over the last few decades, a tremendous progress have been made towards this end. This progress is partly driven the development and application of new field data collection methods and approaches, such as citizen science data (ref), camera trap data (ref) and the collection of environmental DNA data (ref). In addition, developments of novel statistical methods allow researchers to estimate abundance and demographic rates it situations where it was not feasible before (ref). Combined, these advance put us in a much better position to estimate state variables needed for population management (ref) or to estimate indexes that are relevant for large scale policy applications, e.g. such as Essential Biodiversity Variables [@Kissling2018].
 
--   Importance of abundance trends and demography
+Until recently, joint estimation of population dynamics and demography has relied mostly on data from marked individuals through application of open-population capture-mark-recapture models (ref). While such methods can provide valuable information for both ecological research and management, they are also in many cases costly to implement over large areas. On the other hand, data from monitoring of abundance trends over time typically are based on data from unmarked animals (ref). A common approach for such surveys is to structure data collection around the distance sampling (DS) method. DS have been used for estimating animal abundance in a wide range of contexts and for a variety of taxa [@buckland2015]. One reason for their popularity might be that they does not require repeated visits to the same sites to estimate detection probability (ref). Rather, it is assumed that detection probability decrease as the objects are located longer away from the transect line (ref). This makes them particularily useful for implementation in participatory monitoring program, allowing stakeholders to take part in the data collection process.
 
--   Short about methods -- detection probability -- marked vs unmarked animals
+The most common implementation of the DS model has been to use close-population formulations, that does not allow to formulate a process model that project abundance across years based on estimates of population growth rate ($\lambda$) or underlying demographic rates (ref). In recent years, DS approahces have been extended and also applied for estimating changes in abundance over time in open populations by embedding a hidden state model representing population dynamics [@moore2011; @sollmann2015]. Such approaches has greatly extended the application of DS approaches to study ecological dynamics in time and space. However, while these latter frameworks may allow to accurately quantify population changes but provide little information on the drivers of these changes, i.e. the underlying vital rates. In fact, if the data does not contain information about the age (and/or sex-) structure of the surveyed population, there is no stratight forward way to estimate demographic rates from such data. In cases where the age (and sex) of the observed individuals can be observed, this information can under some assumptions be used to inform about recruitment rates and survival probabilities (ref). For instance, in a integrated population model based on harvest statistics and observations of population age structure, both population abundance and demographic rates was estimated without even without additional data from marked individuals [@Nilsen2018].
 
--   Approaches to estimate abundance and demography from unmarked animals
+Concurrent with the development of more sophisticated DS models, another group of models has emerged and gained popularity, not least for their ability to disentangle demographic processes underlying population dynamic: integrated population models [IPMs, @schaub2021]. Through joint analysis of multiple datasets, IPMs allow simultaneous estimation of population size and composition, as well as all vital rates that form part of an underlying typically age- or stage-structured population model. Since both DS models and IPMs estimate population size/density, a combination of the two frameworks has the potential to provide good estimates of both population- and demographic parameters and maximizing knowledge gained through transect surveys by augmenting them with other available data [e.g. @schmidt2020].
 
-Distance sampling (DS) models have been used for estimating animal abundance in a wide range of contexts and for a variety of taxa [@buckland2015]. In recent years, they have been extended and also applied for estimating changes in abundance over time in open populations by embedding a hidden state model representing population dynamics [@moore2011; @sollmann2015]. These latter frameworks may allow to accurately quantify population changes but provide little information on the drivers of these changes, i.e. the underlying vital rates. Concurrent with the development of more sophisticated DS models, another group of models has emerged and gained popularity, not least for their ability to disentangle demographic processes underlying population dynamic: integrated population models [IPMs, @schaub2021]. Through joint analysis of multiple datasets, IPMs allow simultaneous estimation of population size and composition, as well as all vital rates that form part of an underlying typically age- or stage-structured population model. Since both DS models and IPMs estimate population size/density, a combination of the two frameworks has the potential to provide good estimates of both population- and demographic parameters and maximizing knowledge gained through transect surveys by augmenting them with other available data [e.g. @schmidt2020].
+In this study, we will present a new IPM, where we integrate data from line transect distance sampling survey data and survival data from marked birds. The process model is a stage-structured matrix model, that projects population size from one time step to the next based on the underlying survival and recruitment rates. This is made possible by the fact that the line transect surveys provide data on population age structure which can be used to inform the estimation of demographic rates. In the IPM, we integrate these data with data from marked birds from which we estimate survival probabilities. The model is thus formally an IPM, as we jointly estimate parameters of interest based on several data sets (ref). In the paper, we first present the model and assess the robustness based on simulated data. In addition, we apply the model to real data collected from a willow ptarmigan (*Lagopus lagopus*) study in Central Norway. Because demographic rates are often affected by environmental covariates, we also illustrate how such covariates can be included in the modelling framework.
 
-In this study, we will present a new IPM, where we integrate data from line transect distance sampling survey data and survival data from marked birds.
+## 2. Methods
 
--   Estimate parameters with and without augmentation with demographic data -- compare estimates and precision
--   Estimate latent variable (juv summer survival) -- compare to literature values
--   Temporal variation in S and R -- via random effects models
--   Simulate - robustness
-
-## Methods
-
-### An integrated distance sampling model
+### 2.1 An integrated distance sampling model
 
 Our open population integrated distance sampling model consists of two major components: a latent structured population model and a set of likelihoods for data originating from distance sampling surveys and auxiliary survival monitoring (radio-telemetry in the example case).
 
-#### Age-structured population model
+#### 2.1.1 Age-structured population model
 
 The population model follows a post-breeding census and includes two age classes: juveniles (young of the year) and adults (\> 1 year of age, @fig-model). This structure is inspired by earlier models for our focal species, the willow ptarmigan (+ref), and is commonly used for populations of passerine and game birds [@williams2002; @schaub2021]. In the context of our willow ptarmigan case study (see below), the census falls into late summer and coincides with the annual distance-sampling survey in August.
 
@@ -74,7 +67,7 @@ Note that recruitment rate $R$ is defined as juveniles/adult (not juveniles/fema
 
 ![Simplified graphical representation of the ptarmigan life cycle with two age classes and the data sources included in the integrated distance sampling model. Juv\[t\] = juveniles in year t. Ad\[t\] = adults in year t. R\[t\] = recruitment rate in year t. S\[t\] = survival probability from year t to t+1.](Figures/RypeIDSM_structure.png){#fig-model}
 
-#### Likelihoods for distance sampling data
+#### 2.1.2 Likelihoods for distance sampling data
 
 The implementation of the modelling framework we present makes three assumptions about the distance sampling survey: 1) the survey consists of line transects, 2) animals may be detected alone or in groups, and 3) juveniles and adults can be distinguished during surveys. These assumptions are inspired by our willow ptarmigan case study (details below). Our model includes three likelihoods for different components of the age-structured distance sampling data. First is the likelihood for the perpendicular detection distances from line transect, $y$, which are linked to distance-dependent detection probability $p$ through a half-normal detection function:
 
@@ -105,7 +98,7 @@ $$
 \end{equation}
 $$
 
-#### Likelihood for radio-telemetry data
+#### 2.1.3 Likelihood for radio-telemetry data
 
 The final likelihood is for the auxiliary telemetry data. It is set up under the assumption of perfect detection, and hence known fates, of animals bearing transmitters and links the numbers of animals released at the start of season $k$ of year $t$ to the number of survivors at the end of the same season:
 
@@ -115,7 +108,7 @@ $$
 \end{equation}
 $$ Here, $Sk_t$ is the seasonal survival probability, and annual survival probability, $S_t$ is calculated as $S1_t * S2_t$.
 
-#### Hierarchical models with time-variation in parameters
+#### 2.1.3 Hierarchical models with time-variation in parameters
 
 Vital rates (survival probabilities $S$, recruitment rates $R$), detection parameters (half-normal detection parameters $\sigma$), and initial population densities can all be modelled as time-dependent in our framework. For both the tests with simulated data and the case study described below, we implemented log-normally distributed random year effects on all parameters except survival, which was set to be constant. In the case study, we additionally included an effect of rodent occupancy (see details below) on log recruitment rates, resulting in the following model:
 
@@ -125,11 +118,11 @@ $$
 \end{equation}
 $$ where $\mu_R$ is the baseline recruitment rate, $\beta$ the slope of the effect of rodent occupancy, and $\epsilon_t$ the normally distributed random effects.
 
-### Model testing with simulated data
+### 2.2 Model testing with simulated data
 
 TBA
 
-### Case study
+### 2.3 Case study
 
 The willow ptarmigan has a circumpolar distribution (Fuglei et al., 2020), and lives year-round in heterogeneous alpine and artic ecosystems. In Norway, there has been a long-term decline in the willow ptarmigan abundance spanning more than a century (ref), but the last few decades the trend in abundance has fluctuated both in time and space. In Scandinavia, willow ptarmigan is a valued game species (ref), and there has been several long-term research projects devoted to understanding how they respond to environmental variation and harvest management [@Israelsen2020; @Sandercock2011]. A key insight from across several study areas is the the annual recruitment rate (i.e. $R_t$ in our model, as outlined above) is highly variable, and is affected both by spring conditions [@Eriksen2023] and the abundance of small rodents as alternative prey for shared predators (i.e. the Alternative Prey Hypothesis ref). Adult survival show less inter-annual fluctuations [@Israelsen2020], although spatial (and potentially temporal) variation due to e.g. harvest management is evident when comparing across studies [@Israelsen2020].
 
@@ -145,15 +138,13 @@ Line transect survey data were collected in August each year, prior to the annua
 
 The individual longitudinal study based on radio collared willow ptarmigan was conducted in 2015-2020. Each winter (in February-March), willow ptarmigan were located at night using snowmobiles and large hand nets with prolonged handles, as described in Israelsen et al. (2020). To prevent birds from flying off before the field personnel were close enough to capture them, a high-powered head lamp was used to dazzle the birds. After capture, birds were placed in an opaque bag to reduce stress. Before releasing the birds, they were fitted with a uniquely numbered leg ring (\~ 2.4g) and a Holohil RI-2BM or Holohil RI-2DM radio transmitter (\~ 14.1g). The radio transmitters had an expected battery lifetime of 24 months (RI-2BM) or 30 months (RI-2DM), and included a mortality circuit that was activated if a bird had been immobile for 12 hours. We monitored the birds throughout the year, by triangulation from the ground at least once a month for 10 months of the year (February -- November) by qualified field personnel. If a mortality signal was heard from the transmitter, we recovered it as soon as possible to determine cause of death. A number of birds dispersed out of the main study areas and was thus out of signal range for field personnel on the ground. To avoid loss of data, we conducted aerial triangulation using a helicopter or airplane three times a year (May, September and November) in the years 2016-2020.
 
-\[Figure 2: Map of Lierne study area?\]
-
-### Bayesian implementation
+### 2.4 Bayesian implementation
 
 We implemented the model in a Bayesian framework using NIMBLE [@valpine2017] in R version 4.2.2 [@R2022]. The likelihood for line transect observation distances was set up using a custom half-normal distribution developed by Michael Scroggie as part of the "nimbleDistance" package (https://github.com/scrogster/nimbleDistance). We used non-informative uniform priors (with biologically reasonable boundaries where possible) for all parameters. For each model fit, we ran x MCMC chains with NIMBLE's standard samples for xxxk iterations. xxxk thereof were discarded as burn-in prior to thining with a factor x, leaving us with xxxx posterior samples per chain (total of xxxxx samples per run).
 
-## Results
+## 3. Results
 
-### Model performance on simulated datasets
+### 3.1 Model performance on simulated datasets
 
 In general, the model was able to estimate both parameters of the detection model (Figure X) of the simulated data with little bias.
 
@@ -165,7 +156,7 @@ In general, the model was able to estimate both parameters of the detection mode
 
 **Figure X** Vital rates estimated based on simulated data
 
-### Case study on willow ptarmigans in Lierne
+### 3.2 Case study on willow ptarmigans in Lierne
 
 ```{r}
 #| echo: FALSE
@@ -174,21 +165,19 @@ In general, the model was able to estimate both parameters of the detection mode
 
 library(tidyverse)
 library(tidybayes)
-
+source("tidySummary.R")
 
 ## Posterior samples added to folder "Posterior_samples". 
 ## .rds are included in gitignore
 
-test <- readRDS("Posterior_samples/rypeIDSM_dHN_multiArea_realData_Lierne_tidy.rds")
+out.data <- readRDS("Posterior_samples/rypeIDSM_dHN_multiArea_realData_Lierne_tidy.rds")
 
-test1 <- test %>% spread_draws(Mu.R[])
-mean_MuR <- mean(test1$Mu.R)
-ci_MuR <- quantile(test1$Mu.R, probs = c(0.025, 0.975))
+tidy_summary_stats <- tidySummary(out.data)
 
 
 ```
 
-Having evaluated the overall performance of our model on simulated data, we used data from our case study in Lierne as a case study to estimate abundance, vital rates and detection probabilities from a real-world data set. As is evident from Figure X, the population density increased markedly across the study period, from \< 10 ptarmigan / $km^{2}$ in 2007 to \> 35 ptarmigan / $km^{2}$ in in 2021. The increase was most distinct from 2016 and onward. Across years, mean survival probability for August - January ($S_1$) was estimated at X (95% C.I = ), survival probability for February - July ($S_1$) was estimated as X (95% C.I = x), and annual survival probability $S$ is given by the product of $S_1$ and $S_2$ was estimated at X. Note that we assumed that $S$ was constant across all years in the study period from 2007 - 2021. Recruitment ($R_t$) was allowed to vary across years (see model specification), and did as expected show large inter-annual variability. While the mean (baseline) recruitment $\mu_R$ was estimated as `r round(mean_MuR, 1)` (95% C.I. = `r as.numeric(round(ci_MuR[1], 1))` - `r as.numeric(round(ci_MuR[2], 1))` ).
+Having evaluated the overall performance of our model on simulated data, we used data from our case study in Lierne as a case study to estimate abundance, vital rates and detection probabilities from a real-world data set. As is evident from Figure X, the population density increased markedly across the study period, from \< 10 ptarmigan / $km^{2}$ in 2007 to \> 35 ptarmigan / $km^{2}$ in in 2021. The increase was most distinct from 2016 and onward. Across years, mean survival probability for August - January ($S_1$) was estimated at `r filter(tidy_summary_stats, model_parameter =="Mu_S1")$Mean` (95% C.I = `r filter(tidy_summary_stats, model_parameter =="Mu_S1")$lower` - `r filter(tidy_summary_stats, model_parameter =="Mu_S1")$upper`), survival probability for February - July ($S_2$) was estimated as `r filter(tidy_summary_stats, model_parameter =="Mu_S2")$Mean` (95% C.I = `r filter(tidy_summary_stats, model_parameter =="Mu_S2")$lower` - `r filter(tidy_summary_stats, model_parameter =="Mu_S2")$upper`), and annual survival probability $S$ is given by the product of $S_1$ and $S_2$ was estimated at `r filter(tidy_summary_stats, model_parameter =="Mu_S")$Mean` (95% C.I = `r filter(tidy_summary_stats, model_parameter =="Mu_S")$lower` - `r filter(tidy_summary_stats, model_parameter =="Mu_S")$upper`). Note that we assumed that $S$ was constant across all years in the study period from 2007 - 2021. Recruitment ($R_t$) was allowed to vary across years (see model specification), and did as expected show large inter-annual variability. While the mean (baseline) recruitment $\mu_R$ was estimated as `r filter(tidy_summary_stats, model_parameter =="Mu_R")$Mean` (95% C.I = `r filter(tidy_summary_stats, model_parameter =="Mu_R")$lower` - `r filter(tidy_summary_stats, model_parameter =="Mu_R")$upper`).
 
 ![**Figure X.** Estimated density of willow ptarmigans in Lierne from 2007 to 2021. Solid line represents the posterior median, ribbon marks 95% credible interval.](Figures/TimeSeries_popDens.png)
 
