@@ -217,6 +217,16 @@ if(fitRodentCov){
 }
 
 
+# OPTIONAL: CALCULATE AND PLOT VARIANCE DECOMPOSITION #
+#-----------------------------------------------------#
+
+VarDecomp <- plotVarDecomposition(mcmc.out = IDSM.out.tidy, 
+                                  N_areas = input_data$nim.constants$N_areas, 
+                                  N_years = input_data$nim.constants$N_years, 
+                                  fitRodentCov = fitRodentCov, 
+                                  RodentOcc_data = input_data$nim.data$RodentOcc)
+  
+
 # OPTIONAL: MAP PLOTS #
 #---------------------#
 
