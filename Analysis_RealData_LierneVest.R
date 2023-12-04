@@ -153,14 +153,14 @@ IDSM.out <- nimbleMCMC(code = model_setup$modelCode,
                        setSeed = mySeed)
 Sys.time() - t.start
 
-saveRDS(IDSM.out, file = 'rypeIDSM_dHN_multiArea_realData_Lierne_rodentEffZ.rds')
+saveRDS(IDSM.out, file = 'rypeIDSM_dHN_multiArea_realData_Lierne.rds')
 
 
 # TIDY UP POSTERIOR SAMPLES #
 #---------------------------#
 
 IDSM.out.tidy <- tidySamples(IDSM.out = IDSM.out, save = FALSE)
-saveRDS(IDSM.out.tidy, file = 'rypeIDSM_dHN_multiArea_realData_Lierne_rodentEffZ_tidy.rds')
+saveRDS(IDSM.out.tidy, file = 'rypeIDSM_dHN_multiArea_realData_Lierne_tidy.rds')
 
 
 # OPTIONAL: MCMC TRACE PLOTS #
