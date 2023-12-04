@@ -219,17 +219,16 @@ p = exp(-\frac{y^2}{2\sigma^2})
 <p><img src="Figures/SimCheck_VRs_Temps.png" class="img-fluid"></p>
 <p><strong>Figure X</strong> Vital rates estimated based on simulated data</p>
 </section>
-<section id="case-study-on-willow-ptarmigans-in-lierne" class="level3">
-<h3 class="anchored" data-anchor-id="case-study-on-willow-ptarmigans-in-lierne">3.2 Case study on willow ptarmigans in Lierne</h3>
-<p>Having evaluated the overall performance of our model on simulated data, we used data from our case study in Lierne as a case study to estimate abundance, vital rates and detection probabilities from a real-world data set. As is evident from Figure X, the population density increased markedly across the study period, from &lt; 10 ptarmigan / <span class="math inline">\(km^{2}\)</span> in 2007 to &gt; 35 ptarmigan / <span class="math inline">\(km^{2}\)</span> in in 2021. The increase was most distinct from 2016 and onward. Across years, mean survival probability for August - January (<span class="math inline">\(S_1\)</span>) was estimated at 0.4628387 (95% C.I = 0.4231258 - 0.5078373), survival probability for February - July (<span class="math inline">\(S_2\)</span>) was estimated as 0.6430951 (95% C.I = 0.5873261 - 0.699233), and annual survival probability <span class="math inline">\(S\)</span> is given by the product of <span class="math inline">\(S_1\)</span> and <span class="math inline">\(S_2\)</span> was estimated at 0.2970724 (95% C.I = 0.286787 - 0.3079173). Note that we assumed that <span class="math inline">\(S\)</span> was constant across all years in the study period from 2007 - 2021. Recruitment (<span class="math inline">\(R_t\)</span>) was allowed to vary across years (see model specification), and did as expected show large inter-annual variability. While the mean (baseline) recruitment <span class="math inline">\(\mu_R\)</span> was estimated as 2.8699028 (95% C.I = 2.4813995 - 3.4256815).</p>
+<section id="case-study-on-willow-ptarmigans-in-central-norway" class="level3">
+<h3 class="anchored" data-anchor-id="case-study-on-willow-ptarmigans-in-central-norway">3.2 Case study on willow ptarmigans in Central Norway</h3>
+<p>Having evaluated the overall performance of our model on simulated data, we used data from our case study in Lierne as a case study to estimate abundance, vital rates and detection probabilities from a real-world data set. As is evident from Figure X, the population density increased markedly across the study period, from &lt; 10 ptarmigan / <span class="math inline">\(km^{2}\)</span> in 2007 to &gt; 35 ptarmigan / <span class="math inline">\(km^{2}\)</span> in in 2021. The increase was most distinct from 2016 and onward. Across years, mean survival probability for August - January (<span class="math inline">\(S_1\)</span>) was estimated at 0.4628387 (95% C.I = 0.4231258 - 0.5078373), survival probability for February - July (<span class="math inline">\(S_2\)</span>) was estimated as 0.6430951 (95% C.I = 0.5873261 - 0.699233), and annual survival probability <span class="math inline">\(S\)</span> is given by the product of <span class="math inline">\(S_1\)</span> and <span class="math inline">\(S_2\)</span> was estimated at 0.2970724 (95% C.I = 0.286787 - 0.3079173). Note that we assumed that <span class="math inline">\(S\)</span> was constant across all years in the study period from 2007 - 2021.</p>
+<p>Recruitment (<span class="math inline">\(R_t\)</span>) was allowed to vary across years (see model specification), and did as expected show large inter-annual variability. While the mean (baseline) recruitment <span class="math inline">\(\mu_R\)</span> was estimated as 2.8699028 (95% C.I = 2.4813995 - 3.4256815). The estimated recruitment rate varied (as expected) among years: while the annual recruitment rate was estimated at 4.9382264 in year 2007, it was estimated at 1.1936042 in year 2012. Moreover, as expected based on the Alternative Prey Hypothesis (APH), our model estimated a strong link between the annual recruitment and the abundance of small rodents (slope-paramater for the z-standardized rodent occurrence data = 0.0367373 ; 95% C.I. = -0.2158997 - 0.2483853).</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="Figures/TimeSeries_popDens.png" class="img-fluid figure-img"></p>
 <figcaption class="figure-caption"><strong>Figure X.</strong> Estimated density of willow ptarmigans in Lierne from 2007 to 2021. Solid line represents the posterior median, ribbon marks 95% credible interval.</figcaption>
 </figure>
 </div>
-<section id="vital-rates" class="level4">
-<h4 class="anchored" data-anchor-id="vital-rates">Vital rates</h4>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="Figures/PostDens_Mu_S_tR.png" class="img-fluid figure-img"></p>
@@ -248,7 +247,6 @@ p = exp(-\frac{y^2}{2\sigma^2})
 <figcaption class="figure-caption"><strong>Figure X.</strong> Predicted effect of rodent occupancy on recruitment rate. Solid line represent the posterior median, ribbon marks the 95% credible interval.</figcaption>
 </figure>
 </div>
-</section>
 <section id="detection-parameters" class="level4">
 <h4 class="anchored" data-anchor-id="detection-parameters">Detection parameters</h4>
 <div class="quarto-figure quarto-figure-center">
