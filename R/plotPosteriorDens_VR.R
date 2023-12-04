@@ -10,7 +10,8 @@
 #' to time-average survival.
 #' @param fitRodentCov logical. If TRUE, interprets recruitment intercept as
 #' baseline instead of average.
-#' @return
+#' 
+#' @return a vector of pdf plot names. The plots can be found in Plots/VR_PostDens.
 #' @export
 #'
 #' @examples
