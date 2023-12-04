@@ -43,7 +43,7 @@ shareRE <- TRUE
 survVarT <- FALSE
 
 # Rodent covariate on reproduction
-fitRodentCov <- FALSE
+fitRodentCov <- TRUE
 
 # DOWNLOAD/FETCH DATA #
 #---------------------#
@@ -103,7 +103,7 @@ d_rodent <- wrangleData_Rodent(duplTransects = duplTransects,
 input_data <- prepareInputData(d_trans = LT_data$d_trans, 
                                d_obs = LT_data$d_obs,
                                d_cmr = d_cmr,
-                               d_rodent = d_rodent,
+                               d_rodent = d_rodent$rodentAvg,
                                localities = localities, 
                                #areas = areas,
                                areaAggregation = areaAggregation,
@@ -217,6 +217,8 @@ if(fitRodentCov){
                     covName = "Rodent occupancy",
                     minCov = 0, 
                     maxCov = 1,
+                    meanCov = d_rodent$meanCov,
+                    sdCov = d_rodent$sdCov,
                     N_areas = input_data$nim.constant$N_areas, 
                     area_names = input_data$nim.constant$area_names,
                     fitRodentCov = fitRodentCov)

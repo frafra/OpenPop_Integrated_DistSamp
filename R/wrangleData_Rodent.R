@@ -99,7 +99,14 @@ wrangleData_Rodent <- function(duplTransects, localities = NULL, areas = NULL, a
     }
   }
  
+  ## Z-standardize covariate values
+  meanCov <- mean(rodentAvg, na.rm = TRUE)
+  sdCov <- sd(rodentAvg, na.rm = TRUE)
+  rodentAvg <- (rodentAvg - meanCov) / sdCov
+  
   ## Return data
-  return(rodentAvg)
+  return(list(rodentAvg = rodentAvg,
+              meanCov = meanCov, 
+              sdCov = sdCov))
   
 }
