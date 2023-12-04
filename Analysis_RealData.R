@@ -96,7 +96,7 @@ d_rodent <- wrangleData_Rodent(duplTransects = duplTransects,
 input_data <- prepareInputData(d_trans = LT_data$d_trans, 
                                d_obs = LT_data$d_obs,
                                d_cmr = d_cmr,
-                               d_rodent = d_rodent,
+                               d_rodent = d_rodent$rodentAvg,
                                #localities = localities, 
                                areas = areas,
                                areaAggregation = TRUE,
@@ -151,6 +151,21 @@ saveRDS(IDSM.out, file = "rypeIDSM_dHN_multiArea_realData_Lierne.rds")
 IDSM.out.tidy <- tidySamples(IDSM.out = IDSM.out, 
                              save = TRUE,
                              fileName = "rypeIDSM_dHN_multiArea_realData_allAreas_tidy.rds")
+
+
+
+# MAKE POSTERIOR SUMMARIES PER AREA #
+#-----------------------------------#
+
+PostSum.list <- summarisePost_areas(mcmc.out = IDSM.out.tidy, 
+                                    N_areas = input_data$nim.constant$N_areas, 
+                                    area_names = input_data$nim.constant$area_names, 
+                                    N_sites = input_data$nim.constant$N_sites, 
+                                    min_years = input_data$nim.constant$min_years, 
+                                    max_years = input_data$nim.constant$max_years, 
+                                    minYear = minYear, maxYear = maxYear,
+                                    fitRodentCov = fitRodentCov,
+                                    save = TRUE)
 
 
 # OPTIONAL: MCMC TRACE PLOTS #
@@ -211,27 +226,17 @@ NorwayMunic.map <- setupMap_NorwayMunic(shp.path = "data/Kommuner_2018_WGS84/Kom
                                         areas = areas, areaAggregation = TRUE)
 
 ## Plot population growth rate, density, and vital rates on map
-plotMaps(mcmc.out = IDSM.out.tidy, 
+plotMaps(PostSum.list = PostSum.list, 
          mapNM = NorwayMunic.map,
-         N_areas = input_data$nim.constant$N_areas, 
-         area_names = input_data$nim.constant$area_names, 
-         N_sites = input_data$nim.constant$N_sites, 
-         min_years = input_data$nim.constant$min_years, 
-         max_years = input_data$nim.constant$max_years, 
          minYear = minYear, maxYear = maxYear,
          fitRodentCov = fitRodentCov)
 
 
-# OPTIONAL: LONGITUDE PATTERN PLOTS #
-#-----------------------------------#
+# OPTIONAL: LATITUDE PATTERN PLOTS #
+#----------------------------------#
 
-plotLatitude(mcmc.out = IDSM.out.tidy, 
-             N_areas = input_data$nim.constant$N_areas, 
-             area_names = input_data$nim.constant$area_names, 
+plotLatitude(PostSum.list = PostSum.list, 
              area_coord = LT_data$d_coord,
-             N_sites = input_data$nim.constant$N_sites, 
-             min_years = input_data$nim.constant$min_years, 
-             max_years = input_data$nim.constant$max_years, 
              minYear = minYear, maxYear = maxYear,
              fitRodentCov = fitRodentCov)
 
