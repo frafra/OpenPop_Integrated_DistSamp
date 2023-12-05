@@ -171,7 +171,7 @@ modelComp <- plotModelComparison(modelPaths = c("rypeIDSM_dHN_multiArea_realData
                                  modelChars = c("Unknowns = juveniles", 
                                                 "Unknowns removed"),
                                  N_sites = input_data$nim.constants$N_sites[1], N_years = input_data$nim.constants$N_years[1],
-                                 plotPath = "Plots/ModelComp_UknownUnknown",
+                                 plotPath = "Plots/ModelComp_UnkownUnknown",
                                  returnData = FALSE)
 
 # OPTIONAL: MCMC TRACE PLOTS #
