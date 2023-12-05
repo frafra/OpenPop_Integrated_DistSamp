@@ -6,13 +6,46 @@ editor: visual
 bibliography: rypeIDSM_MS2.bib
 ---
 
-## About this worknote
+# Abstract
 
-The purpose of this worknote is to introduce and showcase preliminary results from application of the open-population integrated distance-sampling model (IDSM) for willow ptarmigan to data from all of Norway. Eventually, this model extension and resulting insights into large-scale spatiotemporal variation in density, population growth rate, and vital rates will be the subject of a second scientific paper. This paper will be written and submitted in the second half of 2023, and this worknote serves as a temporary substitute for it in the reporting of project results to Miljødirektoratet in June 2022. As such, the worknote contains a general description of the extension of the model to analyse data from multiple areas simultaneously, visualizations of some preliminary results, and an introduction to a reproducible workflow that allows to easily and robustly re-run analyses as new data becomes available in future years.
+# Introduction
 
-## IDSM extension to multiple areas
+# Methods
 
-Distance-sampling data on willow ptarmigan is collected on line transects not only in western Lierne, but across most of its Norwegian range (https://honsefugl.nina.no/). Taking the line transect datasets from Fjellstyrene, Statskog, and FeFo together, there is data for willow ptarmigan in 41 reporting areas (for a list, see [here]( https://github.com/ErlendNilsen/OpenPop_Integrated_DistSamp/blob/main/R/listAreas.R)). The model developed as part of this project and presented in @nilsen2023 was designed with the potential of extension to run on data from multiple areas simultaneously in mind, and this extension involves two steps in practice.
+## Study species
+
+-   Willow ptarmigan distribution, life history, and (historical) abundance
+
+## Data collection, management, and preparation
+
+### Line transect sampling
+
+-   Setup of Hønsefugltakseringen monitoring programme (volunteer training, line transect sampling, spatio-temporal coverage, etc.)
+-   Data & metadata recording via app
+-   Quality control of data
+-   Open access publishing of data (GBIF, LivingNorway)
+-   Pre-modelling data wrangling
+
+Distance-sampling data on willow ptarmigan is collected on line transects not only in western Lierne, but across most of its Norwegian range (https://honsefugl.nina.no/). Taking the line transect datasets from Fjellstyrene, Statskog, and FeFo together, there is data for willow ptarmigan in 41 reporting areas (for a list, see [here](https://github.com/ErlendNilsen/OpenPop_Integrated_DistSamp/blob/main/R/listAreas.R)).
+
+### Radio-telemetry study in Lierne
+
+-   Description of setup, data collection, temporal coverage, etc.
+-   Pre-modelling data wrangling
+
+## National-scale integrated model
+
+### Integrated distance sampling model (IDSM) for willow ptarmigan
+
+-   Introduction of integrated Distance sampling model (IDSM) from MS1
+
+### Multi-area model extension
+
+-   Addition of spatial dimension
+-   Hyper-parameter distributions for spatial variation
+-   Temporal variation (shared year RE and "residual" variation)
+
+The model developed as part of this project and presented in @nilsen2023 was designed with the potential of extension to run on data from multiple areas simultaneously in mind, and this extension involves two steps in practice.
 
 The first step is the inclusion of an additional dimension, area, to enable using data collected from multiple areas (@fig-model). The area-dimension is added across all model components with the exception of the known-fate telemetry data (and seasonal decomposition of survival estimated from it), as that is only available for the Lierne area.
 
@@ -35,13 +68,28 @@ $$
 
 For the multi-area implementation of the IDSM, we used the equivalent of the above approach for parameters representing average survival probabilities, baseline recruitment rates, rodent effect on recruitment, and average distance sampling detection. Initial population density, on the other hand, was estimated independently for each area. Random effects standard deviations were assumed to be the same for all areas, effectively resulting in space-for-time subtitution for random effect estimation.
 
-Another approach to maximising information gain when jointly analysing data from different areas is explicit modelling of spatial and spatio-temporal variation. While this is commonly done for modern species distribution models [e.g. @pacifici2017; @guelat2018], it has rarely been implemented in demographic models. This is not least due to the fact that few demographic models span large spatial extents. Since our IDSM and the willow ptarmigan data do actually do that though, extending the framework to account for spatial and spatiotemporal correlations may be feasible. Per now, we have not yet attempted this, but are planning to do so in the near future.
+Another approach to maximising information gain when jointly analysing data from different areas is explicit modelling of spatial and spatio-temporal variation.
 
-## Preliminary results
+### Model implementation
 
-In the following, we present some preliminary results from the model fit to data from all 41 reporting areas simultaneously. Results are presented in the format of pairs of maps. For each quantity/result, we present one map of the posterior median and one map of the standard deviation of the posterior distribution, where the latter serves as a measurement of uncertainty for the former.
+-   Bayesian, NIMBLE
+-   Priors
+-   Default samplers
+-   Chains, iterations, burn-in, thinning, posterior samples
 
-### Population density
+## Variance decomposition
+
+-   How variance decomposition was done
+
+## Reproducible workflow with "targets"
+
+Reproducibility and ease of repeating analyses was a key focus when developing the multi-area IDSM.To that end, we set up the workflow as a "targets pipeline", implemented throught the R packages "targets" [@landau2021]. A visual representation of the pipeline is displayed in @fig-workflow.
+
+![Graphical representation of the "targets pipeline" for the multi-area modelling setup. Upward facing triangles are functions, downward facing triangles are general options/arguments, circles are objects and outputs (="targets") created as part of the workflow.](Figures/Workflow_layout.png){#fig-workflow width="424"}
+
+# Results
+
+## Population density
 
 @fig-densA shows that population density is generally lowest in the Northern parts of Norway and highest in central Norway, close to the Swedish borders. Higher median density estimates also seem to be associated with higher estimation uncertainty (@fig-densB) and therefore have to be interpreted with care.
 
@@ -53,7 +101,7 @@ In the following, we present some preliminary results from the model fit to data
 Median (a) and standard deviation (b) of posterior estimates of average ptarmigan density in the three most recent years (2018-2020) across 41 reporting areas in Norway. Darker colors indicate higher median values and higher uncertainty.
 :::
 
-### Population growth rate
+## Population growth rate
 
 In most areas, populations of willow ptarmigan have been increasing over the period 2018-2020, potentially indicating a positive effect of more restricted hunting in recent years (@fig-lam). Some areas -- predominantly in central Norway -- also had declining populations, but many of those declines followed upon a period of increase between the start of data colection in 2007 and sometime between 2016 and 2018.
 
@@ -62,15 +110,14 @@ In most areas, populations of willow ptarmigan have been increasing over the per
 
 ![Uncertainty in population growth rate estimates](Figures/lambda_2018-2020_SD.png){#fig-lamB}
 
-Median (a) and standard deviation (b) of posterior estimates of average annual population growth rate over the three most recent years (2018-2020) across 41 reporting areas in Norway.  In a), pinkish colors indicate declining populations while greenish colors indicate growing populations (white = stable populations). In b) darker colors indicate higher median values and higher uncertainty.
+Median (a) and standard deviation (b) of posterior estimates of average annual population growth rate over the three most recent years (2018-2020) across 41 reporting areas in Norway. In a), pinkish colors indicate declining populations while greenish colors indicate growing populations (white = stable populations). In b) darker colors indicate higher median values and higher uncertainty.
 :::
 
-### Survival probability
+## Survival probability
 
 Annual survival probabilities ranged from aroung 35% to 50% across reporting areas in Norway, with the highest values occurring in the far north and in the mountains in the south (@fig-pSurv).
 
 ::: {#fig-pSurv layout-ncol="2"}
-
 ![Median survival estimates](Figures/pSurv_Median.png){#fig-pSurvA}
 
 ![Uncertainty in survival estimates](Figures/pSurv_SD.png){#fig-pSurvB}
@@ -78,7 +125,7 @@ Annual survival probabilities ranged from aroung 35% to 50% across reporting are
 Median (a) and standard deviation (b) of posterior estimates of average annual survival probability across 41 reporting areas in Norway. Darker colors indicate higher median values and higher uncertainty.
 :::
 
-### Recruitment rate
+## Recruitment rate
 
 Annual recruitment rates showed a spatial pattern (@fig-rRep) that was inverse relative to that of annual survival (@fig-pSurv), with lower recruitment rates co-occurring with higher survival rates and vice-versa. This is consistent with basic life history theory [@stearns1992] and with previous studies finding relatively slower life histories in alpine / high altitude areas [e.g. @sandercock2005; @bears2009; @alice2016].
 
@@ -90,7 +137,7 @@ Annual recruitment rates showed a spatial pattern (@fig-rRep) that was inverse r
 Median (a) and standard deviation (b) of posterior estimates of average annual recruitment rate across 41 reporting areas in Norway. Darker colors indicate higher median values and higher uncertainty.
 :::
 
-### Effect of rodent occupancy
+## Effects of rodent occupancy
 
 The model predicted substantial variation in the effect of the rodent occupancy covariate on recruitment (@fig-betaR). Areas in the north and south west generally had recruitment increasing with rodent occupancy while the remaining areas were a mosaic of positive and negative effects, albeit with some spatial clustering.
 
@@ -102,18 +149,28 @@ The model predicted substantial variation in the effect of the rodent occupancy 
 Median (a) and standard deviation (b) of posterior estimates of effects of rodent occupancy on recruitment rate across 41 reporting areas in Norway. In a), blueish colors indicate negative effects while reddish colors indicate positive effects (yellow = no effect). In b) darker colors indicate higher median values and higher uncertainty.
 :::
 
-## Reproducible workflow with "targets"
+## Detection parameters
 
-Reproducibility and ease of repeating analyses was a key focus when developing the multi-area IDSM.To that end, we set up the workflow as a "targets pipeline", implemented throught the R packages "targets" [@landau2021]. A visual representation of the pipeline is displayed in @fig-workflow. 
+\[TBA\]
 
-![Graphical representation of the "targets pipeline" for the multi-area modelling setup. Upward facing triangles are functions, downward facing triangles are general options/arguments, circles are objects and outputs (="targets") created as part of the workflow. ](Figures/Workflow_layout.png){#fig-workflow width="424"}
+## Variance decomposition
 
+\[TBA\]
 
-## Data and code availability
+# Discussion
 
-The raw data from the line transect surveys is deposited on GBIF and can be accessed freely via the Living Norway Data Portal (https://data.livingnorway.no/). The work presented above is based on versions 1.7, 1.8, and 1.12 for the datasets from Fjellstyrene (key b49a2978-0e30-4748-a99f-9301d17ae119), Statskog (key 6a948a1c-7e23-4d99-b1c1-ec578d0d3159), and FeFo (key c47f13c1-7427-45a0-9f12-237aad351040), respectively. 
+\[TBA\]
 
-The auxiliary radio-telemetry data and all code, including the "targets pipeline" can be found in the project's repository on GitHub: [https://github.com/ErlendNilsen/OpenPop_Integrated_DistSamp](https://github.com/ErlendNilsen/OpenPop_Integrated_DistSamp).
+Another approach to maximising information gain when jointly analysing data from different areas is explicit modelling of spatial and spatio-temporal variation. While this is commonly done for modern species distribution models [e.g. @pacifici2017; @guelat2018], it has rarely been implemented in demographic models. This is not least due to the fact that few demographic models span large spatial extents. Since our IDSM and the willow ptarmigan data do actually do that though, extending the framework to account for spatial and spatiotemporal correlations may be feasible. Per now, we have not yet attempted this, but are planning to do so in the near future.
 
+# Acknowledgements
 
-## References
+\[TBA\]
+
+# Data and code availability
+
+The raw data from the line transect surveys is deposited on GBIF and can be accessed freely via the Living Norway Data Portal (https://data.livingnorway.no/). The work presented above is based on versions 1.7, 1.8, and 1.12 for the datasets from Fjellstyrene (key b49a2978-0e30-4748-a99f-9301d17ae119), Statskog (key 6a948a1c-7e23-4d99-b1c1-ec578d0d3159), and FeFo (key c47f13c1-7427-45a0-9f12-237aad351040), respectively.
+
+The auxiliary radio-telemetry data and all code, including the "targets pipeline" can be found in the project's repository on GitHub: <https://github.com/ErlendNilsen/OpenPop_Integrated_DistSamp>.
+
+# References
