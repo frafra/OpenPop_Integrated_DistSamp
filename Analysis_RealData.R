@@ -127,7 +127,7 @@ model_setup <- setupModel(modelCode = modelCode,
 
 # MODEL (TEST) RUN #
 #------------------#
-#t.start <- Sys.time()
+t.start <- Sys.time()
 IDSM.out <- nimbleMCMC(code = model_setup$modelCode,
                        data = input_data$nim.data, 
                        constants = input_data$nim.constants,
@@ -140,9 +140,9 @@ IDSM.out <- nimbleMCMC(code = model_setup$modelCode,
                        thin = model_setup$mcmcParams$nthin, 
                        samplesAsCodaMCMC = TRUE, 
                        setSeed = 0)
-#Sys.time() - t.start
+Sys.time() - t.start
 
-saveRDS(IDSM.out, file = "rypeIDSM_dHN_multiArea_realData_Lierne.rds")
+saveRDS(IDSM.out, file = "rypeIDSM_dHN_multiArea_realData_allAreas.rds")
 
 
 # TIDY UP POSTERIOR SAMPLES #
@@ -211,6 +211,8 @@ if(fitRodentCov){
                     covName = "Rodent occupancy",
                     minCov = 0, 
                     maxCov = 1,
+                    meanCov = d_rodent$meanCov,
+                    sdCov = d_rodent$sdCov,
                     N_areas = input_data$nim.constant$N_areas, 
                     area_names = input_data$nim.constant$area_names,
                     fitRodentCov = fitRodentCov)
