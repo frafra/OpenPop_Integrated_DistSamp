@@ -5,10 +5,13 @@ library(nimbleDistance)
 library(tidyverse)
 library(ggplot2)
 library(LivingNorwayR)
-library(rgdal)
-library(rgeos)
-library(maptools)
+library(terra)
+library(sf)
 library(tmap)
+
+## Set seed
+mySeed <- 0
+set.seed(mySeed)
 
 ## Source all functions in "R" folder
 sourceDir <- function(path, trace = TRUE, ...) {
@@ -31,7 +34,6 @@ areaAggregation <- TRUE # Area- vs. locality aggregation
 R_perF <- FALSE # Recruitment per adult or per adult female
 R_parent_drop0 <- TRUE # Drop observations of juveniles with no adults present
 sumR.Level <- "line" # Aggregation level for reproduction data (line vs. group)
-shareRE <- FALSE # Random effects shared across areas
 survVarT <- TRUE # Time variation in survival
 fitRodentCov <- TRUE # Rodent covariate on reproduction
 
@@ -46,7 +48,9 @@ tar_option_set(packages = c("LivingNorwayR", "tidyverse", "qs"),
 list(
   tar_target(
     Rype_arkiv,
-    downloadLN(datasets = c("Fjellstyrene", "Statskog", "FeFo"), versions = c(1.7, 1.8, 1.12), save = TRUE)
+    downloadLN(datasets = c("Fjellstyrene", "Statskog", "FeFo"), 
+               versions = c(1.7, 1.8, 1.12), 
+               save = TRUE)
   ),
   
   tar_target(
@@ -93,7 +97,7 @@ list(
     prepareInputData(d_trans = LT_data$d_trans, 
                      d_obs = LT_data$d_obs,
                      d_cmr = d_cmr,
-                     d_rodent = d_rodent,
+                     d_rodent = d_rodent$rodentAvg,
                      #localities = localities,
                      areas = areas,
                      areaAggregation = areaAggregation,
@@ -106,23 +110,21 @@ list(
   ),
   
   tar_target(
-    modelCode.path,
-    selectCodePath(shareRE = shareRE,
-                   survVarT = survVarT)
+    modelCode,
+    writeModelCode(survVarT = survVarT)
   ),
   
   tar_target(
     model_setup,
-    setupModel(modelCode.path = "NIMBLE code/rypeIDSM_multiArea_dHN_sepRE_survT.R",
-               customDist = TRUE,
+    setupModel(modelCode = modelCode,
                R_perF = R_perF,
                nim.data = input_data$nim.data,
                nim.constants = input_data$nim.constants,
-               shareRE = shareRE,
                survVarT = survVarT,
                fitRodentCov = fitRodentCov,
-               testRun = TRUE, nchains = 3,
-               initVals.seed = 0)
+               testRun = TRUE, 
+               nchains = 3,
+               initVals.seed = mySeed)
   ),
   
   tar_target(
@@ -137,19 +139,34 @@ list(
                nburnin = model_setup$mcmcParams$nburn, 
                thin = model_setup$mcmcParams$nthin, 
                samplesAsCodaMCMC = TRUE, 
-               setSeed = 0)
+               setSeed = mySeed)
   ),
   
   tar_target(
     IDSM.out.tidy,
     tidySamples(IDSM.out = IDSM.out,
-                save = TRUE)
+                save = TRUE,
+                fileName = "rypeIDSM_dHN_multiArea_realData_allAreas_tidy.rds")
+  ),
+  
+  tar_target(
+    PostSum.list,
+    summarisePost_areas(mcmc.out = IDSM.out.tidy, 
+                        N_areas = input_data$nim.constant$N_areas, 
+                        area_names = input_data$nim.constant$area_names, 
+                        N_sites = input_data$nim.constant$N_sites, 
+                        min_years = input_data$nim.constant$min_years, 
+                        max_years = input_data$nim.constant$max_years, 
+                        minYear = minYear, maxYear = maxYear,
+                        fitRodentCov = fitRodentCov,
+                        save = TRUE)
   ),
   
   tar_target(
     mcmc.tracePlots,
     plotMCMCTraces(mcmc.out = IDSM.out.tidy,
-                   fitRodentCov = fitRodentCov),
+                   fitRodentCov = fitRodentCov,
+                   survVarT = survVarT),
     format = "file"
   ),
   
@@ -165,14 +182,7 @@ list(
                    VitalRates = TRUE, DetectParams = TRUE, Densities = TRUE),
     format = "file"
   ),
-  
-  tar_target(
-    NorwayMunic.map,
-    setupMap_NorwayMunic(shp.path = "data/Kommuner_2018_WGS84/Kommuner_2018_WGS84.shp",
-                        d_trans = LT_data$d_trans,
-                        areas = areas, areaAggregation = areaAggregation)
-  ),
-  
+
   tar_target(
     post.densPlots,
     plotPosteriorDens_VR(mcmc.out = IDSM.out.tidy,
@@ -198,16 +208,37 @@ list(
   ),
   
   tar_target(
+    VarDecomp,
+    plotVarDecomposition(mcmc.out = IDSM.out.tidy, 
+                         N_areas = input_data$nim.constants$N_areas, 
+                         N_years = input_data$nim.constants$N_years, 
+                         fitRodentCov = fitRodentCov, 
+                         RodentOcc_data = input_data$nim.data$RodentOcc)
+  ),
+  
+  tar_target(
+    NorwayMunic.map,
+    setupMap_NorwayMunic(shp.path = "data/Kommuner_2018_WGS84/Kommuner_2018_WGS84.shp",
+                         d_trans = LT_data$d_trans,
+                         areas = areas, areaAggregation = areaAggregation)
+  ),
+  
+  tar_target(
     mapPlots,
-    plotMaps(mcmc.out = IDSM.out.tidy, 
+    plotMaps(PostSum.list = PostSum.list, 
              mapNM = NorwayMunic.map,
-             N_areas = input_data$nim.constant$N_areas, 
-             area_names = input_data$nim.constant$area_names, 
-             N_sites = input_data$nim.constant$N_sites, 
-             min_years = input_data$nim.constant$min_years, 
-             max_years = input_data$nim.constant$max_years, 
              minYear = minYear, maxYear = maxYear,
-             fitRodentCov = fitRodentCov)
+             fitRodentCov = fitRodentCov),
+    format = "file"
+  ),
+  
+  tar_target(
+    latitudePlots,
+    plotLatitude(PostSum.list = PostSum.list, 
+                 area_coord = LT_data$d_coord,
+                 minYear = minYear, maxYear = maxYear,
+                 fitRodentCov = fitRodentCov),
+    format = "file"
   )
 )
 
