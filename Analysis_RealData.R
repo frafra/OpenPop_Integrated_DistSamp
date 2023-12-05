@@ -5,6 +5,10 @@ library(terra)
 # SETUP #
 #-------#
 
+## Set seed
+mySeed <- 0
+set.seed(mySeed)
+
 ## Source all functions in "R" folder
 sourceDir <- function(path, trace = TRUE, ...) {
   for (nm in list.files(path, pattern = "[.][RrSsQq]$")) {
@@ -123,7 +127,7 @@ model_setup <- setupModel(modelCode = modelCode,
                           nim.constants = input_data$nim.constants,
                           testRun = TRUE, 
                           nchains = 3,
-                          initVals.seed = 0)
+                          initVals.seed = mySeed)
 
 # MODEL (TEST) RUN #
 #------------------#
@@ -139,7 +143,7 @@ IDSM.out <- nimbleMCMC(code = model_setup$modelCode,
                        nburnin = model_setup$mcmcParams$nburn, 
                        thin = model_setup$mcmcParams$nthin, 
                        samplesAsCodaMCMC = TRUE, 
-                       setSeed = 0)
+                       setSeed = mySeed)
 #Sys.time() - t.start
 
 saveRDS(IDSM.out, file = "rypeIDSM_dHN_multiArea_realData_Lierne.rds")
