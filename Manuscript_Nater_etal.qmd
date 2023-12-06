@@ -10,6 +10,52 @@ bibliography: rypeIDSM_MS2.bib
 
 # Introduction
 
+-   There is a growing need/demand for indicators for biodiversity, species abundance and demographic rates (see e.g. EBVs)
+
+-   On one hand, these indicators need to be representative at large scales
+
+-   This for e.g. international reporting towards biodiversity targets
+
+-   On the other hand, indicators with decent spatial resolution are also needed
+
+-   The reason for that is that that is the relevant scale for local-level managements and planning
+
+-   This goes both for development decisions and species management and conservation (which typically happen at a county or even municipality level)
+
+-   Besides organisational scale, there is also spatial variation not only in biodiversity, but also in population dynamics and life history of (target) species
+
+-   This variation needs to be accounted for to develop successful and sustainable (harvest) management and conservation strategies
+
+-   There is clear need for large-scale and spatially explicit indicators, but their development hinges on the availability of data from large-scale and long-term monitoring programmes
+
+-   Several countries (in Europe) have been working towards setting up such programmes and been successful particularly for monitoring of some species groups, i.e. breeding birds and butterflies
+
+-   Unfortunately, most of these monitoring programmes te limited to presence-absence or very simple count observations, making them suitable for the development of indicators of distribution and population trends, but usually not for indicators of abundance, population dynamics, and demographic rates
+
+-   The primary reason here is that large-scale long-term monitoring programmes are very costly to run, in particular when they need to be carried out by specialists
+
+-   Citizen science, i.e. the collection of ecological data by members of the public, has been growing rapidly and providing data at larger spatial and taxonomic scales than previously possible.
+
+-   However, increased coverage and total sampling effort in citizen science monitoring often comes at the cost of data being presence-only and prone to bias, limiting usefulness in particular for the study of population dynamics and demography.
+
+-   The exception are monitoring programmes that make use of a large number of citizen scientists that have been trained to collect data and record metadata in a structured manner and according to a carefully designed protocol (+ 1-2 internationally "widely known" programmes?)
+
+-   Norway has one such monitoring programme that focuses on terrestrial gamebird species: Hønsefugltakseringen (needs an English name)
+
+-   Brief intro of monitoring programme: sampling design (mention age- and sex- assigment), coverage, data handling, OA publishing of data
+
+-   Brief intro of previously developed modelling framework: integrated distance sampling model using age-specific line transect data and auxiliary telemetry data to get estimates of population size and structure, as well as key vital rates (survival, recruitment), over time
+
+-   Combined, national-scale monitoring and this modelling framework have potential for large-scale high-resolution modelling of population dynamics and its demographic and environmental drivers
+
+-   In this study, we extended model of Nielsen & Nater 2023 to run not just on a single area but all areas with publicly available line transect data simultaneously
+
+-   Capitalize on "sharing information" across locations and effectively space-for-time substitution to estimate population size, age-structure, survival, and recruitment across 41 reporting districts and 15 years (2007-2021) for willow ptarmigan
+
+-   Shortly about willow ptarmigan (hereafter "ptarmigan"): sentinel species (sensitive to changes in climate and land-use), position in the foodweb (maybe? does it matter?), high cultural value (part of people's "nature experience", popular game species), not redlisted but popular hunting making sustainable management crucial
+
+-   Wrap up with a sentence on why large-scale spatially explicit indicators for ptarmigan populations would be good to have (national and international context)?
+
 # Methods
 
 ## Study species
