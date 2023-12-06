@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.475">
+<meta name="generator" content="quarto-1.3.433">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -18,14 +18,15 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
 }
-.hanging div.csl-entry {
+.hanging-indent div.csl-entry {
   margin-left:2em;
   text-indent:-2em;
 }
@@ -39,8 +40,7 @@ div.csl-right-inline {
 }
 div.csl-indent {
   margin-left: 2em;
-}
-</style>
+}</style>
 
 
 <script src="Manuscript_Nater_etal_files/libs/clipboard/clipboard.min.js"></script>
@@ -54,6 +54,7 @@ div.csl-indent {
 <link href="Manuscript_Nater_etal_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="Manuscript_Nater_etal_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
@@ -87,18 +88,87 @@ div.csl-indent {
 
 </header>
 
-<section id="about-this-worknote" class="level2">
-<h2 class="anchored" data-anchor-id="about-this-worknote">About this worknote</h2>
-<p>The purpose of this worknote is to introduce and showcase preliminary results from application of the open-population integrated distance-sampling model (IDSM) for willow ptarmigan to data from all of Norway. Eventually, this model extension and resulting insights into large-scale spatiotemporal variation in density, population growth rate, and vital rates will be the subject of a second scientific paper. This paper will be written and submitted in the second half of 2023, and this worknote serves as a temporary substitute for it in the reporting of project results to Miljødirektoratet in June 2022. As such, the worknote contains a general description of the extension of the model to analyse data from multiple areas simultaneously, visualizations of some preliminary results, and an introduction to a reproducible workflow that allows to easily and robustly re-run analyses as new data becomes available in future years.</p>
+<section id="abstract" class="level1">
+<h1>Abstract</h1>
 </section>
-<section id="idsm-extension-to-multiple-areas" class="level2">
-<h2 class="anchored" data-anchor-id="idsm-extension-to-multiple-areas">IDSM extension to multiple areas</h2>
-<p>Distance-sampling data on willow ptarmigan is collected on line transects not only in western Lierne, but across most of its Norwegian range (https://honsefugl.nina.no/). Taking the line transect datasets from Fjellstyrene, Statskog, and FeFo together, there is data for willow ptarmigan in 41 reporting areas (for a list, see <a href="https://github.com/ErlendNilsen/OpenPop_Integrated_DistSamp/blob/main/R/listAreas.R">here</a>). The model developed as part of this project and presented in <span class="citation" data-cites="nilsen2023">Nilsen and Nater (<a href="#ref-nilsen2023" role="doc-biblioref">2023</a>)</span> was designed with the potential of extension to run on data from multiple areas simultaneously in mind, and this extension involves two steps in practice.</p>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<ul>
+<li><p>There is a growing need/demand for indicators for biodiversity, species abundance and demographic rates (see e.g.&nbsp;EBVs)</p></li>
+<li><p>On one hand, these indicators need to be representative at large scales</p></li>
+<li><p>This for e.g.&nbsp;international reporting towards biodiversity targets</p></li>
+<li><p>On the other hand, indicators with decent spatial resolution are also needed</p></li>
+<li><p>The reason for that is that that is the relevant scale for local-level managements and planning</p></li>
+<li><p>This goes both for development decisions and species management and conservation (which typically happen at a county or even municipality level)</p></li>
+<li><p>Besides organisational scale, there is also spatial variation not only in biodiversity, but also in population dynamics and life history of (target) species</p></li>
+<li><p>This variation needs to be accounted for to develop successful and sustainable (harvest) management and conservation strategies</p></li>
+<li><p>There is clear need for large-scale and spatially explicit indicators, but their development hinges on the availability of data from large-scale and long-term monitoring programmes</p></li>
+<li><p>Several countries (in Europe) have been working towards setting up such programmes and been successful particularly for monitoring of some species groups, i.e.&nbsp;breeding birds and butterflies</p></li>
+<li><p>Unfortunately, most of these monitoring programmes te limited to presence-absence or very simple count observations, making them suitable for the development of indicators of distribution and population trends, but usually not for indicators of abundance, population dynamics, and demographic rates</p></li>
+<li><p>The primary reason here is that large-scale long-term monitoring programmes are very costly to run, in particular when they need to be carried out by specialists</p></li>
+<li><p>Citizen science, i.e.&nbsp;the collection of ecological data by members of the public, has been growing rapidly and providing data at larger spatial and taxonomic scales than previously possible.</p></li>
+<li><p>However, increased coverage and total sampling effort in citizen science monitoring often comes at the cost of data being presence-only and prone to bias, limiting usefulness in particular for the study of population dynamics and demography.</p></li>
+<li><p>The exception are monitoring programmes that make use of a large number of citizen scientists that have been trained to collect data and record metadata in a structured manner and according to a carefully designed protocol (+ 1-2 internationally “widely known” programmes?)</p></li>
+<li><p>Norway has one such monitoring programme that focuses on terrestrial gamebird species: Hønsefugltakseringen (needs an English name)</p></li>
+<li><p>Brief intro of monitoring programme: sampling design (mention age- and sex- assigment), coverage, data handling, OA publishing of data</p></li>
+<li><p>Brief intro of previously developed modelling framework: integrated distance sampling model using age-specific line transect data and auxiliary telemetry data to get estimates of population size and structure, as well as key vital rates (survival, recruitment), over time</p></li>
+<li><p>Combined, national-scale monitoring and this modelling framework have potential for large-scale high-resolution modelling of population dynamics and its demographic and environmental drivers</p></li>
+<li><p>In this study, we extended model of Nielsen &amp; Nater 2023 to run not just on a single area but all areas with publicly available line transect data simultaneously</p></li>
+<li><p>Capitalize on “sharing information” across locations and effectively space-for-time substitution to estimate population size, age-structure, survival, and recruitment across 41 reporting districts and 15 years (2007-2021) for willow ptarmigan</p></li>
+<li><p>Shortly about willow ptarmigan (hereafter “ptarmigan”): sentinel species (sensitive to changes in climate and land-use), position in the foodweb (maybe? does it matter?), high cultural value (part of people’s “nature experience”, popular game species), not redlisted but popular hunting making sustainable management crucial</p></li>
+<li><p>Wrap up with a sentence on why large-scale spatially explicit indicators for ptarmigan populations would be good to have (national and international context)?</p></li>
+</ul>
+</section>
+<section id="methods" class="level1">
+<h1>Methods</h1>
+<section id="study-species" class="level2">
+<h2 class="anchored" data-anchor-id="study-species">Study species</h2>
+<ul>
+<li>Willow ptarmigan distribution, life history, and (historical) abundance</li>
+</ul>
+</section>
+<section id="data-collection-management-and-preparation" class="level2">
+<h2 class="anchored" data-anchor-id="data-collection-management-and-preparation">Data collection, management, and preparation</h2>
+<section id="line-transect-sampling" class="level3">
+<h3 class="anchored" data-anchor-id="line-transect-sampling">Line transect sampling</h3>
+<ul>
+<li>Setup of Hønsefugltakseringen monitoring programme (volunteer training, line transect sampling, spatio-temporal coverage, etc.)</li>
+<li>Data &amp; metadata recording via app</li>
+<li>Quality control of data</li>
+<li>Open access publishing of data (GBIF, LivingNorway)</li>
+<li>Pre-modelling data wrangling</li>
+</ul>
+<p>Distance-sampling data on willow ptarmigan is collected on line transects not only in western Lierne, but across most of its Norwegian range (https://honsefugl.nina.no/). Taking the line transect datasets from Fjellstyrene, Statskog, and FeFo together, there is data for willow ptarmigan in 41 reporting areas (for a list, see <a href="https://github.com/ErlendNilsen/OpenPop_Integrated_DistSamp/blob/main/R/listAreas.R">here</a>).</p>
+</section>
+<section id="radio-telemetry-study-in-lierne" class="level3">
+<h3 class="anchored" data-anchor-id="radio-telemetry-study-in-lierne">Radio-telemetry study in Lierne</h3>
+<ul>
+<li>Description of setup, data collection, temporal coverage, etc.</li>
+<li>Pre-modelling data wrangling</li>
+</ul>
+</section>
+</section>
+<section id="national-scale-integrated-model" class="level2">
+<h2 class="anchored" data-anchor-id="national-scale-integrated-model">National-scale integrated model</h2>
+<section id="integrated-distance-sampling-model-idsm-for-willow-ptarmigan" class="level3">
+<h3 class="anchored" data-anchor-id="integrated-distance-sampling-model-idsm-for-willow-ptarmigan">Integrated distance sampling model (IDSM) for willow ptarmigan</h3>
+<ul>
+<li>Introduction of integrated Distance sampling model (IDSM) from MS1</li>
+</ul>
+</section>
+<section id="multi-area-model-extension" class="level3">
+<h3 class="anchored" data-anchor-id="multi-area-model-extension">Multi-area model extension</h3>
+<ul>
+<li>Addition of spatial dimension</li>
+<li>Hyper-parameter distributions for spatial variation</li>
+<li>Temporal variation (shared year RE and “residual” variation)</li>
+</ul>
+<p>The model developed as part of this project and presented in <span class="citation" data-cites="nilsen2023">Nilsen and Nater (<a href="#ref-nilsen2023" role="doc-biblioref">2023</a>)</span> was designed with the potential of extension to run on data from multiple areas simultaneously in mind, and this extension involves two steps in practice.</p>
 <p>The first step is the inclusion of an additional dimension, area, to enable using data collected from multiple areas (<a href="#fig-model">Figure&nbsp;1</a>). The area-dimension is added across all model components with the exception of the known-fate telemetry data (and seasonal decomposition of survival estimated from it), as that is only available for the Lierne area.</p>
 <div id="fig-model" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="Figures/RypeIDSM_multiArea_structure.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;1: Simplified graphical representation of the ptarmigan life cycle with two age classes and the data sources included in the integrated distance sampling model. The pink “x”’s indicate the added dimension for area. Juv[x,t] = juveniles in year t. Ad[x,t] = adults in year t. R[x,t] = recruitment rate in year t. S[x,t] = survival probability from year t to t+1.</figcaption><p></p>
+<figcaption class="figure-caption">Figure&nbsp;1: Simplified graphical representation of the ptarmigan life cycle with two age classes and the data sources included in the integrated distance sampling model. The pink “x”’s indicate the added dimension for area. Juv[x,t] = juveniles in year t. Ad[x,t] = adults in year t. R[x,t] = recruitment rate in year t. S[x,t] = survival probability from year t to t+1.</figcaption>
 </figure>
 </div>
 <p>The second step is making adjustments to capitalize on the integration of data from multiple areas to make maximal use of available information. There are several not mutually exclusive options for approaching this, and one of them is the use of “hyper-parameters” for sharing information across areas <span class="citation" data-cites="horswill2019 horswill2021">(e.g. <a href="#ref-horswill2019" role="doc-biblioref">Horswill et al. 2019</a>, <a href="#ref-horswill2021" role="doc-biblioref">2021</a>)</span>. As an illustrative example, take the area-specific average annual survival probability, <span class="math inline">\(\mu^S_x\)</span>. Instead of assigning independent non-informative priors to each <span class="math inline">\(\mu^S_x\)</span>, we now assume that the variation in average survival across space can be described by a common (logit) normal distribution such that:</p>
@@ -114,14 +184,40 @@ h.\sigma^S &amp; \sim Uniform(0, 5)
 \end{align}
 \]</span></p>
 <p>For the multi-area implementation of the IDSM, we used the equivalent of the above approach for parameters representing average survival probabilities, baseline recruitment rates, rodent effect on recruitment, and average distance sampling detection. Initial population density, on the other hand, was estimated independently for each area. Random effects standard deviations were assumed to be the same for all areas, effectively resulting in space-for-time subtitution for random effect estimation.</p>
-<p>Another approach to maximising information gain when jointly analysing data from different areas is explicit modelling of spatial and spatio-temporal variation. While this is commonly done for modern species distribution models <span class="citation" data-cites="pacifici2017 guelat2018">(e.g. <a href="#ref-pacifici2017" role="doc-biblioref">Pacifici et al. 2017</a>; <a href="#ref-guelat2018" role="doc-biblioref">Guélat and Kéry 2018</a>)</span>, it has rarely been implemented in demographic models. This is not least due to the fact that few demographic models span large spatial extents. Since our IDSM and the willow ptarmigan data do actually do that though, extending the framework to account for spatial and spatiotemporal correlations may be feasible. Per now, we have not yet attempted this, but are planning to do so in the near future.</p>
+<p>Another approach to maximising information gain when jointly analysing data from different areas is explicit modelling of spatial and spatio-temporal variation.</p>
 </section>
-<section id="preliminary-results" class="level2">
-<h2 class="anchored" data-anchor-id="preliminary-results">Preliminary results</h2>
-<p>In the following, we present some preliminary results from the model fit to data from all 41 reporting areas simultaneously. Results are presented in the format of pairs of maps. For each quantity/result, we present one map of the posterior median and one map of the standard deviation of the posterior distribution, where the latter serves as a measurement of uncertainty for the former.</p>
-<section id="population-density" class="level3">
-<h3 class="anchored" data-anchor-id="population-density">Population density</h3>
-<p><a href="#fig-densA">Figure&nbsp;2 (a)</a> shows that population density is generally lowest in the Northern parts of Norway and highest in central Norway, close to the Swedish borders. Higher median density estimates also seem to be associated with higher estimation uncertainty (<a href="#fig-densB">Figure&nbsp;2 (b)</a>) and therefore have to be interpreted with care.</p>
+<section id="model-implementation" class="level3">
+<h3 class="anchored" data-anchor-id="model-implementation">Model implementation</h3>
+<ul>
+<li>Bayesian, NIMBLE</li>
+<li>Priors</li>
+<li>Default samplers</li>
+<li>Chains, iterations, burn-in, thinning, posterior samples</li>
+</ul>
+</section>
+</section>
+<section id="variance-decomposition" class="level2">
+<h2 class="anchored" data-anchor-id="variance-decomposition">Variance decomposition</h2>
+<ul>
+<li>How variance decomposition was done</li>
+</ul>
+</section>
+<section id="reproducible-workflow-with-targets" class="level2">
+<h2 class="anchored" data-anchor-id="reproducible-workflow-with-targets">Reproducible workflow with “targets”</h2>
+<p>Reproducibility and ease of repeating analyses was a key focus when developing the multi-area IDSM.To that end, we set up the workflow as a “targets pipeline”, implemented throught the R packages “targets” <span class="citation" data-cites="landau2021">(<a href="#ref-landau2021" role="doc-biblioref">Landau 2021</a>)</span>. A visual representation of the pipeline is displayed in <a href="#fig-workflow">Figure&nbsp;2</a>.</p>
+<div id="fig-workflow" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="Figures/Workflow_layout.png" class="img-fluid figure-img" width="424"></p>
+<figcaption class="figure-caption">Figure&nbsp;2: Graphical representation of the “targets pipeline” for the multi-area modelling setup. Upward facing triangles are functions, downward facing triangles are general options/arguments, circles are objects and outputs (=“targets”) created as part of the workflow.</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="results" class="level1">
+<h1>Results</h1>
+<section id="population-density" class="level2">
+<h2 class="anchored" data-anchor-id="population-density">Population density</h2>
+<p><a href="#fig-densA">Figure&nbsp;3 (a)</a> shows that population density is generally lowest in the Northern parts of Norway and highest in central Norway, close to the Swedish borders. Higher median density estimates also seem to be associated with higher estimation uncertainty (<a href="#fig-densB">Figure&nbsp;3 (b)</a>) and therefore have to be interpreted with care.</p>
 <div id="fig-dens" class="quarto-layout-panel">
 <figure class="figure">
 <div class="quarto-layout-row quarto-layout-valign-top">
@@ -129,7 +225,7 @@ h.\sigma^S &amp; \sim Uniform(0, 5)
 <div id="fig-densA" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="Figures/density_2018-2020_Median.png" class="img-fluid figure-img" data-ref-parent="fig-dens"></p>
-<p></p><figcaption class="figure-caption">(a) Median density estimates</figcaption><p></p>
+<figcaption class="figure-caption">(a) Median density estimates</figcaption>
 </figure>
 </div>
 </div>
@@ -137,18 +233,18 @@ h.\sigma^S &amp; \sim Uniform(0, 5)
 <div id="fig-densB" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="Figures/density_2018-2020_SD.png" class="img-fluid figure-img" data-ref-parent="fig-dens"></p>
-<p></p><figcaption class="figure-caption">(b) Uncertainty in density estimates</figcaption><p></p>
+<figcaption class="figure-caption">(b) Uncertainty in density estimates</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p></p><figcaption class="figure-caption">Figure&nbsp;2: Median (a) and standard deviation (b) of posterior estimates of average ptarmigan density in the three most recent years (2018-2020) across 41 reporting areas in Norway. Darker colors indicate higher median values and higher uncertainty.</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;3: Median (a) and standard deviation (b) of posterior estimates of average ptarmigan density in the three most recent years (2018-2020) across 41 reporting areas in Norway. Darker colors indicate higher median values and higher uncertainty.</figcaption><p></p>
 </figure>
 </div>
 </section>
-<section id="population-growth-rate" class="level3">
-<h3 class="anchored" data-anchor-id="population-growth-rate">Population growth rate</h3>
-<p>In most areas, populations of willow ptarmigan have been increasing over the period 2018-2020, potentially indicating a positive effect of more restricted hunting in recent years (<a href="#fig-lam">Figure&nbsp;3</a>). Some areas – predominantly in central Norway – also had declining populations, but many of those declines followed upon a period of increase between the start of data colection in 2007 and sometime between 2016 and 2018.</p>
+<section id="population-growth-rate" class="level2">
+<h2 class="anchored" data-anchor-id="population-growth-rate">Population growth rate</h2>
+<p>In most areas, populations of willow ptarmigan have been increasing over the period 2018-2020, potentially indicating a positive effect of more restricted hunting in recent years (<a href="#fig-lam">Figure&nbsp;4</a>). Some areas – predominantly in central Norway – also had declining populations, but many of those declines followed upon a period of increase between the start of data colection in 2007 and sometime between 2016 and 2018.</p>
 <div id="fig-lam" class="quarto-layout-panel">
 <figure class="figure">
 <div class="quarto-layout-row quarto-layout-valign-top">
@@ -156,7 +252,7 @@ h.\sigma^S &amp; \sim Uniform(0, 5)
 <div id="fig-lamA" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="Figures/lambda_2018-2020_Median.png" class="img-fluid figure-img" data-ref-parent="fig-lam"></p>
-<p></p><figcaption class="figure-caption">(a) Median population growth rate estimates</figcaption><p></p>
+<figcaption class="figure-caption">(a) Median population growth rate estimates</figcaption>
 </figure>
 </div>
 </div>
@@ -164,18 +260,18 @@ h.\sigma^S &amp; \sim Uniform(0, 5)
 <div id="fig-lamB" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="Figures/lambda_2018-2020_SD.png" class="img-fluid figure-img" data-ref-parent="fig-lam"></p>
-<p></p><figcaption class="figure-caption">(b) Uncertainty in population growth rate estimates</figcaption><p></p>
+<figcaption class="figure-caption">(b) Uncertainty in population growth rate estimates</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p></p><figcaption class="figure-caption">Figure&nbsp;3: Median (a) and standard deviation (b) of posterior estimates of average annual population growth rate over the three most recent years (2018-2020) across 41 reporting areas in Norway. In a), pinkish colors indicate declining populations while greenish colors indicate growing populations (white = stable populations). In b) darker colors indicate higher median values and higher uncertainty.</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;4: Median (a) and standard deviation (b) of posterior estimates of average annual population growth rate over the three most recent years (2018-2020) across 41 reporting areas in Norway. In a), pinkish colors indicate declining populations while greenish colors indicate growing populations (white = stable populations). In b) darker colors indicate higher median values and higher uncertainty.</figcaption><p></p>
 </figure>
 </div>
 </section>
-<section id="survival-probability" class="level3">
-<h3 class="anchored" data-anchor-id="survival-probability">Survival probability</h3>
-<p>Annual survival probabilities ranged from aroung 35% to 50% across reporting areas in Norway, with the highest values occurring in the far north and in the mountains in the south (<a href="#fig-pSurv">Figure&nbsp;4</a>).</p>
+<section id="survival-probability" class="level2">
+<h2 class="anchored" data-anchor-id="survival-probability">Survival probability</h2>
+<p>Annual survival probabilities ranged from aroung 35% to 50% across reporting areas in Norway, with the highest values occurring in the far north and in the mountains in the south (<a href="#fig-pSurv">Figure&nbsp;5</a>).</p>
 <div id="fig-pSurv" class="quarto-layout-panel">
 <figure class="figure">
 <div class="quarto-layout-row quarto-layout-valign-top">
@@ -183,7 +279,7 @@ h.\sigma^S &amp; \sim Uniform(0, 5)
 <div id="fig-pSurvA" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="Figures/pSurv_Median.png" class="img-fluid figure-img" data-ref-parent="fig-pSurv"></p>
-<p></p><figcaption class="figure-caption">(a) Median survival estimates</figcaption><p></p>
+<figcaption class="figure-caption">(a) Median survival estimates</figcaption>
 </figure>
 </div>
 </div>
@@ -191,18 +287,18 @@ h.\sigma^S &amp; \sim Uniform(0, 5)
 <div id="fig-pSurvB" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="Figures/pSurv_SD.png" class="img-fluid figure-img" data-ref-parent="fig-pSurv"></p>
-<p></p><figcaption class="figure-caption">(b) Uncertainty in survival estimates</figcaption><p></p>
+<figcaption class="figure-caption">(b) Uncertainty in survival estimates</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p></p><figcaption class="figure-caption">Figure&nbsp;4: Median (a) and standard deviation (b) of posterior estimates of average annual survival probability across 41 reporting areas in Norway. Darker colors indicate higher median values and higher uncertainty.</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;5: Median (a) and standard deviation (b) of posterior estimates of average annual survival probability across 41 reporting areas in Norway. Darker colors indicate higher median values and higher uncertainty.</figcaption><p></p>
 </figure>
 </div>
 </section>
-<section id="recruitment-rate" class="level3">
-<h3 class="anchored" data-anchor-id="recruitment-rate">Recruitment rate</h3>
-<p>Annual recruitment rates showed a spatial pattern (<a href="#fig-rRep">Figure&nbsp;5</a>) that was inverse relative to that of annual survival (<a href="#fig-pSurv">Figure&nbsp;4</a>), with lower recruitment rates co-occurring with higher survival rates and vice-versa. This is consistent with basic life history theory <span class="citation" data-cites="stearns1992">(<a href="#ref-stearns1992" role="doc-biblioref">Stearns 1992</a>)</span> and with previous studies finding relatively slower life histories in alpine / high altitude areas <span class="citation" data-cites="sandercock2005 bears2009 alice2016">(e.g. <a href="#ref-sandercock2005" role="doc-biblioref">Sandercock, Martin, and Hannon 2005</a>; <a href="#ref-bears2009" role="doc-biblioref">Bears, Martin, and White 2009</a>; <a href="#ref-alice2016" role="doc-biblioref">Alice Boyle, Sandercock, and Martin 2016</a>)</span>.</p>
+<section id="recruitment-rate" class="level2">
+<h2 class="anchored" data-anchor-id="recruitment-rate">Recruitment rate</h2>
+<p>Annual recruitment rates showed a spatial pattern (<a href="#fig-rRep">Figure&nbsp;6</a>) that was inverse relative to that of annual survival (<a href="#fig-pSurv">Figure&nbsp;5</a>), with lower recruitment rates co-occurring with higher survival rates and vice-versa. This is consistent with basic life history theory <span class="citation" data-cites="stearns1992">(<a href="#ref-stearns1992" role="doc-biblioref">Stearns 1992</a>)</span> and with previous studies finding relatively slower life histories in alpine / high altitude areas <span class="citation" data-cites="sandercock2005 bears2009 alice2016">(e.g. <a href="#ref-sandercock2005" role="doc-biblioref">Sandercock, Martin, and Hannon 2005</a>; <a href="#ref-bears2009" role="doc-biblioref">Bears, Martin, and White 2009</a>; <a href="#ref-alice2016" role="doc-biblioref">Alice Boyle, Sandercock, and Martin 2016</a>)</span>.</p>
 <div id="fig-rRep" class="quarto-layout-panel">
 <figure class="figure">
 <div class="quarto-layout-row quarto-layout-valign-top">
@@ -210,7 +306,7 @@ h.\sigma^S &amp; \sim Uniform(0, 5)
 <div id="fig-rRepA" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="Figures/rRep_Median.png" class="img-fluid figure-img" data-ref-parent="fig-rRep"></p>
-<p></p><figcaption class="figure-caption">(a) Median recruitment estimates</figcaption><p></p>
+<figcaption class="figure-caption">(a) Median recruitment estimates</figcaption>
 </figure>
 </div>
 </div>
@@ -218,18 +314,18 @@ h.\sigma^S &amp; \sim Uniform(0, 5)
 <div id="fig-rRepB" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="Figures/rRep_SD.png" class="img-fluid figure-img" data-ref-parent="fig-rRep"></p>
-<p></p><figcaption class="figure-caption">(b) Uncertainty in recruitment estimates</figcaption><p></p>
+<figcaption class="figure-caption">(b) Uncertainty in recruitment estimates</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p></p><figcaption class="figure-caption">Figure&nbsp;5: Median (a) and standard deviation (b) of posterior estimates of average annual recruitment rate across 41 reporting areas in Norway. Darker colors indicate higher median values and higher uncertainty.</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;6: Median (a) and standard deviation (b) of posterior estimates of average annual recruitment rate across 41 reporting areas in Norway. Darker colors indicate higher median values and higher uncertainty.</figcaption><p></p>
 </figure>
 </div>
 </section>
-<section id="effect-of-rodent-occupancy" class="level3">
-<h3 class="anchored" data-anchor-id="effect-of-rodent-occupancy">Effect of rodent occupancy</h3>
-<p>The model predicted substantial variation in the effect of the rodent occupancy covariate on recruitment (<a href="#fig-betaR">Figure&nbsp;6</a>). Areas in the north and south west generally had recruitment increasing with rodent occupancy while the remaining areas were a mosaic of positive and negative effects, albeit with some spatial clustering.</p>
+<section id="effects-of-rodent-occupancy" class="level2">
+<h2 class="anchored" data-anchor-id="effects-of-rodent-occupancy">Effects of rodent occupancy</h2>
+<p>The model predicted substantial variation in the effect of the rodent occupancy covariate on recruitment (<a href="#fig-betaR">Figure&nbsp;7</a>). Areas in the north and south west generally had recruitment increasing with rodent occupancy while the remaining areas were a mosaic of positive and negative effects, albeit with some spatial clustering.</p>
 <div id="fig-betaR" class="quarto-layout-panel">
 <figure class="figure">
 <div class="quarto-layout-row quarto-layout-valign-top">
@@ -237,7 +333,7 @@ h.\sigma^S &amp; \sim Uniform(0, 5)
 <div id="fig-betaRA" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="Figures/betaR_Median.png" class="img-fluid figure-img" data-ref-parent="fig-betaR"></p>
-<p></p><figcaption class="figure-caption">(a) Median rodent effect estimates</figcaption><p></p>
+<figcaption class="figure-caption">(a) Median rodent effect estimates</figcaption>
 </figure>
 </div>
 </div>
@@ -245,65 +341,111 @@ h.\sigma^S &amp; \sim Uniform(0, 5)
 <div id="fig-betaRB" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="Figures/betaR_SD.png" class="img-fluid figure-img" data-ref-parent="fig-betaR"></p>
-<p></p><figcaption class="figure-caption">(b) Uncertainty in rodent effect estimates</figcaption><p></p>
+<figcaption class="figure-caption">(b) Uncertainty in rodent effect estimates</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p></p><figcaption class="figure-caption">Figure&nbsp;6: Median (a) and standard deviation (b) of posterior estimates of effects of rodent occupancy on recruitment rate across 41 reporting areas in Norway. In a), blueish colors indicate negative effects while reddish colors indicate positive effects (yellow = no effect). In b) darker colors indicate higher median values and higher uncertainty.</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;7: Median (a) and standard deviation (b) of posterior estimates of effects of rodent occupancy on recruitment rate across 41 reporting areas in Norway. In a), blueish colors indicate negative effects while reddish colors indicate positive effects (yellow = no effect). In b) darker colors indicate higher median values and higher uncertainty.</figcaption><p></p>
 </figure>
 </div>
 </section>
+<section id="detection-parameters" class="level2">
+<h2 class="anchored" data-anchor-id="detection-parameters">Detection parameters</h2>
+<p>[TBA]</p>
 </section>
-<section id="reproducible-workflow-with-targets" class="level2">
-<h2 class="anchored" data-anchor-id="reproducible-workflow-with-targets">Reproducible workflow with “targets”</h2>
-<p>Reproducibility and ease of repeating analyses was a key focus when developing the multi-area IDSM.To that end, we set up the workflow as a “targets pipeline”, implemented throught the R packages “targets” <span class="citation" data-cites="landau2021">(<a href="#ref-landau2021" role="doc-biblioref">Landau 2021</a>)</span>. A visual representation of the pipeline is displayed in <a href="#fig-workflow">Figure&nbsp;7</a>.</p>
-<div id="fig-workflow" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="Figures/Workflow_layout.png" class="img-fluid figure-img" width="424"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;7: Graphical representation of the “targets pipeline” for the multi-area modelling setup. Upward facing triangles are functions, downward facing triangles are general options/arguments, circles are objects and outputs (=“targets”) created as part of the workflow.</figcaption><p></p>
-</figure>
-</div>
+<section id="variance-decomposition-1" class="level2">
+<h2 class="anchored" data-anchor-id="variance-decomposition-1">Variance decomposition</h2>
+<p>[TBA]</p>
 </section>
-<section id="data-and-code-availability" class="level2">
-<h2 class="anchored" data-anchor-id="data-and-code-availability">Data and code availability</h2>
+</section>
+<section id="discussion" class="level1">
+<h1>Discussion</h1>
+<p>[TBA]</p>
+<section id="abundance-and-vital-rates-across-space-and-time" class="level2">
+<h2 class="anchored" data-anchor-id="abundance-and-vital-rates-across-space-and-time">Abundance and vital rates across space and time</h2>
+<ul>
+<li>Biological results (interpretations and comparisons with other case studies / species / systems)</li>
+<li>With some focus on what we are able to get insights on thanks to the integration across time and space (i.e.&nbsp;better estimates through data sharing, relative importance of different kinds of variation, etc. )</li>
+</ul>
+</section>
+<section id="implications-for-management-preliminary-section-title" class="level2">
+<h2 class="anchored" data-anchor-id="implications-for-management-preliminary-section-title">Implications for management (preliminary section title)</h2>
+<ul>
+<li>What results mean for management (of habitat and of harvest)</li>
+</ul>
+</section>
+<section id="model-limitations-and-outlook" class="level2">
+<h2 class="anchored" data-anchor-id="model-limitations-and-outlook">Model limitations and outlook</h2>
+<ul>
+<li><p>Some limitations of “base model” that need mentioning (e.g.&nbsp;age assignment, ignoring potential effects of flock size on detection)</p></li>
+<li><p>Limited usefulness of auxiliary radio-telemetry data as only from one area (big potential for including additional datasets from other small-scale studies, telemetry but also other, e.g.&nbsp;nest monitoring?)</p></li>
+<li><p>Outlook: improved modelling of spatio-temporal patterns through correlated REs</p></li>
+</ul>
+<p>Another approach to maximising information gain when jointly analysing data from different areas is explicit modelling of spatial and spatio-temporal variation. While this is commonly done for modern species distribution models <span class="citation" data-cites="pacifici2017 guelat2018">(e.g. <a href="#ref-pacifici2017" role="doc-biblioref">Pacifici et al. 2017</a>; <a href="#ref-guelat2018" role="doc-biblioref">Guélat and Kéry 2018</a>)</span>, it has rarely been implemented in demographic models. This is not least due to the fact that few demographic models span large spatial extents. Since our IDSM and the willow ptarmigan data do actually do that though, extending the framework to account for spatial and spatiotemporal correlations may be feasible. Per now, we have not yet attempted this, but are planning to do so in the near future. (BUT: we do already have some computational limitations now, so likely to need development of more efficient sampling strategies. Which is fortunately possible with NIMBLE but there is a chance that another platform, e.g.&nbsp;INLA, may be required)</p>
+<ul>
+<li>Outlook: integration with / coupling to models for harvest to develop tools for (automatic) calculation of e.g.&nbsp;hunting quotas</li>
+</ul>
+</section>
+<section id="reproducible-workflows-for-a-sustainable-future" class="level2">
+<h2 class="anchored" data-anchor-id="reproducible-workflows-for-a-sustainable-future">Reproducible workflows for a sustainable future</h2>
+<ul>
+<li>Structure / setup of this workflow (from data collection to analytical results)</li>
+<li>Why this matters: transparency and credibility, feedback to volunteer data collectors, cost-effective to re-do analyses for annual/regular reporting, easy to re-use and build upon, publicly accessible and well documented to allow more effective resource use in follow-up projects (sustainable use of funding), etc.</li>
+<li>Also: useful to link up to different reporting routes and/or more general (multi-indicator) projects</li>
+</ul>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<ul>
+<li>Summarise neatly</li>
+<li>Things worth highlighting: inference across large spatial scale but with “useful” resolution for management, advantages of integration across space (we can estimate better and more), integration of small locality-specific datasets with large national-scale monitoring, importance of reproducible workflows</li>
+</ul>
+</section>
+</section>
+<section id="acknowledgements" class="level1">
+<h1>Acknowledgements</h1>
+<p>[TBA]</p>
+</section>
+<section id="data-and-code-availability" class="level1">
+<h1>Data and code availability</h1>
 <p>The raw data from the line transect surveys is deposited on GBIF and can be accessed freely via the Living Norway Data Portal (https://data.livingnorway.no/). The work presented above is based on versions 1.7, 1.8, and 1.12 for the datasets from Fjellstyrene (key b49a2978-0e30-4748-a99f-9301d17ae119), Statskog (key 6a948a1c-7e23-4d99-b1c1-ec578d0d3159), and FeFo (key c47f13c1-7427-45a0-9f12-237aad351040), respectively.</p>
-<p>The auxiliary radio-telemetry data and all code, including the “targets pipeline” can be found in the project’s repository on GitHub: <a href="https://github.com/ErlendNilsen/OpenPop_Integrated_DistSamp">https://github.com/ErlendNilsen/OpenPop_Integrated_DistSamp</a>.</p>
+<p>The auxiliary radio-telemetry data and all code, including the “targets pipeline” can be found in the project’s repository on GitHub: <a href="https://github.com/ErlendNilsen/OpenPop_Integrated_DistSamp" class="uri">https://github.com/ErlendNilsen/OpenPop_Integrated_DistSamp</a>.</p>
 </section>
-<section id="references" class="level2 unnumbered">
+<section id="references" class="level1 unnumbered">
 
 
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
-<div id="ref-alice2016" class="csl-entry" role="doc-biblioentry">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-alice2016" class="csl-entry" role="listitem">
 Alice Boyle, W, Brett K Sandercock, and Kathy Martin. 2016. <span>“Patterns and Drivers of Intraspecific Variation in Avian Life History Along Elevational Gradients: A Meta-Analysis.”</span> <em>Journal of Animal Ecology</em> 91 (2): 469–82.
 </div>
-<div id="ref-bears2009" class="csl-entry" role="doc-biblioentry">
+<div id="ref-bears2009" class="csl-entry" role="listitem">
 Bears, H, K Martin, and GC White. 2009. <span>“Breeding in High-Elevation Habitat Results in Shift to Slower Life-History Strategy Within a Single Species.”</span> <em>Journal of Animal Ecology</em> 78 (2): 365–75.
 </div>
-<div id="ref-guelat2018" class="csl-entry" role="doc-biblioentry">
+<div id="ref-guelat2018" class="csl-entry" role="listitem">
 Guélat, Jérôme, and Marc Kéry. 2018. <span>“Effects of Spatial Autocorrelation and Imperfect Detection on Species Distribution Models.”</span> <em>Methods in Ecology and Evolution</em> 9 (6): 1614–25.
 </div>
-<div id="ref-horswill2019" class="csl-entry" role="doc-biblioentry">
+<div id="ref-horswill2019" class="csl-entry" role="listitem">
 Horswill, Cat, Holly K Kindsvater, Maria José Juan-Jordá, Nicholas K Dulvy, Marc Mangel, and Jason Matthiopoulos. 2019. <span>“Global Reconstruction of Life-History Strategies: A Case Study Using Tunas.”</span> <em>Journal of Applied Ecology</em> 56 (4): 855–65.
 </div>
-<div id="ref-horswill2021" class="csl-entry" role="doc-biblioentry">
+<div id="ref-horswill2021" class="csl-entry" role="listitem">
 Horswill, Cat, Andrea Manica, Francis Daunt, Mark Newell, Sarah Wanless, Matthew Wood, and Jason Matthiopoulos. 2021. <span>“Improving Assessments of Data-Limited Populations Using Life-History Theory.”</span> <em>Journal of Applied Ecology</em> 58 (6): 1225–36.
 </div>
-<div id="ref-landau2021" class="csl-entry" role="doc-biblioentry">
+<div id="ref-landau2021" class="csl-entry" role="listitem">
 Landau, William Michael. 2021. <span>“The Targets r Package: A Dynamic Make-Like Function-Oriented Pipeline Toolkit for Reproducibility and High-Performance Computing.”</span> <em>Journal of Open Source Software</em> 6 (57): 2959. <a href="https://doi.org/10.21105/joss.02959">https://doi.org/10.21105/joss.02959</a>.
 </div>
-<div id="ref-nilsen2023" class="csl-entry" role="doc-biblioentry">
+<div id="ref-nilsen2023" class="csl-entry" role="listitem">
 Nilsen, Erlend B, and Chloé R Nater. 2023. <span>“An Integrated Distance Sampling Approach for Modelling Age-Structured Populations.”</span> <em>Manuscript</em>.
 </div>
-<div id="ref-pacifici2017" class="csl-entry" role="doc-biblioentry">
+<div id="ref-pacifici2017" class="csl-entry" role="listitem">
 Pacifici, Krishna, Brian J Reich, David AW Miller, Beth Gardner, Glenn Stauffer, Susheela Singh, Alexa McKerrow, and Jaime A Collazo. 2017. <span>“Integrating Multiple Data Sources in Species Distribution Modeling: A Framework for Data Fusion.”</span> <em>Ecology</em> 98 (3): 840–50.
 </div>
-<div id="ref-sandercock2005" class="csl-entry" role="doc-biblioentry">
+<div id="ref-sandercock2005" class="csl-entry" role="listitem">
 Sandercock, Brett K, Kathy Martin, and Susan J Hannon. 2005. <span>“Life History Strategies in Extreme Environments: Comparative Demography of Arctic and Alpine Ptarmigan.”</span> <em>Ecology</em> 86 (8): 2176–86.
 </div>
-<div id="ref-stearns1992" class="csl-entry" role="doc-biblioentry">
+<div id="ref-stearns1992" class="csl-entry" role="listitem">
 Stearns, Stephen C. 1992. <em>The Evolution of Life Histories</em>. Vol. 249. Oxford university press Oxford.
 </div>
 </div></section></div></main>
@@ -335,9 +477,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -402,6 +558,92 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {

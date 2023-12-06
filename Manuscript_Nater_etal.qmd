@@ -207,7 +207,37 @@ Median (a) and standard deviation (b) of posterior estimates of effects of roden
 
 \[TBA\]
 
-Another approach to maximising information gain when jointly analysing data from different areas is explicit modelling of spatial and spatio-temporal variation. While this is commonly done for modern species distribution models [e.g. @pacifici2017; @guelat2018], it has rarely been implemented in demographic models. This is not least due to the fact that few demographic models span large spatial extents. Since our IDSM and the willow ptarmigan data do actually do that though, extending the framework to account for spatial and spatiotemporal correlations may be feasible. Per now, we have not yet attempted this, but are planning to do so in the near future.
+## Abundance and vital rates across space and time
+
+-   Biological results (interpretations and comparisons with other case studies / species / systems)
+-   With some focus on what we are able to get insights on thanks to the integration across time and space (i.e. better estimates through data sharing, relative importance of different kinds of variation, etc. )
+
+## Implications for management (preliminary section title)
+
+-   What results mean for management (of habitat and of harvest)
+
+## Model limitations and outlook
+
+-   Some limitations of "base model" that need mentioning (e.g. age assignment, ignoring potential effects of flock size on detection)
+
+-   Limited usefulness of auxiliary radio-telemetry data as only from one area (big potential for including additional datasets from other small-scale studies, telemetry but also other, e.g. nest monitoring?)
+
+-   Outlook: improved modelling of spatio-temporal patterns through correlated REs
+
+Another approach to maximising information gain when jointly analysing data from different areas is explicit modelling of spatial and spatio-temporal variation. While this is commonly done for modern species distribution models [e.g. @pacifici2017; @guelat2018], it has rarely been implemented in demographic models. This is not least due to the fact that few demographic models span large spatial extents. Since our IDSM and the willow ptarmigan data do actually do that though, extending the framework to account for spatial and spatiotemporal correlations may be feasible. Per now, we have not yet attempted this, but are planning to do so in the near future. (BUT: we do already have some computational limitations now, so likely to need development of more efficient sampling strategies. Which is fortunately possible with NIMBLE but there is a chance that another platform, e.g. INLA, may be required)
+
+-   Outlook: integration with / coupling to models for harvest to develop tools for (automatic) calculation of e.g. hunting quotas
+
+## Reproducible workflows for a sustainable future
+
+-   Structure / setup of this workflow (from data collection to analytical results)
+-   Why this matters: transparency and credibility, feedback to volunteer data collectors, cost-effective to re-do analyses for annual/regular reporting, easy to re-use and build upon, publicly accessible and well documented to allow more effective resource use in follow-up projects (sustainable use of funding), etc.
+-   Also: useful to link up to different reporting routes and/or more general (multi-indicator) projects
+
+## Conclusion
+
+-   Summarise neatly
+-   Things worth highlighting: inference across large spatial scale but with "useful" resolution for management, advantages of integration across space (we can estimate better and more), integration of small locality-specific datasets with large national-scale monitoring, importance of reproducible workflows
 
 # Acknowledgements
 
