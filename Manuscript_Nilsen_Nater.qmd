@@ -1,5 +1,5 @@
 ---
-title: "An integrated distance sampling approach for modelling age-structured populations"
+title: "An integrated open population distance sampling approach for modelling age-structured populations"
 format: html
 author: Erlend B. Nilsen & Chloé R. Nater
 editor: visual
@@ -16,7 +16,7 @@ Estimating abundance and demographic rates for wildlife populations is an integr
 
 Until recently, joint estimation of population dynamics and demography has relied mostly on data from marked individuals through application of open-population capture-mark-recapture models (ref). While such methods can provide valuable information for both ecological research and management, they are also in many cases costly to implement over large areas. On the other hand, data from monitoring of abundance trends over time typically are based on data from unmarked animals (ref). A common approach for such surveys is to structure data collection around the distance sampling (DS) method. DS have been used for estimating animal abundance in a wide range of contexts and for a variety of taxa [@buckland2015]. One reason for their popularity might be that they does not require repeated visits to the same sites to estimate detection probability (ref). Rather, it is assumed that detection probability decrease as the objects are located longer away from the transect line (ref). This makes them particularily useful for implementation in participatory monitoring program, allowing stakeholders to take part in the data collection process.
 
-The most common implementation of the DS model has been to use close-population formulations, that does not allow to formulate a process model that project abundance across years based on estimates of population growth rate ($\lambda$) or underlying demographic rates (ref). In recent years, DS approahces have been extended and also applied for estimating changes in abundance over time in open populations by embedding a hidden state model representing population dynamics [@moore2011; @sollmann2015]. Such approaches has greatly extended the application of DS approaches to study ecological dynamics in time and space. However, while these latter frameworks may allow to accurately quantify population changes but provide little information on the drivers of these changes, i.e. the underlying vital rates. In fact, if the data does not contain information about the age (and/or sex-) structure of the surveyed population, there is no stratight forward way to estimate demographic rates from such data. In cases where the age (and sex) of the observed individuals can be observed, this information can under some assumptions be used to inform about recruitment rates and survival probabilities (ref). For instance, in a integrated population model based on harvest statistics and observations of population age structure, both population abundance and demographic rates was estimated without even without additional data from marked individuals [@Nilsen2018].
+The most common implementation of the DS model has been to use close-population formulations, that does not allow to formulate a process model that project abundance across years based on estimates of population growth rate ($\lambda$) or underlying demographic rates (ref). In recent years, DS approahces have been extended and also applied for estimating changes in abundance over time in open populations by embedding a hidden state model representing population dynamics [@moore2011; @sollmann2015]. Such approaches has greatly extended the application of DS approaches to study ecological dynamics in time and space. However, while these latter frameworks may allow to accurately quantify population changes but provide little information on the drivers of these changes, i.e. the underlying vital rates. In fact, if the data does not contain information about the age (and/or sex-) structure of the surveyed population, there is no straight forward way to estimate demographic rates from such data. In cases where the age (and sex) of the observed individuals can be observed, this information can under some assumptions be used to inform about recruitment rates and survival probabilities (ref). For instance, in a integrated population model based on harvest statistics and observations of population age structure, both population abundance and demographic rates was estimated without even without additional data from marked individuals [@Nilsen2018].
 
 Concurrent with the development of more sophisticated DS models, another group of models has emerged and gained popularity, not least for their ability to disentangle demographic processes underlying population dynamic: integrated population models [IPMs, @schaub2021]. Through joint analysis of multiple datasets, IPMs allow simultaneous estimation of population size and composition, as well as all vital rates that form part of an underlying typically age- or stage-structured population model. Since both DS models and IPMs estimate population size/density, a combination of the two frameworks has the potential to provide good estimates of both population- and demographic parameters and maximizing knowledge gained through transect surveys by augmenting them with other available data [e.g. @schmidt2020].
 
@@ -146,17 +146,11 @@ We implemented the model in a Bayesian framework using NIMBLE [@valpine2017] in 
 
 ### 3.1 Model performance on simulated datasets
 
-Based on simulated data, we assessed the models ability to estimate the underlying parameters. We run a total of 10 simulations, and the results are summarized in
+Based on simulated data, we assessed the models ability to estimate the underlying parameters. We run a total of 10 simulations, and the results are summarized in @fig-sim-detection and @fig-sim-demo. In general, the model was able to estimate both parameters of the detection model (Figure X) of the simulated data with little bias. This was true for all 10 simulations, and for underlying model parameters than span a wide variation in values. The full output from each simulation is available in the appendix.
 
-In general, the model was able to estimate both parameters of the detection model (Figure X) of the simulated data with little bias.
+![Model performance on simulated data. Upper panel depicts model parameters, and lower panels show derived estimated of effective strip width and mean detection probability. Dots represents true value, and density plot represent the posterior samples for each simulation](Figures/SimCheck_Detects_Temps.png){#fig-sim-detection}
 
-![Model performance on simulated data. Upper panel depicts model parameters, and lower panels show derived estimated of effective strip width and mean detection probability](Figures/SimCheck_Detects_Temps.png){#@fig-sim-detection}
-
-**Figure X** Model performance on simulated data. Upper panel depicts model parameters, and lower panels show derived estimated of effective strip width and mean detection probability
-
-![](Figures/SimCheck_VRs_Temps.png)
-
-**Figure X** Vital rates estimated based on simulated data
+![Posterior samples for the vital rates estimated based on simulated data. Upper panel show annual and seasonal survival probabilities, hyperparameters for the random effects model for recruitment (mean and sd), and lower panel show annual estimates of the recruitment rate. Dots represent true values, and density plots represents the posterior samples from each simulation](Figures/SimCheck_VRs_Temps.png){#fig-sim-demo}
 
 ### 3.2 Case study on willow ptarmigans in Central Norway
 
@@ -187,16 +181,22 @@ Recruitment ($R_t$) was allowed to vary across years (see model specification), 
 
 ![Posterior densities of A) seasonal survival, B) average annual survival, and C) recruitment rate. For the latter, the yellow distribution is for the intercept, representing a baseline recruitment rate when rodent occupancy is low. The turquoise distributions are for year-specific estimates or recruitment rate, with darker colors indicating later years.](Figures/PostDens_Mu_S_tR.png){#fig-lierne-demo}
 
-#### 
-
 ## Discussion
 
--   In our process model, the population growth rate ($\lambda$) is determind by the survival and recruitment rate in the following way: $\lambda = S + (S * R)$, creating a dependence between the demographic parameters. If the age ratio in the data are biased or contain frequent misclassifications, this is likely to affect the relative contribution of survival and recruitment to the growth rate. As a test of the phenomena, we also
-
-### Conclusion
+-   In general, the model does a very good job in recreating the underlying parameters when fitted to simulated data where the true values are known. For the simulated data, a relative wide range of parameter values were allowed, and we did not detect any particular problems or biases with respect to this variation in the underlying parameters.
+-   The fact that this formulation allow us to separately estimate the underlying demographic rates (survival and recruitment) is a clear improvement compared to previous open population DS models, as this allow us both to obtain estimates of the rates, but also to assess the effect of environmental variation directly on demographic rates and not just on population growth rate ($\lambda$) .
+-   Nevertheless, we did not detect a clear effect of rodent abundance (indexed by the occurrence of rodents on the transect lines) on recruitment rate. This might be somewhat surprising, given that such a pattern has been reported repeatedly in the literature (see e.g. @Bowler2020). However, the data on rodent abundance was heavily zero-inflated, and the annual variation in the index was rather small. \[A few sentences about fading rodent cycles, and perhaps a weakened link to ptarmigan dynamics\].
+-   In our process model, the population growth rate ($\lambda$) is determined by the survival and recruitment rate in the following way: $\lambda = S + (S * R)$, creating a dependence between the demographic parameters. If the age ratio in the data are biased or contain frequent misclassifications, this is likely to affect the relative contribution of survival and recruitment to the growth rate. As a test of the phenomena, we also assessed how sensitive the model output was with regard to the treatment of birds classified as "unknown sex and age" by the field personnel (see **Methods**). In the version presented in the results section, we made the assumption that these birds were in fact juveniles. In an alternative scenario, we discarded all birds classified as unknowns, and rerun the model (Appendix). As expected the estimated population density was virtually unaffected by this decision, whereas the effect on the demographic parameters were somewhat more affected. Thus biases in the age ratio will affect the demographic rates, but not so much the estimated density. Compared to previous studies on ptarmigan, we could have expected a higher survival rate indicating that there is some misclassification in the data with respect to age specification.
+-   The model is flexible, and can be extended with additional auxiliary data, such as separate data on recruitment rates that could improve the precision of the demographic rate estimates. It is also possible to extent the model with additional covariates, to gain a better understanding of how species respond to environmental variation through the effects on vital rates.
 
 ### Author contributions
 
+EBN Lead - Drafted the model code; Lead - Wrote first version of ms; Lead; data collection Contributed - Modelling and analyses
+
+CRN Lead - Updated and finalized model code; Lead - Modelling; Contributed - Wrote first version of ms
+
 ### Acknowledgements
+
+We are grateful to field workers that collected the line transect data through the Hønsefuglportalen program. Fjellstyrene i Lierne contributed both to the line transect program and the field work related to the marked willow ptarmigan. Norwegian Environment Agency funded the projects (grant nrs **TO BE ADDED**). \[+ additional people contributing to the various projects\]
 
 ### Data and code availability
