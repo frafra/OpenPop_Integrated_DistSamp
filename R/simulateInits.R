@@ -56,13 +56,13 @@ simulateInits <- function(nim.data, nim.constants, R_perF, survVarT, fitRodentCo
   
   ## Area-specific survival parameters
   h.Mu.S <- runif(1, 0.3, 0.5) 
-  h.sigma.S <- runif(1, 0, 0.1)
-  Mu.S1 <- runif(1, 0.6, 0.7)
+  h.sigma.S <- runif(1, 0.05, 0.25)
+  Mu.S1 <- runif(1, 0.5, 0.7)
   
   mu.S <- EnvStats::rnormTrunc(N_areas, qlogis(h.Mu.S), sd = h.sigma.S, max = qlogis(Mu.S1))
 
-  sigmaT.S <- runif(1, 0, 0.05)
-  sigmaR.S <- runif(1, 0, 0.05)
+  sigmaT.S <- runif(1, 0.05, 0.2)
+  sigmaR.S <- runif(1, 0.05, 0.2)
   
   Mu.S <- rep(NA, N_areas)
   S <-  matrix(NA, nrow = N_areas, ncol = N_years)
@@ -90,11 +90,11 @@ simulateInits <- function(nim.data, nim.constants, R_perF, survVarT, fitRodentCo
   S2[1:N_years] <- S[nim.constants$SurvAreaIdx, 1:N_years] / S1[1:N_years]
   
   ## Area-specific reproductive parameters
-  h.Mu.R  <- runif(1, 1, 4)
-  h.sigma.R <- runif(1, 0, 0.05)
+  h.Mu.R  <- runif(1, 1.5, 3)
+  h.sigma.R <- runif(1, 0.05, 0.2)
   
-  h.Mu.betaR.R <- runif(1, 0, 0.1)
-  h.sigma.betaR.R <- runif(1, 0, 0.05)
+  h.Mu.betaR.R <- runif(1, 0.01, 0.1)
+  h.sigma.betaR.R <- runif(1, 0.05, 0.1)
   
   Mu.R <- rlnorm(N_areas, meanlog = log(h.Mu.R), sdlog =  h.sigma.R)
   
@@ -104,8 +104,8 @@ simulateInits <- function(nim.data, nim.constants, R_perF, survVarT, fitRodentCo
     betaR.R <- rep(0, N_areas)
   }
     
-  sigmaT.R <- runif(1, 0, 2)
-  sigmaR.R <- runif(1, 0, 2)
+  sigmaT.R <- runif(1, 0.05, 0.2)
+  sigmaR.R <- runif(1, 0.05, 0.2)
   
   R_year <- matrix(NA, nrow = N_areas, ncol = N_years)
   
@@ -124,14 +124,14 @@ simulateInits <- function(nim.data, nim.constants, R_perF, survVarT, fitRodentCo
   #----------------------#
   
   ## Area-specific detection parameters
-  h.mu.dd <- runif(1, 2, 5)
-  h.sigma.dd <- runif(1, 0, 1)
+  h.mu.dd <- runif(1, 3.5, 5.5)
+  h.sigma.dd <- runif(1, 0.05, 0.2)
   
   #mu.dd <- rnorm(N_areas, h.mu.dd, sd = h.sigma.dd)
   mu.dd <- rep(h.mu.dd, N_areas)
   
-  sigmaT.dd <- runif(1, 1, 10)
-  sigmaR.dd <- runif(1, 1, 10)
+  sigmaT.dd <- runif(1, 0.05, 0.2)
+  sigmaR.dd <- runif(1, 0.05, 0.2)
   
   sigma <- esw <- p <- matrix(NA, nrow = N_areas, ncol = N_years)
   
@@ -156,8 +156,8 @@ simulateInits <- function(nim.data, nim.constants, R_perF, survVarT, fitRodentCo
   
   ## Initial densities / population sizes
   Mu.D1 <- rep(NA, N_areas)
-  sigma.D <- runif(N_areas, 0.05, 2)
-  ratio.JA1 <- runif(N_areas, 0.2, 0.6)
+  sigma.D <- runif(N_areas, 0.1, 2)
+  ratio.JA1 <- runif(N_areas, 0.4, 0.8)
   
   N_exp <- Density <- array(0, dim = c(N_areas, N_ageC, max(N_sites), N_years))
   
