@@ -119,15 +119,17 @@ plotVarDecomposition <- function(mcmc.out, N_areas, N_years, fitRodentCov, Roden
   
   ## Plot variance decomposition for all parameters
   pdf("Plots/VarDecomposition/VarDecomposition_overall.pdf", width = 6, height = 6)
-  ggplot(propVar.all) + 
-    geom_density(aes(x = PropVar, color = VarComponent, fill = VarComponent), alpha = 0.5) + 
-    facet_wrap(~Parameter, ncol = 1, scales = "free_y") + 
-    ylab("Density") + xlab("Proportion of total variance") +
-    #paletteer::scale_fill_paletteer_d("nbapalettes::grizzlies_00s") + 
-    #paletteer::scale_color_paletteer_d("nbapalettes::grizzlies_00s") + 
-    scale_fill_manual(values = c("#3B99B1FF", "#A2C194FF", "#EABB22FF", "#E87200FF")) + 
-    scale_color_manual(values = c("#3B99B1FF", "#A2C194FF", "#EABB22FF", "#E87200FF")) + 
-    theme_classic()
+  print(
+    ggplot(propVar.all) + 
+      geom_density(aes(x = PropVar, color = VarComponent, fill = VarComponent), alpha = 0.5) + 
+      facet_wrap(~Parameter, ncol = 1, scales = "free_y") + 
+      ylab("Density") + xlab("Proportion of total variance") +
+      #paletteer::scale_fill_paletteer_d("nbapalettes::grizzlies_00s") + 
+      #paletteer::scale_color_paletteer_d("nbapalettes::grizzlies_00s") + 
+      scale_fill_manual(values = c("#3B99B1FF", "#A2C194FF", "#EABB22FF", "#E87200FF")) + 
+      scale_color_manual(values = c("#3B99B1FF", "#A2C194FF", "#EABB22FF", "#E87200FF")) + 
+      theme_classic()
+  )
   dev.off()
   
   ## Return data and plot path
