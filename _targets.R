@@ -10,7 +10,7 @@ library(sf)
 library(tmap)
 
 ## Set seed
-mySeed <- 0
+mySeed <- 10
 set.seed(mySeed)
 
 ## Source all functions in "R" folder
