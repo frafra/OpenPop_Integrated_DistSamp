@@ -122,7 +122,7 @@ list(
                nim.constants = input_data$nim.constants,
                survVarT = survVarT,
                fitRodentCov = fitRodentCov,
-               testRun = TRUE, 
+               testRun = FALSE, 
                nchains = 3,
                initVals.seed = mySeed)
   ),
@@ -202,6 +202,8 @@ list(
                       covName = "Rodent occupancy",
                       minCov = 0, 
                       maxCov = 1,
+                      meanCov = d_rodent$meanCov,
+                      sdCov = d_rodent$sdCov,
                       N_areas = input_data$nim.constant$N_areas, 
                       area_names = input_data$nim.constant$area_names,
                       fitRodentCov = fitRodentCov)
