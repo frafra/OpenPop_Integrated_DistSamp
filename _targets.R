@@ -122,7 +122,7 @@ list(
                nim.constants = input_data$nim.constants,
                survVarT = survVarT,
                fitRodentCov = fitRodentCov,
-               testRun = FALSE, 
+               testRun = TRUE, 
                nchains = 3,
                initVals.seed = mySeed)
   ),

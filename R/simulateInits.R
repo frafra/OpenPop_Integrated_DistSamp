@@ -220,12 +220,14 @@ simulateInits <- function(nim.data, nim.constants, R_perF, survVarT, fitRodentCo
     h.Mu.R = h.Mu.R, h.sigma.R = h.sigma.R,
     sigmaT.R = sigmaT.R, sigmaR.R = sigmaR.R,
     epsT.R = epsT.R, epsR.R = epsR.R,
+    epsA.R =  log(Mu.R) - log(h.Mu.R),
     R_year = R_year,
     
     mu.dd = mu.dd,
     h.mu.dd = h.mu.dd, h.sigma.dd = h.sigma.dd,
     sigmaT.dd = sigmaT.dd, sigmaR.dd = sigmaR.dd,
     epsT.dd = epsT.dd, epsR.dd = epsR.dd,
+    epsA.dd = mu.dd - h.mu.dd,
     sigma = sigma, sigma2 = sigma^2,
     esw = esw,
     p = p,
@@ -235,6 +237,7 @@ simulateInits <- function(nim.data, nim.constants, R_perF, survVarT, fitRodentCo
     mu.S = mu.S, Mu.S = Mu.S, 
     sigmaT.S = sigmaT.S, sigmaR.S = sigmaR.S,
     epsT.S = epsT.S, epsR.S = epsR.S,
+    epsA.S = mu.S - logit(h.Mu.S),
     Mu.S1 = Mu.S1,
     eps.S1.prop = eps.S1.prop,
     S1 = S1, S2 = S2, S = S,
@@ -248,6 +251,7 @@ simulateInits <- function(nim.data, nim.constants, R_perF, survVarT, fitRodentCo
     InitVals$h.Mu.betaR.R <- h.Mu.betaR.R
     InitVals$h.sigma.betaR.R <- h.sigma.betaR.R
     InitVals$betaR.R <- betaR.R
+    InitVals$epsA.betaR.R <- betaR.R - h.Mu.betaR.R
     InitVals$RodentOcc <- Inits_RodentOcc
   }
   

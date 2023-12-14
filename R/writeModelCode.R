@@ -212,7 +212,7 @@ writeModelCode <- function(survVarT){
     # Intercepts / averages #
     #-----------------------#
     
-    h.Mu.R  ~ dunif(0, 15) # Recruitment
+    h.Mu.R  ~ dunif(0, 20) # Recruitment
     h.Mu.S ~ dunif(0, 1) # Survival
     h.mu.dd ~ dunif(-10, 100) # Detection
     
@@ -223,13 +223,16 @@ writeModelCode <- function(survVarT){
       ratio.JA1[x] ~ dunif(0, 1)
       
       ## Recruitment
-      Mu.R[x]  ~ dlnorm(meanlog = log(h.Mu.R), sdlog = h.sigma.R)
+      epsA.R[x]  ~ dnorm(0, sd = h.sigma.R)
+      log(Mu.R[x]) <- log(h.Mu.R) + epsA.R[x]
       
       ## Survival
-      mu.S[x] ~ dnorm(logit(h.Mu.S), sd = h.sigma.S)
+      epsA.S[x]  ~ dnorm(0, sd = h.sigma.S)
+      mu.S[x] <- logit(h.Mu.S) + epsA.S[x]
       
       ## Detection
-      mu.dd[x] ~ dnorm(h.mu.dd, sd = h.sigma.dd)
+      epsA.dd[x] ~ dnorm(0, sd = h.sigma.dd)
+      mu.dd[x] <- h.mu.dd + epsA.dd[x]
     }
     
     
@@ -311,7 +314,8 @@ writeModelCode <- function(survVarT){
       h.sigma.betaR.R ~ dunif(0, 5)
       
       for(x in 1:N_areas){
-        betaR.R[x] ~ dnorm(mean = h.Mu.betaR.R, sd = h.sigma.betaR.R)
+        epsA.betaR.R[x] ~ dnorm(0, sd = h.sigma.betaR.R)
+        betaR.R[x] <- h.Mu.betaR.R + epsA.betaR.R[x]
       }
     }
 
