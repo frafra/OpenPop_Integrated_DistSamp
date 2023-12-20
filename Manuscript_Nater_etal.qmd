@@ -166,22 +166,24 @@ Median (a) and standard deviation (b) of posterior estimates of effects of roden
 
 ## Detection parameters
 
-\[TBA\]
+TBA
 
 ## Variance decomposition
 
-\[TBA\]
+TBA
 
 # Discussion
 
-\[TBA\]
+TBA
 
 ## Abundance and vital rates across space and time
 
 -   Biological results (interpretations and comparisons with other case studies / species / systems)
 -   With some focus on what we are able to get insights on thanks to the integration across time and space (i.e. better estimates through data sharing, relative importance of different kinds of variation, etc. )
+<!-- @ERLEND & @JAMES, once the "new" results are in: thoughts on what we see that is interesting, cool, expected, unexpected etc. Can we compare to other large scale studies, either on other grouse-like creatures or harvested species more generally? -->
 
-## Implications for management (preliminary section title)
+## Implications for management 
+<!-- preliminary section title) -->
 
 -   What results mean for management (of habitat and of harvest)
 
@@ -190,18 +192,25 @@ Median (a) and standard deviation (b) of posterior estimates of effects of roden
 -   Some limitations of "base model" that need mentioning (e.g. age assignment, ignoring potential effects of flock size on detection)
 
 -   Limited usefulness of auxiliary radio-telemetry data as only from one area (big potential for including additional datasets from other small-scale studies, telemetry but also other, e.g. nest monitoring?)
+<!-- @ERLEND: Any thoughts on what the status here is? Might there be other data available from beyond Lierne? Are there exciting future prospects e.g. linked to automated monitoring with cameras at a larger scale? -->
+
 
 -   Outlook: improved modelling of spatio-temporal patterns through correlated REs
 
 Another approach to maximising information gain when jointly analysing data from different areas is explicit modelling of spatial and spatio-temporal variation. While this is commonly done for modern species distribution models [e.g. @pacifici2017; @guelat2018], it has rarely been implemented in demographic models. This is not least due to the fact that few demographic models span large spatial extents. Since our IDSM and the willow ptarmigan data do actually do that though, extending the framework to account for spatial and spatiotemporal correlations may be feasible. Per now, we have not yet attempted this, but are planning to do so in the near future. (BUT: we do already have some computational limitations now, so likely to need development of more efficient sampling strategies. Which is fortunately possible with NIMBLE but there is a chance that another platform, e.g. INLA, may be required)
+<!-- @ERLEND: related to this, I want to discuss the potential of including the not publicly available data. Is there an overview somewhere over what the coverage (in terms of municipalities) would be if we had access to all the Hønsefuglportalen data? This might matter not just for increasing sample size, but perhaps also making CAR modelling (spatial structure through neighborhood relations) possible -->
+
+<!-- @MYSELF: Have a closer look at chapter 19 in IPM book to see what they did there and also what other work they reference -->
 
 -   Outlook: integration with / coupling to models for harvest to develop tools for (automatic) calculation of e.g. hunting quotas
+<!-- @JAMES: This one is for you. Some ruminations on how and why it would be great to formally model harvest, integration with hunting data, maybe eventually develop a tool to calculate quotas (I know this has been developed for other game species), etc. -->
 
 ## Reproducible workflows for a sustainable future
 
 -   Structure / setup of this workflow (from data collection to analytical results)
 -   Why this matters: transparency and credibility, feedback to volunteer data collectors, cost-effective to re-do analyses for annual/regular reporting, easy to re-use and build upon, publicly accessible and well documented to allow more effective resource use in follow-up projects (sustainable use of funding), etc.
 -   Also: useful to link up to different reporting routes and/or more general (multi-indicator) projects
+<!-- @EVERYONE: Do we know of some good references for this? PRseumably we cannot cite our chapter in the Technical Manual yet :-P -->
 
 ## Conclusion
 
@@ -210,12 +219,16 @@ Another approach to maximising information gain when jointly analysing data from
 
 # Acknowledgements
 
-\[TBA\]
+TBA ...
+Additionally, we would like to thank Bernardo Brandão Niebuhr dos Santos for his help with spatial data visualization. 
+<!-- @ERLEND: you maybe know best all the people/institutions we need to thank here -->
+<!-- @JAMES: should we be acknowledging your fullbright scholarship which made the collab possible? If so, please add details. --> 
 
 # Data and code availability
 
 The raw data from the line transect surveys is deposited on GBIF and can be accessed freely via the Living Norway Data Portal (https://data.livingnorway.no/). The work presented above is based on versions 1.7, 1.8, and 1.12 for the datasets from Fjellstyrene (key b49a2978-0e30-4748-a99f-9301d17ae119), Statskog (key 6a948a1c-7e23-4d99-b1c1-ec578d0d3159), and FeFo (key c47f13c1-7427-45a0-9f12-237aad351040), respectively.
 
-The auxiliary radio-telemetry data and all code, including the "targets pipeline" can be found in the project's repository on GitHub: <https://github.com/ErlendNilsen/OpenPop_Integrated_DistSamp>.
+The auxiliary radio-telemetry data, rodent occupancy data, and all code including the "targets pipeline" can be found in the project's repository on GitHub: <https://github.com/ErlendNilsen/OpenPop_Integrated_DistSamp>.
+The results presented in this paper were created using version 2.0 of the code (Zenodo citation TBA). 
 
 # References
