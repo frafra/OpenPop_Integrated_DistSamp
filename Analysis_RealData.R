@@ -1,12 +1,14 @@
 library(tidyverse)
 library(sf)
 library(terra)
+library(parallel)
+library(nimble)
 
 # SETUP #
 #-------#
 
 ## Set seed
-mySeed <- 0
+mySeed <- 22
 set.seed(mySeed)
 
 ## Source all functions in "R" folder
@@ -42,6 +44,10 @@ survVarT <- TRUE
 # Rodent covariate on reproduction
 fitRodentCov <- TRUE
 
+# Run MCMC in parallel
+parallelMCMC <- FALSE
+
+
 # DOWNLOAD/FETCH DATA #
 #---------------------#
 
@@ -59,7 +65,8 @@ if(downloadData){
 
 ## Set localities/areas and time period of interest
 localities <- listLocations()
-areas <- listAreas()
+#areas <- listAreas()
+areas <- listAreas()[c(5, 17, 34)]
 minYear <- 2007
 maxYear <- 2021
 
@@ -133,22 +140,58 @@ model_setup <- setupModel(modelCode = modelCode,
 ## Expand seed to get MCMC seeds
 MCMC.seeds <- expandSeed_MCMC(seed = mySeed, nchains = model_setup$mcmcParams$nchains)
 
+
 # MODEL (TEST) RUN #
 #------------------#
-t.start <- Sys.time()
-IDSM.out <- nimbleMCMC(code = model_setup$modelCode,
-                       data = input_data$nim.data, 
-                       constants = input_data$nim.constants,
-                       inits = model_setup$initVals, 
-                       monitors = model_setup$modelParams,
-                       nchains = model_setup$mcmcParams$nchains, 
-                       #niter = model_setup$mcmcParams$niter, 
-                       niter = 500,
-                       nburnin = model_setup$mcmcParams$nburn, 
-                       thin = model_setup$mcmcParams$nthin, 
+
+if(!parallelMCMC){
+  t.start <- Sys.time()
+  IDSM.out <- nimbleMCMC(code = model_setup$modelCode,
+                         data = input_data$nim.data, 
+                         constants = input_data$nim.constants,
+                         inits = model_setup$initVals, 
+                         monitors = model_setup$modelParams,
+                         nchains = model_setup$mcmcParams$nchains, 
+                         niter = model_setup$mcmcParams$niter, 
+                         nburnin = model_setup$mcmcParams$nburn, 
+                         thin = model_setup$mcmcParams$nthin, 
                          samplesAsCodaMCMC = TRUE, 
                          setSeed = MCMC.seeds)
-Sys.time() - t.start
+  Sys.time() - t.start
+  
+
+}else{
+  
+  ## Add toggles to constants
+  input_data$nim.constants$fitRodentCov <- fitRodentCov
+  input_data$nim.constants$survVarT <- survVarT
+  input_data$nim.constants$R_perF <- R_perF
+  
+  ## Set up cluster
+  this_cluster <- makeCluster(model_setup$mcmcParams$nchains)
+  #clusterEvalQ(this_cluster, library(nimble))
+  #clusterEvalQ(this_cluster, library(nimbleDistance))
+  
+  ## Collect chain-specific information
+  per_chain_info <- vector("list", model_setup$mcmcParams$nchains)
+  for(i in 1:model_setup$mcmcParams$nchains){
+    per_chain_info[[i]] <- list(mySeed = MCMC.seeds[i],
+                                inits = model_setup$initVals[[i]])
+  }
+  
+  ## Run chains in parallel
+  t.start <- Sys.time()
+  IDSM.out <- parLapply(cl = this_cluster, 
+                            X = per_chain_info, 
+                            fun = runMCMC_allcode, 
+                            model_setup = model_setup,
+                            input_data = input_data)
+  Sys.time() - t.start
+  
+  
+  stopCluster(this_cluster)
+  
+}
 
 saveRDS(IDSM.out, file = "rypeIDSM_dHN_multiArea_realData_allAreas.rds")
 
