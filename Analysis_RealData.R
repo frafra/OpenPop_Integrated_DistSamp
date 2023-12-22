@@ -126,8 +126,12 @@ model_setup <- setupModel(modelCode = modelCode,
                           nim.data = input_data$nim.data,
                           nim.constants = input_data$nim.constants,
                           testRun = TRUE, 
-                          nchains = 3,
+                          nchains = 4,
                           initVals.seed = mySeed)
+
+
+## Expand seed to get MCMC seeds
+MCMC.seeds <- expandSeed_MCMC(seed = mySeed, nchains = model_setup$mcmcParams$nchains)
 
 # MODEL (TEST) RUN #
 #------------------#
@@ -142,8 +146,8 @@ IDSM.out <- nimbleMCMC(code = model_setup$modelCode,
                        niter = 500,
                        nburnin = model_setup$mcmcParams$nburn, 
                        thin = model_setup$mcmcParams$nthin, 
-                       samplesAsCodaMCMC = TRUE, 
-                       setSeed = mySeed)
+                         samplesAsCodaMCMC = TRUE, 
+                         setSeed = MCMC.seeds)
 Sys.time() - t.start
 
 saveRDS(IDSM.out, file = "rypeIDSM_dHN_multiArea_realData_allAreas.rds")
