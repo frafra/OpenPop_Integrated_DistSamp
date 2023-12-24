@@ -2,30 +2,32 @@ name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iterat
 .Random.seed|object|c8ddca2bf801dc97|||||||||||||||
 addDummyDimension|function|2a544b6c510871e2|||||||||||||||
 areaAggregation|object|909013909b1f03d4|||||||||||||||
-areas|stem|d616acb23668ed9c|925bb9d40813c514|ae11bd92d9f721a7|-36357794||t19705.370383603s|6281f79619f6778a|80|qs|local|vector|||0.44|package qs was built under R version 4.3.2|
+areas|stem|33465d1792eeb321|925bb9d40813c514|e58879e93d837531|-36357794||t19713.5674986258s|c852eab37a726e04|78|qs|local|vector|||0.33|package qs was built under R version 4.3.2|
 assembleSimData|function|26a6fdad9c7c4fb2|||||||||||||||
 cov.predPlots|stem|88bff93e6f73c0ef|1c5598e979018bf5|b9ee263603a5cd98|196552759||t19705.3775057822s|abbdb7fe746336f0|76|qs|local|vector|||1.41||
 d_cmr|stem|cd956580698ad327|7ab52d732f9f8e75|5b549defb91ab1a1|-1108577928||t19514.369846106s|ed0b2f97180e0b86|205|qs|local|vector|||0.03||
-d_rodent|stem|66df6d157af7e959|a7c3e460b19c3fea|44a6f4ce6a6cf415|-691585416||t19705.3706354811s|58772b208bb3c33b|420|qs|local|vector|||0.36||
+d_rodent|stem|2974f68ccc10d023|a7c3e460b19c3fea|05733e5951e2e495|-691585416||t19713.5675106985s|773e574814006096|465|qs|local|vector|||0.55||
 downloadLN|function|4eae7483790f31d6|||||||||||||||
 duplTransects|stem|a6b9c070885aa5dc|819e859b65466b54|7b34f34d30c3f796|-2074324173||t19514.3698422027s|6c088a07ec7dbe69|213|qs|local|vector|||0||
+expandSeed_MCMC|function|c72969271ccc9f8c|||||||||||||||
 extractSimData_Rep|function|8a52ad6c6e9bf655|||||||||||||||
 findHighP|function|997d07c621a1cfcb|||||||||||||||
 fitRodentCov|object|909013909b1f03d4|||||||||||||||
-IDSM.out|stem|6580d7d90318bf11|7b020ff2658ef2b0|2f2a45dda36d056c|-21732313||t19705.3774412498s|f7f71dc04c9a5682|9122449|qs|local|vector|||578.91||
+IDSM.out|stem|5f0637fbc3776ccb|b033979d563d2f93|28b1e2d4e67fcd09|-21732313||t19713.5797601799s|66ae9d4b7fb26401|7634260|qs|local|vector|||390.07||
 IDSM.out.tidy|stem|2704642448d339ba|85363c1a39ea6a29|da36d0dbd25c630d|-872660489||t19705.3774688071s|9baf11d6fe4024f5|8845789|qs|local|vector|||0.62||
-input_data|stem|1dd5eec6668815c3|fdd84f899d829995|b68e7e6a02460373|-1975194048||t19705.3706997312s|ec346d7b5a375dd9|23963|qs|local|vector|||0.48||
+input_data|stem|0d96f50479591d4c|fdd84f899d829995|2655b65448fd1c97|-1975194048||t19713.5676117721s|15aca7ab2fccae45|21037|qs|local|vector|||0.69||
 latitudePlots|stem|9f2111eafec13e25|15838aaa4e14f288|370d8ad18426d45b|826630023|Plots/Latitude/VitalRateParams_Latitude.pdf*Plots/Latitude/PopParams1_Latitude.pdf*Plots/Latitude/PopParams2_Latitude.pdf|t19705.3804414421s|6952c9e2370921e1|20791|file|local|vector|||2.05||
-listAreas|function|fc1eaf0c58d173ad|||||||||||||||
+listAreas|function|772087b8363d7ff7|||||||||||||||
 listDuplTransects|function|b8d2249aa65a7f51|||||||||||||||
 listLocations|function|0cadd434f6fef641|||||||||||||||
 localities|stem|50f66f808bc83082|254e1a8f3dfc543f|20156ef219d892fe|-472236320||t19514.3698497241s|cc81a7537cb02258|59|qs|local|vector|||0.052||
-LT_data|stem|7c7ef1006ab756a4|c21b62323c3a7e54|86817dd5ea595dcd|-1283079006||t19705.3706830499s|0120e1abd6767313|221015|qs|local|vector|||2.53|1m22mThere was 1 warning in dplyrmutate.1m22m36mℹ39m In argument sampleSizeValue  as.numericsampleSizeValue.Caused by warning33m39m NAs introduced by coercion. 1m22mThere was 1 warning in dplyrmutate.1m22m36mℹ39m In argument sampleSizeValue  as.numericsampleSizeValue.Caused by warning33m39m NAs introduced by coercion. 1m22mThere was 1 warning in dplyrmutate.1m22m36mℹ39m In argument sampleSizeValue  as.numericsampleSizeValue.Caused by warning33m39m NAs introduced by coercion|
+LT_data|stem|3409a70714659026|c21b62323c3a7e54|d242f3f3b2257c5b|-1283079006||t19713.5675949416s|3597256b73c3be96|181004|qs|local|vector|||4.86|1m22mThere was 1 warning in dplyrmutate.1m22m36mℹ39m In argument sampleSizeValue  as.numericsampleSizeValue.Caused by warning33m39m NAs introduced by coercion. 1m22mThere was 1 warning in dplyrmutate.1m22m36mℹ39m In argument sampleSizeValue  as.numericsampleSizeValue.Caused by warning33m39m NAs introduced by coercion. 1m22mThere was 1 warning in dplyrmutate.1m22m36mℹ39m In argument sampleSizeValue  as.numericsampleSizeValue.Caused by warning33m39m NAs introduced by coercion|
 mapPlots|stem|b4fcfedd613ecaca|b31f91ccbf8bd476|89157ebddea89a91|1117573651|Plots/AreaMaps/Avg_rRep_Map.pdf*Plots/AreaMaps/Avg_pSurv_Map.pdf*Plots/AreaMaps/Avg_popDens_Map.pdf*Plots/AreaMaps/Avg_lambda_Map.pdf*Plots/AreaMaps/betaR_Map.pdf|t19705.3803989043s|f4b965571352dd5c|18473867|file|local|vector|||116.11||
 maxYear|object|950c0ed63d9d204a|||||||||||||||
+MCMC.seeds|stem|1dab57da27142d16|b5ffbd5b67e5f6a0|880035cb0634a1f2|1309759395||t19713.5676354761s|e5051d725c55b608|52|qs|local|vector|||0||
 mcmc.tracePlots|stem|34288dae2ee58d3e|93807f2fe20c20eb|3d8542db8074c8f6|1405499975|Plots/MCMCTraces/MCMCtrace_mVR.pdf*Plots/MCMCTraces/MCMCtrace_tVR.pdf*Plots/MCMCTraces/MCMCtrace_mDet.pdf*Plots/MCMCTraces/MCMCtrace_tDet.pdf*Plots/MCMCTraces/MCMCtrace_Ntot.pdf*Plots/MCMCTraces/MCMCtrace_N.pdf*Plots/MCMCTraces/MCMCtrace_Dens.pdf|t19705.3789768853s|6e9706f52d86dd95|97881366|file|local|vector|||106.2||
 minYear|object|1907c516d7547367|||||||||||||||
-model_setup|stem|bf7f8431b217f741|f158c50818a9a06b|91cc1adaeaf92083|-945302739||t19705.3707268702s|26de701d8375e887|106888|qs|local|vector|||0.21||
+model_setup|stem|596dd173a840e1a3|f158c50818a9a06b|4e38bcd955676b9e|-945302739||t19713.5676269666s|fe0d71558d6819a2|90675|qs|local|vector|||0.49||
 modelCode|stem|e6bc88b60b01d9d6|e09fab8acfc35e64|4f7cabe7d37ef9c7|-1854928031||t19705.3706244634s|3701d7f491dfd0d7|1493|qs|local|vector|||0.08||
 modelCode.path|stem|d49fec8a86343c46|d54810da2a45e602|03ac45b34e75641f|-520841||t19514.3700770151s|bb4e721372eac6a0|88|qs|local|vector|||0.02||
 mySeed|object|f3582cdc107e111b|||||||||||||||
@@ -39,6 +41,7 @@ node_stoch_dHR_binned|function|7f751aef04cd03cd|||||||||||||||
 node_stoch_dHR_binned_V|function|7f751aef04cd03cd|||||||||||||||
 node_stoch_dHR_V|function|7f751aef04cd03cd|||||||||||||||
 NorwayMunic.map|stem|d33ffe9bdcc85df2|b032fe151f4a00b4|837f60a6409bef65|-6935441||t19705.3707133058s|fe09a065d5b45665|10930879|qs|local|vector|||0.24||
+parallelMCMC|object|909013909b1f03d4|||||||||||||||
 plotCovPrediction|function|ed81f29cda00f746|||||||||||||||
 plotLatitude|function|0df8a691f9ebe0db|||||||||||||||
 plotMaps|function|c5d7b2a5f9c79277|||||||||||||||
@@ -57,6 +60,8 @@ prepareInputData_Sim|function|67d1f84dd9b60c49|||||||||||||||
 R_parent_drop0|object|909013909b1f03d4|||||||||||||||
 R_perF|object|df161ddba3dacc9e|||||||||||||||
 readMap_NorwayMunic|function|5eda61e0f6f079f9|||||||||||||||
+runMCMC_allcode|function|218093b7056ab9f8|||||||||||||||
+runModel|function|e4fc293c33ce84e0|||||||||||||||
 Rype_arkiv|stem|fb4066578686de69|ca6ed7fadb6b18e7|4f2e46a1a4822e4b|905815042||t19705.3706159395s|c4cbd61b2d5ec29c|11731176|qs|local|vector|||17.53|C\Users\CHLOE1.NAT\AppData\Local\Temp\Rtmp6pTuae\LNimportDir already exists. C\Users\CHLOE1.NAT\AppData\Local\Temp\Rtmp6pTuae\LNimportDir already exists|
 selectCodePath|function|35712d19df7778f6|||||||||||||||
 setupMap_NorwayMunic|function|502fe300090c4760|||||||||||||||

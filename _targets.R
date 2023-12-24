@@ -8,9 +8,10 @@ library(LivingNorwayR)
 library(terra)
 library(sf)
 library(tmap)
+library(parallel)
 
 ## Set seed
-mySeed <- 10
+mySeed <- 22
 set.seed(mySeed)
 
 ## Source all functions in "R" folder
@@ -37,6 +38,7 @@ sumR.Level <- "line" # Aggregation level for reproduction data (line vs. group)
 survVarT <- TRUE # Time variation in survival
 fitRodentCov <- TRUE # Rodent covariate on reproduction
 
+parallelMCMC <- TRUE
 
 ## Set target-specific options such as packages.
 tar_option_set(packages = c("LivingNorwayR", "tidyverse", "qs"),
@@ -122,24 +124,23 @@ list(
                nim.constants = input_data$nim.constants,
                survVarT = survVarT,
                fitRodentCov = fitRodentCov,
-               testRun = FALSE, 
+               testRun = TRUE, 
                nchains = 3,
                initVals.seed = mySeed)
   ),
   
   tar_target(
+    MCMC.seeds,
+    expandSeed_MCMC(seed = mySeed, 
+                    nchains = model_setup$mcmcParams$nchains)
+  ),
+  
+  tar_target(
     IDSM.out,
-    nimbleMCMC(code = model_setup$modelCode,
-               data = input_data$nim.data, 
-               constants = input_data$nim.constants,
-               inits = model_setup$initVals, 
-               monitors = model_setup$modelParams,
-               nchains = model_setup$mcmcParams$nchains, 
-               niter = model_setup$mcmcParams$niter, 
-               nburnin = model_setup$mcmcParams$nburn, 
-               thin = model_setup$mcmcParams$nthin, 
-               samplesAsCodaMCMC = TRUE, 
-               setSeed = mySeed)
+    runModel(parallelMCMC = parallelMCMC,
+             model_setup = model_setup, 
+             MCMC.seeds = MCMC.seeds, 
+             input_data = input_data)
   ),
   
   tar_target(
