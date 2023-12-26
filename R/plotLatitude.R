@@ -54,6 +54,7 @@ plotLatitude <- function(PostSum.list,
     
     p_betaR <- ggplot(betaR.sum) + 
       geom_pointrange(aes(x = Latitude, y = Median, ymin = lCI, ymax = uCI, colour = Longitude), size = 0.5, fatten = 4, alpha = 0.5) +
+      geom_hline(aes(yintercept = 0), color = "grey70", linetype = "dotted") + 
       ylab("Estimate") + 
       paletteer::scale_color_paletteer_c("grDevices::Temps") + 
       theme_classic()
@@ -81,12 +82,14 @@ plotLatitude <- function(PostSum.list,
   
   p_lambda1 <- ggplot(subset(lambda.sum, SummaryPeriod == paste0(minYear, "-", maxYear))) + 
     geom_pointrange(aes(x = Latitude, y = Median, ymin = lCI, ymax = uCI, colour = Longitude), size = 0.5, fatten = 4, alpha = 0.5) +
+    geom_hline(aes(yintercept = 1), color = "grey70", linetype = "dotted") + 
     ylab("Estimate") + 
     paletteer::scale_color_paletteer_c("grDevices::Temps") + 
     theme_classic()
   
   p_lambda2 <- ggplot(subset(lambda.sum, SummaryPeriod != paste0(minYear, "-", maxYear))) + 
     geom_pointrange(aes(x = Latitude, y = Median, ymin = lCI, ymax = uCI, colour = Longitude), size = 0.5, fatten = 4, alpha = 0.5) +
+    geom_hline(aes(yintercept = 1), color = "grey70", linetype = "dotted") + 
     ylab("Estimate") + 
     paletteer::scale_color_paletteer_c("grDevices::Temps") + 
     theme_classic()
