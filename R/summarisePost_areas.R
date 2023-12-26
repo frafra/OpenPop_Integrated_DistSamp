@@ -194,12 +194,29 @@ summarisePost_areas <- function(mcmc.out,
     lambda.sum <- rbind(lambda.sum, lambda_tot_add, lambda_shared_add)
   }
   
+  ## Summarize hyper-parameters
+  hParams.list <- c("h.Mu.R", "h.sigma.R", "sigmaT.R", "sigmaR.R",
+                    "h.Mu.betaR.R", "h.sigma.betaR.R",
+                    "h.Mu.S","h.sigma.S", "sigmaT.S", "sigmaR.S",
+                    "h.mu.dd", "h.sigma.dd", "sigmaT.dd", "sigmaR.dd")
+  hParams.sum <- data.frame()
+  for(i in 1:length(hParams.list)){
+    hParams_add <- data.frame(Parameter = hParams.list[i],
+                              Median = median(out.mat[, hParams.list[i]]),
+                              lCI = unname(quantile(out.mat[, hParams.list[i]], probs = 0.025)),
+                              uCI = unname(quantile(out.mat[, hParams.list[i]], probs = 0.975)),
+                              Mean = mean(out.mat[, hParams.list[i]]),
+                              SD = sd(out.mat[, hParams.list[i]]))
+    hParams.sum <- rbind(hParams.sum, hParams_add)
+  }
+  
   ## Collect summary data into a list 
   PostSum.list <- list(rRep.sum = rRep.sum,
                        pSurv.sum = pSurv.sum,
                        betaR.sum = betaR.sum,
                        popDens.sum = popDens.sum,
-                       lambda.sum = lambda.sum)
+                       lambda.sum = lambda.sum,
+                       hParams.sum = hParams.sum)
   
   ## Save (optional) and return
   if(save){
