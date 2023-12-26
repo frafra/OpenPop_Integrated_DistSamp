@@ -8,15 +8,16 @@
 #' @param RodentOcc_data numeric vector containing the rodent occupancy data
 #' used for fitting the model. Optional argument that needs to be provided if
 #' fitRodenCov = TRUE.
+#' @param saveResults logical. If TRUE (default), saves posterior summaries as
+#' an RDS file into working directory. 
 #'
-#' @return a list containing a dataframe of posterior distributions for proportions
-#' of variance explained by different components, as well as the path to the 
-#' plot. 
+#' @return a vector containinf the path to the plot, as well as to the saved
+#' posterior summaries of variance decomposition (if saveResults = TRUE).  
 #' @export
 #'
 #' @examples
 
-plotVarDecomposition <- function(mcmc.out, N_areas, N_years, fitRodentCov, RodentOcc_data = NULL){
+plotVarDecomposition <- function(mcmc.out, N_areas, N_years, fitRodentCov, RodentOcc_data = NULL, saveResults = TRUE){
   
   ## Check rodent data is provided if needed
   if(fitRodentCov & missing("RodentOcc_data")){
@@ -114,6 +115,19 @@ plotVarDecomposition <- function(mcmc.out, N_areas, N_years, fitRodentCov, Roden
     propVar.all <- subset(propVar.all, VarComponent != "RodentOcc")
   }
   
+  # Summarised
+  propVar.sum <- propVar.all %>%
+    dplyr::group_by(Parameter, VarComponent) %>%
+    dplyr::summarise(median = median(PropVar),
+                     lCI = quantile(PropVar, probs = 0.025),
+                     uCI = quantile(PropVar, probs = 0.975),
+                     .groups = "keep")
+  
+  ## Save posterior data
+  if(saveResults){
+    saveRDS(propVar.sum, "PosteriorSummaries_VarDecomp.rds")
+  }
+  
   ## Make plotting directory if it does not exist yet
   ifelse(!dir.exists("Plots/VarDecomposition"), dir.create("Plots/VarDecomposition"), FALSE)
   
@@ -132,8 +146,12 @@ plotVarDecomposition <- function(mcmc.out, N_areas, N_years, fitRodentCov, Roden
   )
   dev.off()
   
-  ## Return data and plot path
-  return(list(propVar.post = propVar.all, 
-              plotPath = "Plots/VarDecomposition/VarDecomposition_overall.pdf"))
+  ## Return data and plot paths
+  if(saveResults){
+    return(c("PosteriorSummaries_VarDecomp.rds",
+             "Plots/VarDecomposition/VarDecomposition_overall.pdf"))
+  }else{
+    return("Plots/VarDecomposition/VarDecomposition_overall.pdf")
+  }
 }
 
