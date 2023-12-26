@@ -66,6 +66,7 @@ plotLatitude <- function(PostSum.list,
   
   p_popDens1 <- ggplot(subset(popDens.sum, SummaryPeriod == paste0(minYear, "-", maxYear))) + 
     geom_pointrange(aes(x = Latitude, y = Median, ymin = lCI, ymax = uCI, colour = Longitude), size = 0.5, fatten = 4, alpha = 0.5) +
+    ylim(0, 500) + 
     ylab("Estimate") + 
     paletteer::scale_color_paletteer_c("grDevices::Temps") + 
     theme_classic()
