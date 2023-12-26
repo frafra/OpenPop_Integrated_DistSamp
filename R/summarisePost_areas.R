@@ -156,7 +156,7 @@ summarisePost_areas <- function(mcmc.out,
                            SD = sd(exp(out.mat[, detect_name])),
                            CV = sd(exp(out.mat[, detect_name])) / mean(exp(out.mat[, detect_name])) 
     )
-    detec.sum <- rbind(detect.sum, detect_add)
+    detect.sum <- rbind(detect.sum, detect_add)
     
     # Summarize average population densities
     Dens_names <- c(paste0("densAvg_tot[",  i, "]"), paste0("densAvg_shared[",  i, "]"))
@@ -225,6 +225,7 @@ summarisePost_areas <- function(mcmc.out,
   PostSum.list <- list(rRep.sum = rRep.sum,
                        pSurv.sum = pSurv.sum,
                        betaR.sum = betaR.sum,
+                       detect.sum = detect.sum,
                        popDens.sum = popDens.sum,
                        lambda.sum = lambda.sum,
                        hParams.sum = hParams.sum)
