@@ -27,6 +27,16 @@ plotLatitude <- function(PostSum.list,
                   Longitude = longitudeAvg,
                   Latitude = latitudeAvg)
   
+  # Average detection parameters
+  detect.sum <- PostSum.list$detect.sum %>%
+    dplyr::left_join(area_coord, by = "Area")
+  
+  p_detect <- ggplot(detect.sum) + 
+    geom_pointrange(aes(x = Latitude, y = Median, ymin = lCI, ymax = uCI, colour = Longitude), size = 0.5, fatten = 4, alpha = 0.5) +
+    paletteer::scale_color_paletteer_c("grDevices::Temps") + 
+    ylab("Estimate") + 
+    theme_classic()
+  
   # Average reproductive rates
   rRep.sum <- PostSum.list$rRep.sum %>%
     dplyr::left_join(area_coord, by = "Area")
@@ -99,6 +109,13 @@ plotLatitude <- function(PostSum.list,
   ## Make plotting directory if it does not exist yet
   ifelse(!dir.exists("Plots/Latitude"), dir.create("Plots/Latitude"), FALSE)
   
+  ## Assemble plots (detection parameters)
+  pdf("Plots/Latitude/DetectParams_Latitude.pdf", width = 8, height = 2)
+  print(
+    p_detect
+  )
+  dev.off()
+  
   ## Assemble plots (vital rate parameters)
   if(fitRodentCov){
     pdf("Plots/Latitude/VitalRateParams_Latitude.pdf", width = 8, height = 6)
@@ -146,7 +163,8 @@ plotLatitude <- function(PostSum.list,
   
   
   ## Write and return plot paths
-  plot.paths <- c("Plots/Latitude/VitalRateParams_Latitude.pdf", 
+  plot.paths <- c("Plots/Latitude/DetectParams_Latitude.pdf",
+                  "Plots/Latitude/VitalRateParams_Latitude.pdf", 
                   "Plots/Latitude/PopParams1_Latitude.pdf",
                   "Plots/Latitude/PopParams2_Latitude.pdf")
   
