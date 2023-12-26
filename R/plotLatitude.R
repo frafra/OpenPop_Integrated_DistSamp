@@ -103,8 +103,8 @@ plotLatitude <- function(PostSum.list,
   if(fitRodentCov){
     pdf("Plots/Latitude/VitalRateParams_Latitude.pdf", width = 8, height = 6)
     print(
-      ggpubr::ggarrange(p_rRep + ggtitle("Average recruitment rate") + theme(axis.title.x = element_blank()), 
-                        p_pSurv + ggtitle("Average survival rate") + theme(axis.title.x = element_blank()),  
+      ggpubr::ggarrange(p_pSurv + ggtitle("Average survival rate") + theme(axis.title.x = element_blank()),
+                        p_rRep + ggtitle("Average recruitment rate") + theme(axis.title.x = element_blank()), 
                         p_betaR + ggtitle("Rodent effect on recruitment"),
                         heights = c(1, 1, 1.2), ncol = 1, 
                         legend = "right", common.legend = TRUE)
