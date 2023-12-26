@@ -100,7 +100,7 @@ summarisePost_areas <- function(mcmc.out,
   ## Summarize posteriors for relevant parameters
   
   # Prepare matrices for storage of results
-  rRep.sum <- pSurv.sum <- betaR.sum <- data.frame()
+  rRep.sum <- pSurv.sum <- betaR.sum <- detect.sum <- data.frame()
   popDens.sum <- lambda.sum <- data.frame()
   
   for(i in 1:N_areas){
@@ -142,6 +142,16 @@ summarisePost_areas <- function(mcmc.out,
       betaR.sum <- NA
     }
     
+    # Summarize detection decay parameter
+    detect_name <- paste0("mu.dd[",  i, "]")
+    detect_add <- data.frame(Area = area_names[i],
+                           Median = median(exp(out.mat[, detect_name])),
+                           lCI = unname(quantile(exp(out.mat[, detect_name]), probs = 0.025)),
+                           uCI = unname(quantile(exp(out.mat[, detect_name]), probs = 0.975)),
+                           Mean = mean(exp(out.mat[, detect_name])),
+                           SD = sd(exp(out.mat[, detect_name]))
+    )
+    detec.sum <- rbind(detect.sum, detect_add)
     
     # Summarize average population densities
     Dens_names <- c(paste0("densAvg_tot[",  i, "]"), paste0("densAvg_shared[",  i, "]"))
