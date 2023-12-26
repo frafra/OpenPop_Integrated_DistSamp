@@ -112,7 +112,8 @@ summarisePost_areas <- function(mcmc.out,
                            lCI = unname(quantile(out.mat[, rRep_name], probs = 0.025)),
                            uCI = unname(quantile(out.mat[, rRep_name], probs = 0.975)),
                            Mean = mean(out.mat[, rRep_name]),
-                           SD = sd(out.mat[, rRep_name])
+                           SD = sd(out.mat[, rRep_name]),
+                           CV = sd(out.mat[, rRep_name]) / mean(out.mat[, rRep_name])
     )
     rRep.sum <- rbind(rRep.sum, rRep_add)
     
@@ -123,7 +124,8 @@ summarisePost_areas <- function(mcmc.out,
                             lCI = unname(quantile(out.mat[, pSurv_name], probs = 0.025)),
                             uCI = unname(quantile(out.mat[, pSurv_name], probs = 0.975)),
                             Mean = mean(out.mat[, pSurv_name]),
-                            SD = sd(out.mat[, pSurv_name])
+                            SD = sd(out.mat[, pSurv_name]),
+                            CV = sd(out.mat[, pSurv_name])/mean(out.mat[, pSurv_name])
     )
     pSurv.sum <- rbind(pSurv.sum, pSurv_add)
     
@@ -135,8 +137,10 @@ summarisePost_areas <- function(mcmc.out,
                               lCI = unname(quantile(out.mat[, betaR_name], probs = 0.025)),
                               uCI = unname(quantile(out.mat[, betaR_name], probs = 0.975)),
                               Mean = mean(out.mat[, betaR_name]),
-                              SD = sd(out.mat[, betaR_name])
+                              SD = sd(out.mat[, betaR_name]),
+                              CV = sd(out.mat[, betaR_name]) / mean(out.mat[, betaR_name])
       )
+      
       betaR.sum <- rbind(betaR.sum, betaR_add)
     } else{
       betaR.sum <- NA
@@ -149,7 +153,8 @@ summarisePost_areas <- function(mcmc.out,
                            lCI = unname(quantile(exp(out.mat[, detect_name]), probs = 0.025)),
                            uCI = unname(quantile(exp(out.mat[, detect_name]), probs = 0.975)),
                            Mean = mean(exp(out.mat[, detect_name])),
-                           SD = sd(exp(out.mat[, detect_name]))
+                           SD = sd(exp(out.mat[, detect_name])),
+                           CV = sd(exp(out.mat[, detect_name])) / mean(exp(out.mat[, detect_name])) 
     )
     detec.sum <- rbind(detect.sum, detect_add)
     
@@ -161,7 +166,8 @@ summarisePost_areas <- function(mcmc.out,
                                lCI = unname(quantile(out.mat[, Dens_names[1]], probs = 0.025)),
                                uCI = unname(quantile(out.mat[, Dens_names[1]], probs = 0.975)),
                                Mean = mean(out.mat[, Dens_names[1]]),
-                               SD = sd(out.mat[, Dens_names[1]])
+                               SD = sd(out.mat[, Dens_names[1]]),
+                               CV = sd(out.mat[, Dens_names[1]]) / mean(out.mat[, Dens_names[1]])
     )
     Dens_shared_add <- data.frame(Area = area_names[i],
                                   SummaryPeriod = paste0(minYearIdx_shared + minYear - 1, "-", maxYearIdx_shared + minYear - 1),
@@ -169,7 +175,8 @@ summarisePost_areas <- function(mcmc.out,
                                   lCI = unname(quantile(out.mat[, Dens_names[2]], probs = 0.025)),
                                   uCI = unname(quantile(out.mat[, Dens_names[2]], probs = 0.975)),
                                   Mean = mean(out.mat[, Dens_names[2]]),
-                                  SD = sd(out.mat[, Dens_names[2]])
+                                  SD = sd(out.mat[, Dens_names[2]]),
+                                  CV = sd(out.mat[, Dens_names[2]]) / mean(out.mat[, Dens_names[2]])
     )
     popDens.sum <- rbind(popDens.sum, Dens_tot_add, Dens_shared_add)
     
@@ -181,7 +188,8 @@ summarisePost_areas <- function(mcmc.out,
                                  lCI = unname(quantile(out.mat[, lambda_names[1]], probs = 0.025)),
                                  uCI = unname(quantile(out.mat[, lambda_names[1]], probs = 0.975)),
                                  Mean = mean(out.mat[, lambda_names[1]]),
-                                 SD = sd(out.mat[, lambda_names[1]])
+                                 SD = sd(out.mat[, lambda_names[1]]),
+                                 CV = sd(out.mat[, lambda_names[1]]) / mean(out.mat[, lambda_names[1]])
     )
     lambda_shared_add <- data.frame(Area = area_names[i],
                                     SummaryPeriod = paste0(minYearIdx_shared + minYear - 1, "-", maxYearIdx_shared + minYear - 1),
@@ -189,7 +197,8 @@ summarisePost_areas <- function(mcmc.out,
                                     lCI = unname(quantile(out.mat[, lambda_names[2]], probs = 0.025)),
                                     uCI = unname(quantile(out.mat[, lambda_names[2]], probs = 0.975)),
                                     Mean = mean(out.mat[, lambda_names[2]]),
-                                    SD = sd(out.mat[, lambda_names[2]])
+                                    SD = sd(out.mat[, lambda_names[2]]),
+                                    CV = sd(out.mat[, lambda_names[2]]) / mean(out.mat[, lambda_names[2]])
     )
     lambda.sum <- rbind(lambda.sum, lambda_tot_add, lambda_shared_add)
   }
@@ -206,7 +215,9 @@ summarisePost_areas <- function(mcmc.out,
                               lCI = unname(quantile(out.mat[, hParams.list[i]], probs = 0.025)),
                               uCI = unname(quantile(out.mat[, hParams.list[i]], probs = 0.975)),
                               Mean = mean(out.mat[, hParams.list[i]]),
-                              SD = sd(out.mat[, hParams.list[i]]))
+                              SD = sd(out.mat[, hParams.list[i]]),
+                              CV = sd(out.mat[, hParams.list[i]]) / mean(out.mat[, hParams.list[i]])
+    )
     hParams.sum <- rbind(hParams.sum, hParams_add)
   }
   
