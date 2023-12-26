@@ -22,6 +22,11 @@ plotMaps <- function(PostSum.list, mapNM,
   
   ## Add estimates to map objects
   
+  # Average detection parameters
+  mapNM.detect <- mapNM
+  mapNM.detect <- mapNM.detect %>%
+    dplyr::left_join(., PostSum.list$detect.sum, by = "Area") 
+  
   # Average reproductive rates
   mapNM.rRep <- mapNM
   mapNM.rRep <- mapNM.rRep %>%
@@ -64,6 +69,23 @@ plotMaps <- function(PostSum.list, mapNM,
   
   ## Plot maps and print to pdf
   
+  # Average detection parameters
+  pdf("Plots/AreaMaps/Avg_detect_Map.pdf", width = 5, height = 6)
+  
+  print(
+    tmap::tm_shape(mapNM.detect) + tmap::tm_polygons("Median", palette = "plasma", style = "cont", colorNA = "grey80")
+  )
+  
+  print(
+    tmap::tm_shape(mapNM.detect) + tmap::tm_polygons("SD", palette = rev("BuGn"), style = "cont", colorNA = "grey80")
+  )
+  
+  print(
+    tmap::tm_shape(mapNM.detect) + tmap::tm_polygons("CV", palette = rev("BuGn"), style = "cont", colorNA = "grey80")
+  )
+  
+  dev.off()
+  
   # Average reproductive rates
   pdf("Plots/AreaMaps/Avg_rRep_Map.pdf", width = 5, height = 6)
   
@@ -73,6 +95,10 @@ plotMaps <- function(PostSum.list, mapNM,
   
   print(
     tmap::tm_shape(mapNM.rRep) + tmap::tm_polygons("SD", palette = rev("BuGn"), style = "cont", colorNA = "grey80")
+  )
+  
+  print(
+    tmap::tm_shape(mapNM.rRep) + tmap::tm_polygons("CV", palette = rev("BuGn"), style = "cont", colorNA = "grey80")
   )
   
   dev.off()
@@ -88,6 +114,10 @@ plotMaps <- function(PostSum.list, mapNM,
     tmap::tm_shape(mapNM.pSurv) + tmap::tm_polygons("SD", palette = rev("BuGn"), style = "cont", colorNA = "grey80")
   )
   
+  print(
+    tmap::tm_shape(mapNM.pSurv) + tmap::tm_polygons("CV", palette = rev("BuGn"), style = "cont", colorNA = "grey80")
+  )
+  
   dev.off()
   
   # Rodent effects
@@ -100,6 +130,10 @@ plotMaps <- function(PostSum.list, mapNM,
     
     print(
       tmap::tm_shape(mapNM.betaR) + tmap::tm_polygons("SD", palette = rev("BuGn"), style = "cont", colorNA = "grey80")
+    )
+    
+    print(
+      tmap::tm_shape(mapNM.betaR) + tmap::tm_polygons("CV", palette = rev("BuGn"), style = "cont", colorNA = "grey80")
     )
     
     dev.off()
@@ -120,6 +154,11 @@ plotMaps <- function(PostSum.list, mapNM,
   )
   
   print(
+    tmap::tm_shape(mapNM.popDens1) + tmap::tm_polygons("CV", palette = rev("BuGn"), style = "cont", colorNA = "grey80") #+ 
+    #tmap::tm_layout(title = paste0("Average population density (", minYear, "-", maxYear, "), CV"))
+  )
+  
+  print(
     tmap::tm_shape(mapNM.popDens2) + tmap::tm_polygons("Median", palette = "plasma", style = "cont", colorNA = "grey80") #+
     #tmap::tm_layout(title = paste0("Average population density (", minYearIdx_shared + minYear - 1, "-", maxYearIdx_shared + minYear - 1, "), Median"))
   )
@@ -127,6 +166,11 @@ plotMaps <- function(PostSum.list, mapNM,
   print(
     tmap::tm_shape(mapNM.popDens2) + tmap::tm_polygons("SD", palette = rev("BuGn"), style = "cont", colorNA = "grey80") #+ 
     #tmap::tm_layout(title = paste0("Average population density (", minYearIdx_shared + minYear - 1, "-", maxYearIdx_shared + minYear - 1, "), SD"))
+  )
+  
+  print(
+    tmap::tm_shape(mapNM.popDens2) + tmap::tm_polygons("CV", palette = rev("BuGn"), style = "cont", colorNA = "grey80") #+ 
+    #tmap::tm_layout(title = paste0("Average population density (", minYearIdx_shared + minYear - 1, "-", maxYearIdx_shared + minYear - 1, "), CV"))
   )
   
   dev.off()
@@ -146,6 +190,11 @@ plotMaps <- function(PostSum.list, mapNM,
   )
   
   print(
+    tmap::tm_shape(mapNM.lambda1) + tmap::tm_polygons("CV", palette = rev("BuGn"), style = "cont", colorNA = "grey80") #+ 
+    #tmap::tm_layout(title = paste0("Average population growth rate (", minYear, "-", maxYear, "), CV"))
+  )
+  
+  print(
     tmap::tm_shape(mapNM.lambda2) + tmap::tm_polygons("Median", palette = colorspace::divergingx_hcl(10, palette = "PiYG"), midpoint = 1, style = "cont", colorNA = "grey80") #+
     #tmap::tm_layout(title = paste0("Average population growth rate (", minYearIdx_shared + minYear - 1, "-", maxYearIdx_shared + minYear - 1, "), Median"))
   )
@@ -153,6 +202,11 @@ plotMaps <- function(PostSum.list, mapNM,
   print(
     tmap::tm_shape(mapNM.lambda2) + tmap::tm_polygons("SD", palette = rev("BuGn"), style = "cont", colorNA = "grey80") #+ 
     #tmap::tm_layout(title = paste0("Average population growth rate (", minYearIdx_shared + minYear - 1, "-", maxYearIdx_shared + minYear - 1, "), SD"))
+  )
+  
+  print(
+    tmap::tm_shape(mapNM.lambda2) + tmap::tm_polygons("CV", palette = rev("BuGn"), style = "cont", colorNA = "grey80") #+ 
+    #tmap::tm_layout(title = paste0("Average population growth rate (", minYearIdx_shared + minYear - 1, "-", maxYearIdx_shared + minYear - 1, "), CV"))
   )
   
   dev.off()
