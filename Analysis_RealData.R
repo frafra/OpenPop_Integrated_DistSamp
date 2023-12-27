@@ -8,7 +8,7 @@ library(nimble)
 #-------#
 
 ## Set seed
-mySeed <- 22
+mySeed <- 37
 set.seed(mySeed)
 
 ## Source all functions in "R" folder

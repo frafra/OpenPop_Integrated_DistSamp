@@ -6,9 +6,9 @@ expandSeed_MCMC <- function(seed, nchains){
   
   seed.list <- c(
     seed,
-    seed + 8,
     round((seed*70)/4),
     round(seed/3)+1,
+    seed + 88,
     round(seed*5/3),
     seed + 37
   )
