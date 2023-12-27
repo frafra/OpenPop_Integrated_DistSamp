@@ -46,5 +46,5 @@ runModel <- function(parallelMCMC,
   }
   
   ## Return posterior samples
-  return(IDSM.out)
+  return(coda::as.mcmc.list(IDSM.out))
 }
