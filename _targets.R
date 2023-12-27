@@ -11,7 +11,7 @@ library(tmap)
 library(parallel)
 
 ## Set seed
-mySeed <- 22
+mySeed <- 37
 set.seed(mySeed)
 
 ## Source all functions in "R" folder
@@ -125,7 +125,7 @@ list(
                survVarT = survVarT,
                fitRodentCov = fitRodentCov,
                testRun = TRUE, 
-               nchains = 3,
+               nchains = 4,
                initVals.seed = mySeed)
   ),
   
