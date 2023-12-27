@@ -80,18 +80,16 @@ The three likelihoods for data resulting from the line transect sampling (observ
 
 ### Model implementation
 
--   Bayesian, NIMBLE
--   Priors
--   Default samplers
--   Chains, iterations, burn-in, thinning, posterior samples
+We implemented our multi-area IDSM in a Bayesian framework using NIMBLE version 1.0.1 [@valpine2017] in R version 4.3.1 [@R2023]. For the likelihood for line transect observation distances we used a custom half-normal distribution developed by Michael Scroggie in the "nimbleDistance" package (https://github.com/scrogster/nimbleDistance). We used non-informative uniform priors for all parameters and including biologically sensible boundaries where possible. We simulated complete sets of initial values for all model nodes prior to model running and using pre-defined seeds to ensure reproducibility. 
+Using NIMBLE's standard samplers, we then ran 4 MCMC chains of 100k iterations each. We discarded the first 40k samples of each chain as burn-in, and thinned the remainder by a factor 20, resulting in a final joint posterior containing a total of 4 x 3k = 120k samples (note that high thinning rates were necessary to constrain memory load of the joint posterior, which included 314568 monitored parameters).
 
-## Variance decomposition
+## Post-hoc variance decomposition
 
 -   How variance decomposition was done
 
 ## Reproducible workflow with "targets"
 
-Reproducibility and ease of repeating analyses was a key focus when developing the multi-area IDSM.To that end, we set up the workflow as a "targets pipeline", implemented throught the R packages "targets" [@landau2021]. A visual representation of the pipeline is displayed in @fig-workflow.
+Reproducibility and ease of repeating analyses was a key focus when developing the multi-area IDSM.To that end, we set up the workflow as a "targets pipeline", implemented throught the R package "targets" [@landau2021]. A visual representation of the pipeline is displayed in @fig-workflow.
 
 ![Graphical representation of the "targets pipeline" for the multi-area modelling setup. Upward facing triangles are functions, downward facing triangles are general options/arguments, circles are objects and outputs (="targets") created as part of the workflow.](Figures/Workflow_layout.png){#fig-workflow width="424"}
 
