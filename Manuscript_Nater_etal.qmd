@@ -58,39 +58,25 @@ The spatially-explicit formulation of the two age-class population model can be 
 
 $$
 \begin{aligned}
-  D_{juv, x, t+1} & = D_{ad, x, t+1} * R_{x, t+1} \\
-  D_{ad, x, t+1} & = S_{x, t} * (D_{juv, x, t} + D_{ad, x, t})  
+  D_{juv, x, j, t+1} & = D_{ad, x, j, t+1} * R_{x, t+1} \\
+  D_{ad, x, j, t+1} & = S_{x, t} * (D_{juv, x, j, t} + D_{ad, x, j, t})  
 \end{aligned}
 $$
 
-Here, $D_{juv, x, t}$ and $D_{ad, x, t}$ are the densities of juvenile and adult ptarmigan in area $x$ in year $t$, respectively. Both juveniles and adult survive from year $t$ to $t+1$ with an area- ($x$) and year- ($t$) specific survival probability $S_{x, t}$, and survivors produce the next generation of juveniles according to an area- and year-specific recruitment rate ($R_{x,t}$).
+Here, $D_{juv, j, x, t}$ and $D_{ad, j, x, t}$ are the densities of juvenile and adult ptarmigan in survey site (= transect) $j$ of area $x$ in year $t$, respectively. Both juveniles and adult survive from year $t$ to $t+1$ with an area- ($x$) and year- ($t$) specific survival probability $S_{x, t}$, and survivors produce the next generation of juveniles according to an area- and year-specific recruitment rate ($R_{x,t}$).
 
--   Addition of spatial dimension
--   Hyper-parameter distributions for spatial variation
--   Temporal variation (shared year RE and "residual" variation)
+![Simplified graphical representation of the ptarmigan life cycle with two age classes and the data sources included in the integrated distance sampling model. The pink "x"'s indicate the added dimension for area. Juv\[x,t\] = juveniles in year t. Ad\[x,t\] = adults in year t. R\[x,t\] = recruitment rate in year t. S\[x,t\] = survival probability from year t to t+1. Note that the additional site (=transect) dimension, "j", is omitted for the sake of illustration.](Figures/RypeIDSM_multiArea_structure.png){#fig-model}
 
-The first step is the inclusion of an additional dimension, area, to enable using data collected from multiple areas (@fig-model). The area-dimension is added across all model components with the exception of the known-fate telemetry data (and seasonal decomposition of survival estimated from it), as that is only available for the Lierne area.
-
-![Simplified graphical representation of the ptarmigan life cycle with two age classes and the data sources included in the integrated distance sampling model. The pink "x"'s indicate the added dimension for area. Juv\[x,t\] = juveniles in year t. Ad\[x,t\] = adults in year t. R\[x,t\] = recruitment rate in year t. S\[x,t\] = survival probability from year t to t+1.](Figures/RypeIDSM_multiArea_structure.png){#fig-model}
-
-The second step is making adjustments to capitalize on the integration of data from multiple areas to make maximal use of available information. There are several not mutually exclusive options for approaching this, and one of them is the use of "hyper-parameters" for sharing information across areas [e.g. @horswill2019; @horswill2021]. As an illustrative example, take the area-specific average annual survival probability, $\mu^S_x$. Instead of assigning independent non-informative priors to each $\mu^S_x$, we now assume that the variation in average survival across space can be described by a common (logit) normal distribution such that:
+The initial densities, $D_{juv, x, j, 1}$ and $D_{ad, x, j, 1}$ are modelled for each site (= transect) as random realizations of log normal distributions with area-specific log means ($\mu^{D1}_x$) and log standard deviations ($\sigma^{D1}_x$). Survival ($S_{x,t}$) and recruitment ($R_{x,t}$), on the other hand, are assumed to be the same for all sites $j$ within a given area $x$ and were modelled as:
 
 $$
-\begin{equation}
-\mu^S_x \sim Normal(logit(h.\mu^S), h.\sigma^S)
-\end{equation}
-$$ where $h.\mu^S$ is the "hyper mean" and $h.\sigma^S$ is the "hyper standard deviation". Non-informative priors are then assigned to the hyper-parameters instead of the area-specific realizations:
+\begin{aligned}
+  logit(S_{x, t}) & = logit(\mu^S) + \varepsilon^{X.S}_{x} + \varepsilon^{T.S}_{t} + \varepsilon^{R.S}_{x,t} \\
+    log(R_{x, t}) & = log(\mu^R) + \beta_x*rodentOcc_{x,t} +  \varepsilon^{X.R}_{x} + \varepsilon^{T.R}_{t} + \varepsilon^{R.R}_{x,t}
+\end{aligned}
+$$ The global means ,$\mu$, and the normally distributed spatial random effects, $\varepsilon^X$, represent the equivalent of what is elsewhere referred to as "hyper-parameter distributions" for sharing information on demographic rates across areas [e.g. @horswill2019; @horswill2021]. We also used this same approach for defining the area-specific effects ($\beta_x$) of local yearly rodent occupancy ($rodentOcc_{x,t}$) on recruitment. In addition to spatial variation in survival and recruitment, we also included large-scale temporal variation through random year effects that were shared by across all areas ($\varepsilon^T_t$) and otherwise unaccounted for variation through year- and area-specific residual random effects ($\varepsilon^R_{x,t}$). Spatial, temporal, and residual random effects were modelled as normally distributed with globally defined (= shared) standard deviations.
 
-$$
-\begin{align}
-h.\mu^S & \sim Uniform(0,1) \\
-h.\sigma^S & \sim Uniform(0, 5)
-\end{align}
-$$
-
-For the multi-area implementation of the IDSM, we used the equivalent of the above approach for parameters representing average survival probabilities, baseline recruitment rates, rodent effect on recruitment, and average distance sampling detection. Initial population density, on the other hand, was estimated independently for each area. Random effects standard deviations were assumed to be the same for all areas, effectively resulting in space-for-time subtitution for random effect estimation.
-
-Another approach to maximising information gain when jointly analysing data from different areas is explicit modelling of spatial and spatio-temporal variation.
+The three likelihoods for data resulting from the line transect sampling (observation distances, age-specific counts, and juvenile to adult ratios, see above) were also formulated as spatially explicit, with year- and area-specific distance sampling detection parameters modelled in the same way as survival and recruitment (bar the effect of rodent occupancy, @fig-model). For the known-fate telemetry data (and the seasonal decomposition of survival estimated from it), on the other hand, we did not add an additional area dimension as this data was only available for the Lierne area.
 
 ### Model implementation
 
@@ -259,7 +245,6 @@ Median (a) and standard deviation (b) of posterior estimates of effects of roden
 TBA
 
 ## Variance decomposition
-
 
 # Discussion
 
