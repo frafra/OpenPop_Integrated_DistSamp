@@ -105,6 +105,30 @@ plotLatitude <- function(PostSum.list,
     paletteer::scale_color_paletteer_c("grDevices::Temps") + 
     theme_classic()
   
+  ## Average pop. densities vs. average pop. growth rates
+  dens_lambda.sum <- popDens.sum %>%
+    dplyr::rename(dens.Median = Median,
+                  dens.lCI = lCI,
+                  dens.uCI = uCI) %>%
+    dplyr::select(-Mean, -SD, -CV, -Latitude, -Longitude) %>%
+    dplyr::left_join(lambda.sum, by = c("Area", "SummaryPeriod"))
+  
+  p_lambdaDens1 <- ggplot(subset(dens_lambda.sum, SummaryPeriod == paste0(minYear, "-", maxYear))) + 
+    geom_pointrange(aes(x = dens.Median, y = Median, ymin = lCI, ymax = uCI, colour = Latitude), size = 0.5, fatten = 4, alpha = 0.5) +
+    geom_pointrange(aes(x = dens.Median, y = Median, xmin = dens.lCI, xmax = dens.uCI, colour = Latitude), size = 0, fatten = 4, alpha = 0.5) +
+    xlim(0, 500) + 
+    xlab("Population density") +
+    ylab("Population growth rate") + 
+    paletteer::scale_color_paletteer_c("grDevices::Temps") + 
+    theme_classic()
+  
+  p_lambdaDens2 <- ggplot(subset(dens_lambda.sum, SummaryPeriod != paste0(minYear, "-", maxYear))) + 
+    geom_pointrange(aes(x = dens.Median, y = Median, ymin = lCI, ymax = uCI, colour = Latitude), size = 0.5, fatten = 4, alpha = 0.5) +
+    geom_pointrange(aes(x = dens.Median, y = Median, xmin = dens.lCI, xmax = dens.uCI, colour = Latitude), size = 0, fatten = 0, alpha = 0.5) +
+    xlab("Population density") +
+    ylab("Population growth rate") +  
+    paletteer::scale_color_paletteer_c("grDevices::Temps") + 
+    theme_classic()
   
   ## Make plotting directory if it does not exist yet
   ifelse(!dir.exists("Plots/Latitude"), dir.create("Plots/Latitude"), FALSE)
@@ -161,12 +185,27 @@ plotLatitude <- function(PostSum.list,
   )
   dev.off()
   
+  ## Assemble plots (population-level parameter correlation)
+  pdf("Plots/Latitude/LambdaDens1_Latitude.pdf", width = 5, height = 4)
+  print(
+    p_lambdaDens1
+  )
+  dev.off()
+  
+  pdf("Plots/Latitude/LambdaDens2_Latitude.pdf", width = 5, height = 4)
+  print(
+    p_lambdaDens2
+  )
+  dev.off()
+  
   
   ## Write and return plot paths
   plot.paths <- c("Plots/Latitude/DetectParams_Latitude.pdf",
                   "Plots/Latitude/VitalRateParams_Latitude.pdf", 
                   "Plots/Latitude/PopParams1_Latitude.pdf",
-                  "Plots/Latitude/PopParams2_Latitude.pdf")
+                  "Plots/Latitude/PopParams2_Latitude.pdf",
+                  "Plots/Latitude/LambdaDens1_Latitude.pdf",
+                  "Plots/Latitude/LambdaDens2_Latitude.pdf")
   
   return(plot.paths)
   
