@@ -26,7 +26,7 @@ The line transect data from "Hønsefuglportalen" has been used previously for es
 
 ## Study species
 
-The willow ptarmigan (*Lagopus lagopus*) is a tetraoid bird with a circumpolar distribution, mainly inhabiting sub-alpine and arctic ecosystems [see e.g. @fuglei2020]. While the species is currently listed as Least Concern (LC) both in the global and Norwegian Red List of Species, it has undergone rather dramatic declines in abundance in Norway since the turn of the 20th century [@hjeljord2022]. While the main reason for the long-term decline in abundance remain unresolved, willow ptarmigan are considered sentinel species that are sensitive to both climate change and land use changes [@Henden2017; @Storch2007]. Moreover, being one of only a handful of bird species that spend the winter in mountain ecosystems in Scandinavia, they are important components of the ecosystem as prey species for the gyrfalcon [@Alastair2020] <!-- do we have other "important" species to add here. Arctic fox? Some other endangered beasts perhaps? -->. The willow ptarmigan has a relatively fast pace of life [@sandercock2005; @Steen1996], and can display substantial spatio-temporal variation in demographic rates [@Bowler2020]. Their population dynamics are characterized by large inter-annual fluctuations in abundance [@hjeljord2022], and previous research has tied these fluctuations to rodent cycle through shared predators [@hagen1952; @Bowler2020]. This tight relationship between the breeding success of ground nesting birds and the rodent cycle is known as the Alternative Prey Hypothesis and has been a central part of Fennoscandian research on grouse population dynamics for many decades [@hagen1952; @Linden1988: @Steen1985]. In addition, spring weather conditions and phenology is known to have considerable effects on breeding success and recruitment rates [@Eriksen2023, @Steen1985]. Across their distributional range, they are iconic species with a high cultural value, partly linked to their popularity as game species. The latter means that information about spatio-temporal variation in demographic rates and population dynamics is particularly important in order to design sustainable harvest strategies. In addition, as a sentinel species the willow ptarmigan is well suited as an indicator species for ecosystem status; in Norway it is included in both the main national biodiversity [Nature Index for Norway; @jakobsson2020; <https://www.naturindeks.no/Indicators/lirype>] and ecosystem [Assessment of the Ecological Condition; @framstad2022] assessments.
+The willow ptarmigan (*Lagopus lagopus*) is a tetraoid bird with a circumpolar distribution, mainly inhabiting sub-alpine and arctic ecosystems [see e.g. @fuglei2020]. While the species is currently listed as Least Concern (LC) both in the global and Norwegian Red List of Species, it has undergone rather dramatic declines in abundance in Norway since the turn of the 20th century [@hjeljord2022]. While the main reason for the long-term decline in abundance remain unresolved, willow ptarmigan are considered sentinel species that are sensitive to both climate change and land use changes [@Henden2017; @Storch2007]. Moreover, being one of only a handful of bird species that spend the winter in mountain ecosystems in Scandinavia, they are important components of the ecosystem as prey species for the gyrfalcon [@Alastair2020] <!-- do we have other "important" species to add here. Arctic fox? Some other endangered beasts perhaps? -->. The willow ptarmigan has a relatively fast pace of life [@sandercock2005; @Steen1996], and can display substantial spatio-temporal variation in demographic rates [@Bowler2020]. Their population dynamics are characterized by large inter-annual fluctuations in abundance [@hjeljord2022], and previous research has tied these fluctuations to rodent cycle through shared predators [@hagen1952; @Bowler2020]. This tight relationship between the breeding success of ground nesting birds and the rodent cycle is known as the Alternative Prey Hypothesis and has been a central part of Fennoscandian research on grouse population dynamics for many decades [@hagen1952; @Linden1988: @Steen1985]. In addition, spring weather conditions and phenology is known to have considerable effects on breeding success and recruitment rates [@Eriksen2023, @Steen1985]. Across their distributional range, they are iconic species with a high cultural value, partly linked to their popularity as game species. The latter means that information about spatio-temporal variation in demographic rates and population dynamics is particularly important in order to design sustainable harvest strategies. In addition, as a sentinel species the willow ptarmigan is well suited as an indicator species for ecosystem status; in Norway it is included in both the main national biodiversity [Nature Index for Norway, @jakobsson2020, <https://www.naturindeks.no/Indicators/lirype>] and ecosystem [Assessment of the Ecological Condition, @framstad2022] assessments.
 
 ## Data collection, management, and preparation
 
@@ -105,6 +105,10 @@ printPostSum <- function(table, row = NULL, area = NULL){
     row <- which(table$Area == area)
   }
   
+  if(!("Area" %in% colnames(table))){
+    table$Area <- "None"
+  }
+  
   print.out <- list(
     area.name = table$Area[row],
     post.sum = paste0(
@@ -129,12 +133,12 @@ printPostSum <- function(table, row = NULL, area = NULL){
 
 # Survival stats
 S.hyper.mean <- printPostSum(table = post.sum$hParams.sum, 
-                             row = which(post.sum$hParams.sum$Parameter == "h.Mu.S"))
-S.sd.spatial <- printPostSum(table = post.sum$hParams.sum, 
+                              row = which(post.sum$hParams.sum$Parameter == "h.Mu.S"))
+S.sd.spatial <- printPostSum(table = post.sum$hParams.sum,
                              row = which(post.sum$hParams.sum$Parameter == "h.sigma.S"))
-S.sd.temporal <- printPostSum(table = post.sum$hParams.sum, 
+S.sd.temporal <- printPostSum(table = post.sum$hParams.sum,
                              row = which(post.sum$hParams.sum$Parameter == "sigmaT.S"))
-S.sd.residual <- printPostSum(table = post.sum$hParams.sum, 
+S.sd.residual <- printPostSum(table = post.sum$hParams.sum,
                              row = which(post.sum$hParams.sum$Parameter == "sigmaR.S"))
 S.min <- printPostSum(table = post.sum$pSurv.sum, 
                       row = which(post.sum$pSurv.sum$Median == min(post.sum$pSurv.sum$Median)))
@@ -142,13 +146,13 @@ S.max <- printPostSum(table = post.sum$pSurv.sum,
                       row = which(post.sum$pSurv.sum$Median == max(post.sum$pSurv.sum$Median)))
 
 # Recruitment stats
-R.hyper.mean <- printPostSum(table = post.sum$hParams.sum, 
+R.hyper.mean <- printPostSum(table = post.sum$hParams.sum,
                              row = which(post.sum$hParams.sum$Parameter == "h.Mu.R"))
-R.sd.spatial <- printPostSum(table = post.sum$hParams.sum, 
+R.sd.spatial <- printPostSum(table = post.sum$hParams.sum,
                              row = which(post.sum$hParams.sum$Parameter == "h.sigma.R"))
-R.sd.temporal <- printPostSum(table = post.sum$hParams.sum, 
+R.sd.temporal <- printPostSum(table = post.sum$hParams.sum,
                              row = which(post.sum$hParams.sum$Parameter == "sigmaT.R"))
-R.sd.residual <- printPostSum(table = post.sum$hParams.sum, 
+R.sd.residual <- printPostSum(table = post.sum$hParams.sum,
                              row = which(post.sum$hParams.sum$Parameter == "sigmaR.R"))
 R.min <- printPostSum(table = post.sum$rRep.sum, 
                       row = which(post.sum$rRep.sum$Median == min(post.sum$rRep.sum$Median)))
@@ -156,12 +160,12 @@ R.max <- printPostSum(table = post.sum$rRep.sum,
                       row = which(post.sum$rRep.sum$Median == max(post.sum$rRep.sum$Median)))
 
 # Rodent effects stats
-#betaR.hyper.mean
-#betaR.sd.spatial
-#betaR.sd.temporal
-#betaR.sd.residual
+betaR.hyper.mean <- printPostSum(table = post.sum$hParams.sum,
+                             row = which(post.sum$hParams.sum$Parameter == "h.Mu.betaR.R"))
+betaR.sd.spatial <- printPostSum(table = post.sum$hParams.sum,
+                             row = which(post.sum$hParams.sum$Parameter == "h.sigma.betaR.R"))
 betaR.min <- printPostSum(table = post.sum$betaR.sum, 
-                      row = which(post.sum$betaR.sum$Median == min(post.sum$betaR.sum$Median)))
+                       row = which(post.sum$betaR.sum$Median == min(post.sum$betaR.sum$Median)))
 betaR.max <- printPostSum(table = post.sum$betaR.sum,
                       row = which(post.sum$betaR.sum$Median == max(post.sum$betaR.sum$Median)))
 n.pos.betaR <- length(which(post.sum$betaR.sum$Median > 0))
@@ -220,7 +224,7 @@ The highest population growth rates were estimated for areas with relatively low
 Annual survival probabilities ranged from `r S.min$post.sum` (area "`r S.min$area.name`") to `r S.max$post.sum` (area "`r S.max$area.name`") across reporting areas in Norway, with the highest values occurring in the far north and in the mountains in the south (@fig-pVRA). The global average survival probability across all areas and years ($\mu^S$) was estimated at `r S.hyper.mean`. Spatial variation in survival (random effect SD = `r S.sd.spatial$post.sum`) was relatively low compared to temporal (`r S.sd.temporal$post.sum`) and residual (`r S.sd.residual$post.sum`) variation. 
 
 Recruitment rates varied between `r R.min$post.sum` (area "`r R.min$area.name`") and `r R.max$post.sum` (area "`r R.max$area.name`") and displayed a spatial pattern opposite to that 
-of annual survival, i.e. lower recruitment rates co-occurring with higher survival rates and vice-versa [@fig-pVRB; @fig-paramCorrs B). Across all areas and years, average recruitment rate was `r R.hyper.mean`. Unlike for survival, the model predicted similar magnitudes of spatial and temporal variation (random effect SDs of `r R.sd.spatial` and `r R.sd.temporal`, respectively), and about twice as much residual variation (`r R.sd.residual`).  
+of annual survival, i.e. lower recruitment rates co-occurring with higher survival rates and vice-versa [@fig-pVRB; @fig-paramCorrs B). Across all areas and years, average recruitment rate was `r R.hyper.mean$post.sum`. Unlike for survival, the model predicted similar magnitudes of spatial and temporal variation (random effect SDs of `r R.sd.spatial$post.sum` and `r R.sd.temporal$post.sum`, respectively), and about twice as much residual variation (`r R.sd.residual$post.sum`).  
 
 ::: {#fig-pVR layout-ncol="2"}
 ![Median survival probabilities](Figures/Avg_pSurv_Map-1.png){#fig-pVRA}
@@ -236,15 +240,8 @@ There was substantial variation in both vital rates across time (SFs "TimeSeries
 
 ## Effects of rodent occupancy
 
-The model predicted substantial variation in the effect of the rodent occupancy covariate on recruitment (@fig-betaR). Areas in the north and south west generally had recruitment increasing with rodent occupancy while the remaining areas were a mosaic of positive and negative effects, albeit with some spatial clustering.
+The model predicted a positive global effect of rodent occupancy on recruitment rate (average slope on the log scale = `r betaR.hyper.mean$post.sum`). Nonetheless, spatial variation in the rodent effect was substantial (random effect SD = `r betaR.sd.spatial$post.sum`). This resulted in negative median effects in `r n.neg.betaR` areas, positive median effects in `r n.pos.betaR` areas, and a range of effect sizes from `r betaR.min$post.sum` (area "`r betaR.min$area.name`") to `r betaR.max$post.sum` (area "`r betaR.max$area.name`", @fig-paramCorrs C). The largest positive rodent effects were estimated for areas in the very North of Norway, as well as in the mountaineous regions in the central and southwestern parts of the country (SF "betaR_Map.pdf"). Effects with negative posterior medians were located mostly at intermediate latitudes, but we note that all of these had posterior distributions featuring substantial overlap with 0 (@fig-paramCorrs C).
 
-::: {#fig-betaR layout-ncol="2"}
-![Median rodent effect estimates](Figures/betaR_Median.png){#fig-betaRA}
-
-![Uncertainty in rodent effect estimates](Figures/betaR_SD.png){#fig-betaRB}
-
-Median (a) and standard deviation (b) of posterior estimates of effects of rodent occupancy on recruitment rate across 41 reporting areas in Norway. In a), blueish colors indicate negative effects while reddish colors indicate positive effects (yellow = no effect). In b) darker colors indicate higher median values and higher uncertainty.
-:::
 
 ## Detection parameters
 
