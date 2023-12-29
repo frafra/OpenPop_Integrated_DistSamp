@@ -57,6 +57,31 @@ plotLatitude <- function(PostSum.list,
     ylab("Estimate") + 
     theme_classic()
   
+  ## Average annual survival vs. reproductive rates
+  pSurv_rRep.sum <- pSurv.sum %>%
+    dplyr::rename(surv.Median = Median,
+                  surv.lCI = lCI,
+                  surv.uCI = uCI) %>%
+    dplyr::select(-Mean, -SD, -CV, -Latitude, -Longitude) %>%
+    dplyr::left_join(rRep.sum, by = "Area")
+  
+  p_survRep1 <- ggplot(pSurv_rRep.sum) + 
+    geom_pointrange(aes(x = surv.Median, y = Median, ymin = lCI, ymax = uCI, colour = Latitude), size = 0, fatten = 1, linewidth = 0.5, alpha = 0.375) +
+    geom_pointrange(aes(x = surv.Median, y = Median, xmin = surv.lCI, xmax = surv.uCI, colour = Latitude), size = 0, fatten = 1, linewidth = 0.5, alpha = 0.375) +
+    geom_point(aes(x = surv.Median, y = Median, fill = Latitude), shape = 21, color = "black", size = 2, alpha = 0.75) +
+    paletteer::scale_color_paletteer_c("grDevices::Temps") + 
+    paletteer::scale_fill_paletteer_c("grDevices::Temps") + 
+    xlab("Survival probability") +
+    ylab("Recruitment rate") + 
+    theme_classic()
+  
+  p_survRep2 <- ggplot(pSurv_rRep.sum) + 
+    geom_point(aes(x = surv.Median, y = Median, colour = Latitude), size = 2, alpha = 0.75) +
+    xlab("Survival probability") +
+    ylab("Recruitment rate") + 
+    paletteer::scale_color_paletteer_c("grDevices::Temps") + 
+    theme_classic()
+  
   # Rodent effects 
   if(fitRodentCov){
     betaR.sum <- PostSum.list$betaR.sum %>%
@@ -166,7 +191,15 @@ plotLatitude <- function(PostSum.list,
     dev.off()
   }
 
-  
+  ## Assemble plots (vital rate correlation)
+  pdf("Plots/Latitude/SurvRep_Latitude.pdf", width = 5, height = 4)
+  print(
+    p_survRep1
+  )
+  print(
+    p_survRep2
+  )
+  dev.off()
   
   ## Assemble plots (population-level parameters)
   pdf("Plots/Latitude/PopParams1_Latitude.pdf", width = 8, height = 4)
@@ -205,7 +238,8 @@ plotLatitude <- function(PostSum.list,
   
   ## Write and return plot paths
   plot.paths <- c("Plots/Latitude/DetectParams_Latitude.pdf",
-                  "Plots/Latitude/VitalRateParams_Latitude.pdf", 
+                  "Plots/Latitude/VitalRateParams_Latitude.pdf",
+                  "Plots/Latitude/SurvRep_Latitude.pdf",
                   "Plots/Latitude/PopParams1_Latitude.pdf",
                   "Plots/Latitude/PopParams2_Latitude.pdf",
                   "Plots/Latitude/LambdaDens1_Latitude.pdf",
