@@ -32,9 +32,11 @@ plotLatitude <- function(PostSum.list,
     dplyr::left_join(area_coord, by = "Area")
   
   p_detect <- ggplot(detect.sum) + 
-    geom_pointrange(aes(x = Latitude, y = Median, ymin = lCI, ymax = uCI, colour = Longitude), size = 0.5, fatten = 4, alpha = 0.5) +
-    paletteer::scale_color_paletteer_c("grDevices::Temps") + 
+    geom_pointrange(aes(x = Latitude, y = Median, ymin = lCI, ymax = uCI, colour = Longitude), size = 0, fatten = 4, alpha = 0.5) +
+    geom_point(aes(x = Latitude, y = Median, fill = Longitude), shape = 21, color = "black", size = 2, alpha = 0.75) +
     ylab("Estimate") + 
+    paletteer::scale_color_paletteer_c("grDevices::Temps") + 
+    paletteer::scale_fill_paletteer_c("grDevices::Temps") + 
     theme_classic()
   
   # Average reproductive rates
@@ -42,9 +44,11 @@ plotLatitude <- function(PostSum.list,
     dplyr::left_join(area_coord, by = "Area")
   
   p_rRep <- ggplot(rRep.sum) + 
-    geom_pointrange(aes(x = Latitude, y = Median, ymin = lCI, ymax = uCI, colour = Longitude), size = 0.5, fatten = 4, alpha = 0.5) +
-    paletteer::scale_color_paletteer_c("grDevices::Temps") + 
+    geom_pointrange(aes(x = Latitude, y = Median, ymin = lCI, ymax = uCI, colour = Longitude), size = 0, fatten = 4, alpha = 0.5) +
+    geom_point(aes(x = Latitude, y = Median, fill = Longitude), shape = 21, color = "black", size = 2, alpha = 0.75) +
     ylab("Estimate") + 
+    paletteer::scale_color_paletteer_c("grDevices::Temps") + 
+    paletteer::scale_fill_paletteer_c("grDevices::Temps") + 
     theme_classic()
   
   # Average annual survival 
@@ -52,9 +56,11 @@ plotLatitude <- function(PostSum.list,
     dplyr::left_join(area_coord, by = "Area")
   
   p_pSurv <- ggplot(pSurv.sum) + 
-    geom_pointrange(aes(x = Latitude, y = Median, ymin = lCI, ymax = uCI, colour = Longitude), size = 0.5, fatten = 4, alpha = 0.5) +
-    paletteer::scale_color_paletteer_c("grDevices::Temps") + 
+    geom_pointrange(aes(x = Latitude, y = Median, ymin = lCI, ymax = uCI, colour = Longitude), size = 0, fatten = 4, alpha = 0.5) +
+    geom_point(aes(x = Latitude, y = Median, fill = Longitude), shape = 21, color = "black", size = 2, alpha = 0.75) +
     ylab("Estimate") + 
+    paletteer::scale_color_paletteer_c("grDevices::Temps") + 
+    paletteer::scale_fill_paletteer_c("grDevices::Temps") + 
     theme_classic()
   
   ## Average annual survival vs. reproductive rates
@@ -88,10 +94,12 @@ plotLatitude <- function(PostSum.list,
       dplyr::left_join(area_coord, by = "Area")
     
     p_betaR <- ggplot(betaR.sum) + 
-      geom_pointrange(aes(x = Latitude, y = Median, ymin = lCI, ymax = uCI, colour = Longitude), size = 0.5, fatten = 4, alpha = 0.5) +
       geom_hline(aes(yintercept = 0), color = "grey70", linetype = "dotted") + 
+      geom_pointrange(aes(x = Latitude, y = Median, ymin = lCI, ymax = uCI, colour = Longitude), size = 0, fatten = 4, alpha = 0.5) +
+      geom_point(aes(x = Latitude, y = Median, fill = Longitude), shape = 21, color = "black", size = 2, alpha = 0.75) +
       ylab("Estimate") + 
       paletteer::scale_color_paletteer_c("grDevices::Temps") + 
+      paletteer::scale_fill_paletteer_c("grDevices::Temps") + 
       theme_classic()
   }
   
@@ -100,16 +108,20 @@ plotLatitude <- function(PostSum.list,
     dplyr::left_join(area_coord, by = "Area")
   
   p_popDens1 <- ggplot(subset(popDens.sum, SummaryPeriod == paste0(minYear, "-", maxYear))) + 
-    geom_pointrange(aes(x = Latitude, y = Median, ymin = lCI, ymax = uCI, colour = Longitude), size = 0.5, fatten = 4, alpha = 0.5) +
+    geom_pointrange(aes(x = Latitude, y = Median, ymin = lCI, ymax = uCI, colour = Longitude), size = 0, fatten = 4, alpha = 0.5) +
+    geom_point(aes(x = Latitude, y = Median, fill = Longitude), shape = 21, color = "black", size = 2, alpha = 0.75) +
     ylim(0, 500) + 
     ylab("Estimate") + 
     paletteer::scale_color_paletteer_c("grDevices::Temps") + 
+    paletteer::scale_fill_paletteer_c("grDevices::Temps") + 
     theme_classic()
   
   p_popDens2 <- ggplot(subset(popDens.sum, SummaryPeriod != paste0(minYear, "-", maxYear))) + 
-    geom_pointrange(aes(x = Latitude, y = Median, ymin = lCI, ymax = uCI, colour = Longitude), size = 0.5, fatten = 4, alpha = 0.5) +
+    geom_pointrange(aes(x = Latitude, y = Median, ymin = lCI, ymax = uCI, colour = Longitude), size = 0, fatten = 4, alpha = 0.5) +
+    geom_point(aes(x = Latitude, y = Median, fill = Longitude), shape = 21, color = "black", size = 2, alpha = 0.75) +
     ylab("Estimate") + 
     paletteer::scale_color_paletteer_c("grDevices::Temps") + 
+    paletteer::scale_fill_paletteer_c("grDevices::Temps") + 
     theme_classic()
   
   # Average population growth rates
@@ -117,17 +129,21 @@ plotLatitude <- function(PostSum.list,
     dplyr::left_join(area_coord, by = "Area")
   
   p_lambda1 <- ggplot(subset(lambda.sum, SummaryPeriod == paste0(minYear, "-", maxYear))) + 
-    geom_pointrange(aes(x = Latitude, y = Median, ymin = lCI, ymax = uCI, colour = Longitude), size = 0.5, fatten = 4, alpha = 0.5) +
     geom_hline(aes(yintercept = 1), color = "grey70", linetype = "dotted") + 
+    geom_pointrange(aes(x = Latitude, y = Median, ymin = lCI, ymax = uCI, colour = Longitude), size = 0, fatten = 4, alpha = 0.5) +
+    geom_point(aes(x = Latitude, y = Median, fill = Longitude), shape = 21, color = "black", size = 2, alpha = 0.75) +
     ylab("Estimate") + 
     paletteer::scale_color_paletteer_c("grDevices::Temps") + 
+    paletteer::scale_fill_paletteer_c("grDevices::Temps") + 
     theme_classic()
   
   p_lambda2 <- ggplot(subset(lambda.sum, SummaryPeriod != paste0(minYear, "-", maxYear))) + 
-    geom_pointrange(aes(x = Latitude, y = Median, ymin = lCI, ymax = uCI, colour = Longitude), size = 0.5, fatten = 4, alpha = 0.5) +
     geom_hline(aes(yintercept = 1), color = "grey70", linetype = "dotted") + 
+    geom_pointrange(aes(x = Latitude, y = Median, ymin = lCI, ymax = uCI, colour = Longitude), size = 0, fatten = 4, alpha = 0.5) +
+    geom_point(aes(x = Latitude, y = Median, fill = Longitude), shape = 21, color = "black", size = 2, alpha = 0.75) +
     ylab("Estimate") + 
     paletteer::scale_color_paletteer_c("grDevices::Temps") + 
+    paletteer::scale_fill_paletteer_c("grDevices::Temps") + 
     theme_classic()
   
   ## Average pop. densities vs. average pop. growth rates
