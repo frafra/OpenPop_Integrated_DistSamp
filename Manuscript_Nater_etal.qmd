@@ -220,9 +220,7 @@ The highest population growth rates were estimated for areas with relatively low
 Annual survival probabilities ranged from `r S.min$post.sum` (area "`r S.min$area.name`") to `r S.max$post.sum` (area "`r S.max$area.name`") across reporting areas in Norway, with the highest values occurring in the far north and in the mountains in the south (@fig-pVRA). The global average survival probability across all areas and years ($\mu^S$) was estimated at `r S.hyper.mean`. Spatial variation in survival (random effect SD = `r S.sd.spatial$post.sum`) was relatively low compared to temporal (`r S.sd.temporal$post.sum`) and residual (`r S.sd.residual$post.sum`) variation. 
 
 Recruitment rates varied between `r R.min$post.sum` (area "`r R.min$area.name`") and `r R.max$post.sum` (area "`r R.max$area.name`") and displayed a spatial pattern opposite to that 
-of annual survival, i.e. lower recruitment rates co-occurring with higher survival rates and vice-versa [@fig-pVRB; @fig-paramCorrs B). Across all areas and year, average recruitment rate was `r R.hyper.mean`. Unlike for survival, the model predicted similar magnitudes of spatial and temporal variation (random effect SDs of `r R.sd.spatial` and `r R.sd.temporal`, respectively) and about twice as much residual variation (`r R.sd.residual`).  
-
-
+of annual survival, i.e. lower recruitment rates co-occurring with higher survival rates and vice-versa [@fig-pVRB; @fig-paramCorrs B). Across all areas and years, average recruitment rate was `r R.hyper.mean`. Unlike for survival, the model predicted similar magnitudes of spatial and temporal variation (random effect SDs of `r R.sd.spatial` and `r R.sd.temporal`, respectively), and about twice as much residual variation (`r R.sd.residual`).  
 
 ::: {#fig-pVR layout-ncol="2"}
 ![Median survival probabilities](Figures/Avg_pSurv_Map-1.png){#fig-pVRA}
@@ -231,6 +229,9 @@ of annual survival, i.e. lower recruitment rates co-occurring with higher surviv
 
 Posterior medians of average annual survival probabilities (a) and recruitment rates (b) across 41 reporting areas (summarised at the municipality level) in Norway. Darker colors indicate higher median values. Measures for corresponding uncertainty in estimates are visualized in SFs "Avg_pSurv_Map.pdf" and "Avg_rRep_Map.pdf" for survival and recruitment, respectively.
 :::
+
+The MCMC chains for many of the area-specific average survival probabilities and recruitment rates, as well as for the global averages (intercepts) for both vital rates, were mixing rather poorly. Despite that, mixing was good and resulting posteriors well defined for the area- and year-specific estimates of survival and recruitment (SF "PostDens_tS_tR.pdf"). 
+There was substantial variation in both vital rates across time (SFs "TimeSeries_pSurv.pdf" and "TimeSeries_rRep.pdf"). In many areas, the years 2011, 2014, and 2018 not only sported high population densities (see above) but were also characterized by both high recruitment and low subsequent survival. The overall low density years 2012 and 2015, conversely, often featured lower recruitment and, in some cases, higher survival. Notably, there were also years with very little spatial synchrony, i.e. very different relative yearly survival probabilities and recruitment rates (e.g. 2010 and 2020 for survival and 2013, 2016, and 2017 for recruitment). 
 
 
 ## Effects of rodent occupancy
