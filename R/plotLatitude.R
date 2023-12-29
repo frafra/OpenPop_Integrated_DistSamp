@@ -114,20 +114,24 @@ plotLatitude <- function(PostSum.list,
     dplyr::left_join(lambda.sum, by = c("Area", "SummaryPeriod"))
   
   p_lambdaDens1 <- ggplot(subset(dens_lambda.sum, SummaryPeriod == paste0(minYear, "-", maxYear))) + 
-    geom_pointrange(aes(x = dens.Median, y = Median, ymin = lCI, ymax = uCI, colour = Latitude), size = 0.5, fatten = 4, alpha = 0.5) +
-    geom_pointrange(aes(x = dens.Median, y = Median, xmin = dens.lCI, xmax = dens.uCI, colour = Latitude), size = 0, fatten = 4, alpha = 0.5) +
+    geom_pointrange(aes(x = dens.Median, y = Median, ymin = lCI, ymax = uCI, colour = Latitude), size = 0, fatten = 1, linewidth = 0.5, alpha = 0.375) +
+    geom_pointrange(aes(x = dens.Median, y = Median, xmin = dens.lCI, xmax = dens.uCI, colour = Latitude), size = 0, fatten = 1, linewidth = 0.5, alpha = 0.375) +
+    geom_point(aes(x = dens.Median, y = Median, fill = Latitude), shape = 21, color = "black", size = 2, alpha = 0.75) +
+    paletteer::scale_color_paletteer_c("grDevices::Temps") + 
+    paletteer::scale_fill_paletteer_c("grDevices::Temps") + 
     xlim(0, 500) + 
     xlab("Population density") +
     ylab("Population growth rate") + 
-    paletteer::scale_color_paletteer_c("grDevices::Temps") + 
     theme_classic()
   
   p_lambdaDens2 <- ggplot(subset(dens_lambda.sum, SummaryPeriod != paste0(minYear, "-", maxYear))) + 
-    geom_pointrange(aes(x = dens.Median, y = Median, ymin = lCI, ymax = uCI, colour = Latitude), size = 0.5, fatten = 4, alpha = 0.5) +
-    geom_pointrange(aes(x = dens.Median, y = Median, xmin = dens.lCI, xmax = dens.uCI, colour = Latitude), size = 0, fatten = 0, alpha = 0.5) +
+    geom_pointrange(aes(x = dens.Median, y = Median, ymin = lCI, ymax = uCI, colour = Latitude), size = 0, fatten = 1, linewidth = 0.5, alpha = 0.375) +
+    geom_pointrange(aes(x = dens.Median, y = Median, xmin = dens.lCI, xmax = dens.uCI, colour = Latitude), size = 0, fatten = 1, linewidth = 0.5, alpha = 0.375) +
+    geom_point(aes(x = dens.Median, y = Median, fill = Latitude), shape = 21, color = "black", size = 2, alpha = 0.75) +
+    paletteer::scale_color_paletteer_c("grDevices::Temps") + 
+    paletteer::scale_fill_paletteer_c("grDevices::Temps") + 
     xlab("Population density") +
     ylab("Population growth rate") +  
-    paletteer::scale_color_paletteer_c("grDevices::Temps") + 
     theme_classic()
   
   ## Make plotting directory if it does not exist yet
