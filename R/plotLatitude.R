@@ -101,6 +101,15 @@ plotLatitude <- function(PostSum.list,
       paletteer::scale_color_paletteer_c("grDevices::Temps") + 
       paletteer::scale_fill_paletteer_c("grDevices::Temps") + 
       theme_classic()
+    
+    p_betaR_long <- ggplot(betaR.sum) + 
+      geom_hline(aes(yintercept = 0), color = "grey70", linetype = "dotted") + 
+      geom_pointrange(aes(x = Longitude, y = Median, ymin = lCI, ymax = uCI, colour = Latitude), size = 0, fatten = 4, alpha = 0.5) +
+      geom_point(aes(x = Longitude, y = Median, fill = Latitude), shape = 21, color = "black", size = 2, alpha = 0.75) +
+      ylab("Rodent effect on recruitment") + 
+      paletteer::scale_color_paletteer_c("grDevices::Temps") + 
+      paletteer::scale_fill_paletteer_c("grDevices::Temps") + 
+      theme_classic()
   }
   
   # Average population densities
@@ -251,6 +260,20 @@ plotLatitude <- function(PostSum.list,
   )
   dev.off()
   
+  ## Assemble plots (manuscript array)
+  if(fitRodentCov){
+    pdf("Plots/Latitude/AllParams_Latitude.pdf", width = 8, height = 6)
+    print(
+      ggpubr::ggarrange(ggpubr::ggarrange(p_lambdaDens2 + theme(legend.position = "none") + ggtitle("A)"),
+                                          p_survRep1 + theme(legend.position = "none") + ggtitle("B)"),
+                                          nrow = 1), 
+                        p_betaR_long + ggtitle("C)"),  
+                        heights = c(1.5, 1), ncol = 1, 
+                        legend = "right", common.legend = TRUE)
+    )
+    dev.off()
+  }
+
   
   ## Write and return plot paths
   plot.paths <- c("Plots/Latitude/DetectParams_Latitude.pdf",
@@ -260,6 +283,10 @@ plotLatitude <- function(PostSum.list,
                   "Plots/Latitude/PopParams2_Latitude.pdf",
                   "Plots/Latitude/LambdaDens1_Latitude.pdf",
                   "Plots/Latitude/LambdaDens2_Latitude.pdf")
+  
+  if(fitRodentCov){
+    plot.paths <- c(plot.paths, "Plots/Latitude/AllParams_Latitude.pdf")
+  }
   
   return(plot.paths)
   
