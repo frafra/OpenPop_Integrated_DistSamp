@@ -128,20 +128,28 @@ printPostSum <- function(table, row = NULL, area = NULL){
 #Det.max
 
 # Survival stats
-#S.hyper.mean
-#S.sd.spatial
-#S.sd.temporal
-#S.sd.residual
+S.hyper.mean <- printPostSum(table = post.sum$hParams.sum, 
+                             row = which(post.sum$hParams.sum$Parameter == "h.Mu.S"))
+S.sd.spatial <- printPostSum(table = post.sum$hParams.sum, 
+                             row = which(post.sum$hParams.sum$Parameter == "h.sigma.S"))
+S.sd.temporal <- printPostSum(table = post.sum$hParams.sum, 
+                             row = which(post.sum$hParams.sum$Parameter == "sigmaT.S"))
+S.sd.residual <- printPostSum(table = post.sum$hParams.sum, 
+                             row = which(post.sum$hParams.sum$Parameter == "sigmaR.S"))
 S.min <- printPostSum(table = post.sum$pSurv.sum, 
                       row = which(post.sum$pSurv.sum$Median == min(post.sum$pSurv.sum$Median)))
 S.max <- printPostSum(table = post.sum$pSurv.sum,
                       row = which(post.sum$pSurv.sum$Median == max(post.sum$pSurv.sum$Median)))
 
 # Recruitment stats
-#R.hyper.mean
-#R.sd.spatial
-#R.sd.temporal
-#R.sd.residual
+R.hyper.mean <- printPostSum(table = post.sum$hParams.sum, 
+                             row = which(post.sum$hParams.sum$Parameter == "h.Mu.R"))
+R.sd.spatial <- printPostSum(table = post.sum$hParams.sum, 
+                             row = which(post.sum$hParams.sum$Parameter == "h.sigma.R"))
+R.sd.temporal <- printPostSum(table = post.sum$hParams.sum, 
+                             row = which(post.sum$hParams.sum$Parameter == "sigmaT.R"))
+R.sd.residual <- printPostSum(table = post.sum$hParams.sum, 
+                             row = which(post.sum$hParams.sum$Parameter == "sigmaR.R"))
 R.min <- printPostSum(table = post.sum$rRep.sum, 
                       row = which(post.sum$rRep.sum$Median == min(post.sum$rRep.sum$Median)))
 R.max <- printPostSum(table = post.sum$rRep.sum,
@@ -181,7 +189,7 @@ All numerical results in the following are presented as median \[95% credible in
 
 ## Population density
 
-Only during the most recent four years (2018-2021) has data been collected regularly for all reporting areas included in the analyses. During this period, estimated population densities varied between `r dens.min$post.sum` birds/km^2 in the area "`r dens.min$area.name`" close to the coast in central Norway to `r dens.max$post.sum` birds/km^2 in "`r dens.max$area.name`" further south near the Swedish border. In general, population density appeared to be lowest in the Northern parts of Norway and highest in the eastern part of central Norway (@fig-densA). Uncertainty in density estimates was relatively consistent, with a few areas (inlcuding the one with the lowest estimated density, "`r dens.min$area.name`") sticking out by having substantially less precise estimates (@fig-densB). Populations fluctuated substantially over time in any given area (SF "TimeSeries_popDens1.pdf") and some years seemed to be indicative of relatively high (e.g. 2011, 2014, 2018) or low (e.g. 2012, 2015) densities across a large number of areas.   
+Only during the most recent four years (2018-2021) has data been collected regularly for all reporting areas included in the analyses. During this period, estimated population densities varied between `r dens.min$post.sum` birds/km\^2 in the area "`r dens.min$area.name`" close to the coast in central Norway to `r dens.max$post.sum` birds/km\^2 in "`r dens.max$area.name`" further south near the Swedish border. In general, population density appeared to be lowest in the Northern parts of Norway and highest in the eastern part of central Norway (@fig-densA). Uncertainty in density estimates was relatively consistent, with a few areas (inlcuding the one with the lowest estimated density, "`r dens.min$area.name`") sticking out by having substantially less precise estimates (@fig-densB). Populations fluctuated substantially over time in any given area (SF "TimeSeries_popDens1.pdf") and some years seemed to be indicative of relatively high (e.g. 2011, 2014, 2018) or low (e.g. 2012, 2015) densities across a large number of areas.
 
 ::: {#fig-dens layout-ncol="2"}
 ![Median density estimates](Figures/Avg_popDens_Map-4.png){#fig-densA}
@@ -193,39 +201,37 @@ Median (a) and coefficient of variation (standard deviation / mean) (b) of poste
 
 ## Population growth rate
 
-In most areas, populations of willow ptarmigan have been increasing over the period 2018-2020, potentially indicating a positive effect of more restricted hunting in recent years (@fig-lam). Some areas -- predominantly in central Norway -- also had declining populations, but many of those declines followed upon a period of increase between the start of data colection in 2007 and sometime between 2016 and 2018.
+Average population growth rates over the last four years (2018-2021) ranged from moderate declines (`r lambda.min$post.sum` in the "`r lambda.min$area.name`" area) to \> 50% increase (`r lambda.max$post.sum` in the "`r lambda.max$area.name`" area). In the majority of reporting areas (`r n.pos.lambda` out of 41), populations of willow ptarmigan have been increasing over the period 2018-2021 (@fig-lam). Some areas -- predominantly in central Norway -- also had declining populations, but many of those declines followed upon periods of increase between the start of data collection in 2007 and sometime between 2016 and 2018 (SF "TimeSeries_popDens1.pdf").
 
 ::: {#fig-lam layout-ncol="2"}
-![Median population growth rate estimates](Figures/lambda_2018-2020_Median.png){#fig-lamA}
+![Median population growth rate estimates](Figures/Avg_lambda_Map-4.png){#fig-lamA}
 
-![Uncertainty in population growth rate estimates](Figures/lambda_2018-2020_SD.png){#fig-lamB}
+![Uncertainty in population growth rate estimates](Figures/Avg_lambda_Map-5.png){#fig-lamB}
 
-Median (a) and standard deviation (b) of posterior estimates of average annual population growth rate over the three most recent years (2018-2020) across 41 reporting areas in Norway. In a), pinkish colors indicate declining populations while greenish colors indicate growing populations (white = stable populations). In b) darker colors indicate higher median values and higher uncertainty.
+Median (a) and standard deviation (b) of posterior estimates of average annual population growth rate over the four most recent years (2018-2021) across 41 reporting areas (summarised at the municipality level) in Norway. In a), pinkish colors indicate declining populations while greenish colors indicate growing populations (white = stable populations). In b) darker colors indicate higher uncertainty.
 :::
 
-## Survival probability
+The highest population growth rates were estimated for areas with relatively low population densities across latitudes [@fig-paramCorrs A] but we did not find evidence for a strong association between population growth rates and population densities overall.
 
-Annual survival probabilities ranged from aroung 35% to 50% across reporting areas in Norway, with the highest values occurring in the far north and in the mountains in the south (@fig-pSurv).
+![Posterior summaries (points = posterior medians, lines = 95% credible intervals) of area-specific population growth rate vs. population density (A), recruitment rate vs. survival probability (B) and rodent effect on recruitment along a longitudinal gradient (C). Color indicates latitude of the midpoint of each area.](Figures/AllParams_Latitude.png){#fig-paramCorrs}
 
-::: {#fig-pSurv layout-ncol="2"}
-![Median survival estimates](Figures/pSurv_Median.png){#fig-pSurvA}
+## Survival probabilities and recruitment rates
 
-![Uncertainty in survival estimates](Figures/pSurv_SD.png){#fig-pSurvB}
+Annual survival probabilities ranged from `r S.min$post.sum` (area "`r S.min$area.name`") to `r S.max$post.sum` (area "`r S.max$area.name`") across reporting areas in Norway, with the highest values occurring in the far north and in the mountains in the south (@fig-pVRA). The global average survival probability across all areas and years ($\mu^S$) was estimated at `r S.hyper.mean`. Spatial variation in survival (random effect SD = `r S.sd.spatial$post.sum`) was relatively low compared to temporal (`r S.sd.temporal$post.sum`) and residual (`r S.sd.residual$post.sum`) variation. 
 
-Median (a) and standard deviation (b) of posterior estimates of average annual survival probability across 41 reporting areas in Norway. Darker colors indicate higher median values and higher uncertainty.
+Recruitment rates varied between `r R.min$post.sum` (area "`r R.min$area.name`") and `r R.max$post.sum` (area "`r R.max$area.name`") and displayed a spatial pattern opposite to that 
+of annual survival, i.e. lower recruitment rates co-occurring with higher survival rates and vice-versa [@fig-pVRB; @fig-paramCorrs B). Across all areas and year, average recruitment rate was `r R.hyper.mean`. Unlike for survival, the model predicted similar magnitudes of spatial and temporal variation (random effect SDs of `r R.sd.spatial` and `r R.sd.temporal`, respectively) and about twice as much residual variation (`r R.sd.residual`).  
+
+
+
+::: {#fig-pVR layout-ncol="2"}
+![Median survival probabilities](Figures/Avg_pSurv_Map-1.png){#fig-pVRA}
+
+![Median recruitment rates](Figures/Avg_rRep_Map-1.png){#fig-pVRB}
+
+Posterior medians of average annual survival probabilities (a) and recruitment rates (b) across 41 reporting areas (summarised at the municipality level) in Norway. Darker colors indicate higher median values. Measures for corresponding uncertainty in estimates are visualized in SFs "Avg_pSurv_Map.pdf" and "Avg_rRep_Map.pdf" for survival and recruitment, respectively.
 :::
 
-## Recruitment rate
-
-Annual recruitment rates showed a spatial pattern (@fig-rRep) that was inverse relative to that of annual survival (@fig-pSurv), with lower recruitment rates co-occurring with higher survival rates and vice-versa. This is consistent with basic life history theory [@stearns1992] and with previous studies finding relatively slower life histories in alpine / high altitude areas [e.g. @sandercock2005; @bears2009; @alice2016].
-
-::: {#fig-rRep layout-ncol="2"}
-![Median recruitment estimates](Figures/rRep_Median.png){#fig-rRepA}
-
-![Uncertainty in recruitment estimates](Figures/rRep_SD.png){#fig-rRepB}
-
-Median (a) and standard deviation (b) of posterior estimates of average annual recruitment rate across 41 reporting areas in Norway. Darker colors indicate higher median values and higher uncertainty.
-:::
 
 ## Effects of rodent occupancy
 
@@ -253,6 +259,8 @@ TBA
 
 -   Biological results (interpretations and comparisons with other case studies / species / systems)
 -   With some focus on what we are able to get insights on thanks to the integration across time and space (i.e. better estimates through data sharing, relative importance of different kinds of variation, etc. ) <!-- @ERLEND & @JAMES, once the "new" results are in: thoughts on what we see that is interesting, cool, expected, unexpected etc. Can we compare to other large scale studies, either on other grouse-like creatures or harvested species more generally? -->
+
+Annual recruitment rates showed a spatial pattern that was inverse relative to that of annual survival, with lower recruitment rates co-occurring with higher survival rates and vice-versa. This is consistent with basic life history theory [@stearns1992] and with previous studies finding relatively slower life histories in alpine / high altitude areas [e.g. @sandercock2005; @bears2009; @alice2016].
 
 ## Implications for management
 
