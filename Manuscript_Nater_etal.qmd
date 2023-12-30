@@ -249,6 +249,48 @@ TBA
 
 ## Variance decomposition
 
+```{r, echo = FALSE}
+# Posterior summaries
+varDec.sum <- readRDS("Results/PosteriorSummaries_VarDecomp.rds")
+
+# Printing function
+printPostSum2 <- function(table, Parameter, VarComponent){
+  
+  idx <- which(table$Parameter == Parameter & table$VarComponent == VarComponent)
+  
+  print.out <- paste0(
+      round(table$median[idx]*100, digits = 1), 
+      " [",
+      round(table$lCI[idx]*100, digits = 1),
+      ", ",
+      round(table$uCI[idx]*100, digits = 1),
+      "]"
+  )
+  return(print.out)
+}
+
+# All parameter summaries
+Rec_A <- printPostSum2(varDec.sum, "Recruitment", "Area")
+Rec_Y <- printPostSum2(varDec.sum, "Recruitment", "Year")
+Rec_R <- printPostSum2(varDec.sum, "Recruitment", "Residual")
+Rec_Cov <- printPostSum2(varDec.sum, "Recruitment", "RodentOcc")
+
+Surv_A <- printPostSum2(varDec.sum, "Survival", "Area")
+Surv_Y <- printPostSum2(varDec.sum, "Survival", "Year")
+Surv_R <- printPostSum2(varDec.sum, "Survival", "Residual")
+
+Det_A <- printPostSum2(varDec.sum, "Detection", "Area")
+Det_Y <- printPostSum2(varDec.sum, "Detection", "Year")
+Det_R <- printPostSum2(varDec.sum, "Detection", "Residual")
+```
+
+The relative importance of different components for explaining parameter variation differed among recruitment rate, survival probability, and detection decay (@fig-varDecomp).
+The largest portion of variation in recruitment was attributed to residual variation (`r Rec_R` %), followed by spatial (`r Rec_A` %) and temporal (`r Rec_Y` %) variation. Rodent occupancy, which contains both a spatial and a temporal dimension, explained `r Rec_Cov` % of the total variation. 
+For survival, there was large uncertainty in the estimated proportions of variance explained by different components. The model predicted similar potential contributions from temporal (`r Surv_Y` %) and residual (`r Surv_R` %) variation and suggested that spatial variation was only responsible for `r Surv_A` % of the total variance. 
+Total variance in detection decay was attributed evenly to spatial, temporal, and residual variation at `r Det_A` %, `r Det_Y` %, and `r Det_R` %, respectively. 
+
+![Posterior distributions for the proportions of parameter variance explained by spatial (blue), temporal (orange), and residual (green) variation, as well as by effects of rodent occupancy (yellow).](Figures/VarDecomposition_overall.png){#fig-varDecomp}
+
 # Discussion
 
 TBA
