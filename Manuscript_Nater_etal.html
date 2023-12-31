@@ -154,7 +154,7 @@ div.csl-indent {
 </section>
 <section id="model-implementation" class="level3">
 <h3 class="anchored" data-anchor-id="model-implementation">Model implementation</h3>
-<p>We implemented our multi-area IDSM in a Bayesian framework using NIMBLE version 1.0.1 <span class="citation" data-cites="valpine2017">(<a href="#ref-valpine2017" role="doc-biblioref">Valpine et al. 2017</a>)</span> in R version 4.3.1 <span class="citation" data-cites="R2023">(<a href="#ref-R2023" role="doc-biblioref"><strong>R2023?</strong></a>)</span>. For the likelihood for line transect observation distances we used a custom half-normal distribution developed by Michael Scroggie in the “nimbleDistance” package (https://github.com/scrogster/nimbleDistance). We used non-informative uniform priors for all parameters and including biologically sensible boundaries where possible. We simulated complete sets of initial values for all model nodes prior to model running and using pre-defined seeds to ensure reproducibility. Using NIMBLE’s standard samplers, we then ran 4 MCMC chains of 100k iterations each. We discarded the first 40k samples of each chain as burn-in, and thinned the remainder by a factor 20, resulting in a final joint posterior containing a total of 4 x 3k = 120k samples (note that high thinning rates were necessary to constrain memory load of the joint posterior, which included 314568 monitored parameters).</p>
+<p>We implemented our multi-area IDSM in a Bayesian framework using NIMBLE version 1.0.1 <span class="citation" data-cites="valpine2017">(<a href="#ref-valpine2017" role="doc-biblioref">Valpine et al. 2017</a>)</span> in R version 4.3.1 <span class="citation" data-cites="R2023">(<a href="#ref-R2023" role="doc-biblioref">R Core Team 2023</a>)</span>. For the likelihood for line transect observation distances we used a custom half-normal distribution developed by Michael Scroggie in the “nimbleDistance” package (https://github.com/scrogster/nimbleDistance). We used non-informative uniform priors for all parameters and including biologically sensible boundaries where possible. We simulated complete sets of initial values for all model nodes prior to model running and using pre-defined seeds to ensure reproducibility. Using NIMBLE’s standard samplers, we then ran 4 MCMC chains of 100k iterations each. We discarded the first 40k samples of each chain as burn-in, and thinned the remainder by a factor 20, resulting in a final joint posterior containing a total of 4 x 3k = 120k samples (note that high thinning rates were necessary to constrain memory load of the joint posterior, which included 314568 monitored parameters).</p>
 </section>
 </section>
 <section id="post-hoc-variance-decomposition" class="level2">
@@ -239,7 +239,7 @@ div.csl-indent {
 <section id="survival-probabilities-and-recruitment-rates" class="level2">
 <h2 class="anchored" data-anchor-id="survival-probabilities-and-recruitment-rates">Survival probabilities and recruitment rates</h2>
 <p>Annual survival probabilities ranged from 0.373 [0.282, 0.417] (area “Statskog og Klinga utm.”) to 0.444 [0.385, 0.519] (area “Øst Finnmark”) across reporting areas in Norway, with the highest values occurring in the far north and in the mountains in the south (<a href="#fig-pVRA">Figure&nbsp;6 (a)</a>). The global average survival probability across all areas and years (<span class="math inline">\(\mu^S\)</span>) was estimated at None, 0.405 [0.382, 0.422]. Spatial variation in survival (random effect SD = 0.125 [0.003, 0.252]) was relatively low compared to temporal (0.587 [0.393, 0.947]) and residual (0.641 [0.584, 0.706]) variation.</p>
-<p>Recruitment rates varied between 1.738 [1.351, 2.322] (area “Gausdal Fjellstyre”) and 3.449 [2.615, 4.792] (area “Statskog og Klinga utm.”) and displayed a spatial pattern opposite to that of annual survival, i.e.&nbsp;lower recruitment rates co-occurring with higher survival rates and vice-versa [<a href="#fig-pVRB">Figure&nbsp;6 (b)</a>; <a href="#fig-paramCorrs">Figure&nbsp;5</a> B). Across all areas and years, average recruitment rate was 2.56 [2.286, 3.316]. Unlike for survival, the model predicted similar magnitudes of spatial and temporal variation (random effect SDs of 0.172 [0.124, 0.312] and 0.151 [0.079, 0.364], respectively), and about twice as much residual variation (0.328 [0.305, 0.354]).</p>
+<p>Recruitment rates varied between 1.738 [1.351, 2.322] (area “Gausdal Fjellstyre”) and 3.449 [2.615, 4.792] (area “Statskog og Klinga utm.”) and displayed a spatial pattern opposite to that of annual survival, i.e.&nbsp;lower recruitment rates co-occurring with higher survival rates and vice-versa (<a href="#fig-pVRB">Figure&nbsp;6 (b)</a>; <a href="#fig-paramCorrs">Figure&nbsp;5</a> B). Across all areas and years, average recruitment rate was 2.56 [2.286, 3.316]. Unlike for survival, the model predicted similar magnitudes of spatial and temporal variation (random effect SDs of 0.172 [0.124, 0.312] and 0.151 [0.079, 0.364], respectively), and about twice as much residual variation (0.328 [0.305, 0.354]).</p>
 <div id="fig-pVR" class="quarto-layout-panel">
 <figure class="figure">
 <div class="quarto-layout-row quarto-layout-valign-top">
@@ -271,7 +271,7 @@ div.csl-indent {
 </section>
 <section id="detection-parameters" class="level2">
 <h2 class="anchored" data-anchor-id="detection-parameters">Detection parameters</h2>
-<p>TBA</p>
+<p>Detection decay parameters, which determine detection probability in distance sampling surveys, varied across areas from between 69.309 [60.938, 78.424] in “Namskogan Fjellstyre” to 124.39 [111.094, 140.578] in “Engerdal Fjellstyre, resulting in detection probabilities over the transect sites (truncation distance = 200 m) from 0.434 [0.382, 0.491] to 0.779 [0.696, 0.881], respectively. The global average detection decay was 95.107 [87.337, 104.121] (detection probability = 0.596 [0.547, 0.652]), and in general, higher values were more common in the Southern half of the country than the Northern half (SF”Avg_detect_Map.pdf”). Variation in detection over time was modest (SF “TimeSeries_pDetect.pdf”), and among-year variation in detection decay (random effect log SD = 0.144 [0.098, 0.231]) was almost identical in magnitude to spatial (0.143 [0.11, 0.19]) and residual (0.142 [0.124, 0.16]) variation.</p>
 </section>
 <section id="variance-decomposition" class="level2">
 <h2 class="anchored" data-anchor-id="variance-decomposition">Variance decomposition</h2>
@@ -286,7 +286,6 @@ div.csl-indent {
 </section>
 <section id="discussion" class="level1">
 <h1>Discussion</h1>
-<p>TBA</p>
 <section id="abundance-and-vital-rates-across-space-and-time" class="level2">
 <h2 class="anchored" data-anchor-id="abundance-and-vital-rates-across-space-and-time">Abundance and vital rates across space and time</h2>
 <ul>
@@ -435,6 +434,9 @@ Pereira, Henrique Miguel, Simon Ferrier, Michele Walters, Gary N Geller, Rob HG 
 </div>
 <div id="ref-proencca2017" class="csl-entry" role="listitem">
 Proença, Vânia, Laura Jane Martin, Henrique Miguel Pereira, Miguel Fernandez, Louise McRae, Jayne Belnap, Monika Böhm, et al. 2017. <span>“Global Biodiversity Monitoring: From Data Sources to Essential Biodiversity Variables.”</span> <em>Biological Conservation</em> 213: 256–63.
+</div>
+<div id="ref-R2023" class="csl-entry" role="listitem">
+R Core Team. 2023. <em>R: A Language and Environment for Statistical Computing</em>. Vienna, Austria: R Foundation for Statistical Computing. <a href="https://www.R-project.org/">https://www.R-project.org/</a>.
 </div>
 <div id="ref-robinson2014" class="csl-entry" role="listitem">
 Robinson, Robert A, Catriona A Morrison, and Stephen R Baillie. 2014. <span>“Integrating Demographic Data: Towards a Framework for Monitoring Wildlife Populations at Large Spatial Scales.”</span> <em>Methods in Ecology and Evolution</em> 5 (12): 1361–72.

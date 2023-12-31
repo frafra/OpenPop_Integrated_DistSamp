@@ -99,7 +99,7 @@ Reproducibility and ease of repeating analyses was a key focus when developing t
 post.sum <- readRDS("Results/PosteriorSummaries_byArea.rds")
 
 # Printing function
-printPostSum <- function(table, row = NULL, area = NULL){
+printPostSum <- function(table, row = NULL, area = NULL, exp = FALSE, pCalc = FALSE){
   
   if(!missing(area)){
     row <- which(table$Area == area)
@@ -107,6 +107,20 @@ printPostSum <- function(table, row = NULL, area = NULL){
   
   if(!("Area" %in% colnames(table))){
     table$Area <- "None"
+  }
+  
+  if(exp){
+    table$Median <- exp(table$Median)
+    table$lCI <- exp(table$lCI)
+    table$uCI <- exp(table$uCI)
+  }
+  
+  if(pCalc){
+     pi <- 3.141593
+     W <- 200
+     table$Median <- sqrt((pi*table$Median^2)/2)/W
+     table$lCI <- sqrt((pi*table$lCI^2)/2)/W
+     table$uCI <- sqrt((pi*table$uCI^2)/2)/W
   }
   
   print.out <- list(
@@ -124,12 +138,33 @@ printPostSum <- function(table, row = NULL, area = NULL){
 }
 
 # Detection stats
-#Det.hyper.mean
-#Det.sd.spatial
-#Det.sd.temporal
-#Det.sd.residual
-#Det.min
-#Det.max
+Det.hyper.mean <- printPostSum(table = post.sum$hParams.sum, 
+                              row = which(post.sum$hParams.sum$Parameter == "h.mu.dd"),
+                              exp = TRUE)
+pDet.hyper.mean <- printPostSum(table = post.sum$hParams.sum, 
+                              row = which(post.sum$hParams.sum$Parameter == "h.mu.dd"),
+                              exp = TRUE, pCalc = TRUE)
+
+Det.sd.spatial <- printPostSum(table = post.sum$hParams.sum,
+                             row = which(post.sum$hParams.sum$Parameter == "h.sigma.dd"))
+Det.sd.temporal <- printPostSum(table = post.sum$hParams.sum,
+                             row = which(post.sum$hParams.sum$Parameter == "sigmaT.dd"))
+Det.sd.residual <- printPostSum(table = post.sum$hParams.sum,
+                             row = which(post.sum$hParams.sum$Parameter == "sigmaR.dd"))
+Det.min <- printPostSum(table = post.sum$detect.sum, 
+                      row = which(post.sum$detect.sum$Median == min(post.sum$detect.sum$Median)))
+
+pDet.min <- printPostSum(table = post.sum$detect.sum, 
+                      row = which(post.sum$detect.sum$Median == min(post.sum$detect.sum$Median)),
+                      pCalc = TRUE)
+
+Det.max <- printPostSum(table = post.sum$detect.sum,
+                      row = which(post.sum$detect.sum$Median == max(post.sum$detect.sum$Median)))
+
+pDet.max <- printPostSum(table = post.sum$detect.sum,
+                      row = which(post.sum$detect.sum$Median == max(post.sum$detect.sum$Median)),
+                      pCalc = TRUE)
+
 
 # Survival stats
 S.hyper.mean <- printPostSum(table = post.sum$hParams.sum, 
@@ -224,7 +259,7 @@ The highest population growth rates were estimated for areas with relatively low
 Annual survival probabilities ranged from `r S.min$post.sum` (area "`r S.min$area.name`") to `r S.max$post.sum` (area "`r S.max$area.name`") across reporting areas in Norway, with the highest values occurring in the far north and in the mountains in the south (@fig-pVRA). The global average survival probability across all areas and years ($\mu^S$) was estimated at `r S.hyper.mean`. Spatial variation in survival (random effect SD = `r S.sd.spatial$post.sum`) was relatively low compared to temporal (`r S.sd.temporal$post.sum`) and residual (`r S.sd.residual$post.sum`) variation. 
 
 Recruitment rates varied between `r R.min$post.sum` (area "`r R.min$area.name`") and `r R.max$post.sum` (area "`r R.max$area.name`") and displayed a spatial pattern opposite to that 
-of annual survival, i.e. lower recruitment rates co-occurring with higher survival rates and vice-versa [@fig-pVRB; @fig-paramCorrs B). Across all areas and years, average recruitment rate was `r R.hyper.mean$post.sum`. Unlike for survival, the model predicted similar magnitudes of spatial and temporal variation (random effect SDs of `r R.sd.spatial$post.sum` and `r R.sd.temporal$post.sum`, respectively), and about twice as much residual variation (`r R.sd.residual$post.sum`).  
+of annual survival, i.e. lower recruitment rates co-occurring with higher survival rates and vice-versa (@fig-pVRB; @fig-paramCorrs B). Across all areas and years, average recruitment rate was `r R.hyper.mean$post.sum`. Unlike for survival, the model predicted similar magnitudes of spatial and temporal variation (random effect SDs of `r R.sd.spatial$post.sum` and `r R.sd.temporal$post.sum`, respectively), and about twice as much residual variation (`r R.sd.residual$post.sum`).  
 
 ::: {#fig-pVR layout-ncol="2"}
 ![Median survival probabilities](Figures/Avg_pSurv_Map-1.png){#fig-pVRA}
@@ -245,7 +280,9 @@ The model predicted a positive global effect of rodent occupancy on recruitment 
 
 ## Detection parameters
 
-TBA
+Detection decay parameters, which determine detection probability in distance sampling surveys, varied across areas from between `r Det.min$post.sum` in "`r Det.min$area.name`" to `r Det.max$post.sum` in "`r Det.max$area.name`, resulting in detection probabilities over the transect sites (truncation distance = 200 m) from `r pDet.min$post.sum` to `r pDet.max$post.sum`, respectively. 
+The global average detection decay was `r Det.hyper.mean$post.sum` (detection probability = `r pDet.hyper.mean$post.sum`), and in general, higher values were more common in the Southern half of the country than the Northern half (SF "Avg_detect_Map.pdf").
+Variation in detection over time was modest (SF "TimeSeries_pDetect.pdf"), and among-year variation in detection decay (random effect log SD = `r Det.sd.temporal$post.sum`) was almost identical in magnitude to spatial (`r Det.sd.spatial$post.sum`) and residual (`r Det.sd.residual$post.sum`) variation. 
 
 ## Variance decomposition
 
@@ -293,7 +330,6 @@ Total variance in detection decay was attributed evenly to spatial, temporal, an
 
 # Discussion
 
-TBA
 
 ## Abundance and vital rates across space and time
 
