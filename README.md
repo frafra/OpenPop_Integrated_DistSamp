@@ -47,6 +47,14 @@ to estimate the half normal detection distribution.
 Finally, we use the LivingNorwayR package (https://livingnorway.github.io/LivingNorwayR/) to download and
 wrangle the line transect distance sampling survey data.
 
+## Citation
+Releases of this repository are archived and issued DOIs via Zenodo: https://zenodo.org/records/10462269
+The citation of the latest version is: 
+
+ChloeRNater, ErlendNilsen, christofferhohi, Matthew Grainger, & Bernardo Brandão Niebuhr. (2024). 
+ErlendNilsen/OpenPop_Integrated_DistSamp: Ptarmigan IDSM v1.3 (v.1.3). 
+Zenodo. https://doi.org/10.5281/zenodo.10462269
+
 ## Contact
 Erlend Nilsen: erlend.nilsen@nina.no
 
