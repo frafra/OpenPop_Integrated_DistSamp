@@ -218,8 +218,7 @@ CRN Lead - Updated, further developed, and finalized model code; Lead - Modellin
 
 ### Acknowledgements
 
-We are grateful to field workers that collected the line transect data through the Hønsefuglportalen program. Fjellstyrene i Lierne contributed both to the line transect program and the field work related to the marked willow ptarmigan. Norwegian Environment Agency funded the projects (grant nrs **TO BE ADDED**). \[+ additional people contributing to the various projects\]
-
-\[Should we thank James for discussions etc.?\]
+We are grateful to field workers that collected the line transect data through the Hønsefuglportalen program. Fjellstyrene i Lierne contributed both to the line transect program and the field work related to the marked willow ptarmigan. We also thank James A. Martin for constructive discussions during the later stages of this work. 
+Both data collection and analytical work were financed by the Norwegian Environment Agency funded the projects (grant nrs **TO BE ADDED**). 
 
 ### Data and code availability
