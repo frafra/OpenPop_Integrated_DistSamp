@@ -34,6 +34,13 @@ B) average (yellow) and year-specific (teal) recruitment rates.
 Each page corresponds to one reporting area, the name of which can be found in the top left corner of plots. 
 
 
+Rep_betaR.R.pdf
+---------------
+Posterior medians (lines) and 95% credible intervals (ribbons) of area-specific recruitment rates predicted 
+as functions of local rodent abundance. Rodent abundance is approximated using occupancy, i.e. the proportion
+of transect lines on which small rodents were observed during surveys. 
+
+
 TimeSeries_pDetect.pdf
 ----------------------
 Posterior medians (lines) and 95% credible intervals (ribbons) of detection probability across time. 
