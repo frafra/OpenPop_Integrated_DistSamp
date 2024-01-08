@@ -57,8 +57,8 @@ simulateInits <- function(nim.data, nim.constants, R_perF, survVarT, fitRodentCo
   #-------------#
   
   ## Area-specific survival parameters
-  h.Mu.S <- runif(1, 0.3, 0.5) 
-  h.sigma.S <- runif(1, 0.05, 0.25)
+  h.Mu.S <- runif(1, 0.40, 0.45) 
+  h.sigma.S <- runif(1, 0.05, 0.2)
   Mu.S1 <- runif(1, 0.5, 0.7)
   
   mu.S <- EnvStats::rnormTrunc(N_areas, qlogis(h.Mu.S), sd = h.sigma.S, max = qlogis(Mu.S1))
