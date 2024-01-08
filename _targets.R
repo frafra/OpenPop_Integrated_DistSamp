@@ -14,6 +14,9 @@ library(parallel)
 mySeed <- 32
 set.seed(mySeed)
 
+## Set number of chains
+nchains <- 5
+
 ## Source all functions in "R" folder
 sourceDir <- function(path, trace = TRUE, ...) {
   for (nm in list.files(path, pattern = "[.][RrSsQq]$")) {
@@ -116,6 +119,13 @@ list(
     writeModelCode(survVarT = survVarT)
   ),
   
+  
+  tar_target(
+    MCMC.seeds,
+    expandSeed_MCMC(seed = mySeed, 
+                    nchains = nchains)
+  ),
+  
   tar_target(
     model_setup,
     setupModel(modelCode = modelCode,
@@ -124,15 +134,9 @@ list(
                nim.constants = input_data$nim.constants,
                survVarT = survVarT,
                fitRodentCov = fitRodentCov,
-               testRun = TRUE, 
-               nchains = 4,
-               initVals.seed = mySeed)
-  ),
-  
-  tar_target(
-    MCMC.seeds,
-    expandSeed_MCMC(seed = mySeed, 
-                    nchains = model_setup$mcmcParams$nchains)
+               testRun = FALSE, 
+               nchains = nchains,
+               initVals.seed = MCMC.seeds)
   ),
   
   tar_target(
