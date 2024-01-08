@@ -58,7 +58,7 @@ setupModel <- function(modelCode, customDist,
   }
   
   ## Simulate initial values
-  set.seed(initVals.seed)
+  #set.seed(initVals.seed)
   initVals <- list()
   for(c in 1:nchains){
     
@@ -75,7 +75,8 @@ setupModel <- function(modelCode, customDist,
                                      nim.constants = nim.constants, 
                                      R_perF = R_perF, 
                                      survVarT = survVarT,
-                                     fitRodentCov = fitRodentCov)
+                                     fitRodentCov = fitRodentCov,
+                                     initVals.seed = initVals.seed[c])
     }
 
   }
