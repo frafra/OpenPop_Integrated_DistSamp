@@ -1,5 +1,5 @@
 ---
-title: "Large-scale spatiotemporal variation in vital rates of an alpine bird"
+title: "Large-scale spatiotemporal variation in vital rates and population dynamics of an alpine bird"
 format: html
 author: Chloé R. Nater, James A. Martin, Erlend B. Nilsen
 editor: visual
@@ -14,19 +14,20 @@ TBA
 
 <!-- @JAMES & ERLEND: First draft is relatively "compact". Input on extending it and/or addition of relevant references appreciated -->
 
-There is growing demand for biodiversity indicators from international unions, national government, local management bodies, and corporate and industry actors. Such indicators ideally represent a wide range of biodiversity's states and functions (e.g. + ref on basic EBV idea), yet the development of suitable indicators for certain attributes, such as species abundance and demography, has been more difficult than for others (+ref). This is at least partially due to challenging requirements regarding spatial scales of useful biodiversity indicators. On one hand, indicators need to be representative at large geographic scales, for example, in the context of countries' reporting towards biodiversity targets (+ ref). On the other hand, indicators also ideally have good spatial resolution as the scales relevant for local-level management and planning are often much smaller (+ ref). This latter requirement is particularly crucial for (infrastructure) development strategies and for species management and conservation, both of which tend to require knowledge on species abundance and population dynamics (i.e. demographic rates) that is relevant for their county- or municipality-level decision making (+ refs). Another reason why abundance and population indicators ideally come with good spatial resolution is that there can be substantial amounts of variation in population dynamics and life history of species across space (+ref). This is variation that needs to be accounted for in order to develop successful and sustainable strategies for area use, (harvest) management, and species and biodiversity conservation [@williams2002].
+There is growing demand for biodiversity indicators from international unions, national government, local management bodies, and corporate and industry actors. Such indicators ideally represent a wide range of biodiversity's states and functions [e.g. Essential Biodiversity Variables, @pereira2013; @jetz2019], yet the development of suitable indicators for certain attributes, such as species abundance and demography, has been more difficult than for others [@schmeller2018; @waldock2022]. This is at least partially due to challenging requirements regarding spatial scales of useful biodiversity indicators. On one hand, indicators need to be representative at large geographic scales, for example, in the context of countries' reporting towards biodiversity targets [e.g. @feld2009]. On the other hand, indicators also ideally have good spatial resolution as the scales relevant for local-level management and planning are often much smaller [@stevenson2021]. This latter requirement is particularly crucial for (infrastructure) development strategies and for species management and conservation, both of which tend to require knowledge on species abundance and population dynamics (i.e. demographic rates) that is relevant for their county- or municipality-level decision making (+ refs?). Another reason why abundance and population indicators ideally come with good spatial resolution is that there can be substantial amounts of variation in population dynamics and life history of species across space [e.g. @robinson2014; @horswill2019]. This is variation that needs to be accounted for in order to develop successful and sustainable strategies for area use, (harvest) management, and species and biodiversity conservation [@williams2002].
 
-While large-scale, spatially-explicit indicators for species abundance and populations are clearly needed, development and practical implementation are greatly limited due to the reliance of such indicators on the availability of data from large-scale, long-term monitoring programmes (+ref). Consequently, many countries have been working on setting up, maintaining, and improving such monitoring programmes over the last decades. Many now well-established programmes focus on breeding birds and butterflies, and examples include the North American Breeding Bird Survey (<https://www.pwrc.usgs.gov/bbs/>), UK Butterfly Monitoring Scheme (<https://ukbms.org/>), the Game and Wildlife Conservation Trust Partridge Count Scheme [@aebischer2010], and Swiss Biodiversity Monitoring (<https://www.biodiversitymonitoring.ch/>). <!-- is there any other one we want to name here specifically? -->
+While large-scale, spatially-explicit indicators for species abundance and populations are clearly needed, development and practical implementation are greatly limited due to the reliance of such indicators on the availability of data from large-scale, long-term monitoring programmes [@proencca2017]. Consequently, many countries have been working on setting up, maintaining, and improving such monitoring programmes over the last decades. Many now well-established programmes focus on breeding birds and butterflies, and examples include the North American Breeding Bird Survey (<https://www.pwrc.usgs.gov/bbs/>), UK Butterfly Monitoring Scheme (<https://ukbms.org/>), the Game and Wildlife Conservation Trust Partridge Count Scheme [@aebischer2010], and the Swiss Biodiversity Monitoring (<https://www.biodiversitymonitoring.ch/>). <!-- is there any other one we want to name here specifically? -->
 
-There is a natural trade-off between quality and quantity of data that can be collected in any monitoring programme: collecting high quality data in a structured manner is costly and requires trained specialists, thus limiting the amount of data that can be collected, while participatory monitoring, i.e. the collection of ecological data by members of the public (also called citizen or community science, +ref), allows to greatly reduce costs and extend spatial and taxonomic scales of monitoring at the expense of data quality and risk of bias (+ref). Consequently, many large-scale monitoring programmes are limited to presence-absence or very simple count observations, making them suitable for the development of indicators of distribution and population trends, but usually not for indicators of abundance, population dynamics, and demographic rates (+ ref). The exception here are monitoring programmes that succeed in making use of a large number of citizen scientists that have been trained to collect data and record metadata in a structured manner and according to a carefully designed protocol. For example, in the United States hunters participate in the collection of bands and wings from harvested American Woodcock (*Scopolax minor)* to estimate survival and age ratios [@zimmerman2010]. <!-- can we think of 1-2 internationally well-known examples? Check out MAPS (Monitoring of Avian Productivity and Survivorship) and CES (Constant Effort Sites) --> In Norway there is a monitoring programme for terrestrial game bird species called "Hønsefuglportalen" (= "game bird portal", <https://honsefugl.nina.no/Innsyn/en>). It is a line transect survey programme carried out annually in \>120 localities across the country (\>2000 transects) by trained volunteers using pointing dogs. The programme has a well developed protocol for recording bird observations, auxiliary data, and relevant metadata (+ref to protocol?) and established routines for quality control and annual releases of publicly available data via GBIF. As such, it is particularly well suited to become part of a workflow for producing and updating abundance and population indicators on an annual basis.
+There is a natural trade-off between quality and quantity of data that can be collected in any monitoring programme: collecting high quality data in a structured manner is costly and requires trained specialists, thus limiting the amount of data that can be collected, while participatory monitoring, i.e. the collection of ecological data by members of the public [also called citizen science, @fraisl2022], allows to greatly reduce costs and extend spatial and taxonomic scales of monitoring at the expense of data quality and risk of bias [@johnston2023]. Consequently, many large-scale monitoring programmes are often limited to presence-absence or very simple count observations, making them suitable for the development of indicators of species distributions and perhaps population trends, but usually not of abundance, population dynamics, and demographic rates (+ example refs). The exception here are monitoring programmes that succeed in making use of a large number of citizen scientists that have been trained to collect data and record metadata in a structured manner and according to a carefully designed protocol. For example, in the United States hunters participate in the collection of bands and wings from harvested American Woodcock (*Scopolax minor)* to estimate survival and age ratios [@zimmerman2010]. <!-- can we think of 1-2 internationally well-known examples? Check out MAPS (Monitoring of Avian Productivity and Survivorship) and CES (Constant Effort Sites) --> In Norway there is a monitoring programme for terrestrial game bird species called "Hønsefuglportalen" (= "game bird portal", <https://honsefugl.nina.no/Innsyn/en>). It is a line transect survey programme carried out annually in \>120 localities across the country (\>2000 transects) by trained volunteers using pointing dogs. The programme has a well developed protocol for recording bird observations, auxiliary data, and relevant metadata (+ref to protocol?) and established routines for quality control and annual releases of publicly available data via GBIF. As such, it is particularly well suited to become part of a workflow for producing and updating abundance and population indicators on an annual basis.
 
 The line transect data from "Hønsefuglportalen" has been used previously for estimating abundance trends of willow ptarmigan (*Lagopus lagopus*) across Norway [e.g. @bowler2020; @nilsen2020] but large-scale estimation of demographic rates underlying these trends has thus far remained as untapped potential of the dataset. @nilsen2023 recently developed a novel integrated distance sampling model (IDSM) which successfully uses age information in line transect data alongside radio-telemetry data to estimate not just abundance, but also survival and recruitment across years. In this study, we adapt the model of @nilsen2023 to run not just on a single site but on all areas with publicly available line transect data from "Hønsefuglportalen" simultaneously. Unlike several previous studies applying integrated models for population dynamics to multiple (sub-) populations separately and comparing results [e.g. @robinson2014; @nater2023], we opt for an approach explicitly integrating across space, thus allowing for sharing of information across locations and -- in effect -- space-for-time substitution [e.g. @horswill2019; @morrison2022]. We then apply the resulting multi-area IDSM to "Hønsefuglportalen" data on willow ptarmigan to estimate population size, age-structure, survival, recruitment, and impacts of small rodent abundance across 41 reporting districts and 15 years (2007-2021) for this popular small-game species. We further embed the modelling workflow in a reproducible, semi-automated pipeline that will greatly facilitate the repeated calculation of abundance and population indicators at different spatial scales as new data is added every year.
+
 
 # Methods
 
 ## Study species
 
-The willow ptarmigan (*Lagopus lagopus*) is a tetraoid bird with a circumpolar distribution, mainly inhabiting sub-alpine and arctic ecosystems [see e.g. @fuglei2020]. While the species is currently listed as Least Concern (LC) both in the global and Norwegian Red List of Species, it has undergone rather dramatic declines in abundance in Norway since the turn of the 20th century [@hjeljord2022]. While the main reason for the long-term decline in abundance remain unresolved, willow ptarmigan are considered sentinel species that are sensitive to both climate change and land use changes [@Henden2017; @Storch2007]. Moreover, being one of only a handful of bird species that spend the winter in mountain ecosystems in Scandinavia, they are important components of the ecosystem as prey species for the gyrfalcon [@Alastair2020] <!-- do we have other "important" species to add here. Arctic fox? Some other endangered beasts perhaps? -->. The willow ptarmigan has a relatively fast pace of life [@sandercock2005; @Steen1996], and can display substantial spatio-temporal variation in demographic rates [@Bowler2020]. Their population dynamics are characterized by large inter-annual fluctuations in abundance [@hjeljord2022], and previous research has tied these fluctuations to rodent cycle through shared predators [@hagen1952; @Bowler2020]. This tight relationship between the breeding success of ground nesting birds and the rodent cycle is known as the Alternative Prey Hypothesis and has been a central part of Fennoscandian research on grouse population dynamics for many decades [@hagen1952; @Linden1988: @Steen1985]. In addition, spring weather conditions and phenology is known to have considerable effects on breeding success and recruitment rates [@Eriksen2023, @Steen1985]. Across their distributional range, they are iconic species with a high cultural value, partly linked to their popularity as game species. The latter means that information about spatio-temporal variation in demographic rates and population dynamics is particularly important in order to design sustainable harvest strategies. In addition, as a sentinel species the willow ptarmigan is well suited as an indicator species for ecosystem status; in Norway it is included in both the main national biodiversity [Nature Index for Norway; @jakobsson2020; <https://www.naturindeks.no/Indicators/lirype>] and ecosystem [Assessment of the Ecological Condition; @framstad2022] assessments.
+The willow ptarmigan (*Lagopus lagopus*) is a tetraoid bird with a circumpolar distribution, mainly inhabiting sub-alpine and arctic ecosystems [see e.g. @fuglei2020]. While the species is currently listed as Least Concern (LC) both in the global and Norwegian Red List of Species, it has undergone rather dramatic declines in abundance in Norway since the turn of the 20th century [@hjeljord2022]. While the main reason for the long-term decline in abundance remain unresolved, willow ptarmigan are considered sentinel species that are sensitive to both climate change and land use changes [@Henden2017; @Storch2007]. Moreover, being one of only a handful of bird species that spend the winter in mountain ecosystems in Scandinavia, they are important components of the ecosystem as prey species for the gyrfalcon [@Alastair2020] <!-- do we have other "important" species to add here. Arctic fox? Some other endangered beasts perhaps? -->. The willow ptarmigan has a relatively fast pace of life [@sandercock2005; @Steen1996], and can display substantial spatio-temporal variation in demographic rates [@Bowler2020]. Their population dynamics are characterized by large inter-annual fluctuations in abundance [@hjeljord2022], and previous research has tied these fluctuations to rodent cycle through shared predators [@hagen1952; @Bowler2020]. This tight relationship between the breeding success of ground nesting birds and the rodent cycle is known as the Alternative Prey Hypothesis and has been a central part of Fennoscandian research on grouse population dynamics for many decades [@hagen1952; @Linden1988: @Steen1985]. In addition, spring weather conditions and phenology is known to have considerable effects on breeding success and recruitment rates [@Eriksen2023, @Steen1985]. Across their distributional range, they are iconic species with a high cultural value, partly linked to their popularity as game species. The latter means that information about spatio-temporal variation in demographic rates and population dynamics is particularly important in order to design sustainable harvest strategies. In addition, as a sentinel species the willow ptarmigan is well suited as an indicator species for ecosystem status; in Norway it is included in both the main national biodiversity [Nature Index for Norway, @jakobsson2020, <https://www.naturindeks.no/Indicators/lirype>] and ecosystem [Assessment of the Ecological Condition, @framstad2022] assessments.
 
 ## Data collection, management, and preparation
 
@@ -36,7 +37,7 @@ The line transect survey data were collected through a structured participatory 
 
 Notably, the program is not designed as a centralized national monitoring programme, but rather a collection of local and regional survey programs. All involved survey areas use a common field protocol and data collection model. In addition, the local study designs are reviewed by staff at NINA, and common recommendations for study design are provided. However, because participation by stakeholders is voluntary, the spatial distribution of transects and sampling effort is not homogeneous. In general, the effort is higher in South-Eastern and Central Norway, medium in Northern Norway, and low in Western and Southern Norway.
 
-In this study we used all publicly available data for the period 2007-2021, which included a total of 2225 transects in 41 different survey areas spanning 9 counties and 50 municipalities. Transects on which no willow ptarmigan were ever observed (i.e. species absence likely due to low habitat suitability) were dropped, resulting in 2077 transects used in the analyses.
+In this study we used all publicly available data for the period 2007-2021, which included a total of 2225 transects in 41 different reporting districts spanning 9 counties and 50 municipalities. Transects on which no willow ptarmigan were ever observed (i.e. species absence likely due to low habitat suitability) were dropped, resulting in 2077 transects used in the analyses.
 
 ### Radio-telemetry study in Lierne
 
@@ -48,129 +49,278 @@ In this study we used data from years 2015 - 2020, and the total sample size acr
 
 ### Integrated distance sampling model (IDSM) for willow ptarmigan
 
--   Introduction of integrated Distance sampling model (IDSM) from MS1
+@nilsen2023 recently developed an integrated distance sampling model (IDSM) which jointly analyses line transect and radio-telemetry data and applied it to willow ptarmigan in the Western part of Lierne municipality in Norway. The model consists of a deterministic population model with two age classes (juveniles and adults) and four data likelihoods: 1) likelihood for observation distances from transect lines for estimating detection probability; 2) likelihood for age-specific counts on transect surveys for estimating numbers of juveniles and adults present; 3) likelihood for juvenile to adult ratios observed at the locality level to provide estimate recruitment rate (as juveniles/adult); and 4) likelihood for known-fate telemetry data to estimate seasonal and annual survival. Below, we describe our new extension of this model to include data from several as opposed to just one. For more detailed information on the single-site model, including tests of model performance, see @nilsen2023.
 
 ### Multi-area model extension
 
--   Addition of spatial dimension
--   Hyper-parameter distributions for spatial variation
--   Temporal variation (shared year RE and "residual" variation)
+For applying the ptarmigan IDSM across all 41 reporting districts we included an area index in all model parameters (@fig-model) and enabled sharing of information among areas by explicitly modelling spatial variation alongside shared temporal and residual variation in vital rates and detection parameters.
 
-The model developed as part of this project and presented in @nilsen2023 was designed with the potential of extension to run on data from multiple areas simultaneously in mind, and this extension involves two steps in practice.
-
-The first step is the inclusion of an additional dimension, area, to enable using data collected from multiple areas (@fig-model). The area-dimension is added across all model components with the exception of the known-fate telemetry data (and seasonal decomposition of survival estimated from it), as that is only available for the Lierne area.
-
-![Simplified graphical representation of the ptarmigan life cycle with two age classes and the data sources included in the integrated distance sampling model. The pink "x"'s indicate the added dimension for area. Juv\[x,t\] = juveniles in year t. Ad\[x,t\] = adults in year t. R\[x,t\] = recruitment rate in year t. S\[x,t\] = survival probability from year t to t+1.](Figures/RypeIDSM_multiArea_structure.png){#fig-model}
-
-The second step is making adjustments to capitalize on the integration of data from multiple areas to make maximal use of available information. There are several not mutually exclusive options for approaching this, and one of them is the use of "hyper-parameters" for sharing information across areas [e.g. @horswill2019; @horswill2021]. As an illustrative example, take the area-specific average annual survival probability, $\mu^S_x$. Instead of assigning independent non-informative priors to each $\mu^S_x$, we now assume that the variation in average survival across space can be described by a common (logit) normal distribution such that:
+The spatially-explicit formulation of the two age-class population model can be written as:
 
 $$
-\begin{equation}
-\mu^S_x \sim Normal(logit(h.\mu^S), h.\sigma^S)
-\end{equation}
-$$ where $h.\mu^S$ is the "hyper mean" and $h.\sigma^S$ is the "hyper standard deviation". Non-informative priors are then assigned to the hyper-parameters instead of the area-specific realizations:
-
-$$
-\begin{align}
-h.\mu^S & \sim Uniform(0,1) \\
-h.\sigma^S & \sim Uniform(0, 5)
-\end{align}
+\begin{aligned}
+  D_{juv, x, j, t+1} & = D_{ad, x, j, t+1} * R_{x, t+1} \\
+  D_{ad, x, j, t+1} & = S_{x, t} * (D_{juv, x, j, t} + D_{ad, x, j, t})  
+\end{aligned}
 $$
 
-For the multi-area implementation of the IDSM, we used the equivalent of the above approach for parameters representing average survival probabilities, baseline recruitment rates, rodent effect on recruitment, and average distance sampling detection. Initial population density, on the other hand, was estimated independently for each area. Random effects standard deviations were assumed to be the same for all areas, effectively resulting in space-for-time subtitution for random effect estimation.
+Here, $D_{juv, j, x, t}$ and $D_{ad, j, x, t}$ are the densities of juvenile and adult ptarmigan in survey site (= transect) $j$ of area $x$ in year $t$, respectively. Both juveniles and adult survive from year $t$ to $t+1$ with an area- ($x$) and year- ($t$) specific survival probability $S_{x, t}$, and survivors produce the next generation of juveniles according to an area- and year-specific recruitment rate ($R_{x,t}$).
 
-Another approach to maximising information gain when jointly analysing data from different areas is explicit modelling of spatial and spatio-temporal variation.
+![Simplified graphical representation of the ptarmigan life cycle with two age classes and the data sources included in the integrated distance sampling model. The pink "x"'s indicate the added dimension for area. Juv\[x,t\] = juveniles in year t. Ad\[x,t\] = adults in year t. R\[x,t\] = recruitment rate in year t. S\[x,t\] = survival probability from year t to t+1. Note that the additional site (=transect) dimension, "j", is omitted for the sake of illustration.](Figures/RypeIDSM_multiArea_structure.png){#fig-model}
+
+The initial densities, $D_{juv, x, j, 1}$ and $D_{ad, x, j, 1}$ are modelled for each site (= transect) as random realizations of log normal distributions with area-specific log means ($\mu^{D1}_x$) and log standard deviations ($\sigma^{D1}_x$). Survival ($S_{x,t}$) and recruitment ($R_{x,t}$), on the other hand, are assumed to be the same for all sites $j$ within a given area $x$ and were modelled as:
+
+$$
+\begin{aligned}
+  logit(S_{x, t}) & = logit(\mu^S) + \varepsilon^{X.S}_{x} + \varepsilon^{T.S}_{t} + \varepsilon^{R.S}_{x,t} \\
+    log(R_{x, t}) & = log(\mu^R) + \beta_x*rodentOcc_{x,t} +  \varepsilon^{X.R}_{x} + \varepsilon^{T.R}_{t} + \varepsilon^{R.R}_{x,t}
+\end{aligned}
+$$ The global means ,$\mu$, and the normally distributed spatial random effects, $\varepsilon^X$, represent the equivalent of what is elsewhere referred to as "hyper-parameter distributions" for sharing information on demographic rates across areas [e.g. @horswill2019; @horswill2021]. We also used this same approach for defining the area-specific effects ($\beta_x$) of local yearly rodent occupancy ($rodentOcc_{x,t}$) on recruitment. In addition to spatial variation in survival and recruitment, we also included large-scale temporal variation through random year effects that were shared by across all areas ($\varepsilon^T_t$) and otherwise unaccounted for variation through year- and area-specific residual random effects ($\varepsilon^R_{x,t}$). Spatial, temporal, and residual random effects were modelled as normally distributed with globally defined (= shared) standard deviations.
+
+The three likelihoods for data resulting from the line transect sampling (observation distances, age-specific counts, and juvenile to adult ratios, see above) were also formulated as spatially explicit, with year- and area-specific distance sampling detection parameters modelled in the same way as survival and recruitment (bar the effect of rodent occupancy, @fig-model). For the known-fate telemetry data (and the seasonal decomposition of survival estimated from it), on the other hand, we did not add an additional area dimension as this data was only available for the Lierne area.
 
 ### Model implementation
 
--   Bayesian, NIMBLE
--   Priors
--   Default samplers
--   Chains, iterations, burn-in, thinning, posterior samples
+We implemented our multi-area IDSM in a Bayesian framework using NIMBLE version 1.0.1 [@valpine2017] in R version 4.3.1 [@R2023]. For the likelihood for line transect observation distances we used a custom half-normal distribution developed by Michael Scroggie in the "nimbleDistance" package (https://github.com/scrogster/nimbleDistance). We used non-informative uniform priors for all parameters and including biologically sensible boundaries where possible. We simulated complete sets of initial values for all model nodes prior to model running and using pre-defined seeds to ensure reproducibility. Using NIMBLE's standard samplers, we then ran 4 MCMC chains of 100k iterations each. We discarded the first 40k samples of each chain as burn-in, and thinned the remainder by a factor 20, resulting in a final joint posterior containing a total of 4 x 3k = 120k samples (note that high thinning rates were necessary to constrain memory load of the joint posterior, which included 314568 monitored parameters).
 
-## Variance decomposition
+## Post-hoc variance decomposition
 
--   How variance decomposition was done
+Following model fitting, we calculated posterior distributions for the proportions of variance in survival probabilities, recruitment rates, and detection decay explained by 1) spatial variation ($var_{area}$), 2) temporal variation ($var_{year}$), 3) residual variation ($var_{residual}$), and 4) variation in rodent occupancy ($var_{rodent}$). To obtain the proportion variance explained by each of the component, we divided it by the sum of all other components ($var_{area} + var_{year} + var_{residual} + var_{rodent}$). The spatial, temporal, and residual variance components were defined as the square of the estimated corresponding random effects standard deviation from the model while $var_{rodent}$ was calculated as the variance of all area- and year-specific $\beta_x*rodentOcc_{x,t}$ products.
 
 ## Reproducible workflow with "targets"
 
-Reproducibility and ease of repeating analyses was a key focus when developing the multi-area IDSM.To that end, we set up the workflow as a "targets pipeline", implemented throught the R packages "targets" [@landau2021]. A visual representation of the pipeline is displayed in @fig-workflow.
+Reproducibility and ease of repeating analyses was a key focus when developing the multi-area IDSM.To that end, we set up the workflow as a "targets pipeline", implemented through the R package "targets" [@landau2021]. The pipeline contains a variety of options for controlling modelling decisions in the workflow such as the year range of data to consider, the level of spatial aggregation (i.e. reporting district vs. survey locality), whether to model time variation in survival and/or effects of rodent abundance, whether to run MCMC chains sequentially or in parallel, etc. A visual representation of the pipeline is also displayed in @fig-workflow and for more details on pipeline implementation and options, we refer the reader to the GitHub repository: <https://github.com/ErlendNilsen/OpenPop_Integrated_DistSamp>.
 
 ![Graphical representation of the "targets pipeline" for the multi-area modelling setup. Upward facing triangles are functions, downward facing triangles are general options/arguments, circles are objects and outputs (="targets") created as part of the workflow.](Figures/Workflow_layout.png){#fig-workflow width="424"}
 
 # Results
 
+```{r, echo = FALSE}
+# Posterior summaries
+post.sum <- readRDS("Results/PosteriorSummaries_byArea.rds")
+
+# Printing function
+printPostSum <- function(table, row = NULL, area = NULL, exp = FALSE, pCalc = FALSE){
+  
+  if(!missing(area)){
+    row <- which(table$Area == area)
+  }
+  
+  if(!("Area" %in% colnames(table))){
+    table$Area <- "None"
+  }
+  
+  if(exp){
+    table$Median <- exp(table$Median)
+    table$lCI <- exp(table$lCI)
+    table$uCI <- exp(table$uCI)
+  }
+  
+  if(pCalc){
+     pi <- 3.141593
+     W <- 200
+     table$Median <- sqrt((pi*table$Median^2)/2)/W
+     table$lCI <- sqrt((pi*table$lCI^2)/2)/W
+     table$uCI <- sqrt((pi*table$uCI^2)/2)/W
+  }
+  
+  print.out <- list(
+    area.name = table$Area[row],
+    post.sum = paste0(
+      round(table$Median[row], digits = 3), 
+      " [",
+      round(table$lCI[row], digits = 3),
+      ", ",
+      round(table$uCI[row], digits = 3),
+      "]"
+    )
+  )
+  return(print.out)
+}
+
+# Detection stats
+Det.hyper.mean <- printPostSum(table = post.sum$hParams.sum, 
+                              row = which(post.sum$hParams.sum$Parameter == "h.mu.dd"),
+                              exp = TRUE)
+pDet.hyper.mean <- printPostSum(table = post.sum$hParams.sum, 
+                              row = which(post.sum$hParams.sum$Parameter == "h.mu.dd"),
+                              exp = TRUE, pCalc = TRUE)
+
+Det.sd.spatial <- printPostSum(table = post.sum$hParams.sum,
+                             row = which(post.sum$hParams.sum$Parameter == "h.sigma.dd"))
+Det.sd.temporal <- printPostSum(table = post.sum$hParams.sum,
+                             row = which(post.sum$hParams.sum$Parameter == "sigmaT.dd"))
+Det.sd.residual <- printPostSum(table = post.sum$hParams.sum,
+                             row = which(post.sum$hParams.sum$Parameter == "sigmaR.dd"))
+Det.min <- printPostSum(table = post.sum$detect.sum, 
+                      row = which(post.sum$detect.sum$Median == min(post.sum$detect.sum$Median)))
+
+pDet.min <- printPostSum(table = post.sum$detect.sum, 
+                      row = which(post.sum$detect.sum$Median == min(post.sum$detect.sum$Median)),
+                      pCalc = TRUE)
+
+Det.max <- printPostSum(table = post.sum$detect.sum,
+                      row = which(post.sum$detect.sum$Median == max(post.sum$detect.sum$Median)))
+
+pDet.max <- printPostSum(table = post.sum$detect.sum,
+                      row = which(post.sum$detect.sum$Median == max(post.sum$detect.sum$Median)),
+                      pCalc = TRUE)
+
+
+# Survival stats
+S.hyper.mean <- printPostSum(table = post.sum$hParams.sum, 
+                              row = which(post.sum$hParams.sum$Parameter == "h.Mu.S"))
+S.sd.spatial <- printPostSum(table = post.sum$hParams.sum,
+                             row = which(post.sum$hParams.sum$Parameter == "h.sigma.S"))
+S.sd.temporal <- printPostSum(table = post.sum$hParams.sum,
+                             row = which(post.sum$hParams.sum$Parameter == "sigmaT.S"))
+S.sd.residual <- printPostSum(table = post.sum$hParams.sum,
+                             row = which(post.sum$hParams.sum$Parameter == "sigmaR.S"))
+S.min <- printPostSum(table = post.sum$pSurv.sum, 
+                      row = which(post.sum$pSurv.sum$Median == min(post.sum$pSurv.sum$Median)))
+S.max <- printPostSum(table = post.sum$pSurv.sum,
+                      row = which(post.sum$pSurv.sum$Median == max(post.sum$pSurv.sum$Median)))
+
+# Recruitment stats
+R.hyper.mean <- printPostSum(table = post.sum$hParams.sum,
+                             row = which(post.sum$hParams.sum$Parameter == "h.Mu.R"))
+R.sd.spatial <- printPostSum(table = post.sum$hParams.sum,
+                             row = which(post.sum$hParams.sum$Parameter == "h.sigma.R"))
+R.sd.temporal <- printPostSum(table = post.sum$hParams.sum,
+                             row = which(post.sum$hParams.sum$Parameter == "sigmaT.R"))
+R.sd.residual <- printPostSum(table = post.sum$hParams.sum,
+                             row = which(post.sum$hParams.sum$Parameter == "sigmaR.R"))
+R.min <- printPostSum(table = post.sum$rRep.sum, 
+                      row = which(post.sum$rRep.sum$Median == min(post.sum$rRep.sum$Median)))
+R.max <- printPostSum(table = post.sum$rRep.sum,
+                      row = which(post.sum$rRep.sum$Median == max(post.sum$rRep.sum$Median)))
+
+# Rodent effects stats
+betaR.hyper.mean <- printPostSum(table = post.sum$hParams.sum,
+                             row = which(post.sum$hParams.sum$Parameter == "h.Mu.betaR.R"))
+betaR.sd.spatial <- printPostSum(table = post.sum$hParams.sum,
+                             row = which(post.sum$hParams.sum$Parameter == "h.sigma.betaR.R"))
+betaR.min <- printPostSum(table = post.sum$betaR.sum, 
+                       row = which(post.sum$betaR.sum$Median == min(post.sum$betaR.sum$Median)))
+betaR.max <- printPostSum(table = post.sum$betaR.sum,
+                      row = which(post.sum$betaR.sum$Median == max(post.sum$betaR.sum$Median)))
+n.pos.betaR <- length(which(post.sum$betaR.sum$Median > 0))
+n.neg.betaR <- length(which(post.sum$betaR.sum$Median < 0))
+
+# Population density stats
+popDens.sum <- subset(post.sum$popDens.sum, SummaryPeriod == "2018-2021")
+dens.min <- printPostSum(table = popDens.sum, 
+                      row = which(popDens.sum$Median == min(popDens.sum$Median)))
+dens.max <- printPostSum(table = popDens.sum,
+                      row = which(popDens.sum$Median == max(popDens.sum$Median)))
+
+# Population growth rate stats
+lambda.sum <- subset(post.sum$lambda.sum, SummaryPeriod == "2018-2021")
+lambda.min <- printPostSum(table = lambda.sum, 
+                      row = which(lambda.sum$Median == min(lambda.sum$Median)))
+lambda.max <- printPostSum(table = lambda.sum,
+                      row = which(lambda.sum$Median == max(lambda.sum$Median)))
+n.pos.lambda <- length(which(lambda.sum$Median > 1))
+n.neg.lambda <- length(which(lambda.sum$Median < 1))
+
+```
+
+All numerical results in the following are presented as median \[95% credible interval\] unless otherwise indicated. Posterior summaries (median, 95% credible interval, mean, standard deviation, coefficient of variation) for all main parameters are also provided in the supplementary file "PosteriorSummaries_byAreas.csv". Supplementary figures (SF) are provided as .pdf files with captions in "SuppFigures_Captions.txt".
+
 ## Population density
 
-@fig-densA shows that population density is generally lowest in the Northern parts of Norway and highest in central Norway, close to the Swedish borders. Higher median density estimates also seem to be associated with higher estimation uncertainty (@fig-densB) and therefore have to be interpreted with care.
+Only during the most recent four years (2018-2021) has data been collected regularly for all reporting areas included in the analyses. During this period, estimated population densities varied between `r dens.min$post.sum` birds/km^2^ in the area "`r dens.min$area.name`" close to the coast in central Norway to `r dens.max$post.sum` birds/km^2^ in "`r dens.max$area.name`" further south near the Swedish border. In general, population density appeared to be lowest in the Northern parts of Norway and highest in the eastern part of central Norway (@fig-densA). Uncertainty in density estimates was relatively consistent, with a few areas (inlcuding the one with the lowest estimated density, "`r dens.min$area.name`") sticking out by having substantially less precise estimates (@fig-densB). Populations fluctuated substantially over time in any given area (SF "TimeSeries_popDens1.pdf") and some years seemed to be indicative of relatively high (e.g. 2011, 2014, 2018) or low (e.g. 2012, 2015) densities across a large number of areas.
 
 ::: {#fig-dens layout-ncol="2"}
-![Median density estimates](Figures/density_2018-2020_Median.png){#fig-densA}
+![Median density estimates](Figures/Avg_popDens_Map-4.png){#fig-densA}
 
-![Uncertainty in density estimates](Figures/density_2018-2020_SD.png){#fig-densB}
+![Uncertainty in density estimates](Figures/Avg_popDens_Map-6.png){#fig-densB}
 
-Median (a) and standard deviation (b) of posterior estimates of average ptarmigan density in the three most recent years (2018-2020) across 41 reporting areas in Norway. Darker colors indicate higher median values and higher uncertainty.
+Median (a) and coefficient of variation (standard deviation / mean) (b) of posterior estimates of average ptarmigan density in the four most recent years (2018-2021) across 41 reporting areas (summarised at the municipality level) in Norway. Darker colors indicate higher median values and higher uncertainty.
 :::
 
 ## Population growth rate
 
-In most areas, populations of willow ptarmigan have been increasing over the period 2018-2020, potentially indicating a positive effect of more restricted hunting in recent years (@fig-lam). Some areas -- predominantly in central Norway -- also had declining populations, but many of those declines followed upon a period of increase between the start of data colection in 2007 and sometime between 2016 and 2018.
+Average population growth rates over the last four years (2018-2021) ranged from moderate declines (`r lambda.min$post.sum` in the "`r lambda.min$area.name`" area) to \> 50% increase (`r lambda.max$post.sum` in the "`r lambda.max$area.name`" area). In the majority of reporting areas (`r n.pos.lambda` out of 41), populations of willow ptarmigan have been increasing over the period 2018-2021 (@fig-lam). Some areas -- predominantly in central Norway -- also had declining populations, but many of those declines followed upon periods of increase between the start of data collection in 2007 and sometime between 2016 and 2018 (SF "TimeSeries_popDens1.pdf").
 
 ::: {#fig-lam layout-ncol="2"}
-![Median population growth rate estimates](Figures/lambda_2018-2020_Median.png){#fig-lamA}
+![Median population growth rate estimates](Figures/Avg_lambda_Map-4.png){#fig-lamA}
 
-![Uncertainty in population growth rate estimates](Figures/lambda_2018-2020_SD.png){#fig-lamB}
+![Uncertainty in population growth rate estimates](Figures/Avg_lambda_Map-5.png){#fig-lamB}
 
-Median (a) and standard deviation (b) of posterior estimates of average annual population growth rate over the three most recent years (2018-2020) across 41 reporting areas in Norway. In a), pinkish colors indicate declining populations while greenish colors indicate growing populations (white = stable populations). In b) darker colors indicate higher median values and higher uncertainty.
+Median (a) and standard deviation (b) of posterior estimates of average annual population growth rate over the four most recent years (2018-2021) across 41 reporting areas (summarised at the municipality level) in Norway. In a), pinkish colors indicate declining populations while greenish colors indicate growing populations (white = stable populations). In b) darker colors indicate higher uncertainty.
 :::
 
-## Survival probability
+The highest population growth rates were estimated for areas with relatively low population densities across latitudes [@fig-paramCorrs A] but we did not find evidence for a strong association between population growth rates and population densities overall.
 
-Annual survival probabilities ranged from aroung 35% to 50% across reporting areas in Norway, with the highest values occurring in the far north and in the mountains in the south (@fig-pSurv).
+![Posterior summaries (points = posterior medians, lines = 95% credible intervals) of area-specific population growth rate vs. population density (A), recruitment rate vs. survival probability (B) and rodent effect on recruitment along a longitudinal gradient (C). Color indicates latitude of the midpoint of each area.](Figures/AllParams_Latitude.png){#fig-paramCorrs}
 
-::: {#fig-pSurv layout-ncol="2"}
-![Median survival estimates](Figures/pSurv_Median.png){#fig-pSurvA}
+## Survival probabilities and recruitment rates
 
-![Uncertainty in survival estimates](Figures/pSurv_SD.png){#fig-pSurvB}
+Annual survival probabilities ranged from `r S.min$post.sum` (area "`r S.min$area.name`") to `r S.max$post.sum` (area "`r S.max$area.name`") across reporting areas in Norway, with the highest values occurring in the far north and in the mountains in the south (@fig-pVRA). The global average survival probability across all areas and years ($\mu^S$) was estimated at `r S.hyper.mean$post.sum`. Spatial variation in survival (random effect SD = `r S.sd.spatial$post.sum`) was relatively low compared to temporal (`r S.sd.temporal$post.sum`) and residual (`r S.sd.residual$post.sum`) variation.
 
-Median (a) and standard deviation (b) of posterior estimates of average annual survival probability across 41 reporting areas in Norway. Darker colors indicate higher median values and higher uncertainty.
+Recruitment rates varied between `r R.min$post.sum` (area "`r R.min$area.name`") and `r R.max$post.sum` (area "`r R.max$area.name`") and displayed a spatial pattern opposite to that of annual survival, i.e. lower recruitment rates co-occurring with higher survival rates and vice-versa (@fig-pVRB; @fig-paramCorrs B). Across all areas and years, average recruitment rate was `r R.hyper.mean$post.sum`. Unlike for survival, the model predicted similar magnitudes of spatial and temporal variation (random effect SDs of `r R.sd.spatial$post.sum` and `r R.sd.temporal$post.sum`, respectively), and about twice as much residual variation (`r R.sd.residual$post.sum`).
+
+::: {#fig-pVR layout-ncol="2"}
+![Median survival probabilities](Figures/Avg_pSurv_Map-1.png){#fig-pVRA}
+
+![Median recruitment rates](Figures/Avg_rRep_Map-1.png){#fig-pVRB}
+
+Posterior medians of average annual survival probabilities (a) and recruitment rates (b) across 41 reporting areas (summarised at the municipality level) in Norway. Darker colors indicate higher median values. Measures for corresponding uncertainty in estimates are visualized in SFs "Avg_pSurv_Map.pdf" and "Avg_rRep_Map.pdf" for survival and recruitment, respectively.
 :::
 
-## Recruitment rate
-
-Annual recruitment rates showed a spatial pattern (@fig-rRep) that was inverse relative to that of annual survival (@fig-pSurv), with lower recruitment rates co-occurring with higher survival rates and vice-versa. This is consistent with basic life history theory [@stearns1992] and with previous studies finding relatively slower life histories in alpine / high altitude areas [e.g. @sandercock2005; @bears2009; @alice2016].
-
-::: {#fig-rRep layout-ncol="2"}
-![Median recruitment estimates](Figures/rRep_Median.png){#fig-rRepA}
-
-![Uncertainty in recruitment estimates](Figures/rRep_SD.png){#fig-rRepB}
-
-Median (a) and standard deviation (b) of posterior estimates of average annual recruitment rate across 41 reporting areas in Norway. Darker colors indicate higher median values and higher uncertainty.
-:::
+The MCMC chains for many of the area-specific average survival probabilities and recruitment rates, as well as for the global averages (intercepts) for both vital rates, were mixing rather poorly. Despite that, mixing was good and resulting posteriors well defined for the area- and year-specific estimates of survival and recruitment (SF "PostDens_tS_tR.pdf"). There was substantial variation in both vital rates across time (SFs "TimeSeries_pSurv.pdf" and "TimeSeries_rRep.pdf"). In many areas, the years 2011, 2014, and 2018 not only sported high population densities (see above) but were also characterized by both high recruitment and low subsequent survival. The overall low density years 2012 and 2015, conversely, often featured lower recruitment and, in some cases, higher survival. Notably, there were also years with very little spatial synchrony, i.e. very different relative yearly survival probabilities and recruitment rates (e.g. 2010 and 2020 for survival and 2013, 2016, and 2017 for recruitment).
 
 ## Effects of rodent occupancy
 
-The model predicted substantial variation in the effect of the rodent occupancy covariate on recruitment (@fig-betaR). Areas in the north and south west generally had recruitment increasing with rodent occupancy while the remaining areas were a mosaic of positive and negative effects, albeit with some spatial clustering.
-
-::: {#fig-betaR layout-ncol="2"}
-![Median rodent effect estimates](Figures/betaR_Median.png){#fig-betaRA}
-
-![Uncertainty in rodent effect estimates](Figures/betaR_SD.png){#fig-betaRB}
-
-Median (a) and standard deviation (b) of posterior estimates of effects of rodent occupancy on recruitment rate across 41 reporting areas in Norway. In a), blueish colors indicate negative effects while reddish colors indicate positive effects (yellow = no effect). In b) darker colors indicate higher median values and higher uncertainty.
-:::
+The model predicted a positive global effect of rodent occupancy on recruitment rate (average slope on the log scale = `r betaR.hyper.mean$post.sum`). Nonetheless, spatial variation in the rodent effect was substantial (random effect SD = `r betaR.sd.spatial$post.sum`). This resulted in negative median effects in `r n.neg.betaR` areas, positive median effects in `r n.pos.betaR` areas, and a range of effect sizes from `r betaR.min$post.sum` (area "`r betaR.min$area.name`") to `r betaR.max$post.sum` (area "`r betaR.max$area.name`", @fig-paramCorrs C, SF "Rep_betaR.R.pdf"). The largest positive rodent effects were estimated for areas in the very North of Norway, as well as in the mountaineous regions in the central and southwestern parts of the country (SF "betaR_Map.pdf"). Effects with negative posterior medians were located mostly at intermediate latitudes, but we note that all of these had posterior distributions featuring substantial overlap with 0 (@fig-paramCorrs C).
 
 ## Detection parameters
 
-TBA
+Detection decay parameters, which determine detection probability in distance sampling surveys, varied across areas from between `r Det.min$post.sum` in "`r Det.min$area.name`" to `r Det.max$post.sum` in "`r Det.max$area.name`, resulting in detection probabilities over the transect sites (truncation distance = 200 m) from `r pDet.min$post.sum` to `r pDet.max$post.sum`, respectively. The global average detection decay was `r Det.hyper.mean$post.sum` (detection probability = `r pDet.hyper.mean$post.sum`), and in general, higher values were more common in the Southern half of the country than the Northern half (SF "Avg_detect_Map.pdf"). Variation in detection over time was modest (SF "TimeSeries_pDetect.pdf"), and among-year variation in detection decay (random effect log SD = `r Det.sd.temporal$post.sum`) was almost identical in magnitude to spatial (`r Det.sd.spatial$post.sum`) and residual (`r Det.sd.residual$post.sum`) variation.
 
 ## Variance decomposition
 
-TBA
+```{r, echo = FALSE}
+# Posterior summaries
+varDec.sum <- readRDS("Results/PosteriorSummaries_VarDecomp.rds")
+
+# Printing function
+printPostSum2 <- function(table, Parameter, VarComponent){
+  
+  idx <- which(table$Parameter == Parameter & table$VarComponent == VarComponent)
+  
+  print.out <- paste0(
+      round(table$median[idx]*100, digits = 1), 
+      " [",
+      round(table$lCI[idx]*100, digits = 1),
+      ", ",
+      round(table$uCI[idx]*100, digits = 1),
+      "]"
+  )
+  return(print.out)
+}
+
+# All parameter summaries
+Rec_A <- printPostSum2(varDec.sum, "Recruitment", "Area")
+Rec_Y <- printPostSum2(varDec.sum, "Recruitment", "Year")
+Rec_R <- printPostSum2(varDec.sum, "Recruitment", "Residual")
+Rec_Cov <- printPostSum2(varDec.sum, "Recruitment", "RodentOcc")
+
+Surv_A <- printPostSum2(varDec.sum, "Survival", "Area")
+Surv_Y <- printPostSum2(varDec.sum, "Survival", "Year")
+Surv_R <- printPostSum2(varDec.sum, "Survival", "Residual")
+
+Det_A <- printPostSum2(varDec.sum, "Detection", "Area")
+Det_Y <- printPostSum2(varDec.sum, "Detection", "Year")
+Det_R <- printPostSum2(varDec.sum, "Detection", "Residual")
+```
+
+The relative importance of different components for explaining parameter variation differed among recruitment rate, survival probability, and detection decay (@fig-varDecomp). The largest portion of variation in recruitment was attributed to residual variation (`r Rec_R` %), followed by spatial (`r Rec_A` %) and temporal (`r Rec_Y` %) variation. Rodent occupancy, which contains both a spatial and a temporal dimension, explained `r Rec_Cov` % of the total variation. For survival, there was large uncertainty in the estimated proportions of variance explained by different components. The model predicted similar potential contributions from temporal (`r Surv_Y` %) and residual (`r Surv_R` %) variation and suggested that spatial variation was only responsible for `r Surv_A` % of the total variance. Total variance in detection decay was attributed evenly to spatial, temporal, and residual variation at `r Det_A` %, `r Det_Y` %, and `r Det_R` %, respectively.
+
+![Posterior distributions for the proportions of parameter variance explained by spatial (blue), temporal (orange), and residual (green) variation, as well as by effects of rodent occupancy (yellow).](Figures/VarDecomposition_overall.png){#fig-varDecomp}
 
 # Discussion
-
-TBA
 
 ## Abundance and vital rates across space and time
 
@@ -180,8 +330,9 @@ TBA
 
 -   With some focus on what we are able to get insights on thanks to the integration across time and space (i.e. better estimates through data sharing, relative importance of different kinds of variation, etc. ) <!-- @ERLEND & @JAMES, once the "new" results are in: thoughts on what we see that is interesting, cool, expected, unexpected etc. Can we compare to other large scale studies, either on other grouse-like creatures or harvested species more generally? -->
 
-## Implications for management
+Annual recruitment rates showed a spatial pattern that was inverse relative to that of annual survival, with lower recruitment rates co-occurring with higher survival rates and vice-versa. This is consistent with basic life history theory [@stearns1992] and with previous studies finding relatively slower life histories in alpine / high altitude areas [e.g. @sandercock2005; @bears2009; @alice2016].
 
+## Implications for management
 <!-- preliminary section title) -->
 
 -   What results mean for management (of habitat and of harvest)
@@ -198,13 +349,15 @@ Another approach to maximising information gain when jointly analysing data from
 
 <!-- @MYSELF: Have a closer look at chapter 19 in IPM book to see what they did there and also what other work they reference -->
 
--   Outlook: integration with / coupling to models for harvest to develop tools for (automatic) calculation of e.g. hunting quotas <!-- @JAMES: This one is for you. Some ruminations on how and why it would be great to formally model harvest, integration with hunting data, maybe eventually develop a tool to calculate quotas (I know this has been developed for other game species), etc. -->
-
 ## Reproducible workflows for a sustainable future
 
 -   Structure / setup of this workflow (from data collection to analytical results)
+
 -   Why this matters: transparency and credibility, feedback to volunteer data collectors, cost-effective to re-do analyses for annual/regular reporting, easy to re-use and build upon, publicly accessible and well documented to allow more effective resource use in follow-up projects (sustainable use of funding), etc.
+
 -   Also: useful to link up to different reporting routes and/or more general (multi-indicator) projects <!-- @EVERYONE: Do we know of some good references for this? PRseumably we cannot cite our chapter in the Technical Manual yet :-P -->
+
+-   Outlook: integration with / coupling to models for harvest to develop tools for (automatic) calculation of e.g. hunting quotas <!-- @JAMES: This one is for you. Some ruminations on how and why it would be great to formally model harvest, integration with hunting data, maybe eventually develop a tool to calculate quotas (I know this has been developed for other game species), etc. -->
 
 ## Conclusion
 
