@@ -226,7 +226,6 @@ n.neg.lambda <- length(which(lambda.sum$Median < 1))
 
 All numerical results in the following are presented as median \[95% credible interval\] unless otherwise indicated. Posterior summaries (median, 95% credible interval, mean, standard deviation, coefficient of variation) for all main parameters are also provided in the supplementary file "PosteriorSummaries_byAreas.csv". Supplementary figures (SF) are provided as .pdf files with captions in "SuppFigures_Captions.txt".
 
-
 ## Population density
 
 Only during the most recent four years (2018-2021) has data been collected regularly for all reporting areas included in the analyses. During this period, estimated population densities varied between `r dens.min$post.sum` birds/km^2^ in the area "`r dens.min$area.name`" close to the coast in central Norway to `r dens.max$post.sum` birds/km^2^ in "`r dens.max$area.name`" further south near the Swedish border. In general, population density appeared to be lowest in the Northern parts of Norway and highest in the eastern part of central Norway (@fig-densA). Uncertainty in density estimates was relatively consistent, with a few areas (inlcuding the one with the lowest estimated density, "`r dens.min$area.name`") sticking out by having substantially less precise estimates (@fig-densB). Populations fluctuated substantially over time in any given area (SF "TimeSeries_popDens1.pdf") and some years seemed to be indicative of relatively high (e.g. 2011, 2014, 2018) or low (e.g. 2012, 2015) densities across a large number of areas.
@@ -322,69 +321,33 @@ The relative importance of different components for explaining parameter variati
 
 # Discussion
 
-Building on the work of @nilsen2023, we applied a novel integrated population model to data collected through a national-scale participatory monitoring programme to estimate spatial and temporal variation in demography of a culturally important game bird species, the willow ptarmigan. While our study was exploratory in nature, it recovered patterns consistent with ecological and life-history theory including trade-offs between survival and recruitment, and a tendency towards slower life histories at higher latitudes and altitudes. Space-fot-time substitution also provided the statistical power necessary for the analysis to provide evidence for the alternative prey hypothesis, i.e. ptarmigans benefitting from high abundance of alternative prey for their predators.
+Building on the work of @nilsen2023, we applied a novel integrated population model to data collected through a national-scale participatory monitoring programme to estimate spatial and temporal variation in demography of a culturally important game bird species, the willow ptarmigan. While our study was exploratory in nature, it recovered patterns consistent with ecological and life-history theory including trade-offs between survival and recruitment, and a tendency towards slower life histories at higher latitudes and altitudes. Space-for-time substitution also provided the statistical power necessary for the analysis to provide evidence for the alternative prey hypothesis, i.e. ptarmigans benefiting from high abundance of alternative prey for their predators. <!-- To me, this little paragraph has "abstract vibes", or maybe "conclusion vibes". I'll leave it here for now but note that it may get moved eventually. 
 
 ## Abundance and vital rates across space and time
 
-<!-- @ERLEND & @JAMES, once the "new" results are in: thoughts on what we see that is interesting, cool, expected, unexpected etc. Can we compare to other large scale studies, either on other grouse-like creatures or harvested species more generally? -->
+<!-- @ERLEND & @JAMES thoughts on what we see that is interesting, cool, expected, unexpected etc. Can we compare to other large scale studies, either on other grouse-like creatures or harvested species more generally? -->
 
 <!-- Spatial perspective -->
 
-The rich spatial distribution of sampling afforded us the opportunity to explore variation in density and vital rates across a relatively large spatial extent. Density followed the expected pattern of lower density at northern latitudes and western longitudes. Within the spatial extent of our study, these areas experience the most extreme climatic conditions including coldest temperatures and shortest growing season. Ptarmigan are income breeders using food resources acquired from nesting areas to supply energy and nutrients for egg production and incubation [@sandercock2005]. Reduced primary production limits food availability which limits carrying capacity relative to more southern populations.
+The wide spatial distribution of the line transect monitoring afforded us the opportunity to explore variation in population density and vital rates across a relatively large spatial extent. Ptarmigan densities across the 41 reporting districts included in our analyses varied from around 2 birds/km^2^ to 55 birds/km^2^, with the lowest densities occurring far north in the country, as well as on the west coast and in the mountains in central Norway [@fig-densA]. These areas are characterized by more extreme climatic conditions, boasting cold temperatures and – in the North – a short growing season. Resulting reduced primary production limits food availability and as ptarmigan are income breeders using food resources acquired from nesting areas to supply energy and nutrients for egg production and incubation [@sandercock2005], lower carrying capacity in such areas is to be expected. <!-- @ERLEND do we have some more thoughts to add here? -->
 
-We did not find a clear relationship between density and growth rates. However, this is unsurprising as it appears to be substantial variation in demography which suggests carrying capacity varies over space. This notion is further supported by the residual variation unaccounted for in the model which is likely environmental conditions that govern resource availability.
+We found increasing population trends over recent years in over half of the reporting districts [@fig-lamA]. <!-- relate this to changes in hunting management in recent years? Any other factors we think could have contributed? --> Nonetheless, recent population declines were also evident in some areas, and particularly in the mountains in central Norway [@fig-lamA]. <!-- What could be going on here? It's also interesting that while some of these areas have declines over the most recent years, that usually follows on a period of increase, or at least stability, up to around 2016 -->
 
-[@Wilson_Martin_2011] found greater fecundity at greater latitudes compared to the southern terminus of their distribution in the USA; however, annual survival was less.
+While we found the highest population growth rates in areas with relatively low density, and relatively low growth rates in high-density areas [@fig-paramCorrs A], our analysis did not provide evidence for a strong relationship between density and growth rates across space. However, this is unsurprising as we did find substantial spatial differences in demography, which suggests that carrying capacity too varies over space. Overall, annual recruitment rates showed a spatial pattern that was inversely related to that of annual survival, with lower recruitment rates co-occurring with higher survival rates (and lower densities) and vice-versa [@fig-paramCorrs B], as we would expecte based on life history theory [@stearns1992]. Furthermore, the areas with relatively lower recruitment and higher survival were primarily found in the northern parts of Norway and in the mountainous region in the central part of the country, which aligns with previous studies finding relatively slower bird life histories in alpine / high altitude areas [e.g. @sandercock2005; @bears2009; @Wilson_Martin_2011; @alice2016]. <!-- What about the latitude? Do we know of any studies looking at latitudinal variation in life histories? When I last searched, I only found studies focusing on altitude --> 
 
--   2-55 birds/km^2^, lowest in North, highest in eastern central Norway (close to Swedish border)
-
--   Most uncertainty in density estimates in areas with relatively low population sizes, low number of transects, and recent start of data collection
-
--   The model also does "hindcasts", i.e. predictions for years prior to data collection, for areas where data collection started after 2007. But uncertainty increases quickly, so no point looking \> 2 years back.
-
--   Over half of areas have population increases in recent years.
-
--   Recent declines: mountains in central Norway, typically following increases up to around 2016
-
--   Across populations, no clear relationship between density and growth rates (within populations?)
-
--   There is a spatial association lower density / lower reproduction / higher survival ("slower life history"?) versus higher density / higher reproduction / lower survival ("faster life history?")
-
--   Survival recruitment trade-off: high survival and low recruitment in far north and southern mountains
-
-Annual recruitment rates showed a spatial pattern that was inverse relative to that of annual survival, with lower recruitment rates co-occurring with higher survival rates and vice-versa. This is consistent with basic life history theory [@stearns1992] and with previous studies finding relatively slower life histories in alpine / high altitude areas [e.g. @sandercock2005; @bears2009; @alice2016].
 
 <!-- Temporal perspective -->
+Population densities in all areas were subject to substantial variation across years, featuring periods of stability, increase, and decrease (SF "TimeSeries_PopDens1.pdf"). In most areas, there were also strong year-by-year fluctuations in population density on top of longer-term trends. Some of the resulting "high density years" were highly synchronized across large spatial scales, such as the years 2011, 2013, and 2018. Taking a closer look, we find that these are years that are characterized by high recruitment (SF "TimeSeries_rRep.pdf") and low subsequent survival (SF "TimeSeries_pSurv.pdf"), which often resulted in steep population declines towards the following year. The fact that these same years also match up with observed peaks in rodent abundance in many areas provides evidence for the Alternative Prey Hypothesis (APH). The AHP stipulates that high abundance of alternative prey (rodents, in this case) for common predators leads to population growth, and is well-supported throughout the literature for a range of taxa [e.g., @hagen1952; @Kjellander_Nordström_2003; @Reif_Tornberg_Jungell_Korpimäki_2001], including willow ptarmigan [@bowler2020]. <!-- Maybe another sentence or two about the low survival following the peak, which could be either due to negative density-dependence leading to resource competition among ptarmigan, or due to the rodent peak allowing high recruitment also for predators, which then in turn will have increased impacts on all prey populations in the subsequent year? -->
 
-The Alternative Prey Hypothesis (APH) has been well-supported throughout the literature across multiple taxa [e.g., @hagen1952; @Kjellander_Nordström_2003; @Reif_Tornberg_Jungell_Korpimäki_2001] and for willow ptarmigan [@bowler2020]. We also found support for APH but the positive effect of rodents on recruitment were more pronounced at northern latitudes while equivocal elsewhere. Predator-prey dynamics are notoriously complex and interact with a multitude of environmental variables. @Nielsen_1999 found that gyrfalcon predation on ptarmigan was greatest during years of low ptarmigan abundance which suggests that the availability of alternative prey is most important at low densities as exhibited at northern latitudes in our study.
-
--   There are some years with relatively high densities in most areas: 2011, 2013, 2018
-
--   These same years are also characterized by high recruitment, and subsequent low survival, and the match up with the years with big rodent peaks in many areas
-
--   Many rodents -\> predator release -\> higher recruitment -\> higher densities -\> negative density feedbacks on survival -\> lower survival -\> low density next year?
-
--   Also: many rodents -\> good year for predators -\> high predation in following season/year -\> lower survival -\> low density next year?
-
--   This seems to support that the rodent abundance is an important driver -\> supported by the model: rodent effects estimated positive or inconclusive across areas
-
--   This is well established (for Norwegian ptarmigan and elsewhere?) and was expected
-
--   BUT: the model was unable to recover the positive relationship between rodent abundance and recruitment when applied only to data from a single location. But with this multi-area model, estimation and inference is much improved -\> space-for-time substitution works!
-
--   This also means we have potential for including other covariates
-
--   Examples of what else could matter and why
+Taken together, this alludes to the large role small rodents play in shaping ptarmigan demography and population dynamics and is further supported by the largely positive effects of rodent abundance on recruitment estimated by our model (@fig-paramCorrs C). Once more, the highest latitude and highest altitude areas stood out, sporting the strongest rodent effects (SF "betaR_Map.pdf"). This may be linked to the overall low ptarmigan densities in these areas, as e.g. @Nielsen_1999 found evidence that gyrfalcon predation on ptarmigan was most impactful when ptarmigan densities were low. 
+<!-- This previous sentence is adapted from a suggestion by James, but I feel like we need some more explanation/arguments here to clarify this. Perhaps also some other and/or more specific hypotheses= -->
+Notably, the conclusive estimation of overall positive effects of rodent abundance on recruitment in our model was only possible thanks to the integration and sharing of data across multiple areas. When @nilsen2023 fit the IDSM to data from only a single area, they were unable to obtain a reliable estimate for the rodent effect due to limited statistical power. Consequently, the space-for-time substitution that comes with extending the model across mulitple area allows estimation of covariate effects that otherwise cannot be estimated, and opens up for future possibilities for studying effects of not just rodents, but also other environmental drivers on ptarmigan population dynamics. 
+For example, [...] <!-- @ERLEND here we could add some thoughts on other covariates that may matter and are realistic/relevant/realistic to include in future studies. Best if it kind of naturally leads over to (and does not overlap too much with) the next paragraph  -->
 
 <!-- Variation beyond rodents -->
+Extending the present analysis by including additional covariates may also help with better understanding the mechanisms underlying the large portion of demographic rate variation that could only be attributed to random variation so far. This is the case especially for the relatively large residual variation [@fig-varDecomp] but also relevant for constant spatial and shared temporal variation. Interestingly, we found that a larger portion of variation in recruitment was allocated to spatial than to temporal factors, while the opposite was the case for survival. [...]
+<!-- Any hypotheses/thoughts related to large- vs. local-scale drivers to explain this? -->
 
--   Including more and/or other covariates may also help further explaining vital rate variation, not least because for both survival and recruitment, residual variation was the largest component.
-
--   However, looking at spatial vs. temporal variation, we found very different patterns: for recruitment, we have more spatial than temporal variation, but they are not vastly different. For survival, spatial variation was quite low compared to the rather large temporal variation
-
--   Some hypotheses about large- vs. local-scale drivers?
-
-[@Wilson_Martin_2011] Found x y z
 
 ## Implications for management
 
@@ -399,6 +362,10 @@ Management also includes optimization of monitoring
 -   Detection was less variable across time and space than vital rates, but we do see it tends to be higher in the southern half of the country
 
 -   Discuss this related to landscape features and/or observer pool? Thoughts on what could be done to improve, potentially?
+
+-   Most uncertainty in density estimates in areas with relatively low population sizes, low number of transects, and recent start of data collection
+
+-   The model also does "hindcasts", i.e. predictions for years prior to data collection, for areas where data collection started after 2007. But uncertainty increases quickly, so no point looking \> 2 years back.
 
 ## Model limitations and outlook
 
