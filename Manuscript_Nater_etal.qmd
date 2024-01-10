@@ -351,21 +351,13 @@ Extending the present analysis by including additional covariates may also help 
 
 ## Implications for management
 
-<!-- preliminary section title) -->
+Management decisions made at the resolution of large geo-political boundaries (e.g., Norway) run a high risk of being inadequate when there is substantial spatial variation in demographic processes and population dynamics, as is the case for willow ptarmigan. In Norway, willow ptarmigan -- and small game in general -- is managed [...] <!-- Brief summary of how and at what spatial scales patrmigan/small game management works in Norway -->
+The results from ur study suggests that management decisions should be spatially refined and ideally informed by knowledge about the "local" population processes. [...] <!-- Some specific implications of the results for management of hunting and of habitat (e.g. better managed hunting is good because we do see increases in majority of local populations, but the mountain areas have had recent declines that may call for additional local measures, these measures may need to be adjusted since the mountain populations appear to have slower life histories and likely different sensitivities, etc.) -->
 
--   What results mean for management (of habitat and of harvest)
+Besides pointers on how to adjust management of ptarmigan and their habitat, our results also provided some insights into the value, and possibly opportunities for improving the monitoring programme. First and foremost, our study demonstrates the tremendous potential lying in coordinating structured monitoring using a common protocol and training programme, as well as data processing pipeline. These were indeed the prerequisites that allowed us to easily and efficiently integrate data collected across the entire country in a joint analysis, and draw inference on spatio-temporal variation in demography and population dynamics at a large scale but also with good spatial resolution. 
+While overall less variable across space and time than vital rates, differences in detection probabilities were nonetheless evident (SFs "Avg_detect_Map.pdf" and "TimeSeries_pDetect.pdf") and may help with mapping out potential for improvement in the monitoring programme. Particularly, we found generally lower detection probabilities in the northern half of Norway. [...] <!-- Some thoughts on why that might be. Could be related to landscape features and/or available observer pool. Any suggestions on what could be done to improve detection in the North, or at least "make up" for it? -->
+Ultimately, increased detection probability would contribute to obtaining more precise estimates of both population density and demographic rates, which -- in turn -- would be of great value in particular in areas with relatively low population densities, low number of transects, and less years of data. 
 
-Management decisions rarely and shouldn't occur at the resolution of large geo-political boundaries (e.g., Norway) because of the variation in demographic processes that occur. Our study suggests decisions should be spatially refined to capture "local" population processes that will interact with management.
-
-Management also includes optimization of monitoring
-
--   Detection was less variable across time and space than vital rates, but we do see it tends to be higher in the southern half of the country
-
--   Discuss this related to landscape features and/or observer pool? Thoughts on what could be done to improve, potentially?
-
--   Most uncertainty in density estimates in areas with relatively low population sizes, low number of transects, and recent start of data collection
-
--   The model also does "hindcasts", i.e. predictions for years prior to data collection, for areas where data collection started after 2007. But uncertainty increases quickly, so no point looking \> 2 years back.
 
 ## Model limitations and outlook
 
@@ -387,7 +379,7 @@ Another approach to maximising information gain when jointly analysing data from
 
 -   Why this matters: transparency and credibility, feedback to volunteer data collectors, cost-effective to re-do analyses for annual/regular reporting, easy to re-use and build upon, publicly accessible and well documented to allow more effective resource use in follow-up projects (sustainable use of funding), etc.
 
--   Also: useful to link up to different reporting routes and/or more general (multi-indicator) projects <!-- @EVERYONE: Do we know of some good references for this? PRseumably we cannot cite our chapter in the Technical Manual yet :-P -->
+-   Also: useful to link up to different reporting routes and/or more general (multi-indicator) projects <!-- @EVERYONE: Do we know of some good references for this? Prseumably we cannot cite our chapter in the Technical Manual yet :-P -->
 
 ## Conclusion
 
