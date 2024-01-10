@@ -322,7 +322,7 @@ The relative importance of different components for explaining parameter variati
 
 # Discussion
 
-Building on the work of @nilsen2023, we used a structured community science monitoring program and a novel integrated population model to estimate spatial and temporal variation in demography of a culturally important game bird species. Although our study was exploratory in nature, the patterns observed generally conformed to those expected from ecological and life history theory. Apparent trade-offs between survival and recruitment was observed. Support was also found for the benefits of alternative prey to ptarmigan (i.e., alternative prey hypothesis). A muted relationship between population density and growth rates was found, however, this was possibly due to omitted environmental gradients that would have better described the availability of resources across the large spatial extent of the study.
+Building on the work of @nilsen2023, we applied a novel integrated population model to data collected through a national-scale participatory monitoring programme to estimate spatial and temporal variation in demography of a culturally important game bird species, the willow ptarmigan. While our study was exploratory in nature, it recovered patterns consistent with ecological and life-history theory including trade-offs between survival and recruitment, and a tendency towards slower life histories at higher latitudes and altitudes. Space-fot-time substitution also provided the statistical power necessary for the analysis to provide evidence for the alternative prey hypothesis, i.e. ptarmigans benefitting from high abundance of alternative prey for their predators.
 
 ## Abundance and vital rates across space and time
 
