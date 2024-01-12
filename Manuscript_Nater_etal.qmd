@@ -386,13 +386,9 @@ Finally, including further data beyond the line transect surveys may be relevant
 
 ## Reproducible workflows for a sustainable future
 
--   Structure / setup of this workflow (from data collection to analytical results)
+Producing a transparent and reproducible workflow for the analysis presented here was a central objective in this study. We have done this by setting up "targets" pipeline [@landau2021], which allows (re-)running the complete workflow from downloading the publicly available data to visualizing the results produced by the IDSM [@fig-workflow]. Modern applied ecology needs research to be published not just as manuscripts, but as reproducible and well documented workflows [@lewis2018]. This is particularly crucial for research that is (to be) closely tied to management and/or used to create biodiversity indicators that are to be reported nationally or internationally, or to be used by industrial partners. This is both because of the enhanced transparency and credibility provided by openly available reproducible workflows and because of their cost-effectiveness, which allows for more sustainable use of funding in the mid- to long-term. Finally, open and reproducible workflows facilitate collaboration and inclusion of stakeholders in the research process, paving the path for the translational science that is required for society to tackle the the biodiversity crisis [@rubert2021]. It is our hope that this study can serve as an example of where to start.  
 
--   Why this matters: transparency and credibility, feedback to volunteer data collectors, cost-effective to re-do analyses for annual/regular reporting, easy to re-use and build upon, publicly accessible and well documented to allow more effective resource use in follow-up projects (sustainable use of funding), etc.
-
--   Outlook: integration with / coupling to models for harvest to develop tools for (automatic) calculation of e.g. hunting quotas
-
--   Also: useful to link up to different reporting routes and/or more general (multi-indicator) projects <!-- @EVERYONE: Do we know of some good references for this? Presumably we cannot cite our chapter in the Technical Manual yet :-P -->
+ <!-- @EVERYONE: Do we know of some good references for this section? Presumably we cannot cite our chapter in the Technical Manual yet :-P -->
 
 ## Conclusion
 
