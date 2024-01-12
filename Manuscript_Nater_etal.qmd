@@ -398,7 +398,7 @@ Finally, including further data beyond the line transect surveys may be relevant
 
 Building on the work of @nilsen2023, we applied a novel integrated population model to data collected through a national-scale participatory monitoring programme to estimate spatial and temporal variation in demography of a culturally important game bird species, the willow ptarmigan. While our study was exploratory in nature, it recovered patterns consistent with ecological and life-history theory including trade-offs between survival and recruitment, and a tendency towards slower life histories at higher latitudes and altitudes. Space-for-time substitution also provided the statistical power necessary for the analysis to provide evidence for the alternative prey hypothesis, i.e. ptarmigans benefiting from high abundance of alternative prey for their predators.
 
-<!-- To me, this little paragraph has "abstract vibes", or maybe "conclusion vibes". I'll leave it here for now but note that it may get moved eventually. -->
+<!--James originally intended this paragraph for the start of the discussion. I'll figure out where it fits best once the rest is mostly in place! -->
 
 -   Summarise neatly
 -   Things worth highlighting: inference across large spatial scale but with "useful" resolution for management, advantages of integration across space (we can estimate better and more), integration of small locality-specific datasets with large national-scale monitoring, importance of reproducible workflows
