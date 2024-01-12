@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.2.269">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -18,15 +18,14 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
 }
-/* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
 }
-.hanging-indent div.csl-entry {
+.hanging div.csl-entry {
   margin-left:2em;
   text-indent:-2em;
 }
@@ -40,7 +39,8 @@ div.csl-right-inline {
 }
 div.csl-indent {
   margin-left: 2em;
-}</style>
+}
+</style>
 
 
 <script src="Manuscript_Nater_etal_files/libs/clipboard/clipboard.min.js"></script>
@@ -54,7 +54,6 @@ div.csl-indent {
 <link href="Manuscript_Nater_etal_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="Manuscript_Nater_etal_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
@@ -90,7 +89,7 @@ div.csl-indent {
 
 <section id="abstract" class="level1">
 <h1>Abstract</h1>
-<p>TBA</p>
+<p>Quantifying the temporal and spatial variation in animal demography is a central theme of ecology and important for directing policy. However, field sampling at large spatial extents for long periods of time is cost prohibitive and often politically untennable. Citizen science programs can alleviate these issues by harnessing stakeholders to increase the spatial and temporal resolution of datasets. Yet, many citizen science programs lack data on individual animals making it difficult to model demography. Integrated population models (IPM) offer promise to use multiple streams of data on populations or multiple aspects of a single dataset to estimate key vital rates for populations or communities. We leveraged a large-scale citizen science monitoring program—the “Hønsefuglportalen”— to estimate spatial and temporal variation in demography for willow ptarmigan (<em>Lagopus lagopus</em>). The core field sampling approach was line-transect distance sampling with age-specific detections—the latter critical to modelling the population dynamics in the IPM. We explored latitudinal and longitudinal variation in recruitment, survival, and density; patterns of density dependence; and the relationship between recruitment and rodent occupancy using an IPM in a Bayesian framework following open science principles. Overall results were consistent with expectations of ecological theory. Slower life history patterns were observed at higher latitudes and altitudes portending differential effects of climate change on ptarmigan across their range. Observed patterns between rodents and recruitment were consistent with the alternative prey hypothesis (APH); however, spatial variation in the directionality and magnitude of effect were substantial. The robustness of the hierarchical structure of our model was instrumental in elucidating these patterns. Our study highlights the power of citizen science, IPMs, and open science principles to estimate spatial and temporal variation in the demography for a culturally important species.</p>
 </section>
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
@@ -98,13 +97,13 @@ div.csl-indent {
 <p>There is growing demand for biodiversity indicators from international unions, national government, local management bodies, and corporate and industry actors. Such indicators ideally represent a wide range of biodiversity’s states and functions <span class="citation" data-cites="pereira2013 jetz2019">(e.g.&nbsp;Essential Biodiversity Variables, <a href="#ref-pereira2013" role="doc-biblioref">Pereira et al. 2013</a>; <a href="#ref-jetz2019" role="doc-biblioref">Jetz et al. 2019</a>)</span>, yet the development of suitable indicators for certain attributes, such as species abundance and demography, has been more difficult than for others <span class="citation" data-cites="schmeller2018 waldock2022">(<a href="#ref-schmeller2018" role="doc-biblioref">Schmeller et al. 2018</a>; <a href="#ref-waldock2022" role="doc-biblioref">Waldock et al. 2022</a>)</span>. This is at least partially due to challenging requirements regarding spatial scales of useful biodiversity indicators. On one hand, indicators need to be representative at large geographic scales, for example, in the context of countries’ reporting towards biodiversity targets <span class="citation" data-cites="feld2009">(e.g. <a href="#ref-feld2009" role="doc-biblioref">Feld et al. 2009</a>)</span>. On the other hand, indicators also ideally have good spatial resolution as the scales relevant for local-level management and planning are often much smaller <span class="citation" data-cites="stevenson2021">(<a href="#ref-stevenson2021" role="doc-biblioref">Stevenson et al. 2021</a>)</span>. This latter requirement is particularly crucial for (infrastructure) development strategies and for species management and conservation, both of which tend to require knowledge on species abundance and population dynamics (i.e.&nbsp;demographic rates) that is relevant for their county- or municipality-level decision making (+ refs?). Another reason why abundance and population indicators ideally come with good spatial resolution is that there can be substantial amounts of variation in population dynamics and life history of species across space <span class="citation" data-cites="robinson2014 horswill2019">(e.g. <a href="#ref-robinson2014" role="doc-biblioref">Robinson, Morrison, and Baillie 2014</a>; <a href="#ref-horswill2019" role="doc-biblioref">Horswill et al. 2019</a>)</span>. This variation that needs to be accounted for to develop successful and sustainable strategies for area use, (harvest) management, and species and biodiversity conservation <span class="citation" data-cites="williams2002">(<a href="#ref-williams2002" role="doc-biblioref">Williams, Nichols, and Conroy 2002</a>)</span>.</p>
 <p>While large-scale, spatially-explicit indicators for species abundance and populations are clearly needed, development and practical implementation are greatly limited due to the reliance of such indicators on the availability of data from large-scale, long-term monitoring programmes <span class="citation" data-cites="proencca2017">(<a href="#ref-proencca2017" role="doc-biblioref">Proença et al. 2017</a>)</span>. Consequently, many countries have been working on setting up, maintaining, and improving such monitoring programmes over the last decades. Many now well-established programmes focus on breeding birds and butterflies, and examples include the North American Breeding Bird Survey (<a href="https://www.pwrc.usgs.gov/bbs/" class="uri">https://www.pwrc.usgs.gov/bbs/</a>), UK Butterfly Monitoring Scheme (<a href="https://ukbms.org/" class="uri">https://ukbms.org/</a>), the Game and Wildlife Conservation Trust Partridge Count Scheme <span class="citation" data-cites="aebischer2010">(<a href="#ref-aebischer2010" role="doc-biblioref">Aebischer and Ewald 2010</a>)</span>, and the Swiss Biodiversity Monitoring (<a href="https://www.biodiversitymonitoring.ch/" class="uri">https://www.biodiversitymonitoring.ch/</a>). <!-- is there any other one we want to name here specifically? --></p>
 <p>There is a natural trade-off between quality and quantity of data that can be collected in any monitoring programme: collecting high quality data in a structured manner is costly and requires trained specialists, thus limiting the amount of data that can be collected, while participatory monitoring, i.e.&nbsp;the collection of ecological data by members of the public <span class="citation" data-cites="fraisl2022">(also called citizen or community science, <a href="#ref-fraisl2022" role="doc-biblioref">Fraisl et al. 2022</a>)</span>, allows to greatly reduce costs and extend spatial and taxonomic scales of monitoring at the expense of data quality and risk of bias <span class="citation" data-cites="johnston2023">(<a href="#ref-johnston2023" role="doc-biblioref">Johnston, Matechou, and Dennis 2023</a>)</span>. Consequently, many large-scale monitoring programmes are often limited to presence-absence or very simple count observations, making them suitable for the development of indicators of species distributions and perhaps population trends, but usually not of abundance, population dynamics, and demographic rates (+ example refs). The exception here are monitoring programmes that succeed in making use of a large number of citizen scientists that have been trained to collect data and record metadata in a structured manner and according to a carefully designed protocol. For example, in the United States hunters participate in the collection of bands and wings from harvested American Woodcock (<em>Scopolax minor)</em> to estimate survival and age ratios <span class="citation" data-cites="zimmerman2010">(<a href="#ref-zimmerman2010" role="doc-biblioref">Zimmerman et al. 2010</a>)</span>. <!-- can we think of 1-2 internationally well-known examples? Check out MAPS (Monitoring of Avian Productivity and Survivorship) and CES (Constant Effort Sites) --> In Norway there is a monitoring programme for terrestrial game bird species called “Hønsefuglportalen” (= “game bird portal”, <a href="https://honsefugl.nina.no/Innsyn/en" class="uri">https://honsefugl.nina.no/Innsyn/en</a>). It is a line transect survey programme carried out annually in &gt;120 localities across the country (&gt;2000 transects) by trained volunteers using pointing dogs. The programme has a well developed protocol for recording bird observations, auxiliary data, and relevant metadata (+ref to protocol?) and established routines for quality control and annual releases of publicly available data via GBIF. As such, it is particularly well suited to become part of a workflow for producing and updating abundance and population indicators on an annual basis.</p>
-<p>The line transect data from “Hønsefuglportalen” has been used previously for estimating abundance trends of willow ptarmigan (<em>Lagopus lagopus</em>) across Norway <span class="citation" data-cites="bowler2020 nilsen2020">(e.g. <a href="#ref-bowler2020" role="doc-biblioref">Diana E. Bowler et al. 2020</a>; <a href="#ref-nilsen2020" role="doc-biblioref">Nilsen and Rød-Eriksen 2020</a>)</span> but large-scale estimation of demographic rates underlying these trends has thus far remained as untapped potential of the dataset. <span class="citation" data-cites="nilsen2023">Nilsen and Nater (<a href="#ref-nilsen2023" role="doc-biblioref">2023</a>)</span> recently developed a novel integrated distance sampling model (IDSM) which successfully uses the age of idividuals detected along line transects data coupled with radio-telemetry data to estimate not just abundance, but also survival and recruitment across years. In this study, we adapt the model of <span class="citation" data-cites="nilsen2023">Nilsen and Nater (<a href="#ref-nilsen2023" role="doc-biblioref">2023</a>)</span> to run not just on a single site but on all areas with publicly available line transect data from “Hønsefuglportalen” simultaneously. Unlike several previous studies applying integrated models for population dynamics to multiple (sub-) populations separately and comparing results <span class="citation" data-cites="robinson2014 nater2023">(e.g. <a href="#ref-robinson2014" role="doc-biblioref">Robinson, Morrison, and Baillie 2014</a>; <a href="#ref-nater2023" role="doc-biblioref">Nater et al. 2023</a>)</span>, we opt for an approach explicitly integrating across space, thus allowing for sharing of information across locations and – in effect – space-for-time substitution <span class="citation" data-cites="horswill2019 morrison2022">(e.g. <a href="#ref-horswill2019" role="doc-biblioref">Horswill et al. 2019</a>; <a href="#ref-morrison2022" role="doc-biblioref">Morrison et al. 2022</a>)</span>. We then apply the resulting multi-area IDSM to “Hønsefuglportalen” data on willow ptarmigan to estimate population size, age-structure, survival, recruitment, and impacts of small rodent abundance across 41 reporting districts and 15 years (2007-2021) for this popular small-game species. We further embed the modelling workflow in a reproducible, semi-automated pipeline that will greatly facilitate the repeated calculation of abundance and population indicators at different spatial scales as new data are added every year.</p>
+<p>The line transect data from “Hønsefuglportalen” has been used previously for estimating abundance trends of willow ptarmigan (<em>Lagopus lagopus</em>) across Norway <span class="citation" data-cites="bowler2020 nilsen2020">(e.g. <a href="#ref-bowler2020" role="doc-biblioref">Bowler et al. 2020</a>; <a href="#ref-nilsen2020" role="doc-biblioref">Nilsen and Rød-Eriksen 2020</a>)</span> but large-scale estimation of demographic rates underlying these trends has thus far remained as untapped potential of the dataset. <span class="citation" data-cites="nilsen2023">Nilsen and Nater (<a href="#ref-nilsen2023" role="doc-biblioref">2023</a>)</span> recently developed a novel integrated distance sampling model (IDSM) which successfully uses the age of idividuals detected along line transects data coupled with radio-telemetry data to estimate not just abundance, but also survival and recruitment across years. In this study, we adapt the model of <span class="citation" data-cites="nilsen2023">Nilsen and Nater (<a href="#ref-nilsen2023" role="doc-biblioref">2023</a>)</span> to run not just on a single site but on all areas with publicly available line transect data from “Hønsefuglportalen” simultaneously. Unlike several previous studies applying integrated models for population dynamics to multiple (sub-) populations separately and comparing results <span class="citation" data-cites="robinson2014 nater2023">(e.g. <a href="#ref-robinson2014" role="doc-biblioref">Robinson, Morrison, and Baillie 2014</a>; <a href="#ref-nater2023" role="doc-biblioref">Nater et al. 2023</a>)</span>, we opt for an approach explicitly integrating across space, thus allowing for sharing of information across locations and – in effect – space-for-time substitution <span class="citation" data-cites="horswill2019 morrison2022">(e.g. <a href="#ref-horswill2019" role="doc-biblioref">Horswill et al. 2019</a>; <a href="#ref-morrison2022" role="doc-biblioref">Morrison et al. 2022</a>)</span>. We then apply the resulting multi-area IDSM to “Hønsefuglportalen” data on willow ptarmigan to estimate population size, age-structure, survival, recruitment, and impacts of small rodent abundance across 41 reporting districts and 15 years (2007-2021) for this popular small-game species. We further embed the modelling workflow in a reproducible, semi-automated pipeline that will greatly facilitate the repeated calculation of abundance and population indicators at different spatial scales as new data are added every year.</p>
 </section>
 <section id="methods" class="level1">
 <h1>Methods</h1>
 <section id="study-species" class="level2">
 <h2 class="anchored" data-anchor-id="study-species">Study species</h2>
-<p>The willow ptarmigan is a tetraoid bird with a circumpolar distribution, mainly inhabiting sub-alpine and arctic ecosystems <span class="citation" data-cites="fuglei2020">(see e.g. <a href="#ref-fuglei2020" role="doc-biblioref">Fuglei et al. 2020</a>)</span>. While the species is currently listed as Least Concern (LC) both in the global and Norwegian Red List of Species, it has undergone rather dramatic declines in abundance in Norway since the turn of the 20th century <span class="citation" data-cites="hjeljord2022">(<a href="#ref-hjeljord2022" role="doc-biblioref">Hjeljord and Loe 2022</a>)</span>. While the main reason for the long-term decline in abundance remain unresolved, willow ptarmigan are considered sentinel species that are sensitive to both climate change and land use changes <span class="citation" data-cites="Henden2017 Storch2007">(<a href="#ref-Henden2017" role="doc-biblioref">Henden et al. 2017</a>; <a href="#ref-Storch2007" role="doc-biblioref">Storch 2007</a>)</span>. Moreover, being one of only a handful of bird species that spend the winter in mountain ecosystems in Scandinavia, they are important components of the ecosystem as prey species for the gyrfalcon <span class="citation" data-cites="Alastair2020">(<a href="#ref-Alastair2020" role="doc-biblioref">Franke et al. 2020</a>)</span> <!-- do we have other "important" species to add here. Arctic fox? Some other endangered beasts perhaps? -->. The willow ptarmigan has a relatively fast pace of life <span class="citation" data-cites="sandercock2005 Steen1996">(<a href="#ref-sandercock2005" role="doc-biblioref">Sandercock, Martin, and Hannon 2005</a>; <a href="#ref-Steen1996" role="doc-biblioref">H. Steen and Erikstad 1996</a>)</span>, and can display substantial spatio-temporal variation in demographic rates <span class="citation" data-cites="Bowler2020">(<a href="#ref-Bowler2020" role="doc-biblioref">D. E. Bowler et al. 2020</a>)</span>. Their population dynamics are characterized by large inter-annual fluctuations in abundance <span class="citation" data-cites="hjeljord2022">(<a href="#ref-hjeljord2022" role="doc-biblioref">Hjeljord and Loe 2022</a>)</span>, and previous research has tied these fluctuations to rodent cycle through shared predators <span class="citation" data-cites="hagen1952 Bowler2020">(<a href="#ref-hagen1952" role="doc-biblioref">Hagen 1952</a>; <a href="#ref-Bowler2020" role="doc-biblioref">D. E. Bowler et al. 2020</a>)</span>. This tight relationship between the breeding success of ground nesting birds and the rodent cycle is known as the Alternative Prey Hypothesis and has been a central part of Fennoscandian research on grouse population dynamics for many decades <span class="citation" data-cites="hagen1952 Linden1988 Steen1985">(<a href="#ref-hagen1952" role="doc-biblioref">Hagen 1952</a>; <a href="#ref-Linden1988" role="doc-biblioref">Linden 1988</a>; <a href="#ref-Steen1985" role="doc-biblioref">J. B. Steen et al. 1988</a>)</span>. In addition, spring weather conditions and phenology is known to have considerable effects on breeding success and recruitment rates <span class="citation" data-cites="Eriksen2023 Steen1985">(<a href="#ref-Eriksen2023" role="doc-biblioref">Eriksen et al. 2023</a>; <a href="#ref-Steen1985" role="doc-biblioref">J. B. Steen et al. 1988</a>)</span>. Across their distributional range, they are iconic species with a high cultural value, partly linked to their popularity as game species. The latter means that information about spatio-temporal variation in demographic rates and population dynamics is particularly important in order to design sustainable harvest strategies. In addition, as a sentinel species the willow ptarmigan is well suited as an indicator species for ecosystem status; in Norway it is included in both the main national biodiversity <span class="citation" data-cites="jakobsson2020">(Nature Index for Norway, <a href="#ref-jakobsson2020" role="doc-biblioref">Jakobsson and Pedersen 2020</a>, <a href="https://www.naturindeks.no/Indicators/lirype" class="uri" role="doc-biblioref">https://www.naturindeks.no/Indicators/lirype</a>)</span> and ecosystem <span class="citation" data-cites="framstad2022">(Assessment of the Ecological Condition, <a href="#ref-framstad2022" role="doc-biblioref">Framstad et al. 2022</a>)</span> assessments.</p>
+<p>The willow ptarmigan is a tetraoid bird with a circumpolar distribution, mainly inhabiting sub-alpine and arctic ecosystems <span class="citation" data-cites="fuglei2020">(see e.g. <a href="#ref-fuglei2020" role="doc-biblioref">Fuglei et al. 2020</a>)</span>. While the species is currently listed as Least Concern (LC) both in the global and Norwegian Red List of Species, it has undergone rather dramatic declines in abundance in Norway since the turn of the 20th century <span class="citation" data-cites="hjeljord2022">(<a href="#ref-hjeljord2022" role="doc-biblioref">Hjeljord and Loe 2022</a>)</span>. While the main reason for the long-term decline in abundance remain unresolved, willow ptarmigan are considered sentinel species that are sensitive to both climate change and land use changes <span class="citation" data-cites="Henden2017 Storch2007">(<a href="#ref-Henden2017" role="doc-biblioref">Henden et al. 2017</a>; <a href="#ref-Storch2007" role="doc-biblioref">Storch 2007</a>)</span>. Moreover, being one of only a handful of bird species that spend the winter in mountain ecosystems in Scandinavia, they are important components of the ecosystem as prey species for the gyrfalcon <span class="citation" data-cites="Alastair2020">(<a href="#ref-Alastair2020" role="doc-biblioref">Franke et al. 2020</a>)</span> <!-- do we have other "important" species to add here. Arctic fox? Some other endangered beasts perhaps? -->. The willow ptarmigan has a relatively fast pace of life <span class="citation" data-cites="sandercock2005 Steen1996">(<a href="#ref-sandercock2005" role="doc-biblioref">Brett K. Sandercock, Martin, and Hannon 2005</a>; <a href="#ref-Steen1996" role="doc-biblioref">H. Steen and Erikstad 1996</a>)</span>, and can display substantial spatio-temporal variation in demographic rates <span class="citation" data-cites="Bowler2020">(<a href="#ref-Bowler2020" role="doc-biblioref"><strong>Bowler2020?</strong></a>)</span>. Their population dynamics are characterized by large inter-annual fluctuations in abundance <span class="citation" data-cites="hjeljord2022">(<a href="#ref-hjeljord2022" role="doc-biblioref">Hjeljord and Loe 2022</a>)</span>, and previous research has tied these fluctuations to rodent cycle through shared predators <span class="citation" data-cites="hagen1952 Bowler2020">(<a href="#ref-hagen1952" role="doc-biblioref">Hagen 1952</a>; <a href="#ref-Bowler2020" role="doc-biblioref"><strong>Bowler2020?</strong></a>)</span>. This tight relationship between the breeding success of ground nesting birds and the rodent cycle is known as the Alternative Prey Hypothesis and has been a central part of Fennoscandian research on grouse population dynamics for many decades <span class="citation" data-cites="hagen1952 Linden1988 Steen1985">(<a href="#ref-hagen1952" role="doc-biblioref">Hagen 1952</a>; <a href="#ref-Linden1988" role="doc-biblioref">Linden 1988</a>; <a href="#ref-Steen1985" role="doc-biblioref">J. B. Steen et al. 1988</a>)</span>. In addition, spring weather conditions and phenology is known to have considerable effects on breeding success and recruitment rates <span class="citation" data-cites="Eriksen2023 Steen1985">(<a href="#ref-Eriksen2023" role="doc-biblioref">Eriksen et al. 2023</a>; <a href="#ref-Steen1985" role="doc-biblioref">J. B. Steen et al. 1988</a>)</span>. Across their distributional range, they are iconic species with a high cultural value, partly linked to their popularity as game species. The latter means that information about spatio-temporal variation in demographic rates and population dynamics is particularly important in order to design sustainable harvest strategies. In addition, as a sentinel species the willow ptarmigan is well suited as an indicator species for ecosystem status; in Norway it is included in both the main national biodiversity <span class="citation" data-cites="jakobsson2020">(Nature Index for Norway, <a href="#ref-jakobsson2020" role="doc-biblioref">Jakobsson and Pedersen 2020</a>, <a href="https://www.naturindeks.no/Indicators/lirype" class="uri" role="doc-biblioref">https://www.naturindeks.no/Indicators/lirype</a>)</span> and ecosystem <span class="citation" data-cites="framstad2022">(Assessment of the Ecological Condition, <a href="#ref-framstad2022" role="doc-biblioref">Framstad et al. 2022</a>)</span> assessments.</p>
 </section>
 <section id="data-collection-management-and-preparation" class="level2">
 <h2 class="anchored" data-anchor-id="data-collection-management-and-preparation">Data collection, management, and preparation</h2>
@@ -140,7 +139,7 @@ div.csl-indent {
 <div id="fig-model" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="Figures/RypeIDSM_multiArea_structure.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">Figure&nbsp;1: Simplified graphical representation of the ptarmigan life cycle with two age classes and the data sources included in the integrated distance sampling model. The pink “x”’s indicate the added dimension for area. Juv[x,t] = juveniles in year t. Ad[x,t] = adults in year t. R[x,t] = recruitment rate in year t. S[x,t] = survival probability from year t to t+1. Note that the additional site (=transect) dimension, “j”, is omitted for the sake of illustration.</figcaption>
+<p></p><figcaption class="figure-caption">Figure&nbsp;1: Simplified graphical representation of the ptarmigan life cycle with two age classes and the data sources included in the integrated distance sampling model. The pink “x”’s indicate the added dimension for area. Juv[x,t] = juveniles in year t. Ad[x,t] = adults in year t. R[x,t] = recruitment rate in year t. S[x,t] = survival probability from year t to t+1. Note that the additional site (=transect) dimension, “j”, is omitted for the sake of illustration.</figcaption><p></p>
 </figure>
 </div>
 <p>The initial densities, <span class="math inline">\(D_{juv, x, j, 1}\)</span> and <span class="math inline">\(D_{ad, x, j, 1}\)</span> are modelled for each site (= transect) as random realizations of log normal distributions with area-specific log means (<span class="math inline">\(\mu^{D1}_x\)</span>) and log standard deviations (<span class="math inline">\(\sigma^{D1}_x\)</span>). Survival (<span class="math inline">\(S_{x,t}\)</span>) and recruitment (<span class="math inline">\(R_{x,t}\)</span>), on the other hand, are assumed to be the same for all sites <span class="math inline">\(j\)</span> within a given area <span class="math inline">\(x\)</span> and were modelled as:</p>
@@ -167,13 +166,16 @@ div.csl-indent {
 <div id="fig-workflow" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="Figures/Workflow_layout.png" class="img-fluid figure-img" width="424"></p>
-<figcaption class="figure-caption">Figure&nbsp;2: Graphical representation of the “targets pipeline” for the multi-area modelling setup. Upward facing triangles are functions, downward facing triangles are general options/arguments, circles are objects and outputs (=“targets”) created as part of the workflow.</figcaption>
+<p></p><figcaption class="figure-caption">Figure&nbsp;2: Graphical representation of the “targets pipeline” for the multi-area modelling setup. Upward facing triangles are functions, downward facing triangles are general options/arguments, circles are objects and outputs (=“targets”) created as part of the workflow.</figcaption><p></p>
 </figure>
 </div>
 </section>
 </section>
 <section id="results" class="level1">
 <h1>Results</h1>
+<div class="cell">
+
+</div>
 <p>All numerical results in the following are presented as median [95% credible interval] unless otherwise indicated. Posterior summaries (median, 95% credible interval, mean, standard deviation, coefficient of variation) for all main parameters are also provided in the supplementary file “PosteriorSummaries_byAreas.csv”. Supplementary figures (SF) are provided as .pdf files with captions in “SuppFigures_Captions.txt”.</p>
 <section id="population-density" class="level2">
 <h2 class="anchored" data-anchor-id="population-density">Population density</h2>
@@ -185,7 +187,7 @@ div.csl-indent {
 <div id="fig-densA" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="Figures/Avg_popDens_Map-4.png" class="img-fluid figure-img" data-ref-parent="fig-dens"></p>
-<figcaption class="figure-caption">(a) Median density estimates</figcaption>
+<p></p><figcaption class="figure-caption">(a) Median density estimates</figcaption><p></p>
 </figure>
 </div>
 </div>
@@ -193,7 +195,7 @@ div.csl-indent {
 <div id="fig-densB" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="Figures/Avg_popDens_Map-6.png" class="img-fluid figure-img" data-ref-parent="fig-dens"></p>
-<figcaption class="figure-caption">(b) Uncertainty in density estimates</figcaption>
+<p></p><figcaption class="figure-caption">(b) Uncertainty in density estimates</figcaption><p></p>
 </figure>
 </div>
 </div>
@@ -212,7 +214,7 @@ div.csl-indent {
 <div id="fig-lamA" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="Figures/Avg_lambda_Map-4.png" class="img-fluid figure-img" data-ref-parent="fig-lam"></p>
-<figcaption class="figure-caption">(a) Median population growth rate estimates</figcaption>
+<p></p><figcaption class="figure-caption">(a) Median population growth rate estimates</figcaption><p></p>
 </figure>
 </div>
 </div>
@@ -220,7 +222,7 @@ div.csl-indent {
 <div id="fig-lamB" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="Figures/Avg_lambda_Map-5.png" class="img-fluid figure-img" data-ref-parent="fig-lam"></p>
-<figcaption class="figure-caption">(b) Uncertainty in population growth rate estimates</figcaption>
+<p></p><figcaption class="figure-caption">(b) Uncertainty in population growth rate estimates</figcaption><p></p>
 </figure>
 </div>
 </div>
@@ -232,7 +234,7 @@ div.csl-indent {
 <div id="fig-paramCorrs" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="Figures/AllParams_Latitude.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">Figure&nbsp;5: Posterior summaries (points = posterior medians, lines = 95% credible intervals) of area-specific population growth rate vs.&nbsp;population density (A), recruitment rate vs.&nbsp;survival probability (B) and rodent effect on recruitment along a longitudinal gradient (C). Color indicates latitude of the midpoint of each area.</figcaption>
+<p></p><figcaption class="figure-caption">Figure&nbsp;5: Posterior summaries (points = posterior medians, lines = 95% credible intervals) of area-specific population growth rate vs.&nbsp;population density (A), recruitment rate vs.&nbsp;survival probability (B) and rodent effect on recruitment along a longitudinal gradient (C). Color indicates latitude of the midpoint of each area.</figcaption><p></p>
 </figure>
 </div>
 </section>
@@ -247,7 +249,7 @@ div.csl-indent {
 <div id="fig-pVRA" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="Figures/Avg_pSurv_Map-1.png" class="img-fluid figure-img" data-ref-parent="fig-pVR"></p>
-<figcaption class="figure-caption">(a) Median survival probabilities</figcaption>
+<p></p><figcaption class="figure-caption">(a) Median survival probabilities</figcaption><p></p>
 </figure>
 </div>
 </div>
@@ -255,7 +257,7 @@ div.csl-indent {
 <div id="fig-pVRB" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="Figures/Avg_rRep_Map-1.png" class="img-fluid figure-img" data-ref-parent="fig-pVR"></p>
-<figcaption class="figure-caption">(b) Median recruitment rates</figcaption>
+<p></p><figcaption class="figure-caption">(b) Median recruitment rates</figcaption><p></p>
 </figure>
 </div>
 </div>
@@ -275,59 +277,69 @@ div.csl-indent {
 </section>
 <section id="variance-decomposition" class="level2">
 <h2 class="anchored" data-anchor-id="variance-decomposition">Variance decomposition</h2>
+<div class="cell">
+
+</div>
 <p>The relative importance of different components for explaining parameter variation differed among recruitment rate, survival probability, and detection decay (<a href="#fig-varDecomp">Figure&nbsp;7</a>). The largest portion of variation in recruitment was attributed to residual variation (65.3 [53.2, 76] %), followed by spatial (16.7 [9.8, 28.5] %) and temporal (8.8 [2.9, 22.3] %) variation. Rodent occupancy, which contains both a spatial and a temporal dimension, explained 7.8 [2.3, 13.6] % of the total variation. For survival, there was large uncertainty in the estimated proportions of variance explained by different components. The model predicted similar potential contributions from temporal (40.5 [16.6, 71.2] %) and residual (54.7 [26.7, 80.7] %) variation and suggested that spatial variation was only responsible for 3.6 [0.9, 9.6] % of the total variance. Total variance in detection decay was attributed evenly to spatial, temporal, and residual variation at 32.8 [18, 49.6] %, 33.6 [17.5, 58.6] %, and 31.9 [19.5, 45.3] %, respectively.</p>
 <div id="fig-varDecomp" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="Figures/VarDecomposition_overall.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">Figure&nbsp;7: Posterior distributions for the proportions of parameter variance explained by spatial (blue), temporal (orange), and residual (green) variation, as well as by effects of rodent occupancy (yellow).</figcaption>
+<p></p><figcaption class="figure-caption">Figure&nbsp;7: Posterior distributions for the proportions of parameter variance explained by spatial (blue), temporal (orange), and residual (green) variation, as well as by effects of rodent occupancy (yellow).</figcaption><p></p>
 </figure>
 </div>
 </section>
 </section>
 <section id="discussion" class="level1">
 <h1>Discussion</h1>
-<p>Building on the work of <span class="citation" data-cites="nilsen2023">Nilsen and Nater (<a href="#ref-nilsen2023" role="doc-biblioref">2023</a>)</span>, we applied a novel integrated population model to data collected through a national-scale participatory monitoring programme to estimate spatial and temporal variation in demography of a culturally important game bird species, the willow ptarmigan. While our study was exploratory in nature, it recovered patterns consistent with ecological and life-history theory including trade-offs between survival and recruitment, and a tendency towards slower life histories at higher latitudes and altitudes. Space-for-time substitution also provided the statistical power necessary for the analysis to provide evidence for the alternative prey hypothesis, i.e.&nbsp;ptarmigans benefiting from high abundance of alternative prey for their predators. <!-- To me, this little paragraph has "abstract vibes", or maybe "conclusion vibes". I'll leave it here for now but note that it may get moved eventually. 
-
-## Abundance and vital rates across space and time
-
-<!-- @ERLEND & @JAMES thoughts on what we see that is interesting, cool, expected, unexpected etc. Can we compare to other large scale studies, either on other grouse-like creatures or harvested species more generally? --></p>
+<section id="abundance-and-vital-rates-across-space-and-time" class="level2">
+<h2 class="anchored" data-anchor-id="abundance-and-vital-rates-across-space-and-time">Abundance and vital rates across space and time</h2>
+<!-- @ERLEND & @JAMES thoughts on what we see that is interesting, cool, expected, unexpected etc. Can we compare to other large scale studies, either on other grouse-like creatures or harvested species more generally? -->
 <!-- Spatial perspective -->
-<p>The wide spatial distribution of the line transect monitoring afforded us the opportunity to explore variation in population density and vital rates across a relatively large spatial extent. Ptarmigan densities across the 41 reporting districts included in our analyses varied from around 2 birds/km<sup>2</sup> to 55 birds/km<sup>2</sup>, with the lowest densities occurring far north in the country, as well as on the west coast and in the mountains in central Norway <a href="#fig-densA">Figure&nbsp;3 (a)</a>. These areas are characterized by more extreme climatic conditions, boasting cold temperatures and – in the North – a short growing season. Resulting reduced primary production limits food availability and as ptarmigan are income breeders using food resources acquired from nesting areas to supply energy and nutrients for egg production and incubation <span class="citation" data-cites="sandercock2005">(<a href="#ref-sandercock2005" role="doc-biblioref">Sandercock, Martin, and Hannon 2005</a>)</span>, lower carrying capacity in such areas is to be expected. <!-- @ERLEND do we have some more thoughts to add here? --></p>
-<p>We found increasing population trends over recent years in over half of the reporting districts <a href="#fig-lamA">Figure&nbsp;4 (a)</a>. <!-- relate this to changes in hunting management in recent years? Any other factors we think could have contributed? --> Nonetheless, recent population declines were also evident in some areas, and particularly in the mountains in central Norway <a href="#fig-lamA">Figure&nbsp;4 (a)</a>. <!-- What could be going on here? It's also interesting that while some of these areas have declines over the most recent years, that usually follows on a period of increase, or at least stability, up to around 2016 --></p>
-<p>While we found the highest population growth rates in areas with relatively low density, and relatively low growth rates in high-density areas <a href="#fig-paramCorrs">Figure&nbsp;5</a>, our analysis did not provide evidence for a strong relationship between density and growth rates across space. However, this is unsurprising as we did find substantial spatial differences in demography, which suggests that carrying capacity too varies over space. Overall, annual recruitment rates showed a spatial pattern that was inversely related to that of annual survival, with lower recruitment rates co-occurring with higher survival rates (and lower densities) and vice-versa <a href="#fig-paramCorrs">Figure&nbsp;5</a>, as we would expecte based on life history theory <span class="citation" data-cites="stearns1992">(<a href="#ref-stearns1992" role="doc-biblioref">Stearns 1992</a>)</span>. Furthermore, the areas with relatively lower recruitment and higher survival were primarily found in the northern parts of Norway and in the mountainous region in the central part of the country, which aligns with previous studies finding relatively slower bird life histories in alpine / high altitude areas <span class="citation" data-cites="sandercock2005 bears2009 Wilson_Martin_2011 alice2016">(e.g. <a href="#ref-sandercock2005" role="doc-biblioref">Sandercock, Martin, and Hannon 2005</a>; <a href="#ref-bears2009" role="doc-biblioref">Bears, Martin, and White 2009</a>; <a href="#ref-Wilson_Martin_2011" role="doc-biblioref">Wilson and Martin 2011</a>; <a href="#ref-alice2016" role="doc-biblioref">Alice Boyle, Sandercock, and Martin 2016</a>)</span>. <!-- What about the latitude? Do we know of any studies looking at latitudinal variation in life histories? When I last searched, I only found studies focusing on altitude --></p>
+<p>The wide spatial distribution of the line transect monitoring afforded us the opportunity to explore variation in population density and vital rates across a relatively large spatial extent. Ptarmigan densities across the 41 reporting districts included in our analyses varied from around 2 birds/km<sup>2</sup> to 55 birds/km<sup>2</sup>, with the lowest densities occurring far north in the country, as well as on the west coast and in the mountains in central Norway <a href="#fig-densA">Figure&nbsp;3 (a)</a>. These areas are characterized by more extreme climatic conditions, boasting cold temperatures and – in the North – a short growing season. Resulting reduced primary production limits food availability and as ptarmigan are income breeders using food resources acquired from nesting areas to supply energy and nutrients for egg production and incubation <span class="citation" data-cites="sandercock2005">(<a href="#ref-sandercock2005" role="doc-biblioref">Brett K. Sandercock, Martin, and Hannon 2005</a>)</span>, lower carrying capacity in such areas is to be expected. <!-- @ERLEND do we have some more thoughts to add here? -->We found increasing population trends over recent years in over half of the reporting districts <a href="#fig-lamA">Figure&nbsp;4 (a)</a>. <!-- relate this to changes in hunting management in recent years? Any other factors we think could have contributed? --> Nonetheless, recent population declines were also evident in some areas, and particularly in the mountains in central Norway <a href="#fig-lamA">Figure&nbsp;4 (a)</a>. <!-- What could be going on here? It's also interesting that while some of these areas have declines over the most recent years, that usually follows on a period of increase, or at least stability, up to around 2016 --></p>
+<!-- Erlend will probably have better ideas than I.-->
+<p>Density dependence is an important process to understand in ecology but more so for exploited species like willow ptarmigan <span class="citation" data-cites="andrewartha1954 sandercock_etal2011 aanes2002 willebrand2001">(<a href="#ref-andrewartha1954" role="doc-biblioref">Andrewartha and Birch 1954</a>; <a href="#ref-sandercock_etal2011" role="doc-biblioref">Brett K. Sandercock et al. 2011</a>; <a href="#ref-aanes2002" role="doc-biblioref">Aanes et al. 2002</a>; <a href="#ref-willebrand2001" role="doc-biblioref">Willebrand and Hörnell 2001</a>)</span>. Negative density dependence has been found in numerous gallinaceous birds such as northern bobwhites <em>Colinus virginianus</em> <span class="citation" data-cites="mcconnell2018">(<a href="#ref-mcconnell2018" role="doc-biblioref">McConnell et al. 2018</a>)</span>, <em>Perdix perdix</em> <span class="citation" data-cites="bro2003">(<a href="#ref-bro2003" role="doc-biblioref">Bro et al. 2003</a>)</span>, and wild turkeys <em>Meleagris gallopavo</em> <span class="citation" data-cites="mcghee2007">(<a href="#ref-mcghee2007" role="doc-biblioref">McGhee and Berkson 2007</a>)</span>). While we found the highest population growth rates in areas with relatively low density, and relatively low growth rates in high-density areas <a href="#fig-paramCorrs">Figure&nbsp;5</a>, our analysis did not provide evidence for a strong relationship between density and growth rates across space. However, this is unsurprising as we did find substantial spatial differences in demography, which suggests that carrying capacity too varies over space. Also, support for density dependence in willow ptarmigan has been mixed. <span class="citation" data-cites="myrberget1988">Myrberget (<a href="#ref-myrberget1988" role="doc-biblioref">1988</a>)</span> observed no change in productivity despite a 50% decrease in abundance. Conversely, <span class="citation" data-cites="pedersen2004">Pedersen et al. (<a href="#ref-pedersen2004" role="doc-biblioref">2004</a>)</span> found strong overwinter negative density dependence and they posited that immigration was the vital rate that responded to changes in density. Low survival rates appeared to have a one-year lag following abundance peaks. This pattern could be a result of negative density dependence that went undetected when looking at the ensemble of samples across the 41 areas. Future work should explore different time-lags for density and population growth and the possibility for non-linear effects.</p>
+<!--# @JAMES: Feel free to add more, but I feel like if we want to go for a DD deep-dive, I need to run a test for evidence of WITHIN area DD first. Because there may well be a pattern there... -->
+<!--# Yeah I agree. We already have a lot going on so I am ambivalent about adding another aspect. -->
+<p>Overall, annual recruitment rates showed a spatial pattern that was inversely related to that of annual survival, with lower recruitment rates co-occurring with higher survival rates (and lower densities) and vice-versa <a href="#fig-paramCorrs">Figure&nbsp;5</a>, as we would expect based on life history theory <span class="citation" data-cites="stearns1992">(<a href="#ref-stearns1992" role="doc-biblioref">Stearns 1992</a>)</span>. Furthermore, the areas with relatively lower recruitment and higher survival were primarily found in the northern parts of Norway and in the mountainous region in the central part of the country, which aligns with previous studies finding relatively slower bird life histories in alpine / high altitude areas <span class="citation" data-cites="sandercock2005 bears2009 Wilson_Martin_2011 alice2016">(e.g. <a href="#ref-sandercock2005" role="doc-biblioref">Brett K. Sandercock, Martin, and Hannon 2005</a>; <a href="#ref-bears2009" role="doc-biblioref">Bears, Martin, and White 2009</a>; <a href="#ref-Wilson_Martin_2011" role="doc-biblioref">Wilson and Martin 2011</a>; <a href="#ref-alice2016" role="doc-biblioref">Alice Boyle, Sandercock, and Martin 2016</a>)</span>. <!-- What about the latitude? Do we know of any studies looking at latitudinal variation in life histories? When I last searched, I only found studies focusing on altitude --></p>
+<!--# Yeah I wasn't able to find much. -->
 <!-- Temporal perspective -->
-<p>Population densities in all areas were subject to substantial variation across years, featuring periods of stability, increase, and decrease (SF “TimeSeries_PopDens1.pdf”). In most areas, there were also strong year-by-year fluctuations in population density on top of longer-term trends. Some of the resulting “high density years” were highly synchronized across large spatial scales, such as the years 2011, 2013, and 2018. Taking a closer look, we find that these are years that are characterized by high recruitment (SF “TimeSeries_rRep.pdf”) and low subsequent survival (SF “TimeSeries_pSurv.pdf”), which often resulted in steep population declines towards the following year. The fact that these same years also match up with observed peaks in rodent abundance in many areas provides evidence for the Alternative Prey Hypothesis (APH). The AHP stipulates that high abundance of alternative prey (rodents, in this case) for common predators leads to population growth, and is well-supported throughout the literature for a range of taxa <span class="citation" data-cites="hagen1952 Kjellander_Nordström_2003 Reif_Tornberg_Jungell_Korpimäki_2001">(e.g., <a href="#ref-hagen1952" role="doc-biblioref">Hagen 1952</a>; <a href="#ref-Kjellander_Nordström_2003" role="doc-biblioref">Kjellander and Nordström 2003</a>; <a href="#ref-Reif_Tornberg_Jungell_Korpimäki_2001" role="doc-biblioref">Reif et al. 2001</a>)</span>, including willow ptarmigan <span class="citation" data-cites="bowler2020">(<a href="#ref-bowler2020" role="doc-biblioref">Diana E. Bowler et al. 2020</a>)</span>. <!-- Maybe another sentence or two about the low survival following the peak, which could be either due to negative density-dependence leading to resource competition among ptarmigan, or due to the rodent peak allowing high recruitment also for predators, which then in turn will have increased impacts on all prey populations in the subsequent year? --></p>
-<p>Taken together, this alludes to the large role small rodents play in shaping ptarmigan demography and population dynamics and is further supported by the largely positive effects of rodent abundance on recruitment estimated by our model (<a href="#fig-paramCorrs">Figure&nbsp;5</a> C). Once more, the highest latitude and highest altitude areas stood out, sporting the strongest rodent effects (SF “betaR_Map.pdf”). This may be linked to the overall low ptarmigan densities in these areas, as e.g. <span class="citation" data-cites="Nielsen_1999">Nielsen (<a href="#ref-Nielsen_1999" role="doc-biblioref">1999</a>)</span> found evidence that gyrfalcon predation on ptarmigan was most impactful when ptarmigan densities were low. <!-- This previous sentence is adapted from a suggestion by James, but I feel like we need some more explanation/arguments here to clarify this. Perhaps also some other and/or more specific hypotheses= --> Notably, the conclusive estimation of overall positive effects of rodent abundance on recruitment in our model was only possible thanks to the integration and sharing of data across multiple areas. When <span class="citation" data-cites="nilsen2023">Nilsen and Nater (<a href="#ref-nilsen2023" role="doc-biblioref">2023</a>)</span> fit the IDSM to data from only a single area, they were unable to obtain a reliable estimate for the rodent effect due to limited statistical power. Consequently, the space-for-time substitution that comes with extending the model across mulitple area allows estimation of covariate effects that otherwise cannot be estimated, and opens up for future possibilities for studying effects of not just rodents, but also other environmental drivers on ptarmigan population dynamics. For example, […] <!-- @ERLEND here we could add some thoughts on other covariates that may matter and are realistic/relevant/realistic to include in future studies. Best if it kind of naturally leads over to (and does not overlap too much with) the next paragraph  --></p>
+<p>Population densities in all areas were subject to substantial variation across years, featuring periods of stability, increase, and decrease (SF “TimeSeries_PopDens1.pdf”). In most areas, there were also strong year-by-year fluctuations in population density on top of longer-term trends. Some of the resulting “high density years” were highly synchronized across large spatial scales, such as the years 2011, 2013, and 2018. Taking a closer look, we find that these are years that are characterized by high recruitment (SF “TimeSeries_rRep.pdf”) and low subsequent survival (SF “TimeSeries_pSurv.pdf”), which often resulted in steep population declines towards the following year. The fact that these same years also match up with observed peaks in rodent abundance in many areas provides evidence for the Alternative Prey Hypothesis (APH; <span class="citation" data-cites="Israelsen2020">(<a href="#ref-Israelsen2020" role="doc-biblioref">Israelsen et al. 2020</a>)</span>). The AHP stipulates that high abundance of alternative prey (rodents, in this case) for common predators leads to population growth, and is well-supported throughout the literature for a range of taxa <span class="citation" data-cites="hagen1952 Kjellander_Nordström_2003 Reif_Tornberg_Jungell_Korpimäki_2001">(e.g., <a href="#ref-hagen1952" role="doc-biblioref">Hagen 1952</a>; <a href="#ref-Kjellander_Nordström_2003" role="doc-biblioref">Kjellander and Nordström 2003</a>; <a href="#ref-Reif_Tornberg_Jungell_Korpimäki_2001" role="doc-biblioref">Reif et al. 2001</a>)</span>, including willow ptarmigan <span class="citation" data-cites="bowler2020">(<a href="#ref-bowler2020" role="doc-biblioref">Bowler et al. 2020</a>)</span>. Conversely, <span class="citation" data-cites="Nyström_etal_2006">Nyström et al. (<a href="#ref-Nyström_etal_2006" role="doc-biblioref">2006</a>)</span> suggested that gyrfalcons (a specialized ptarmigan predator) did not respond to rodent populations and did not switch to alternative prey when ptarmigan populations are low. Nonetheless, other predators such as fox could prey switch in response to changing availability of rodents and ptarmigan as shown by <span class="citation" data-cites="Breisjøberget_etal_2018">Breisjøberget, Odden, Wegge, et al. (<a href="#ref-Breisjøberget_etal_2018" role="doc-biblioref">2018</a>)</span> and <span class="citation" data-cites="bowler2020">Bowler et al. (<a href="#ref-bowler2020" role="doc-biblioref">2020</a>)</span>. However, statistical associations in our study and others is not causal and alternative explanations for this pattern are plausible. The positive association between rodents and ptarmigan could be caused by bottom-up processes such as food availability unrelated to predation. Future work should develop causal models and manipulative experiments to establish causal relationships among top-down and bottom-up processes.</p>
+<p>Taken together, this alludes to the large role small rodents play in shaping ptarmigan demography and population dynamics and is further supported by the largely positive effects of rodent abundance on recruitment estimated by our model (<a href="#fig-paramCorrs">Figure&nbsp;5</a> C). Once more, the highest latitude and highest altitude areas stood out, sporting the strongest rodent effects (SF “betaR_Map.pdf”). This may be linked to the overall low ptarmigan densities in these areas, as e.g. <span class="citation" data-cites="Nielsen_1999">Nielsen (<a href="#ref-Nielsen_1999" role="doc-biblioref">1999</a>)</span> found evidence that gyrfalcon predation on ptarmigan was most impactful when ptarmigan densities were low. <!-- This previous sentence is adapted from a suggestion by James, but I feel like we need some more explanation/arguments here to clarify this. Perhaps also some other and/or more specific hypotheses= --> Notably, the conclusive estimation of overall positive effects of rodent abundance on recruitment in our model was only possible thanks to the integration and sharing of data across multiple areas. When <span class="citation" data-cites="nilsen2023">Nilsen and Nater (<a href="#ref-nilsen2023" role="doc-biblioref">2023</a>)</span> fit the IDSM to data from only a single area, they were unable to obtain a reliable estimate for the rodent effect due to limited statistical power. Consequently, the space-for-time substitution that comes with extending the model across multiple area allows estimation of covariate effects that otherwise cannot be estimated, and opens up for future possibilities for studying effects of not just rodents, but also other environmental drivers on ptarmigan population dynamics. For example, the cover of ericaceous shrubs as a proxy for food availability or spatially-explicit spring green up dates both measured using remote sensing are ecologicaly plausible and feasibly acquired factors. <!-- @ERLEND here we could add some thoughts on other covariates that may matter and are realistic/relevant/realistic to include in future studies. Best if it kind of naturally leads over to (and does not overlap too much with) the next paragraph  --></p>
+<!--# I added two that came to my mind  -->
 <!-- Variation beyond rodents -->
-<p>Extending the present analysis by including additional covariates may also help with better understanding the mechanisms underlying the large portion of demographic rate variation that could only be attributed to random variation so far. This is the case especially for the relatively large residual variation <a href="#fig-varDecomp">Figure&nbsp;7</a> but also relevant for constant spatial and shared temporal variation. Interestingly, we found that a larger portion of variation in recruitment was allocated to spatial than to temporal factors, while the opposite was the case for survival. […] <!-- Any hypotheses/thoughts related to large- vs. local-scale drivers to explain this? --></p>
+<p>Extending the present analysis by including additional covariates may also help with better understanding the mechanisms underlying the large portion of demographic rate variation that could only be attributed to random variation so far. This is the case especially for the relatively large residual variation <a href="#fig-varDecomp">Figure&nbsp;7</a> but also relevant for constant spatial and shared temporal variation. Interestingly, we found that a larger portion of variation in recruitment was allocated to spatial than to temporal factors, while the opposite was the case for survival. Contrastingly, ptarmigan nest failure is almost entirely caused by predation which has been shown to vary greatly across years and less across space <span class="citation" data-cites="Munkebye_Pedersen_Steen_Brøseth_2003 kvasnes2015 kvasnes2014">(<a href="#ref-Munkebye_Pedersen_Steen_Brøseth_2003" role="doc-biblioref">Munkebye et al. 2003</a>; <a href="#ref-kvasnes2015" role="doc-biblioref">Kvasnes et al. 2015</a>, <a href="#ref-kvasnes2014" role="doc-biblioref">2014</a>)</span> whereas adult survival has been shown to not very greatly across years <span class="citation" data-cites="Israelsen2020">(<a href="#ref-Israelsen2020" role="doc-biblioref">Israelsen et al. 2020</a>)</span>. Also, immigration, included in our recruitment term <!--# this true? -->, has been hypothesized to be a spatial process <span class="citation" data-cites="kvasnes2015">(<a href="#ref-kvasnes2015" role="doc-biblioref">Kvasnes et al. 2015</a>)</span>. This conundrum could be a result of the limited spatial replication of many previous studies that we were able to address with our approach. Future research could help rectify these discrepancies by including more mechanistic relationships between environmental factors and vital rates.</p>
+<!-- Any hypotheses/thoughts related to large- vs. local-scale drivers to explain this? -->
+<!-- This is interesting I will do some reading on this and add some text on Jan 11-->
+<!-- I don't know if I helped or not. It is an interesting result. Erlend, you got thoughts? -->
+</section>
 <section id="implications-for-management" class="level2">
 <h2 class="anchored" data-anchor-id="implications-for-management">Implications for management</h2>
-<p>Management decisions made at the resolution of large geo-political boundaries (e.g., Norway) run a high risk of being inadequate when there is substantial spatial variation in demographic processes and population dynamics, as is the case for willow ptarmigan. In Norway, willow ptarmigan – and small game in general – is managed […] <!-- Brief summary of how and at what spatial scales patrmigan/small game management works in Norway --> The results from ur study suggests that management decisions should be spatially refined and ideally informed by knowledge about the “local” population processes. […] <!-- Some specific implications of the results for management of hunting and of habitat (e.g. better managed hunting is good because we do see increases in majority of local populations, but the mountain areas have had recent declines that may call for additional local measures, these measures may need to be adjusted since the mountain populations appear to have slower life histories and likely different sensitivities, etc.) --></p>
-<p>Besides pointers on how to adjust management of ptarmigan and their habitat, our results also provided some insights into the value, and possibly opportunities for improving the monitoring programme. First and foremost, our study demonstrates the tremendous potential lying in coordinating structured monitoring using a common protocol and training programme, as well as data processing pipeline. These were indeed the prerequisites that allowed us to easily and efficiently integrate data collected across the entire country in a joint analysis, and draw inference on spatio-temporal variation in demography and population dynamics at a large scale but also with good spatial resolution. While overall less variable across space and time than vital rates, differences in detection probabilities were nonetheless evident (SFs “Avg_detect_Map.pdf” and “TimeSeries_pDetect.pdf”) and may help with mapping out potential for improvement in the monitoring programme. Particularly, we found generally lower detection probabilities in the northern half of Norway. […] <!-- Some thoughts on why that might be. Could be related to landscape features and/or available observer pool. Any suggestions on what could be done to improve detection in the North, or at least "make up" for it? --> Ultimately, increased detection probability would contribute to obtaining more precise estimates of both population density and demographic rates, which – in turn – would be of great value in particular in areas with relatively low population densities, low number of transects, and less years of data.</p>
+<p>Management decisions made at the resolution of large geo-political boundaries (e.g., Norway) run a high risk of being inadequate when there is substantial spatial variation in demographic processes and population dynamics, as is the case for willow ptarmigan. In Norway, willow ptarmigan – and small game in general – is managed […] <!-- Brief summary of how and at what spatial scales patrmigan/small game management works in Norway --> The results from our study suggests that management decisions should be spatially refined and ideally informed by knowledge about the “local” population processes. […] <!-- Some specific implications of the results for management of hunting and of habitat (e.g. better managed hunting is good because we do see increases in majority of local populations, but the mountain areas have had recent declines that may call for additional local measures, these measures may need to be adjusted since the mountain populations appear to have slower life histories and likely different sensitivities, etc.) --></p>
+<p>Besides pointers on how to adjust management of ptarmigan and their habitat, our results also provided some insights into the value, and possibly opportunities for improving the monitoring programme. First and foremost, our study demonstrates the tremendous potential lying in coordinating structured monitoring using a common protocol and training programme, as well as data processing pipeline. These were indeed the prerequisites that allowed us to easily and efficiently integrate data collected across the entire country in a joint analysis, and draw inference on spatio-temporal variation in demography and population dynamics at a large scale but also with good spatial resolution. While overall less variable across space and time than vital rates, differences in detection probabilities were nonetheless evident (SFs “Avg_detect_Map.pdf” and “TimeSeries_pDetect.pdf”) and may help with mapping out potential for improvement in the monitoring programme. Particularly, we found generally lower detection probabilities in the northern half of Norway. […] <!-- Some thoughts on why that might be. Could be related to landscape features and/or available observer pool. Any suggestions on what could be done to improve detection in the North, or at least "make up" for it? --></p>
+<!--# They obviously use a lesser breed of bird dog up that way.Probably use more german shorthairs or vislas. :-)  -->
+<p>Ultimately, increased detection probability would contribute to obtaining more precise estimates of both population density and demographic rates, which – in turn – would be of great value in particular in areas with relatively low population densities, low number of transects, and less years of data.</p>
 </section>
 <section id="model-limitations-and-outlook" class="level2">
 <h2 class="anchored" data-anchor-id="model-limitations-and-outlook">Model limitations and outlook</h2>
-<ul>
-<li><p>Some limitations of “base model” that need mentioning (e.g.&nbsp;age assignment, ignoring potential effects of flock size on detection)</p></li>
-<li><p>Outlook: improved modelling of spatio-temporal patterns through correlated REs</p></li>
-</ul>
-<p>Another approach to maximising information gain when jointly analysing data from different areas is explicit modelling of spatial and spatio-temporal variation. While this is commonly done for modern species distribution models <span class="citation" data-cites="pacifici2017 guelat2018">(e.g. <a href="#ref-pacifici2017" role="doc-biblioref">Pacifici et al. 2017</a>; <a href="#ref-guelat2018" role="doc-biblioref">Guélat and Kéry 2018</a>)</span>, it has rarely been implemented in demographic models. This is not least due to the fact that few demographic models span large spatial extents. Since our IDSM and the willow ptarmigan data do actually do that though, extending the framework to account for spatial and spatiotemporal correlations may be feasible. Per now, we have not yet attempted this, but are planning to do so in the near future. (BUT: we do already have some computational limitations now, so likely to need development of more efficient sampling strategies. Which is fortunately possible with NIMBLE but there is a chance that another platform, e.g.&nbsp;INLA, may be required) <!-- @ERLEND: related to this, I want to discuss the potential of including the not publicly available data. Is there an overview somewhere over what the coverage (in terms of municipalities) would be if we had access to all the Hønsefuglportalen data? This might matter not just for increasing sample size, but perhaps also making CAR modelling (spatial structure through neighborhood relations) possible --></p>
-<!-- @MYSELF: Have a closer look at chapter 19 in IPM book to see what they did there and also what other work they reference -->
-<ul>
-<li><p>Limited usefulness of auxiliary radio-telemetry data as only from one area (big potential for including additional datasets from other small-scale studies, telemetry but also other, e.g.&nbsp;nest monitoring?) <!-- @ERLEND: Any thoughts on what the status here is? Might there be other data available from beyond Lierne? Are there exciting future prospects e.g. linked to automated monitoring with cameras/sound boxes at a larger scale? --></p></li>
-<li><p>Outlook: integration with / coupling to models for harvest to develop tools for (automatic) calculation of e.g.&nbsp;hunting quotas <!-- @JAMES: This one is for you. Some ruminations on how and why it would be great to formally model harvest, integration with hunting data, maybe eventually develop a tool to calculate quotas (I know this has been developed for other game species), etc. --></p></li>
-</ul>
+<p>The primary focus of this work was placed on developing an effective pipeline for integrating data and modelling population dynamics across a large number of areas. Consequently, many additional opportunities for improving and refining the modelling framework itself remain. First, the precision and accuracy of model estimates might be increased through better accounting for heterogeneity and potential biases in detection of birds during the line transect surveys. In an earlier study analyzing data from the same monitoring programme, <span class="citation" data-cites="bowler2020">Bowler et al. (<a href="#ref-bowler2020" role="doc-biblioref">2020</a>)</span>, for example, found that detection probability was not independent of the size of group birds were part of, resulting in birds in larger groups being more likely to be detected, especially at larger distances. When birds are observed in larger groups, it is also not unlikely that human observers may miscount, i.e.&nbsp;that there is some observation error in the number reported. This could be accounted for by adding an additional layer of hierarchy to observation process (see e.g.&nbsp;REF), which could further be used to also account for error in judging the observation distance <span class="citation" data-cites="marques2004">(e.g. <a href="#ref-marques2004" role="doc-biblioref"><strong>marques2004?</strong></a>)</span>. Another potential source of bias in our IDSM is related to failure to correctly assign the age class of observed birds. <span class="citation" data-cites="nilsen2023">Nilsen and Nater (<a href="#ref-nilsen2023" role="doc-biblioref">2023</a>)</span> showed that incorrect age assessment can bias (relative) estimates of survival and recruitment, and while they only found a weak bias in their case study on a single area, the problem may be larger in a multi-area setting that may contain areas with different proportions of misclassified observations. If misclassification happened at random, mixture models could be used to determine the likely age class of individuals to whom no age class was assigned during observations (+ref). In our case, however, juveniles are likely more prone to misclassification due to […] <!-- @ERLEND can you add reasons? -->. Future studies should investigate to what degree available information on e.g.&nbsp;group composition could be used for this, and what kind of auxiliary data would need to be collected to reliably model misclassification error.</p>
+<p>The second (and perhaps most attractive) aspect of our modelling framework in the context of future work is its spatio-temporal hierarchical structure. While we included spatial, temporal, and residual variation in our framework here, we treated them as independent. Alternatively, spatial (and temporal) correlations among parameters can be modelled explicitly, something that is commonly done e.g.&nbsp;for modern species distribution models <span class="citation" data-cites="pacifici2017 guelat2018">(e.g. <a href="#ref-pacifici2017" role="doc-biblioref">Pacifici et al. 2017</a>; <a href="#ref-guelat2018" role="doc-biblioref">Guélat and Kéry 2018</a>)</span>. For demographic models, this has rarely been implemented so far, not least due to the fact that few demographic models have sufficient spatial resolution <span class="citation" data-cites="schaub2021">(<a href="#ref-schaub2021" role="doc-biblioref">Schaub and Kéry 2021</a>)</span>. The ptarmigan IDSM presented in this study, however, does have sufficient resolution and our results do indeed support that there is spatial clustering in both overall and time-dependent demographic parameters (e.g. <a href="#fig-pVR">Figure&nbsp;6</a>, SFs “Avg_pSurv_Map.pdf” &amp; “Avg_rRep_Map.pdf”). Furthermore, we did find that mixing of several of the global and area-specific intercept parameters in the current model was suboptimal, suggesting that there may be much to gain from additional structuring, as well as from development of more efficient MCMC sampling strategies for the resulting extended model. One promising framework for approaching this are conditionally autoregressive models (CARs). Such models have been used repeatedly for modelling spatial autocorrelation in species occupancy and demographic rates <span class="citation" data-cites="saracco2010 saracco2012 guelat2018">(e.g. <a href="#ref-saracco2010" role="doc-biblioref">Saracco et al. 2010</a>, <a href="#ref-saracco2012" role="doc-biblioref">2012</a>; <a href="#ref-guelat2018" role="doc-biblioref">Guélat and Kéry 2018</a>)</span> and are straightforward to implement using NIMBLE <span class="citation" data-cites="lawson2020">(<a href="#ref-lawson2020" role="doc-biblioref"><strong>lawson2020?</strong></a>)</span>. One possible challenge with using CAR models to explicitly model spatial correlations within our ptarmigan IDSM is that CAR models rely on “neighborhood” relationships between discrete areas and many “neighbors” are missing in our ptarmigan data (e.g. <a href="#fig-dens">Figure&nbsp;3</a>). While estimation of latent parameters in missing areas may possible (Perry de Valpine, personal communication; <span class="citation" data-cites="schaub2021">Schaub and Kéry (<a href="#ref-schaub2021" role="doc-biblioref">2021</a>)</span> chapter 19), this also provides an opportunity for inclusion of additional data. The line transect survey data included in this study constitutes just the publicly available part of the data collected through “Hønsefuglportalen” but the programme also includes additional surveys on private land. […] <!-- @ERLEND: Can we add a very brief ocverview over what the coverage (in terms of municipalities) would be if we had access to all the Hønsefuglportalen data? --> Exploring to what degree additional data from Hønsefuglportalen could be included in future studies employing an extended IDSM with additional spatial structuring is therefore a worthwhile endeavor.</p>
+<p>Finally, including further data beyond the line transect surveys may be relevant in the future, and in particular in the context of informing and improving management of ptarmigan hunting. In the present study, we have used auxiliary radio-telemetry data to supplement information on survival, but since this data was available for only one out of 41 areas, its influence was likely small. Nonetheless, this illustrates a way for how smaller datasets from single or subsets of areas can be integrated into a large-scale modelling framework. Other relevant data could be included using the same approach […] <!-- @ERLEND: Any thoughts on what the status here is? Might there be other data available from Lierne and/or beyond (other telemetry data, nest monitoring, etc.? Are there exciting future prospects e.g. linked to automated monitoring with cameras/sound boxes at a larger scale? --> The most relevant source of data to be included into the IDSM framework in the near future, however, is harvest data. <!-- @ERLEND 1-2 sentence summary of what kind of harvest data is available, and at what spatial covarage and resolution --> As the IDSM framework is, in essence, an IPM, harvest can be modelled through partitioning of survival into cause-specific mortality in the process model and inclusion of relevant harvest data likelihoods <span class="citation" data-cites="gamelon2021 nater2021">(e.g. <a href="#ref-gamelon2021" role="doc-biblioref">Gamelon et al. 2021</a>; <a href="#ref-nater2021" role="doc-biblioref"><strong>nater2021?</strong></a>)</span>. Harvest effects on willow ptarmigan have been studied previously yet uncertainties persist <span class="citation" data-cites="sandercock_etal2011 aanes2002 pedersen2004 willebrand2001">(<a href="#ref-sandercock_etal2011" role="doc-biblioref">Brett K. Sandercock et al. 2011</a>; <a href="#ref-aanes2002" role="doc-biblioref">Aanes et al. 2002</a>; <a href="#ref-pedersen2004" role="doc-biblioref">Pedersen et al. 2004</a>; <a href="#ref-willebrand2001" role="doc-biblioref">Willebrand and Hörnell 2001</a>)</span>. For example, the strength and shape of density dependence and how harvest may induce population sinks because of Allee effects <span class="citation" data-cites="kvasnes2015">(<a href="#ref-kvasnes2015" role="doc-biblioref">Kvasnes et al. 2015</a>)</span>). Modelling allee effects, or better yet predicting where they are likely to occur if over-harvest occurs, requires a spatially-explicit understanding of harvest and its impact on local populations. Because harvest effort, thus rates, can vary dramatically over time and space <span class="citation" data-cites="breisjøberget2018">(<a href="#ref-breisjøberget2018" role="doc-biblioref">Breisjøberget, Odden, Storaas, et al. 2018</a>)</span> easily repeatable analyses that can be done continually would prevent prolonged over-exploitation. Harvest effects may interact with other (emergent) factors such as climate change and habitat degradation making the need to be identify triggers for policy changes paramount <span class="citation" data-cites="gamelon2019">(<a href="#ref-gamelon2019" role="doc-biblioref">Gamelon, Sandercock, and Sæther 2019</a>)</span>.</p>
+
+<!-- @JAMES & Erlend: Maybe we can be a bit more specific about what the "uncertainties" are regarding ptarmigan harvest? Might be good to keep the "spatially explicit" perspective a bit, i.e. why would it be great to look at this with this kind of model, instead of just aggregate numbers across large regions? Also, maybe we should highlight that up-to-date (easilty repeatable) analyses are important because things can change, and harvest effects may interact with other (emergent) factors such as climate change and habitat degradation. Finally, it could also be nice to link this to some studies on other species... -->
 </section>
 <section id="reproducible-workflows-for-a-sustainable-future" class="level2">
 <h2 class="anchored" data-anchor-id="reproducible-workflows-for-a-sustainable-future">Reproducible workflows for a sustainable future</h2>
 <ul>
 <li><p>Structure / setup of this workflow (from data collection to analytical results)</p></li>
 <li><p>Why this matters: transparency and credibility, feedback to volunteer data collectors, cost-effective to re-do analyses for annual/regular reporting, easy to re-use and build upon, publicly accessible and well documented to allow more effective resource use in follow-up projects (sustainable use of funding), etc.</p></li>
-<li><p>Also: useful to link up to different reporting routes and/or more general (multi-indicator) projects <!-- @EVERYONE: Do we know of some good references for this? Prseumably we cannot cite our chapter in the Technical Manual yet :-P --></p></li>
+<li><p>Outlook: integration with / coupling to models for harvest to develop tools for (automatic) calculation of e.g.&nbsp;hunting quotas</p></li>
+<li><p>Also: useful to link up to different reporting routes and/or more general (multi-indicator) projects <!-- @EVERYONE: Do we know of some good references for this? Presumably we cannot cite our chapter in the Technical Manual yet :-P --></p></li>
 </ul>
 </section>
 <section id="conclusion" class="level2">
 <h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>Building on the work of <span class="citation" data-cites="nilsen2023">Nilsen and Nater (<a href="#ref-nilsen2023" role="doc-biblioref">2023</a>)</span>, we applied a novel integrated population model to data collected through a national-scale participatory monitoring programme to estimate spatial and temporal variation in demography of a culturally important game bird species, the willow ptarmigan. While our study was exploratory in nature, it recovered patterns consistent with ecological and life-history theory including trade-offs between survival and recruitment, and a tendency towards slower life histories at higher latitudes and altitudes. Space-for-time substitution also provided the statistical power necessary for the analysis to provide evidence for the alternative prey hypothesis, i.e.&nbsp;ptarmigans benefiting from high abundance of alternative prey for their predators.</p>
+<!-- To me, this little paragraph has "abstract vibes", or maybe "conclusion vibes". I'll leave it here for now but note that it may get moved eventually. -->
 <ul>
 <li>Summarise neatly</li>
 <li>Things worth highlighting: inference across large spatial scale but with “useful” resolution for management, advantages of integration across space (we can estimate better and more), integration of small locality-specific datasets with large national-scale monitoring, importance of reproducible workflows</li>
@@ -336,7 +348,7 @@ div.csl-indent {
 </section>
 <section id="acknowledgements" class="level1">
 <h1>Acknowledgements</h1>
-<p>TBA … Additionally, we would like to thank Bernardo Brandão Niebuhr dos Santos for his help with spatial data visualization. <!-- @ERLEND: you maybe know best all the people/institutions we need to thank here --> <!-- @JAMES: should we be acknowledging your fullbright scholarship which made the collab possible? If so, please add details. --></p>
+<p>TBA … We are grateful to the participants in the “Hønsefuglportalen” and their dog helpers that collected ptarmigan observations. Additionally, we would like to thank Bernardo Brandão Niebuhr dos Santos for his help with spatial data visualization. J. A. Martin was supported by a Fulbright Fellowship and the Norwegian Institute for Nature Research that facilitated this collaboration. <!-- @ERLEND: you maybe know best all the people/institutions we need to thank here --></p>
 </section>
 <section id="data-and-code-availability" class="level1">
 <h1>Data and code availability</h1>
@@ -348,149 +360,206 @@ div.csl-indent {
 
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
-<div id="ref-aebischer2010" class="csl-entry" role="listitem">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-aanes2002" class="csl-entry" role="doc-biblioentry">
+Aanes, Sondre, Steinar Engen, Bernt-Erik SÆther, Tomas Willebrand, and Vidar Marcström. 2002. <span>“Sustainable Harvesting Strategies of Willow Ptarmigan in a Fluctuating Environment.”</span> <em>Ecological Applications</em> 12 (1): 281–90.
+</div>
+<div id="ref-aebischer2010" class="csl-entry" role="doc-biblioentry">
 Aebischer, Nicholas J., and Julie A. Ewald. 2010. <span>“Grey Partridge Perdix Perdix in the UK: Recovery Status, Set-Aside and Shooting.”</span> <em>Ibis</em> 152 (3): 530–42. https://doi.org/<a href="https://doi.org/10.1111/j.1474-919X.2010.01037.x">https://doi.org/10.1111/j.1474-919X.2010.01037.x</a>.
 </div>
-<div id="ref-alice2016" class="csl-entry" role="listitem">
+<div id="ref-alice2016" class="csl-entry" role="doc-biblioentry">
 Alice Boyle, W, Brett K Sandercock, and Kathy Martin. 2016. <span>“Patterns and Drivers of Intraspecific Variation in Avian Life History Along Elevational Gradients: A Meta-Analysis.”</span> <em>Journal of Animal Ecology</em> 91 (2): 469–82.
 </div>
-<div id="ref-Arnekleiv2022" class="csl-entry" role="listitem">
+<div id="ref-andrewartha1954" class="csl-entry" role="doc-biblioentry">
+Andrewartha, Herbert George, and L. Charles Birch. 1954. <em>The Distribution and Abundance of Animals.</em> University of Chicago press.
+</div>
+<div id="ref-Arnekleiv2022" class="csl-entry" role="doc-biblioentry">
 Arnekleiv, Øyvind, Katrine Eldegard, Pål F. Moa, Lasse F. Eriksen, and Erlend B. Nilsen. 2022. <span>“Drivers and Consequences of Partial Migration in an Alpine Bird Species.”</span> Journal Article. <em>Ecology and Evolution</em> 12 (3): e8690. https://doi.org/<a href="https://doi.org/10.1002/ece3.8690">https://doi.org/10.1002/ece3.8690</a>.
 </div>
-<div id="ref-bears2009" class="csl-entry" role="listitem">
+<div id="ref-bears2009" class="csl-entry" role="doc-biblioentry">
 Bears, H, K Martin, and GC White. 2009. <span>“Breeding in High-Elevation Habitat Results in Shift to Slower Life-History Strategy Within a Single Species.”</span> <em>Journal of Animal Ecology</em> 78 (2): 365–75.
 </div>
-<div id="ref-Bowler2020" class="csl-entry" role="listitem">
-Bowler, D. E., M. A. J. Kvasnes, H. C. Pedersen, B. K. Sandercock, and E. B. Nilsen. 2020. <span>“Impacts of Predator-Mediated Interactions Along a Climatic Gradient on the Population Dynamics of an Alpine Bird.”</span> <em>Proc Biol Sci</em> 287 (1941): 20202653. <a href="https://doi.org/10.1098/rspb.2020.2653">https://doi.org/10.1098/rspb.2020.2653</a>.
-</div>
-<div id="ref-bowler2020" class="csl-entry" role="listitem">
+<div id="ref-bowler2020" class="csl-entry" role="doc-biblioentry">
 Bowler, Diana E, Mikkel AJ Kvasnes, Hans C Pedersen, Brett K Sandercock, and Erlend B Nilsen. 2020. <span>“Impacts of Predator-Mediated Interactions Along a Climatic Gradient on the Population Dynamics of an Alpine Bird.”</span> <em>Proceedings of the Royal Society B</em> 287 (1941): 20202653.
 </div>
-<div id="ref-Eriksen2023" class="csl-entry" role="listitem">
+<div id="ref-breisjøberget2018" class="csl-entry" role="doc-biblioentry">
+Breisjøberget, Jo Inge, Morten Odden, Torstein Storaas, Erlend B. Nilsen, and Mikkel A. J. Kvasnes. 2018. <span>“Harvesting a Red-Listed Species: Determinant Factors for Willow Ptarmigan Harvest Rates, Bag Sizes, and Hunting Efforts in Norway.”</span> <em>European Journal of Wildlife Research</em> 64 (5): 54. <a href="https://doi.org/10.1007/s10344-018-1208-8">https://doi.org/10.1007/s10344-018-1208-8</a>.
+</div>
+<div id="ref-Breisjøberget_etal_2018" class="csl-entry" role="doc-biblioentry">
+Breisjøberget, Jo Inge, Morten Odden, Per Wegge, Barbara Zimmermann, and Harry Andreassen. 2018. <span>“The Alternative Prey Hypothesis Revisited: Still Valid for Willow Ptarmigan Population Dynamics.”</span> <em>PLOS ONE</em> 13 (6): 1–14. <a href="https://doi.org/10.1371/journal.pone.0197289">https://doi.org/10.1371/journal.pone.0197289</a>.
+</div>
+<div id="ref-bro2003" class="csl-entry" role="doc-biblioentry">
+Bro, Elisabeth, Benoît Deldalle, Manuel Massot, François Reitz, and Slaheddine Selmi. 2003. <span>“Density Dependence of Reproductive Success in Grey Partridge Perdix Perdix Populations in France: Management Implications.”</span> <em>Wildlife Biology</em> 9 (2): 93–102. <a href="https://doi.org/10.2981/wlb.2003.031">https://doi.org/10.2981/wlb.2003.031</a>.
+</div>
+<div id="ref-Eriksen2023" class="csl-entry" role="doc-biblioentry">
 Eriksen, Lasse Frost, Thor Harald Ringsby, Hans Chr. Pedersen, and Erlend B. Nilsen. 2023. <span>“Climatic Forcing and Individual Heterogeneity in a Resident Mountain Bird: Legacy Data Reveal Effects on Reproductive Strategies.”</span> Journal Article. <em>Royal Society Open Science</em> 10 (5): 221427. <a href="https://doi.org/doi:10.1098/rsos.221427">https://doi.org/doi:10.1098/rsos.221427</a>.
 </div>
-<div id="ref-feld2009" class="csl-entry" role="listitem">
+<div id="ref-feld2009" class="csl-entry" role="doc-biblioentry">
 Feld, Christian K, Pedro Martins da Silva, José Paulo Sousa, Francesco De Bello, Rob Bugter, Ulf Grandin, Daniel Hering, et al. 2009. <span>“Indicators of Biodiversity and Ecosystem Services: A Synthesis Across Ecosystems and Spatial Scales.”</span> <em>Oikos</em> 118 (12): 1862–71.
 </div>
-<div id="ref-fraisl2022" class="csl-entry" role="listitem">
+<div id="ref-fraisl2022" class="csl-entry" role="doc-biblioentry">
 Fraisl, Dilek, Gerid Hager, Baptiste Bedessem, Margaret Gold, Pen-Yuan Hsing, Finn Danielsen, Colleen B Hitchcock, et al. 2022. <span>“Citizen Science in Environmental and Ecological Sciences.”</span> <em>Nature Reviews Methods Primers</em> 2 (1): 64.
 </div>
-<div id="ref-framstad2022" class="csl-entry" role="listitem">
+<div id="ref-framstad2022" class="csl-entry" role="doc-biblioentry">
 Framstad, Erik, Nina E Eide, Wenche Eide, Kari Klanderud, Anders Kolstad, Joachim Töpper, and Vigdis Vandvik. 2022. <span>“Vurdering Av <span class="nocase">ø</span>kologisk Tilstand for Fjell i Norge i 2021.”</span> <em>NINA Rapport</em> 2050.
 </div>
-<div id="ref-Alastair2020" class="csl-entry" role="listitem">
+<div id="ref-Alastair2020" class="csl-entry" role="doc-biblioentry">
 Franke, Alastair, Knud Falk, Kevin Hawkshaw, Skip Ambrose, David L. Anderson, Peter J. Bente, Travis Booms, et al. 2020. <span>“Status and Trends of Circumpolar Peregrine Falcon and Gyrfalcon Populations.”</span> Journal Article. <em>Ambio</em> 49 (3): 762–83. <a href="https://doi.org/10.1007/s13280-019-01300-z">https://doi.org/10.1007/s13280-019-01300-z</a>.
 </div>
-<div id="ref-fuglei2020" class="csl-entry" role="listitem">
+<div id="ref-fuglei2020" class="csl-entry" role="doc-biblioentry">
 Fuglei, Eva, John-André Henden, Chris T. Callahan, Olivier Gilg, Jannik Hansen, Rolf A. Ims, Arkady P. Isaev, et al. 2020. <span>“Circumpolar Status of Arctic Ptarmigan: Population Dynamics and Trends.”</span> <em>Ambio</em> 49 (3): 749–61. <a href="https://doi.org/10.1007/s13280-019-01191-0">https://doi.org/10.1007/s13280-019-01191-0</a>.
 </div>
-<div id="ref-guelat2018" class="csl-entry" role="listitem">
+<div id="ref-gamelon2021" class="csl-entry" role="doc-biblioentry">
+Gamelon, Marlène, Chloé R Nater, Éric Baubet, Aurélien Besnard, Laura Touzot, Jean-Michel Gaillard, Jean-dominique Lebreton, and Olivier Gimenez. 2021. <span>“Efficient Use of Harvest Data: A Size-Class-Structured Integrated Population Model for Exploited Populations.”</span> <em>Ecography</em> 44 (9): 1296–1310.
+</div>
+<div id="ref-gamelon2019" class="csl-entry" role="doc-biblioentry">
+Gamelon, Marlène, Brett K. Sandercock, and Bernt-Erik Sæther. 2019. <span>“Does Harvesting Amplify Environmentally Induced Population Fluctuations over Time in Marine and Terrestrial Species?”</span> <em>Journal of Applied Ecology</em> 56 (9): 2186–94. <a href="https://doi.org/10.1111/1365-2664.13466">https://doi.org/10.1111/1365-2664.13466</a>.
+</div>
+<div id="ref-guelat2018" class="csl-entry" role="doc-biblioentry">
 Guélat, Jérôme, and Marc Kéry. 2018. <span>“Effects of Spatial Autocorrelation and Imperfect Detection on Species Distribution Models.”</span> <em>Methods in Ecology and Evolution</em> 9 (6): 1614–25.
 </div>
-<div id="ref-hagen1952" class="csl-entry" role="listitem">
+<div id="ref-hagen1952" class="csl-entry" role="doc-biblioentry">
 Hagen, Yngvar. 1952. <em>Analysis and Management of Animal Populations</em>. Gyldendal Norsk forlag.
 </div>
-<div id="ref-Henden2017" class="csl-entry" role="listitem">
+<div id="ref-Henden2017" class="csl-entry" role="doc-biblioentry">
 Henden, John-André, Rolf Anker Ims, Eva Fuglei, and Åshild Ønvik Pedersen. 2017. <span>“Changed Arctic-Alpine Food Web Interactions Under Rapid Climate Warming: Implication for Ptarmigan Research”</span> 2017 (SP1): wlb.00240. https://doi.org/<a href="https://doi.org/10.2981/wlb.00240">https://doi.org/10.2981/wlb.00240</a>.
 </div>
-<div id="ref-hjeljord2022" class="csl-entry" role="listitem">
+<div id="ref-hjeljord2022" class="csl-entry" role="doc-biblioentry">
 Hjeljord, Olav, and Leif Egil Loe. 2022. <span>“The Roles of Climate and Alternative Prey in Explaining 142 Years of Declining Willow Ptarmigan Hunting Yield.”</span> <em>Wildlie Biology</em> 2022 (6): e01058. https://doi.org/<a href="https://doi.org/10.1002/wlb3.01058">https://doi.org/10.1002/wlb3.01058</a>.
 </div>
-<div id="ref-horswill2019" class="csl-entry" role="listitem">
+<div id="ref-horswill2019" class="csl-entry" role="doc-biblioentry">
 Horswill, Cat, Holly K Kindsvater, Maria José Juan-Jordá, Nicholas K Dulvy, Marc Mangel, and Jason Matthiopoulos. 2019. <span>“Global Reconstruction of Life-History Strategies: A Case Study Using Tunas.”</span> <em>Journal of Applied Ecology</em> 56 (4): 855–65.
 </div>
-<div id="ref-horswill2021" class="csl-entry" role="listitem">
+<div id="ref-horswill2021" class="csl-entry" role="doc-biblioentry">
 Horswill, Cat, Andrea Manica, Francis Daunt, Mark Newell, Sarah Wanless, Matthew Wood, and Jason Matthiopoulos. 2021. <span>“Improving Assessments of Data-Limited Populations Using Life-History Theory.”</span> <em>Journal of Applied Ecology</em> 58 (6): 1225–36.
 </div>
-<div id="ref-Israelsen2020" class="csl-entry" role="listitem">
+<div id="ref-Israelsen2020" class="csl-entry" role="doc-biblioentry">
 Israelsen, M. F., L. F. Eriksen, P. F. Moa, B. R. Hagen, and E. B. Nilsen. 2020. <span>“Survival and Cause-Specific Mortality of Harvested Willow Ptarmigan (Lagopus Lagopus) in Central Norway.”</span> <em>Ecol Evol</em> 10 (20): 11144–54. <a href="https://doi.org/10.1002/ece3.6754">https://doi.org/10.1002/ece3.6754</a>.
 </div>
-<div id="ref-jakobsson2020" class="csl-entry" role="listitem">
+<div id="ref-jakobsson2020" class="csl-entry" role="doc-biblioentry">
 Jakobsson, Simon, and Bård Pedersen. 2020. <span>“Naturindeks for Norge 2020. Tilstand Og Utvikling for Biologisk Mangfold.”</span> <em>NINA Rapport</em> 1886.
 </div>
-<div id="ref-jetz2019" class="csl-entry" role="listitem">
+<div id="ref-jetz2019" class="csl-entry" role="doc-biblioentry">
 Jetz, Walter, Melodie A McGeoch, Robert Guralnick, Simon Ferrier, Jan Beck, Mark J Costello, Miguel Fernandez, et al. 2019. <span>“Essential Biodiversity Variables for Mapping and Monitoring Species Populations.”</span> <em>Nature Ecology &amp; Evolution</em> 3 (4): 539–51.
 </div>
-<div id="ref-johnston2023" class="csl-entry" role="listitem">
+<div id="ref-johnston2023" class="csl-entry" role="doc-biblioentry">
 Johnston, Alison, Eleni Matechou, and Emily B Dennis. 2023. <span>“Outstanding Challenges and Future Directions for Biodiversity Monitoring Using Citizen Science Data.”</span> <em>Methods in Ecology and Evolution</em> 14 (1): 103–16.
 </div>
-<div id="ref-Kjellander_Nordström_2003" class="csl-entry" role="listitem">
+<div id="ref-Kjellander_Nordström_2003" class="csl-entry" role="doc-biblioentry">
 Kjellander, Petter, and Jonas Nordström. 2003. <span>“Cyclic Voles, Prey Switching in Red Fox, and Roe Deer Dynamics – a Test of the Alternative Prey Hypothesis.”</span> <em>Oikos</em> 101 (2): 338–44. <a href="https://doi.org/10.1034/j.1600-0706.2003.11986.x">https://doi.org/10.1034/j.1600-0706.2003.11986.x</a>.
 </div>
-<div id="ref-landau2021" class="csl-entry" role="listitem">
+<div id="ref-kvasnes2015" class="csl-entry" role="doc-biblioentry">
+Kvasnes, Mikkel A. J., Hans Chr. Pedersen, Håkon Solvang, Torstein Storaas, and Erlend B. Nilsen. 2015. <span>“Spatial Distribution and Settlement Strategies in Willow Ptarmigan.”</span> <em>Population Ecology</em> 57 (1): 151–61. <a href="https://doi.org/10.1007/s10144-014-0454-1">https://doi.org/10.1007/s10144-014-0454-1</a>.
+</div>
+<div id="ref-kvasnes2014" class="csl-entry" role="doc-biblioentry">
+Kvasnes, Mikkel A. J., Hans Chr. Pedersen, Torstein Storaas, and Erlend B. Nilsen. 2014. <span>“Large-Scale Climate Variability and Rodent Abundance Modulates Recruitment Rates in Willow Ptarmigan (Lagopus Lagopus).”</span> <em>Journal of Ornithology</em> 155 (4): 891–903. <a href="https://doi.org/10.1007/s10336-014-1072-6">https://doi.org/10.1007/s10336-014-1072-6</a>.
+</div>
+<div id="ref-landau2021" class="csl-entry" role="doc-biblioentry">
 Landau, William Michael. 2021. <span>“The Targets r Package: A Dynamic Make-Like Function-Oriented Pipeline Toolkit for Reproducibility and High-Performance Computing.”</span> <em>Journal of Open Source Software</em> 6 (57): 2959. <a href="https://doi.org/10.21105/joss.02959">https://doi.org/10.21105/joss.02959</a>.
 </div>
-<div id="ref-Linden1988" class="csl-entry" role="listitem">
+<div id="ref-Linden1988" class="csl-entry" role="doc-biblioentry">
 Linden, H. 1988. <span>“Latitudinal Gradients in Predator-Prey Interactions, Cyclicity and Synchronism in Voles and Small Game Populations in Finland.”</span> Journal Article. <em>Oikos</em> 52 (3): 341–49. <a href="<Go to ISI>://A1988N893200014 ">&lt;Go to ISI&gt;://A1988N893200014 </a>.
 </div>
-<div id="ref-morrison2022" class="csl-entry" role="listitem">
+<div id="ref-mcconnell2018" class="csl-entry" role="doc-biblioentry">
+McConnell, Mark D., Adrian P. Monroe, Richard Chandler, William E. Palmer, Shane D. Wellendorf, Jr., L. Wes Burger, and James A. Martin. 2018. <span>“Factors Influencing Northern Bobwhite Recruitment, with Implications for Population Growth.”</span> <em>The Auk</em> 135 (4): 1087–99. <a href="https://doi.org/10.1642/AUK-18-49.1">https://doi.org/10.1642/AUK-18-49.1</a>.
+</div>
+<div id="ref-mcghee2007" class="csl-entry" role="doc-biblioentry">
+McGhee, Jay D., and James M. Berkson. 2007. <span>“Estimation of a Nonlinear Density-Dependence Parameter for Wild Turkey.”</span> <em>Journal of Wildlife Management</em> 71 (3): 706–12. <a href="https://doi.org/10.2193/2005-630">https://doi.org/10.2193/2005-630</a>.
+</div>
+<div id="ref-morrison2022" class="csl-entry" role="doc-biblioentry">
 Morrison, Catriona A, Simon J Butler, Jacquie A Clark, Juan Arizaga, Oriol Baltà, Jaroslav Cepák, Arantza Leal Nebot, et al. 2022. <span>“Demographic Variation in Space and Time: Implications for Conservation Targeting.”</span> <em>Royal Society Open Science</em> 9 (3): 211671.
 </div>
-<div id="ref-nater2023" class="csl-entry" role="listitem">
+<div id="ref-Munkebye_Pedersen_Steen_Brøseth_2003" class="csl-entry" role="doc-biblioentry">
+Munkebye, Eli, HChr Pedersen, Johan B. Steen, and Henrik Brøseth. 2003. <span>“Predation of Eggs and Incubating Females in Willow Ptarmigan Lagopus l. Lagopus.”</span> <em>Fauna Norvegica</em> 23: 1–8.
+</div>
+<div id="ref-myrberget1988" class="csl-entry" role="doc-biblioentry">
+Myrberget, S. 1988. <span>“Demography of an Island Population of Willow Ptarmigan in Northern Norway.<span></span>s. 379-419. I Bergerud, a. T, &amp; Gratson, MW [Red.], Adaptive Strategies and Population Ecology of Northern Grouse.”</span> <em>I. Population Studies. University of Minnesota Press. Minneapolis, Minnesota, USA</em>.
+</div>
+<div id="ref-nater2023" class="csl-entry" role="doc-biblioentry">
 Nater, Chloé R, Malcolm D Burgess, Peter Coffey, Bob Harris, Frank Lander, David Price, Mike Reed, and Robert A Robinson. 2023. <span>“Spatial Consistency in Drivers of Population Dynamics of a Declining Migratory Bird.”</span> <em>Journal of Animal Ecology</em> 92 (1): 97–111.
 </div>
-<div id="ref-Nielsen_1999" class="csl-entry" role="listitem">
+<div id="ref-Nielsen_1999" class="csl-entry" role="doc-biblioentry">
 Nielsen, Ólafur K. 1999. <span>“Gyrfalcon Predation on Ptarmigan: Numerical and Functional Responses.”</span> <em>Journal of Animal Ecology</em> 68 (5): 1034–50. <a href="https://doi.org/10.1046/j.1365-2656.1999.00351.x">https://doi.org/10.1046/j.1365-2656.1999.00351.x</a>.
 </div>
-<div id="ref-nilsen2023" class="csl-entry" role="listitem">
+<div id="ref-nilsen2023" class="csl-entry" role="doc-biblioentry">
 Nilsen, Erlend B, and Chloé R Nater. 2023. <span>“An Integrated Distance Sampling Approach for Modelling Age-Structured Populations.”</span> <em>Manuscript</em>.
 </div>
-<div id="ref-nilsen2020" class="csl-entry" role="listitem">
+<div id="ref-nilsen2020" class="csl-entry" role="doc-biblioentry">
 Nilsen, Erlend B, and Lars Rød-Eriksen. 2020. <span>“Trender i St<span>ø</span>rrelsen p<span>å</span> Den Norske Lirypebestanden i Perioden 2009-2020. Analyser Basert p<span>å</span> Data Fra h<span>ø</span>nsefuglportalen.”</span> <em>NINA Rapport</em> 1869.
 </div>
-<div id="ref-pacifici2017" class="csl-entry" role="listitem">
+<div id="ref-Nyström_etal_2006" class="csl-entry" role="doc-biblioentry">
+Nyström, J., L. Dalén, P. Hellström, J. Ekenstedt, H. Angleby, and A. Angerbjörn. 2006. <span>“Effect of Local Prey Availability on Gyrfalcon Diet: DNA Analysis on Ptarmigan Remains at Nest Sites.”</span> <em>Journal of Zoology</em> 269 (1): 57–64. https://doi.org/<a href="https://doi.org/10.1111/j.1469-7998.2006.00050.x">https://doi.org/10.1111/j.1469-7998.2006.00050.x</a>.
+</div>
+<div id="ref-pacifici2017" class="csl-entry" role="doc-biblioentry">
 Pacifici, Krishna, Brian J Reich, David AW Miller, Beth Gardner, Glenn Stauffer, Susheela Singh, Alexa McKerrow, and Jaime A Collazo. 2017. <span>“Integrating Multiple Data Sources in Species Distribution Modeling: A Framework for Data Fusion.”</span> <em>Ecology</em> 98 (3): 840–50.
 </div>
-<div id="ref-pereira2013" class="csl-entry" role="listitem">
+<div id="ref-pedersen2004" class="csl-entry" role="doc-biblioentry">
+Pedersen, HC, H Steen, L Kastdalen, H Brøseth, RA Ims, W Svendsen, and NG Yoccoz. 2004. <span>“Weak Compensation of Harvest Despite Strong Density–Dependent Growth in Willow Ptarmigan.”</span> <em>Proceedings of the Royal Society of London. Series B: Biological Sciences</em> 271 (1537): 381–85.
+</div>
+<div id="ref-pereira2013" class="csl-entry" role="doc-biblioentry">
 Pereira, Henrique Miguel, Simon Ferrier, Michele Walters, Gary N Geller, Rob HG Jongman, Robert J Scholes, Michael William Bruford, et al. 2013. <span>“Essential Biodiversity Variables.”</span> <em>Science</em> 339 (6117): 277–78.
 </div>
-<div id="ref-proencca2017" class="csl-entry" role="listitem">
+<div id="ref-proencca2017" class="csl-entry" role="doc-biblioentry">
 Proença, Vânia, Laura Jane Martin, Henrique Miguel Pereira, Miguel Fernandez, Louise McRae, Jayne Belnap, Monika Böhm, et al. 2017. <span>“Global Biodiversity Monitoring: From Data Sources to Essential Biodiversity Variables.”</span> <em>Biological Conservation</em> 213: 256–63.
 </div>
-<div id="ref-R2023" class="csl-entry" role="listitem">
+<div id="ref-R2023" class="csl-entry" role="doc-biblioentry">
 R Core Team. 2023. <em>R: A Language and Environment for Statistical Computing</em>. Vienna, Austria: R Foundation for Statistical Computing. <a href="https://www.R-project.org/">https://www.R-project.org/</a>.
 </div>
-<div id="ref-Reif_Tornberg_Jungell_Korpimäki_2001" class="csl-entry" role="listitem">
+<div id="ref-Reif_Tornberg_Jungell_Korpimäki_2001" class="csl-entry" role="doc-biblioentry">
 Reif, Vitali, Risto Tornberg, Sven Jungell, and Erkki Korpimäki. 2001. <span>“Diet Variation of Common Buzzards in Finland Supports the Alternative Prey Hypothesis.”</span> <em>Ecography</em> 24 (3): 267–74. <a href="https://doi.org/10.1034/j.1600-0587.2001.240304.x">https://doi.org/10.1034/j.1600-0587.2001.240304.x</a>.
 </div>
-<div id="ref-robinson2014" class="csl-entry" role="listitem">
+<div id="ref-robinson2014" class="csl-entry" role="doc-biblioentry">
 Robinson, Robert A, Catriona A Morrison, and Stephen R Baillie. 2014. <span>“Integrating Demographic Data: Towards a Framework for Monitoring Wildlife Populations at Large Spatial Scales.”</span> <em>Methods in Ecology and Evolution</em> 5 (12): 1361–72.
 </div>
-<div id="ref-sandercock2005" class="csl-entry" role="listitem">
+<div id="ref-sandercock2005" class="csl-entry" role="doc-biblioentry">
 Sandercock, Brett K, Kathy Martin, and Susan J Hannon. 2005. <span>“Life History Strategies in Extreme Environments: Comparative Demography of Arctic and Alpine Ptarmigan.”</span> <em>Ecology</em> 86 (8): 2176–86.
 </div>
-<div id="ref-schmeller2018" class="csl-entry" role="listitem">
+<div id="ref-sandercock_etal2011" class="csl-entry" role="doc-biblioentry">
+Sandercock, Brett K., Erlend B. Nilsen, Henrik Brøseth, and Hans C. Pedersen. 2011. <span>“Is Hunting Mortality Additive or Compensatory to Natural Mortality? Effects of Experimental Harvest on the Survival and Cause-Specific Mortality of Willow Ptarmigan.”</span> <em>Journal of Animal Ecology</em> 80 (1): 244–58. https://doi.org/<a href="https://doi.org/10.1111/j.1365-2656.2010.01769.x">https://doi.org/10.1111/j.1365-2656.2010.01769.x</a>.
+</div>
+<div id="ref-saracco2010" class="csl-entry" role="doc-biblioentry">
+Saracco, James F, J Andrew Royle, David F DeSante, and Beth Gardner. 2010. <span>“Modeling Spatial Variation in Avian Survival and Residency Probabilities.”</span> <em>Ecology</em> 91 (7): 1885–91.
+</div>
+<div id="ref-saracco2012" class="csl-entry" role="doc-biblioentry">
+———. 2012. <span>“Spatial Modeling of Survival and Residency and Application to the Monitoring Avian Productivity and Survivorship Program.”</span> <em>Journal of Ornithology</em> 152: 469–76.
+</div>
+<div id="ref-schaub2021" class="csl-entry" role="doc-biblioentry">
+Schaub, Michael, and Marc Kéry. 2021. <em>Integrated Population Models: Theory and Ecological Applications with r and JAGS</em>. Academic Press.
+</div>
+<div id="ref-schmeller2018" class="csl-entry" role="doc-biblioentry">
 Schmeller, Dirk S, Lauren V Weatherdon, Adeline Loyau, Alberte Bondeau, Lluis Brotons, Neil Brummitt, Ilse R Geijzendorffer, et al. 2018. <span>“A Suite of Essential Biodiversity Variables for Detecting Critical Biodiversity Change.”</span> <em>Biological Reviews</em> 93 (1): 55–71.
 </div>
-<div id="ref-stearns1992" class="csl-entry" role="listitem">
+<div id="ref-stearns1992" class="csl-entry" role="doc-biblioentry">
 Stearns, Stephen C. 1992. <em>The Evolution of Life Histories</em>. Vol. 249. Oxford university press Oxford.
 </div>
-<div id="ref-Steen1996" class="csl-entry" role="listitem">
+<div id="ref-Steen1996" class="csl-entry" role="doc-biblioentry">
 Steen, H., and K. E. Erikstad. 1996. <span>“Sensivity of Willow Grouse Lagopus Lagopus Population Dynamics to Variations in Demographic Parameters.”</span> Journal Article. <em>Wildlife Biology</em> 2: 27–35.
 </div>
-<div id="ref-Steen1985" class="csl-entry" role="listitem">
+<div id="ref-Steen1985" class="csl-entry" role="doc-biblioentry">
 Steen, J. B., H. Steen, N. C. Stenseth, S. Myrberget, and V. Marcström. 1988. <span>“Microtine Density and Weather as Predictors of Chick Production in Willow Ptarmigan, Lagopus Lagopus.”</span> Journal Article. <em>Oikos</em> 51 (3): 367–73.
 </div>
-<div id="ref-stevenson2021" class="csl-entry" role="listitem">
+<div id="ref-stevenson2021" class="csl-entry" role="doc-biblioentry">
 Stevenson, Simone L, Kate Watermeyer, Giovanni Caggiano, Elizabeth A Fulton, Simon Ferrier, and Emily Nicholson. 2021. <span>“Matching Biodiversity Indicators to Policy Needs.”</span> <em>Conservation Biology</em> 35 (2): 522–32.
 </div>
-<div id="ref-Storch2007" class="csl-entry" role="listitem">
+<div id="ref-Storch2007" class="csl-entry" role="doc-biblioentry">
 Storch, Ilse. 2007. <span>“Conservation Status of Grouse Worldwide: An Update.”</span> Journal Article. <em>Wildlife Biology</em> 13 (sp1): 5–12. <a href="https://doi.org/10.2981/0909-6396(2007)13[5:csogwa]2.0.co;2">https://doi.org/10.2981/0909-6396(2007)13[5:csogwa]2.0.co;2</a>.
 </div>
-<div id="ref-valpine2017" class="csl-entry" role="listitem">
+<div id="ref-valpine2017" class="csl-entry" role="doc-biblioentry">
 Valpine, Perry de, Daniel Turek, Christopher J Paciorek, Clifford Anderson-Bergman, Duncan Temple Lang, and Rastislav Bodik. 2017. <span>“Programming with Models: Writing Statistical Algorithms for General Model Structures with NIMBLE.”</span> <em>Journal of Computational and Graphical Statistics</em> 26 (2): 403–13.
 </div>
-<div id="ref-waldock2022" class="csl-entry" role="listitem">
+<div id="ref-waldock2022" class="csl-entry" role="doc-biblioentry">
 Waldock, Conor, Rick D Stuart-Smith, Camille Albouy, William WL Cheung, Graham J Edgar, David Mouillot, Jerry Tjiputra, and Loı̈c Pellissier. 2022. <span>“A Quantitative Review of Abundance-Based Species Distribution Models.”</span> <em>Ecography</em> 2022 (1).
 </div>
-<div id="ref-williams2002" class="csl-entry" role="listitem">
+<div id="ref-willebrand2001" class="csl-entry" role="doc-biblioentry">
+Willebrand, Tomas, and Maria Hörnell. 2001. <span>“Understanding the Effects of Harvesting Willow Ptarmigan Lagopus Lagopus in Sweden.”</span> <em>Wildlife Biology</em> 7 (3): 205–12. <a href="https://doi.org/10.2981/wlb.2001.025">https://doi.org/10.2981/wlb.2001.025</a>.
+</div>
+<div id="ref-williams2002" class="csl-entry" role="doc-biblioentry">
 Williams, Byron K, James D Nichols, and Michael J Conroy. 2002. <em>Analysis and Management of Animal Populations</em>. Academic Press.
 </div>
-<div id="ref-Wilson_Martin_2011" class="csl-entry" role="listitem">
+<div id="ref-Wilson_Martin_2011" class="csl-entry" role="doc-biblioentry">
 Wilson, Scott, and Kathy Martin. 2011. <span>“Life-History and Demographic Variation in an Alpine Specialist at the Latitudinal Extremes of the Range.”</span> <em>Population Ecology</em> 53 (3): 459–71. <a href="https://doi.org/10.1007/s10144-011-0261-x">https://doi.org/10.1007/s10144-011-0261-x</a>.
 </div>
-<div id="ref-zimmerman2010" class="csl-entry" role="listitem">
+<div id="ref-zimmerman2010" class="csl-entry" role="doc-biblioentry">
 Zimmerman, G. S., W. A. Link, M. J. Conroy, J. R. Sauer, K. D. Richkus, and G. Scott Boomer. 2010. <span>“Estimating Migratory Game-Bird Productivity by Integrating Age Ratio and Banding Data.”</span> <em>Wildlife Research</em> 37 (7): 612–22. <a href="https://doi.org/10.1071/WR10062">https://doi.org/10.1071/WR10062</a>.
 </div>
 </div></section></div></main>
@@ -522,23 +591,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
-  const isCodeAnnotation = (el) => {
-    for (const clz of el.classList) {
-      if (clz.startsWith('code-annotation-')) {                     
-        return true;
-      }
-    }
-    return false;
-  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
+    target: function(trigger) {
+      return trigger.previousElementSibling;
     }
   });
   clipboard.on('success', function(e) {
@@ -603,92 +658,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
-      let selectedAnnoteEl;
-      const selectorForAnnotation = ( cell, annotation) => {
-        let cellAttr = 'data-code-cell="' + cell + '"';
-        let lineAttr = 'data-code-annotation="' +  annotation + '"';
-        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-        return selector;
-      }
-      const selectCodeLines = (annoteEl) => {
-        const doc = window.document;
-        const targetCell = annoteEl.getAttribute("data-target-cell");
-        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-        const lineIds = lines.map((line) => {
-          return targetCell + "-" + line;
-        })
-        let top = null;
-        let height = null;
-        let parent = null;
-        if (lineIds.length > 0) {
-            //compute the position of the single el (top and bottom and make a div)
-            const el = window.document.getElementById(lineIds[0]);
-            top = el.offsetTop;
-            height = el.offsetHeight;
-            parent = el.parentElement.parentElement;
-          if (lineIds.length > 1) {
-            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-            height = bottom - top;
-          }
-          if (top !== null && height !== null && parent !== null) {
-            // cook up a div (if necessary) and position it 
-            let div = window.document.getElementById("code-annotation-line-highlight");
-            if (div === null) {
-              div = window.document.createElement("div");
-              div.setAttribute("id", "code-annotation-line-highlight");
-              div.style.position = 'absolute';
-              parent.appendChild(div);
-            }
-            div.style.top = top - 2 + "px";
-            div.style.height = height + 4 + "px";
-            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-            if (gutterDiv === null) {
-              gutterDiv = window.document.createElement("div");
-              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-              gutterDiv.style.position = 'absolute';
-              const codeCell = window.document.getElementById(targetCell);
-              const gutter = codeCell.querySelector('.code-annotation-gutter');
-              gutter.appendChild(gutterDiv);
-            }
-            gutterDiv.style.top = top - 2 + "px";
-            gutterDiv.style.height = height + 4 + "px";
-          }
-          selectedAnnoteEl = annoteEl;
-        }
-      };
-      const unselectCodeLines = () => {
-        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-        elementsIds.forEach((elId) => {
-          const div = window.document.getElementById(elId);
-          if (div) {
-            div.remove();
-          }
-        });
-        selectedAnnoteEl = undefined;
-      };
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
-          }
-        });
-      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
