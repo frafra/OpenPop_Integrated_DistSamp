@@ -321,6 +321,8 @@ The relative importance of different components for explaining parameter variati
 
 # Discussion
 
+Building on the work of @nilsen2023, we applied a novel integrated population model to data collected through a national-scale participatory monitoring programme to estimate spatial and temporal variation in demography of a culturally important game bird species, the willow ptarmigan. While our study was exploratory in nature, it recovered patterns consistent with ecological and life-history theory including trade-offs between survival and recruitment, and a tendency towards slower life histories at higher latitudes and altitudes. Space-for-time substitution also provided the statistical power necessary for the analysis to provide evidence for the alternative prey hypothesis, i.e. ptarmigans benefiting from high abundance of alternative prey for their predators. Taken together, the results highlight the potential of integrating demographic data across large spatial scales in the contexts of both informing management and creating biodiversity indicators for higher-level reporting. 
+
 ## Abundance and vital rates across space and time
 
 <!-- @ERLEND & @JAMES thoughts on what we see that is interesting, cool, expected, unexpected etc. Can we compare to other large scale studies, either on other grouse-like creatures or harvested species more generally? -->
@@ -390,14 +392,6 @@ Producing a transparent and reproducible workflow for the analysis presented her
 
  <!-- @EVERYONE: Do we know of some good references for this section? Presumably we cannot cite our chapter in the Technical Manual yet :-P -->
 
-## Conclusion
-
-Building on the work of @nilsen2023, we applied a novel integrated population model to data collected through a national-scale participatory monitoring programme to estimate spatial and temporal variation in demography of a culturally important game bird species, the willow ptarmigan. While our study was exploratory in nature, it recovered patterns consistent with ecological and life-history theory including trade-offs between survival and recruitment, and a tendency towards slower life histories at higher latitudes and altitudes. Space-for-time substitution also provided the statistical power necessary for the analysis to provide evidence for the alternative prey hypothesis, i.e. ptarmigans benefiting from high abundance of alternative prey for their predators.
-
-<!--James originally intended this paragraph for the start of the discussion. I'll figure out where it fits best once the rest is mostly in place! -->
-
--   Summarise neatly
--   Things worth highlighting: inference across large spatial scale but with "useful" resolution for management, advantages of integration across space (we can estimate better and more), integration of small locality-specific datasets with large national-scale monitoring, importance of reproducible workflows
 
 # Acknowledgements
 
