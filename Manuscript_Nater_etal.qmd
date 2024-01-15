@@ -1,6 +1,6 @@
 ---
 title: "Large-scale spatiotemporal variation in vital rates and population dynamics of an alpine bird"
-format: html
+format: docx
 author: Chloé R. Nater, James A. Martin, Erlend B. Nilsen
 editor: visual
 bibliography: rypeIDSM_MS2.bib
@@ -321,7 +321,7 @@ The relative importance of different components for explaining parameter variati
 
 # Discussion
 
-Building on the work of @nilsen2023, we applied a novel integrated population model to data collected through a national-scale participatory monitoring programme to estimate spatial and temporal variation in demography of a culturally important game bird species, the willow ptarmigan. While our study was exploratory in nature, it recovered patterns consistent with ecological and life-history theory including trade-offs between survival and recruitment, and a tendency towards slower life histories at higher latitudes and altitudes. Space-for-time substitution also provided the statistical power necessary for the analysis to provide evidence for the alternative prey hypothesis, i.e. ptarmigans benefiting from high abundance of alternative prey for their predators. Taken together, the results highlight the potential of integrating demographic data across large spatial scales in the contexts of both informing management and creating biodiversity indicators for higher-level reporting. 
+Building on the work of @nilsen2023, we applied a novel integrated population model to data collected through a national-scale participatory monitoring programme to estimate spatial and temporal variation in demography of a culturally important game bird species, the willow ptarmigan. While our study was exploratory in nature, it recovered patterns consistent with ecological and life-history theory including trade-offs between survival and recruitment, and a tendency towards slower life histories at higher latitudes and altitudes. Space-for-time substitution also provided the statistical power necessary for the analysis to provide evidence for the alternative prey hypothesis, i.e. ptarmigans benefiting from high abundance of alternative prey for their predators. Taken together, the results highlight the potential of integrating demographic data across large spatial scales in the contexts of both informing management and creating biodiversity indicators for higher-level reporting.
 
 ## Abundance and vital rates across space and time
 
@@ -370,6 +370,7 @@ Management decisions made at the resolution of large geo-political boundaries (e
 Besides pointers on how to adjust management of ptarmigan and their habitat, our results also provided some insights into the value, and possibly opportunities for improving the monitoring programme. First and foremost, our study demonstrates the tremendous potential lying in coordinating structured monitoring using a common protocol and training programme, as well as data processing pipeline. These were indeed the prerequisites that allowed us to easily and efficiently integrate data collected across the entire country in a joint analysis, and draw inference on spatio-temporal variation in demography and population dynamics at a large scale but also with good spatial resolution. While overall less variable across space and time than vital rates, differences in detection probabilities were nonetheless evident (SFs "Avg_detect_Map.pdf" and "TimeSeries_pDetect.pdf") and may help with mapping out potential for improvement in the monitoring programme. Particularly, we found generally lower detection probabilities in the northern half of Norway. \[...\] <!-- Some thoughts on why that might be. Could be related to landscape features and/or available observer pool. Any suggestions on what could be done to improve detection in the North, or at least "make up" for it? -->
 
 <!--# They obviously use a lesser breed of bird dog up that way.Probably use more german shorthairs or vislas. :-)  -->
+
 <!-- Funnily enough, I have been suggesting to Erlend that we should have a master student to analyze the effect of dog breed on detection probability :-P -->
 
 Ultimately, increased detection probability would contribute to obtaining more precise estimates of both population density and demographic rates, which -- in turn -- would be of great value in particular in areas with relatively low population densities, low number of transects, and less years of data.
@@ -388,10 +389,9 @@ Finally, including further data beyond the line transect surveys may be relevant
 
 ## Reproducible workflows for a sustainable future
 
-Producing a transparent and reproducible workflow for the analysis presented here was a central objective in this study. We have done this by setting up "targets" pipeline [@landau2021], which allows (re-)running the complete workflow from downloading the publicly available data to visualizing the results produced by the IDSM [@fig-workflow]. Modern applied ecology needs research to be published not just as manuscripts, but as reproducible and well documented workflows [@lewis2018]. This is particularly crucial for research that is (to be) closely tied to management and/or used to create biodiversity indicators that are to be reported nationally or internationally, or to be used by industrial partners. This is both because of the enhanced transparency and credibility provided by openly available reproducible workflows and because of their cost-effectiveness, which allows for more sustainable use of funding in the mid- to long-term. Finally, open and reproducible workflows facilitate collaboration and inclusion of stakeholders in the research process, paving the path for the translational science that is required for society to tackle the the biodiversity crisis [@rubert2021]. It is our hope that this study can serve as an example of where to start.  
+Producing a transparent and reproducible workflow for the analysis presented here was a central objective in this study. We have done this by setting up "targets" pipeline [@landau2021], which allows (re-)running the complete workflow from downloading the publicly available data to visualizing the results produced by the IDSM [@fig-workflow]. Modern applied ecology needs research to be published not just as manuscripts, but as reproducible and well documented workflows [@lewis2018]. This is particularly crucial for research that is (to be) closely tied to management and/or used to create biodiversity indicators that are to be reported nationally or internationally, or to be used by industrial partners. This is both because of the enhanced transparency and credibility provided by openly available reproducible workflows and because of their cost-effectiveness, which allows for more sustainable use of funding in the mid- to long-term. Finally, open and reproducible workflows facilitate collaboration and inclusion of stakeholders in the research process, paving the path for the translational science that is required for society to tackle the the biodiversity crisis [@rubert2021]. It is our hope that this study can serve as an example of where to start.
 
- <!-- @EVERYONE: Do we know of some good references for this section? Presumably we cannot cite our chapter in the Technical Manual yet :-P -->
-
+<!-- @EVERYONE: Do we know of some good references for this section? Presumably we cannot cite our chapter in the Technical Manual yet :-P -->
 
 # Acknowledgements
 
