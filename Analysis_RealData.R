@@ -11,9 +11,6 @@ library(nimble)
 mySeed <- 32
 set.seed(mySeed)
 
-## Set number of chains
-nchains <- 5
-
 ## Source all functions in "R" folder
 sourceDir <- function(path, trace = TRUE, ...) {
   for (nm in list.files(path, pattern = "[.][RrSsQq]$")) {
@@ -128,9 +125,6 @@ input_data <- prepareInputData(d_trans = LT_data$d_trans,
 ## Write model code
 modelCode <- writeModelCode(survVarT = survVarT)
 
-## Expand seed to get MCMC seeds
-MCMC.seeds <- expandSeed_MCMC(seed = mySeed, nchains = nchains)
-
 ## Setup for model using nimbleDistance::dHN
 model_setup <- setupModel(modelCode = modelCode,
                           R_perF = R_perF,
@@ -139,8 +133,12 @@ model_setup <- setupModel(modelCode = modelCode,
                           nim.data = input_data$nim.data,
                           nim.constants = input_data$nim.constants,
                           testRun = FALSE, 
-                          nchains = nchains,
-                          initVals.seed = MCMC.seeds)
+                          nchains = 6,
+                          initVals.seed = mySeed)
+
+
+## Expand seed to get MCMC seeds
+MCMC.seeds <- expandSeed_MCMC(seed = mySeed, nchains = model_setup$mcmcParams$nchains)
 
 
 # MODEL (TEST) RUN #
@@ -270,6 +268,17 @@ if(fitRodentCov){
                     area_names = input_data$nim.constant$area_names,
                     fitRodentCov = fitRodentCov)
 }
+
+
+# OPTIONAL: CHECK WITHIN-AREA DENSITY DEPENDENCE #
+#------------------------------------------------#
+
+checkDD(mcmc.out = IDSM.out.tidy, 
+        N_areas = input_data$nim.constant$N_areas, 
+        area_names = input_data$nim.constant$area_names, 
+        N_sites = input_data$nim.constant$N_sites, 
+        min_years = input_data$nim.constant$min_years, 
+        max_years = input_data$nim.constant$max_years)
 
 
 # OPTIONAL: CALCULATE AND PLOT VARIANCE DECOMPOSITION #

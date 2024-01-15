@@ -14,8 +14,7 @@ library(parallel)
 mySeed <- 32
 set.seed(mySeed)
 
-## Set number of chains
-nchains <- 5
+nchains <- 6
 
 ## Source all functions in "R" folder
 sourceDir <- function(path, trace = TRUE, ...) {
@@ -212,6 +211,17 @@ list(
                       N_areas = input_data$nim.constant$N_areas, 
                       area_names = input_data$nim.constant$area_names,
                       fitRodentCov = fitRodentCov)
+  ),
+  
+  tar_target(
+    DD.checks,
+    checkDD(mcmc.out = IDSM.out.tidy, 
+            N_areas = input_data$nim.constant$N_areas, 
+            area_names = input_data$nim.constant$area_names, 
+            N_sites = input_data$nim.constant$N_sites, 
+            min_years = input_data$nim.constant$min_years, 
+            max_years = input_data$nim.constant$max_years),
+    format = "file"
   ),
   
   tar_target(
