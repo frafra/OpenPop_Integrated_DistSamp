@@ -58,11 +58,11 @@ simulateInits_singleArea <- function(nim.data, nim.constants, R_perF, survVarT, 
   Mu.S <- runif(1, 0, Mu.S1)
   sigmaT.S <- runif(1, 0, 0.05)
   
-  epsT.S1.prop <- runif(1, 0.3, 0.8)
+  eps.S1.prop <- runif(1, 0.3, 0.8)
   epsT.S <- rep(0, N_years)
 
-  S <- plogis(qlogis(Mu.S) + epsT.S)
-  S1 <- plogis(qlogis(Mu.S1) + epsT.S1.prop*epsT.S)
+  S <- plogis(qlogis(Mu.S) + epsT.S[1:N_years])
+  S1 <- plogis(qlogis(Mu.S1) + eps.S1.prop*epsT.S[1:N_years])
   S2 <- S/S1
   
   ## Area-specific reproductive parameters
@@ -79,7 +79,7 @@ simulateInits_singleArea <- function(nim.data, nim.constants, R_perF, survVarT, 
   epsT.R <- rep(0, N_years)
   #epsT.R <- rnorm(N_year, 0, sigmaT.R)
     
-  R_year <- exp(log(Mu.R) + betaR.R*RodentOcc[1:N_years] + epsT.R)
+  R_year <- exp(log(Mu.R) + betaR.R*RodentOcc[1:N_years] + epsT.R[1:N_years])
 
   
   # Detection parameters #
@@ -92,7 +92,7 @@ simulateInits_singleArea <- function(nim.data, nim.constants, R_perF, survVarT, 
   epsT.dd <- rep(0, N_years)
   #epsT.dd <- rnorm(N_years, 0, sd = sigmaT.dd)
     
-  sigma <- exp(mu.dd + epsT.dd)
+  sigma <- exp(mu.dd + epsT.dd[1:N_years])
   esw <- sqrt(pi * sigma^2 / 2) 
   
   p <- rep(NA, Tmax)
@@ -158,21 +158,27 @@ simulateInits_singleArea <- function(nim.data, nim.constants, R_perF, survVarT, 
     
     Mu.R = Mu.R,
     sigmaT.R = sigmaT.R,
-    epsT.R = epsT.R, 
+    sigmaR.R = 0,
+    epsT.R = epsT.R,
+    epsR.R = rep(0, max(N_sites)),
     R_year = R_year,
     
     mu.dd = mu.dd,
     sigmaT.dd = sigmaT.dd,
+    sigmaR.dd = 0,
     epsT.dd = epsT.dd,
+    epsR.dd = rep(0, max(N_sites)),
     sigma = sigma, sigma2 = sigma^2,
     esw = esw,
     p = p,
     
     Mu.S = Mu.S, 
     sigmaT.S = sigmaT.S,
+    sigmaR.S = 0,
     epsT.S = epsT.S,
+    epsR.S = rep(0, max(N_sites)),
     Mu.S1 = Mu.S1,
-    epsT.S1.prop = epsT.S1.prop,
+    eps.S1.prop = eps.S1.prop,
     S1 = S1, S2 = S2, S = S,
     
     Density = Density,

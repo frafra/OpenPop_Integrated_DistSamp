@@ -1,3 +1,16 @@
+#' Set up map object containing Norwegian municipalities
+#'
+#' @param shp.path character string. Path to where the shapefile for Norwegian
+#' municipalities is stored. 
+#' @param d_trans tibble containing information on transects (events). Output of
+#' wrangleData_LineTrans(). 
+#' @param areas character vector containing names of all areas in analysis. 
+#' @param areaAggregation 
+#'
+#' @return sf / dataframe object containing map of Norwegian municipalities. 
+#' @export
+#'
+#' @examples
 
 setupMap_NorwayMunic <- function(shp.path, d_trans,
                                  areas, areaAggregation = TRUE){
@@ -12,6 +25,7 @@ setupMap_NorwayMunic <- function(shp.path, d_trans,
   
   ## Reading in map of Norwegian municipalities
   mapNM <- sf::st_read(shp.path)
+  names(mapNM)[which(names(mapNM) == "navn")] <- "KOMMUNENAV"
   
   ## Extract list of localities and areas with corresponding municipality names
   areaMunic <- d_trans %>%

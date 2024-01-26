@@ -12,10 +12,10 @@
 #' @param minYear integer. Earliest year of data to extract.
 #' @param maxYear integer. Latest year of data to extract.  
 #'
-#' @return list of 2 tibbles. `d_trans` contains information on transects 
+#' @return list of 3 tibbles. `d_trans` contains information on transects 
 #' (events). `d_obs`contains information on observations made along transects 
 #' (distance to transect line, numbers of birds in each age/sex class observed,
-#' etc.)
+#' etc.). `d_coord` contains averaged coordinates for the selected spatial units. 
 #' 
 #' @export
 #'
@@ -118,6 +118,23 @@ wrangleData_LineTrans <- function(DwC_archive_list, duplTransects, localities = 
   d_obs <- d_obs %>%
     dplyr::filter(!(parentEventID %in% bad_transects))
   
+  ## Extract locality-/area-level coodinate information
+  
+  # Rename appropriate column
+  if(areaAggregation){
+    colnames(Eve)[which(colnames(Eve) == "verbatimLocality")] <- "spatialUnit"
+  }else{
+    colnames(Eve)[which(colnames(Eve) == "locality")] <- "spatialUnit"
+  }
+  
+  # Calculate average longitude and latitude per locality/area
+  d_coord <- Eve %>%
+    dplyr::select("locationID", "spatialUnit", "decimalLongitude", "decimalLatitude") %>%
+    dplyr::distinct() %>%
+    dplyr::group_by(spatialUnit) %>%
+    dplyr::summarise(longitudeAvg = mean(decimalLongitude, na.rm = TRUE),
+                     latitudeAvg = mean(decimalLatitude, na.rm = TRUE))
+  
   ## Collate and return data
-  LT_data <- list(d_trans = d_trans, d_obs = d_obs)
+  LT_data <- list(d_trans = d_trans, d_obs = d_obs, d_coord = d_coord)
 }

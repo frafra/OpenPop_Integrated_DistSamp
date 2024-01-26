@@ -36,9 +36,6 @@ R_parent_drop0 <- TRUE
 # NOTE: if this is not defined, will default to group level
 sumR.Level <- "line" # Summing at the line level
 
-# Random effects shared across areas
-shareRE <- TRUE
-
 # Time variation in survival
 survVarT <- FALSE
 
@@ -118,18 +115,12 @@ input_data <- prepareInputData(d_trans = LT_data$d_trans,
 # MODEL SETUP #
 #-------------#
 
-# Original version (zeroes-trick)
-# model_setup <- setupModel(modelCode.path = "NIMBLE Code/RypeIDSM.R",
-#                           customDist = FALSE,
-#                           nim.data = input_data$nim.data,
-#                           nim.constants = input_data$nim.constants,
-#                           testRun = FALSE, initVals.seed = 0)
-  
-# Updated version (nimbleDistance::dHN)
-model_setup <- setupModel(modelCode.path = "NIMBLE Code/RypeIDSM_multiArea_dHN.R",
-                          customDist = TRUE,
+## Write model code
+modelCode <- writeModelCode(survVarT = survVarT)
+
+## Setup for model using nimbleDistance::dHN
+model_setup <- setupModel(modelCode = modelCode,
                           R_perF = R_perF,
-                          shareRE = shareRE, 
                           survVarT = survVarT, 
                           fitRodentCov = fitRodentCov,
                           nim.data = input_data$nim.data,
@@ -167,7 +158,8 @@ saveRDS(IDSM.out.tidy, file = 'rypeIDSM_dHN_multiArea_realData_Lierne_tidy.rds')
 #----------------------------#
 
 plotMCMCTraces(mcmc.out = IDSM.out.tidy,
-               fitRodentCov = fitRodentCov)
+               fitRodentCov = fitRodentCov,
+               survVarT = survVarT)
 
 
 # OPTIONAL: TIME SERIES PLOTS #
