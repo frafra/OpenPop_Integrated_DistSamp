@@ -379,6 +379,8 @@ The authors declare that they comply with the PCI rule of having no financial co
 
 The raw data from the line transect surveys is deposited on GBIF and can be accessed freely via the Living Norway Data Portal (https://data.livingnorway.no/). The work presented above is based on versions 1.7, 1.8, and 1.12 for the datasets from Fjellstyrene [@fjellstyre2022], Statskog [@statskog2022], and FeFo [@fefo2022], respectively.
 
-The auxiliary radio-telemetry data, rodent occupancy data, and all code including the "targets pipeline" can be found in the project's repository on GitHub: <https://github.com/ErlendNilsen/OpenPop_Integrated_DistSamp>. The results presented in this paper were created using version 2.0 of the code (Zenodo citation TBA).
+The auxiliary radio-telemetry data, rodent occupancy data, posterior summaries, and supplementary figures are archived on OSF [@Nater_Nilsen_Martin_2024].
+
+All code including the "targets pipeline" can be found in the project's repository on GitHub: <https://github.com/ErlendNilsen/OpenPop_Integrated_DistSamp>. The results presented in this paper were created using version 2.0 of the code (Zenodo citation TBA).
 
 # References
