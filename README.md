@@ -65,11 +65,12 @@ These can be downloaded from OSF: [https://osf.io/7326r/](https://osf.io/7326r/)
 
 ## Citation
 Releases of this repository are archived and issued DOIs via Zenodo: [https://zenodo.org/records/10462269](https://zenodo.org/records/10572340)
+
 The citation of the latest version is: 
 
 ChloeRNater, ErlendNilsen, christofferhohi, Matthew Grainger, & Bernardo Brandão Niebuhr. (2024). 
 ErlendNilsen/OpenPop_Integrated_DistSamp: Ptarmigan IDSM v2.0 (v.2.0). 
-Zenodo. https://doi.org/10.5281/zenodo.10462269
+Zenodo. https://doi.org/10.5281/zenodo.10462268
 
 ## Contact
 Erlend Nilsen: erlend.nilsen@nina.no
