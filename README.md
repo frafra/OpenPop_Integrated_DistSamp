@@ -64,7 +64,7 @@ rodent occupancy data, and shapefiles for municipalities in Norway).
 These can be downloaded from OSF: [https://osf.io/7326r/](https://osf.io/7326r/).
 
 ## Citation
-Releases of this repository are archived and issued DOIs via Zenodo: https://zenodo.org/records/10462269
+Releases of this repository are archived and issued DOIs via Zenodo: [https://zenodo.org/records/10462269](https://zenodo.org/records/10572340)
 The citation of the latest version is: 
 
 ChloeRNater, ErlendNilsen, christofferhohi, Matthew Grainger, & Bernardo Brandão Niebuhr. (2024). 
