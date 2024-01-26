@@ -25,6 +25,7 @@ setupMap_NorwayMunic <- function(shp.path, d_trans,
   
   ## Reading in map of Norwegian municipalities
   mapNM <- sf::st_read(shp.path)
+  names(mapNM)[which(names(mapNM) == "navn")] <- "KOMMUNENAV"
   
   ## Extract list of localities and areas with corresponding municipality names
   areaMunic <- d_trans %>%

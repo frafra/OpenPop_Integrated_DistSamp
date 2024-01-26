@@ -235,7 +235,7 @@ list(
   
   tar_target(
     NorwayMunic.map,
-    setupMap_NorwayMunic(shp.path = "data/Kommuner_2018_WGS84/Kommuner_2018_WGS84.shp",
+    setupMap_NorwayMunic(shp.path = "data/norway_municipalities/norway_municipalities.shp",
                          d_trans = LT_data$d_trans,
                          areas = areas, areaAggregation = areaAggregation)
   ),
