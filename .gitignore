@@ -17,3 +17,6 @@ data/norway_municipalities
 
 # Shape files
 *.shp
+
+# .zip archives
+*.zip
