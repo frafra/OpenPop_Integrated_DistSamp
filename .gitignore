@@ -8,7 +8,7 @@ Manuscript_Nater_etal_files/
 .Rapp.history
 
 # RDS files
-#*.rds
+*.rds
 
 # PDF files
 *.pdf
@@ -18,3 +18,9 @@ Manuscript_Nater_etal_files/
 
 # Word files
 *.docx
+
+# Excel files
+*.xlsx
+
+# CSV's
+*.csv
