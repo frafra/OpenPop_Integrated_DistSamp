@@ -381,6 +381,6 @@ The raw data from the line transect surveys is deposited on GBIF and can be acce
 
 The auxiliary radio-telemetry data, rodent occupancy data, posterior summaries, and supplementary figures are archived on OSF [@Nater_Nilsen_Martin_2024].
 
-All code including the "targets pipeline" can be found in the project's repository on GitHub: <https://github.com/ErlendNilsen/OpenPop_Integrated_DistSamp>. The results presented in this paper were created using version 2.0 of the code (Zenodo citation TBA).
+All code including the "targets pipeline" can be found in the project's repository on GitHub: <https://github.com/ErlendNilsen/OpenPop_Integrated_DistSamp>. The results presented in this paper were created using version 2.0 of the code [@chloernater_2024_10572340].
 
 # References
