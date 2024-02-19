@@ -37,6 +37,12 @@ scripts:
 - "Analysis_RealData_LierneVest.R" for real data from Lierna area only
 - "Analysis_RealData.R" for real data from all areas
 - "_targets.R" for real data from all area, organized in a targets pipeline (more detailed information will be provided in the v2.0 update of the repository)
+
+Long-form guides to a selection of different workflows are provided in the folder "vignettes". 
+So far, this includes the analyses of ptarmigan data from Lierne municipality and of simulated data replicates presented in Nilsen & Nater 2024 (<https://ecoevorxiv.org/repository/view/6499/>):
+
+- "vignettes/walkthrough_LierneAnalysis.Rmd"
+- "vignettes/walkthrough_SimDataAnalysis.Rmd"
   
 ## Additional dependencies
 There are a three dependencies that need to be manually installed to

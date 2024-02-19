@@ -1,0 +1,297 @@
+---
+title: "Walkthrough of model application to data from Lierne"
+output: html_document
+date: "2024-02-19"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## About this document
+In this document, we walk you through the application of the integrated distance sampling model (IDSM) to line transect and telemetry data collected from willow ptarmigans (*Lagopus lagopus*) in the western part of Lierne Municipality, Norway, as presented in:
+
+Nilsen, E. B., & Nater, C. R. (2024). An integrated open population distance sampling approach for modelling age-structured populations. *EcoEvoRxiv*. DOI: <https://doi.org/10.32942/X2Q899>
+
+In essence, this document a version of the workflow in "Analysis_RealData_LierneVest.R" with additional annotation and documentation. 
+
+Note that the workflow presented here is based on scripts from the initial versions of the repository, i.e. major version 1 (v1.x). As we have made some substantial structural changes in the setup moving from major version 1 to 2, the following will not work with version 2.0 and onwards of the code. 
+
+## Before you start
+
+Before getting into running the code for the analyses, we have to make sure that we have all the necessary data in the correct directory and that all the dependencies are installed correctly. 
+
+### Retrieving data
+The line transect data that form the core of this analysis are publicly available from both the [GBIF](<https://www.gbif.org/dataset/b49a2978-0e30-4748-a99f-9301d17ae119>) and [Living Norway](<https://data.livingnorway.no/dataset?key=b49a2978-0e30-4748-a99f-9301d17ae119>) data portals. Downloading from GBIF requires login credentials (anyone can sign up at no cost). Downloading from the Living Norway data portal does not require credentials, and in this workflow, we download data directly from Living Norway into R using the ("LivingNorwayR")[<https://rdrr.io/github/LivingNorway/LivingNorwayR/>] package (installation instructions below).
+
+In addition to the line transect data, this workflow also requires two auxiliary datasets: data from a telemetry study of ptarmigans in Lierne, and data on rodent occupancy that is collected as part of the line transect survey (but not currently included in the publicly available version of the dataset).
+
+The telemetry data is part of the code repository. As such, the corresponding file ("CMR_Data.csv") should already be present in the "data" folder in the project directory. The rodent data ("Rodent_data.rds") is deposited and can be downloaded from OSF via this link: <https://osf.io/9ygsc>. For the workflow below to function, we need to place "Rodent_data.rds" into the "data" folder in the project directory. 
+
+
+### Installing dependencies
+Next, we want to make sure you have all the dependencies installed. 
+
+Downloading the data requires the "LivingNorwayR" package. As per now, the package is not yet available from CRAN, and we therefore have to install it from GitHub directly. This can be done using `install_github`from the `remotes` package:
+
+```{r, message = FALSE, warning = FALSE}
+if(!("remotes" %in% installed.packages())){
+  install.packages("remotes")
+}
+
+if(!("LivingNorwayR" %in% installed.packages())){
+  remotes::install_github("LivingNorway/LivingNorwayR")
+}
+```
+
+Then, we have to ensure that we have all other R packages needed for wrangling data, visualizing results, etc. For each one, the code below checks if it is available, and installs it if not.
+
+```{r, message = FALSE, warning = FALSE}
+pkg.list <- c("coda", "cowplot", "extraDistr", "ggforce", "RJSONIO", "see", "tidyverse", "tidybayes")
+for(i in 1:length(pkg.list)){
+  if(!(pkg.list[i] %in% installed.packages())){
+    install.packages(pkg.list[i])
+  }
+}
+```
+
+We need to do the same for the `nimble`R package. This package is required to use the NIMBLE compiler (see <https://r-nimble.org/> for more information) for model fitting. Installing and using NIMBLE requires us to have a compiler and a set of related tools readily available. Instructions on how to make sure we have these available can be found on the NIMBLE website under "Download": <https://r-nimble.org/downloadhttps://r-nimble.org/download>
+Once we know that we have a compiler and that it works, we can install the `nimble`package just like the other R packages:
+
+```{r, message = FALSE, warning = FALSE}
+if(!("nimble" %in% installed.packages())){
+  remotes::install_github("nimble")
+}
+```
+
+And finally, we also need to manually install the `nimbleDistance`R package from GitHub. This package contains custom-made distribution functions for distance sampling data, incl. the half-normal distribution we are going to be using in the IDSM here: 
+
+```{r, message = FALSE, warning = FALSE}
+if(!("nimbleDistance" %in% installed.packages())){
+  remotes::install_github("scrogster/nimbleDistance")
+}
+```
+
+
+## Workflow setup
+We get started by loading the `tidyverse` package, setting the seed (to ensure reproducibility), and sourcing all the functions contained in the "R" folder. This workflow is function-based, meaning that each step is written into a specific function. Each of the functions has roxygen documentation, which we can consult to learn more about its purpose and use.
+
+```{r, warning = FALSE}
+library(tidyverse)
+
+## Define seed for initial value simulation and MCMC
+mySeed <- 0
+
+## Source all functions in "R" folder
+sourceDir <- function(path, trace = TRUE, ...) {
+  for (nm in list.files(path, pattern = "[.][RrSsQq]$")) {
+    if(trace) cat(nm,":")
+    source(file.path(path, nm), ...)
+    if(trace) cat("\n")
+  }
+}
+sourceDir('R')
+```
+
+In addition to functions, the workflow also makes use of "toggles" (or "switches"). These are a series (mostly) logical variables that we use to specify the "settings" of our run of the workflow. 
+
+```{r, message = FALSE, warning = FALSE}
+## Set switches 
+
+# (Re-)downloading data
+downloadData <- TRUE
+
+# Aggregation to area level
+areaAggregation <- FALSE
+
+# Recruitment per adult or per adult female
+R_perF <- FALSE
+
+# Drop observations of juveniles with no adults present
+R_parent_drop0 <- TRUE
+
+# Aggregation level for reproduction data
+sumR.Level <- "line" # Summing at the line level
+
+# Random effects shared across areas
+shareRE <- TRUE
+
+# Time variation in survival
+survVarT <- FALSE
+
+# Rodent covariate on reproduction
+fitRodentCov <- TRUE
+```
+
+`downloadData` determines whether we re-download data from Living Norway. We are going to do that every time as per now, there is an error with encoding if we try to read in an already downloaded data archive using `LivingNorwayR::initializeDwCArchive()`. 
+For this implementation, we are focusing on western Lierne, which is a "location" and not a reporting "area", hence `areaAggregation <- FALSE`. With `R_perF`, `R_parent_drop0`, and `sumR.Level` we specify how we want to define and the recruitment data; here, we opt for estimating juveniles per adult, summarise data at the level of the transect line (as opposed to group of observed birds), and drop observations where we only encountered juveniles but no adults on an entire transect. The toggle `shareRE` is irrelevant here, as this defines whether temporal random effects are shared across locations/areas and we are only considering one location here. We are not going to model time variation in survival (`survVarT <- FALSE`), but we do want to include an effect of rodent occupancy on recruitment (`firRodentCov <- TRUE`).
+
+## Data download and wrangling
+
+Telemetry and rodent data should now be ready in the "data" folder (see above), so it is only the line transect data that needs retrieving from Living Norway:
+```{r, message = FALSE, warning = FALSE}
+Rype_arkiv <- downloadLN(datasets = c("Fjellstyrene", "Statskog", "FeFo"), versions = c(1.7, 1.8, 1.12), save = TRUE)
+```
+Note that this retrieves **all** of the publicly available line transect data (3 datasets). For running analyses on Lierne only, the dataset "Fjellstyrene" alone would suffice. However, downstream code is written for a data archive consisting of several datasets (which will lead to an error for single dataset archives) and having all the data makes the workflow more flexible should one want to include additional/other locations. 
+
+Before proceeding with data preparations, we need to define both the localities and years we are interested in:
+```{r, message = FALSE, warning = FALSE}
+## Set localities/areas and time period of interest
+localities <- listLocations()
+#areas <- listAreas()
+minYear <- 2007
+maxYear <- 2021
+```
+Per now, `listLocations()` automatically comes up with only western Lierne ("Lierne Fjellst. Vest"), but more localities could be added to `R/listLocations()` if we wanted to run an analysis involving multiple localities. Instead of localities, we could also define reporting areas at this stage using `listAreas()` to run analyses at a coarser / larger spatial resolution, but that is not the aim for this implementation. 
+
+We proceed by loading, filtering, and reformatting line transect, telemetry (= known fate CMR), and rodent data:
+```{r, message = FALSE, warning = FALSE}
+## List duplicate transects to remove
+duplTransects <- listDuplTransects()
+
+## Extract transect and observational data from DwC archive
+LT_data <- wrangleData_LineTrans(DwC_archive_list = Rype_arkiv, 
+                                 duplTransects = duplTransects,
+                                 localities = localities,
+                                 #areas = areas,
+                                 areaAggregation = areaAggregation,
+                                 minYear = minYear, maxYear = maxYear)
+
+## Read in and reformat CMR data
+d_cmr <- wrangleData_CMR(minYear = minYear)
+
+## Load and reformat rodent data
+d_rodent <- wrangleData_Rodent(duplTransects = duplTransects,
+                               localities = localities,
+                               #areas = areas,
+                               areaAggregation = areaAggregation,
+                               minYear = minYear, maxYear = maxYear)
+
+```
+`wrangleData_LineTrans()` will throw a warning about coerced NAs, but that is okay and can just be ignored. 
+NIMBLE takes its input data in list format. To be more specific, one list containing "data" and one list containing "constants". We set our input data up accordingly using:
+```{r, message = FALSE, warning = FALSE}
+## Reformat data into vector/array list for analysis with Nimble
+input_data <- prepareInputData(d_trans = LT_data$d_trans, 
+                               d_obs = LT_data$d_obs,
+                               d_cmr = d_cmr,
+                               d_rodent = d_rodent$rodentAvg,
+                               localities = localities, 
+                               #areas = areas,
+                               areaAggregation = areaAggregation,
+                               excl_neverObs = TRUE,
+                               R_perF = R_perF,
+                               R_parent_drop0 = R_parent_drop0,
+                               sumR.Level = "line",
+                               dataVSconstants = TRUE,
+                               save = TRUE)
+```
+
+## Model setup and implementation
+
+We are now going to set up the model. The corresponding wrapper function, `setupModel()`, loads the specified model code (contained in folder "NIMBLE Code"), checks dependencies, simulates initial values (by calling `simulateInits()`), lists parameters to monitor, and sets up MCMC parameters. The latter is governed by an additional switch `testRun`, which allows us to choose between setting the model up for a short test run (50 iterations, no burn-in, no thinning) versus a full run (100 000 iterations, 40 000 burn-in, thinning factor 20). It's also possible to pass other MCMC parameters directly to the function (see function documentation for details). 
+
+```{r, message = FALSE, warning = FALSE}
+model_setup <- setupModel(modelCode.path = "NIMBLE Code/RypeIDSM_multiArea_dHN.R",
+                          customDist = TRUE,
+                          R_perF = R_perF,
+                          shareRE = shareRE, 
+                          survVarT = survVarT, 
+                          fitRodentCov = fitRodentCov,
+                          nim.data = input_data$nim.data,
+                          nim.constants = input_data$nim.constants,
+                          testRun = TRUE, nchains = 4,
+                          initVals.seed = mySeed)
+```
+
+With the setup in place, we are then ready to run the model. Here, we are using NIMBLE's wrapper function `nimbleMCMC`, and subsequently save the posterior samples in RDS format. While a test run is done in a few seconds, a full run of four sequential chains will take 1-1.5 hours on an average laptop computer. 
+
+```{r, message = FALSE, warning = FALSE}
+IDSM.out <- nimbleMCMC(code = model_setup$modelCode,
+                       data = input_data$nim.data, 
+                       constants = input_data$nim.constants,
+                       inits = model_setup$initVals, 
+                       monitors = model_setup$modelParams,
+                       nchains = model_setup$mcmcParams$nchains, 
+                       niter = model_setup$mcmcParams$niter, 
+                       nburnin = model_setup$mcmcParams$nburn, 
+                       thin = model_setup$mcmcParams$nthin, 
+                       samplesAsCodaMCMC = TRUE, 
+                       setSeed = mySeed)
+
+saveRDS(IDSM.out, file = "rypeIDSM_dHN_multiArea_realData_Lierne.rds")
+```
+
+*A common error that can arise at this stage is NIMBLE reporting on a "failure to create shared library". It's a well-known but somewhat uninformative error that typically indicates that something is wrong with the compiler. Often, this will happen if you do not have the correct versions of "Rtools"/"Xcode", or if paths to different resources are not compatible. More information (including instructions on how to fix it) can be found by searching through the (nimble-users Google group)[<https://groups.google.com/g/nimble-users>].* 
+
+
+## Post-processing and results visualization
+
+Before looking at the results, there is a routine to "tidy up" the posterior samples. "Tidy up" here means that we a) convert the density measures from individuals/m^2^ to -- biologically more sensible -- individuals/km^2^ and b) remove any redundant 0 or NA nodes. Redundant nodes in the model are nodes within the population size and density arrays with area-site-year combinations that do not appear in the data and are not estimated in the model. As such, the "tidying" step also helps saving on storage by reducing the size of RDS file containing the relevant posterior distributions. 
+
+```{r, message = FALSE, warning = FALSE}
+IDSM.out.tidy <- tidySamples(IDSM.out = IDSM.out, save = FALSE)
+saveRDS(IDSM.out.tidy, file = 'rypeIDSM_dHN_multiArea_realData_Lierne_tidy.rds')
+```
+
+The basic workflow includes four different types of visualizations: 
+
+1) MCMC traces
+2) Time-series of posterior summaries (median and 95% credible interval) for population density, vital rates, and detection parameters
+3) Whole posterior distributions for key vital rate parameters
+4) Posterior summaries (median and 95% credible intervals) for the predicted relationship between recruitment rate and rodent occupancy
+
+Before using the corresponding functions to visualize the different aspects / summaries of the results, we need to set up a folder in which to save the PDF plots that the functions generate (provided we do not already have such a folder:
+
+```{r, message = FALSE, warning = FALSE}
+if(!file.exists("Plots")){
+  dir.create("Plots")
+}
+```
+Then, we can proceed with plotting (each function outputs the paths to the PDF figures it creates):
+
+```{r, message = FALSE, warning = FALSE}
+## MCMC trace plots
+plotMCMCTraces(mcmc.out = IDSM.out.tidy,
+               fitRodentCov = fitRodentCov)
+
+
+# Time series plots
+plotTimeSeries(mcmc.out = IDSM.out.tidy, 
+               N_areas = input_data$nim.constant$N_areas, 
+               area_names = input_data$nim.constant$area_names, 
+               N_sites = input_data$nim.constant$N_sites, 
+               min_years = input_data$nim.constant$min_years, 
+               max_years = input_data$nim.constant$max_years, 
+               minYear = minYear, maxYear = maxYear,
+               VitalRates = TRUE, DetectParams = TRUE, Densities = TRUE,
+               showDataWindow = FALSE)
+
+
+## Vital rate posteriors
+plotPosteriorDens_VR(mcmc.out = IDSM.out.tidy,
+                     N_areas = input_data$nim.constant$N_areas, 
+                     area_names = input_data$nim.constant$area_names, 
+                     N_years = input_data$nim.constant$N_years,
+                     minYear = minYear,
+                     survAreaIdx = input_data$nim.constants$SurvAreaIdx,
+                     survVarT = survVarT,
+                     fitRodentCov = fitRodentCov) 
+
+
+## Covariate prediction
+if(fitRodentCov){
+  plotCovPrediction(mcmc.out = IDSM.out.tidy,
+                    effectParam = "betaR.R",
+                    covName = "Rodent occupancy",
+                    minCov = 0, 
+                    maxCov = 1,
+                    meanCov = d_rodent$meanCov,
+                    sdCov = d_rodent$sdCov,
+                    N_areas = input_data$nim.constant$N_areas, 
+                    area_names = input_data$nim.constant$area_names,
+                    fitRodentCov = fitRodentCov)
+}
+```
+
+
