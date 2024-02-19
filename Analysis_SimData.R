@@ -25,7 +25,7 @@ R_perF <- FALSE
 R_parent_drop0 <- TRUE
 
 # Time variation in survival
-survVarT <- TRUE
+survVarT <- FALSE
 
 # Rodent covariate on reproduction
 fitRodentCov <- FALSE
