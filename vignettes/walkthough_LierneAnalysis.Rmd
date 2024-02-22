@@ -1,11 +1,12 @@
 ---
 title: "Walkthrough of model application to data from Lierne"
 output: html_document
-date: "2024-02-19"
+date: "2024-02-22"
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = "..")
 ```
 
 ## About this document
@@ -18,6 +19,12 @@ In essence, this document a version of the workflow in "Analysis_RealData_Lierne
 Note that the workflow presented here is based on scripts from the initial versions of the repository, i.e. major version 1 (v1.x). As we have made some substantial structural changes in the setup moving from major version 1 to 2, the following will not work with version 2.0 and onwards of the code. 
 
 ## Before you start
+
+The code in the following uses relative directory and file paths. For that to work smoothly, we need to make sure that the walkthrough (.Rmd file) uses the same root directory as the project repository. Since the walkthrough is located inside a subfolder "vignettes", we have to move the working directory up one level. For knitting this document, that is taken care of by `knitr::opts_knit$set(root.dir = "..")` in the setup chunk. If we want to work through the document interactively, though, we need to double-check that the working directory is set to the root directory (using `getwd()`). This should be the case if you have opened the Rproject ("OpenPop_Integrated_DistSamp.Rproj"), but if we are instead inside the "vignettes" folder, we have to move the working directory up one level: 
+
+```{r, eval = FALSE}
+setwd("..")
+```
 
 Before getting into running the code for the analyses, we have to make sure that we have all the necessary data in the correct directory and that all the dependencies are installed correctly. 
 
@@ -47,7 +54,7 @@ if(!("LivingNorwayR" %in% installed.packages())){
 Then, we have to ensure that we have all other R packages needed for wrangling data, visualizing results, etc. For each one, the code below checks if it is available, and installs it if not.
 
 ```{r, message = FALSE, warning = FALSE}
-pkg.list <- c("coda", "cowplot", "extraDistr", "ggforce", "RJSONIO", "see", "tidyverse", "tidybayes")
+pkg.list <- c("coda", "cowplot", "extraDistr", "ggforce", "MCMCvis", "RJSONIO", "see", "tidyverse", "tidybayes")
 for(i in 1:length(pkg.list)){
   if(!(pkg.list[i] %in% installed.packages())){
     install.packages(pkg.list[i])

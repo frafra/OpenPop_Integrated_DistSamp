@@ -1,11 +1,12 @@
 ---
 title: "Walkthrough of model application to simulated data"
 output: html_document
-date: "2024-02-19"
+date: "2024-02-22"
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = "..")
 ```
 
 ## About this document
@@ -19,6 +20,12 @@ Note that the workflow presented here is based on scripts from the initial versi
 
 ## Before you start
 
+The code in the following uses relative directory and file paths. For that to work smoothly, we need to make sure that the walkthrough (.Rmd file) uses the same root directory as the project repository. Since the walkthrough is located inside a subfolder "vignettes", we have to move the working directory up one level. For knitting this document, that is taken care of by `knitr::opts_knit$set(root.dir = "..")` in the setup chunk. If we want to work through the document interactively, though, we need to double-check that the working directory is set to the root directory (using `getwd()`). This should be the case if you have opened the Rproject ("OpenPop_Integrated_DistSamp.Rproj"), but if we are instead inside the "vignettes" folder, we have to move the working directory up one level: 
+
+```{r, eval = FALSE}
+setwd("..")
+```
+
 Before getting into running the code for the analyses, we have to make sure that we have all the necessary data in the correct directory and that all the dependencies are installed correctly. 
 
 ### Retrieving data
@@ -31,7 +38,7 @@ Next, we want to make sure you have all the dependencies installed.
 First, we have to ensure that we have all other R packages needed for simulating and wrangling data, visualizing results, etc. For each one, the code below checks if it is available, and installs it if not.
 
 ```{r, message = FALSE, warning = FALSE}
-pkg.list <- c("coda", "cowplot", "extraDistr", "ggforce", "see", "tidyverse", "tidybayes")
+pkg.list <- c("coda", "cowplot", "extraDistr", "ggforce", "MCMCvis", "see", "tidyverse", "tidybayes")
 for(i in 1:length(pkg.list)){
   if(!(pkg.list[i] %in% installed.packages())){
     install.packages(pkg.list[i])
@@ -266,6 +273,8 @@ The remainder of the workflow, bar graphical comparison of outputs, happens with
 Note that each model run can take up to 2 hours depending on your resources, and running through all 30 replicate fits will therefore take quite a while. If you are just looking to test the workflow, you can set `testRun = TRUE` in the call to `nimbleMCMC` to perform a dummy run of only 50 iterations instead of a full 500 000 iterations run. 
 
 ```{r, message = FALSE, warning = FALSE, eval = FALSE}
+simSeed.list <- seed.list
+
 for(i in 1:length(simSeed.list)){
   
   ## Select seeds randomly (and store)

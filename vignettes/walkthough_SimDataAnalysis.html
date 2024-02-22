@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2024-02-19" />
+<meta name="date" content="2024-02-22" />
 
 <title>Walkthrough of model application to simulated data</title>
 
@@ -351,7 +351,7 @@ display: none;
 
 <h1 class="title toc-ignore">Walkthrough of model application to
 simulated data</h1>
-<h4 class="date">2024-02-19</h4>
+<h4 class="date">2024-02-22</h4>
 
 </div>
 
@@ -376,6 +376,19 @@ onwards of the code.</p>
 </div>
 <div id="before-you-start" class="section level2">
 <h2>Before you start</h2>
+<p>The code in the following uses relative directory and file paths. For
+that to work smoothly, we need to make sure that the walkthrough (.Rmd
+file) uses the same root directory as the project repository. Since the
+walkthrough is located inside a subfolder “vignettes”, we have to move
+the working directory up one level. For knitting this document, that is
+taken care of by <code>knitr::opts_knit$set(root.dir = &quot;..&quot;)</code> in
+the setup chunk. If we want to work through the document interactively,
+though, we need to double-check that the working directory is set to the
+root directory (using <code>getwd()</code>). This should be the case if
+you have opened the Rproject (“OpenPop_Integrated_DistSamp.Rproj”), but
+if we are instead inside the “vignettes” folder, we have to move the
+working directory up one level:</p>
+<pre class="r"><code>setwd(&quot;..&quot;)</code></pre>
 <p>Before getting into running the code for the analyses, we have to
 make sure that we have all the necessary data in the correct directory
 and that all the dependencies are installed correctly.</p>
@@ -392,7 +405,7 @@ installed.</p>
 <p>First, we have to ensure that we have all other R packages needed for
 simulating and wrangling data, visualizing results, etc. For each one,
 the code below checks if it is available, and installs it if not.</p>
-<pre class="r"><code>pkg.list &lt;- c(&quot;coda&quot;, &quot;cowplot&quot;, &quot;extraDistr&quot;, &quot;ggforce&quot;, &quot;see&quot;, &quot;tidyverse&quot;, &quot;tidybayes&quot;)
+<pre class="r"><code>pkg.list &lt;- c(&quot;coda&quot;, &quot;cowplot&quot;, &quot;extraDistr&quot;, &quot;ggforce&quot;, &quot;MCMCvis&quot;, &quot;see&quot;, &quot;tidyverse&quot;, &quot;tidybayes&quot;)
 for(i in 1:length(pkg.list)){
   if(!(pkg.list[i] %in% installed.packages())){
     install.packages(pkg.list[i])
@@ -683,7 +696,9 @@ quite a while. If you are just looking to test the workflow, you can set
 <code>testRun = TRUE</code> in the call to <code>nimbleMCMC</code> to
 perform a dummy run of only 50 iterations instead of a full 500 000
 iterations run.</p>
-<pre class="r"><code>for(i in 1:length(simSeed.list)){
+<pre class="r"><code>simSeed.list &lt;- seed.list
+
+for(i in 1:length(simSeed.list)){
   
   ## Select seeds randomly (and store)
   runSeeds &lt;- sample(1:100, size = N_runs, replace = FALSE)
