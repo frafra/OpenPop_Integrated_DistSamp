@@ -331,27 +331,27 @@ for(i in 1:length(simSeed.list)){
     ## Summarise posteriors to minimum necessary for plotting sim checks
     
     # Recruitment parameters
-    R_year <- IDSM.out %>% spread_draws(R_year[year])
-    Mu_R <- IDSM.out %>% spread_draws(Mu.R) %>% mutate(lab_code = "Mu.R")
-    sigmaT_R <- IDSM.out %>% spread_draws(sigmaT.R) %>% mutate(lab_code = "sigmaT.R")
+    R_year <- IDSM.out %>% tidybayes::spread_draws(R_year[year])
+    Mu_R <- IDSM.out %>% tidybayes::spread_draws(Mu.R) %>% mutate(lab_code = "Mu.R")
+    sigmaT_R <- IDSM.out %>% tidybayes::spread_draws(sigmaT.R) %>% mutate(lab_code = "sigmaT.R")
     
     # Survival parameters
-    Mu_S1 <- IDSM.out %>% spread_draws(Mu.S1) %>% mutate(Surv = "S1") %>% rename(S = Mu.S1) %>% select(S, Surv)
-    Mu_S <- IDSM.out %>% spread_draws(Mu.S) %>% mutate(Surv = "S") %>% rename(S = Mu.S) %>% select(S, Surv)
+    Mu_S1 <- IDSM.out %>% tidybayes::spread_draws(Mu.S1) %>% mutate(Surv = "S1") %>% rename(S = Mu.S1) %>% select(S, Surv)
+    Mu_S <- IDSM.out %>% tidybayes::spread_draws(Mu.S) %>% mutate(Surv = "S") %>% rename(S = Mu.S) %>% select(S, Surv)
     Mu_S_data <-  tibble(S = Mu_S$S/Mu_S1$S, Surv = "S2") %>% bind_rows(., Mu_S1, Mu_S)
     
     # Detection parameters
-    Mu_dd <- IDSM.out %>% spread_draws(mu.dd) %>% mutate(lab_code = "mu.dd")
-    sigmaT_dd <- IDSM.out %>% spread_draws(sigmaT.dd) %>% mutate(lab_code = "sigmaT.dd")
-    esw_year <- IDSM.out %>% spread_draws(esw[year])
-    p_year <- IDSM.out %>% spread_draws(p[year])
+    Mu_dd <- IDSM.out %>% tidybayes::spread_draws(mu.dd) %>% mutate(lab_code = "mu.dd")
+    sigmaT_dd <- IDSM.out %>% tidybayes::spread_draws(sigmaT.dd) %>% mutate(lab_code = "sigmaT.dd")
+    esw_year <- IDSM.out %>% tidybayes::spread_draws(esw[year])
+    p_year <- IDSM.out %>% tidybayes::spread_draws(p[year])
     
     # Population sizes
-    N_tot <- IDSM.out %>% spread_draws(N_tot_exp[year]) 
+    N_tot <- IDSM.out %>% tidybayes::spread_draws(N_tot_exp[year]) 
     
     # Population densities
     A_temp <- apply(input_data$nim.data$L, 2, sum) * input_data$nim.constants$W*2 / (1000 *1000)
-    Density_year <- IDSM.out %>% spread_draws(N_tot_exp[year]) %>% 
+    Density_year <- IDSM.out %>% tidybayes::spread_draws(N_tot_exp[year]) %>% 
       dplyr::mutate(density = (N_tot_exp/A_temp))
     
     ## Collate and save summarized posteriors
