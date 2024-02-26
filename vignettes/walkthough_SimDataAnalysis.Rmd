@@ -25,6 +25,7 @@ The code in the following uses relative directory and file paths. For that to wo
 ```{r, eval = FALSE}
 setwd("..")
 ```
+Note that depending on your settings, RStudio may default to evaluate manually run code in chunks within the same directory as the .Rmd file. If `getwd()` evaluated from within chunks returns the "vignettes" folder, you either have to move the .Rmd into the root directory, or copy and paste code into the console for relative paths to work correctly. 
 
 Before getting into running the code for the analyses, we have to make sure that we have all the necessary data in the correct directory and that all the dependencies are installed correctly. 
 
