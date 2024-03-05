@@ -39,7 +39,7 @@ Next, we want to make sure you have all the dependencies installed.
 First, we have to ensure that we have all other R packages needed for simulating and wrangling data, visualizing results, etc. For each one, the code below checks if it is available, and installs it if not.
 
 ```{r, message = FALSE, warning = FALSE}
-pkg.list <- c("coda", "cowplot", "extraDistr", "ggforce", "MCMCvis", "see", "tidyverse", "tidybayes")
+pkg.list <- c("coda", "cowplot", "extraDistr", "ggforce", "MCMCvis", "paletteer", "see", "tidyverse", "tidybayes")
 for(i in 1:length(pkg.list)){
   if(!(pkg.list[i] %in% installed.packages())){
     install.packages(pkg.list[i])
