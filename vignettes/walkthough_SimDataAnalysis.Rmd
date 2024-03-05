@@ -376,7 +376,7 @@ for(i in 1:length(simSeed.list)){
 }
 
 ## Save complete seed information
-saveRDS(runSeed.list, file = "simModelFits_sum/seedInfo.rds")
+saveRDS(runSeed.list, file = "simModelFits/seedInfo.rds")
 ```
 
 *A common error that can arise at this stage is NIMBLE reporting on a "failure to create shared library". It's a well-known but somewhat uninformative error that typically indicates that something is wrong with the compiler. Often, this will happen if you do not have the correct versions of "Rtools"/"Xcode", or if paths to different resources are not compatible. More information (including instructions on how to fix it) can be found by searching through the (nimble-users Google group)[<https://groups.google.com/g/nimble-users>].* 
@@ -384,12 +384,12 @@ saveRDS(runSeed.list, file = "simModelFits_sum/seedInfo.rds")
 
 ##  Comparing model estimates and simulated data
 
-Once we have run all the replicate model fits, we can compare the resulting model estimates with each other and with the true simulation parameters that we set in the start. Memory is typically limited, so we are going to want to do the comparison based on a subset of the total posterior samples (hence thinning by 100 here): 
+Once we have run all the replicate model fits, we can compare the resulting model estimates with each other and with the true simulation parameters that we set in the start. Memory is typically limited, so we are going to want to do the comparison based on a subset of the total posterior samples (hence thinning by 100 here for the full runs. If you are running tests, set thin = 1 instead): 
 
 ```{r, message = FALSE, warning = FALSE, eval = FALSE}
 plotSimCheck_replicates("Temps", thin = 100)
 ```
 
-The function `plotSimCheck_replicates()` will create a folder "Plots" in the project directory (unless it exists already), and save the graphs it creates as PDF files in that folder. These graphs will be equivalent to what is presented in the study (Figures 2 & 3 in Nilsen & Nater 2024) and deposited as supplementary materials on the study's OSF repository: <https://osf.io/bc3en/files/osfstorage>.
+The function `plotSimCheck_replicates()` will create a folder "Plots" with subfolder "SimCheck_replicates" in the project directory (unless it exists already), and save the graphs it creates as PDF files in that subfolder. These graphs will be equivalent to what is presented in the study (Figures 2 & 3 in Nilsen & Nater 2024) and deposited as supplementary materials on the study's OSF repository: <https://osf.io/bc3en/files/osfstorage>.
 
 

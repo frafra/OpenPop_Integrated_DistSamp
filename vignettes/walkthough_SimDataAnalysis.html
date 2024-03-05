@@ -389,6 +389,12 @@ you have opened the Rproject (“OpenPop_Integrated_DistSamp.Rproj”), but
 if we are instead inside the “vignettes” folder, we have to move the
 working directory up one level:</p>
 <pre class="r"><code>setwd(&quot;..&quot;)</code></pre>
+<p>Note that depending on your settings, RStudio may default to evaluate
+manually run code in chunks within the same directory as the .Rmd file.
+If <code>getwd()</code> evaluated from within chunks returns the
+“vignettes” folder, you either have to move the .Rmd into the root
+directory, or copy and paste code into the console for relative paths to
+work correctly.</p>
 <p>Before getting into running the code for the analyses, we have to
 make sure that we have all the necessary data in the correct directory
 and that all the dependencies are installed correctly.</p>
@@ -405,7 +411,7 @@ installed.</p>
 <p>First, we have to ensure that we have all other R packages needed for
 simulating and wrangling data, visualizing results, etc. For each one,
 the code below checks if it is available, and installs it if not.</p>
-<pre class="r"><code>pkg.list &lt;- c(&quot;coda&quot;, &quot;cowplot&quot;, &quot;extraDistr&quot;, &quot;ggforce&quot;, &quot;MCMCvis&quot;, &quot;see&quot;, &quot;tidyverse&quot;, &quot;tidybayes&quot;)
+<pre class="r"><code>pkg.list &lt;- c(&quot;coda&quot;, &quot;cowplot&quot;, &quot;extraDistr&quot;, &quot;ggforce&quot;, &quot;MCMCvis&quot;, &quot;paletteer&quot;, &quot;see&quot;, &quot;tidyverse&quot;, &quot;tidybayes&quot;)
 for(i in 1:length(pkg.list)){
   if(!(pkg.list[i] %in% installed.packages())){
     install.packages(pkg.list[i])
@@ -729,7 +735,7 @@ for(i in 1:length(simSeed.list)){
                               nim.data = input_data$nim.data,
                               nim.constants = input_data$nim.constants,
                               niter = 500000, nthin = 5, nburn = 300000, nchains = 3,
-                              testeval = FALSE,
+                              testRun = TRUE,
                               initVals.seed = mySeed)
     
     ## Run model
@@ -754,27 +760,27 @@ for(i in 1:length(simSeed.list)){
     ## Summarise posteriors to minimum necessary for plotting sim checks
     
     # Recruitment parameters
-    R_year &lt;- IDSM.out %&gt;% spread_draws(R_year[year])
-    Mu_R &lt;- IDSM.out %&gt;% spread_draws(Mu.R) %&gt;% mutate(lab_code = &quot;Mu.R&quot;)
-    sigmaT_R &lt;- IDSM.out %&gt;% spread_draws(sigmaT.R) %&gt;% mutate(lab_code = &quot;sigmaT.R&quot;)
+    R_year &lt;- IDSM.out %&gt;% tidybayes::spread_draws(R_year[year])
+    Mu_R &lt;- IDSM.out %&gt;% tidybayes::spread_draws(Mu.R) %&gt;% mutate(lab_code = &quot;Mu.R&quot;)
+    sigmaT_R &lt;- IDSM.out %&gt;% tidybayes::spread_draws(sigmaT.R) %&gt;% mutate(lab_code = &quot;sigmaT.R&quot;)
     
     # Survival parameters
-    Mu_S1 &lt;- IDSM.out %&gt;% spread_draws(Mu.S1) %&gt;% mutate(Surv = &quot;S1&quot;) %&gt;% rename(S = Mu.S1) %&gt;% select(S, Surv)
-    Mu_S &lt;- IDSM.out %&gt;% spread_draws(Mu.S) %&gt;% mutate(Surv = &quot;S&quot;) %&gt;% rename(S = Mu.S) %&gt;% select(S, Surv)
+    Mu_S1 &lt;- IDSM.out %&gt;% tidybayes::spread_draws(Mu.S1) %&gt;% mutate(Surv = &quot;S1&quot;) %&gt;% rename(S = Mu.S1) %&gt;% select(S, Surv)
+    Mu_S &lt;- IDSM.out %&gt;% tidybayes::spread_draws(Mu.S) %&gt;% mutate(Surv = &quot;S&quot;) %&gt;% rename(S = Mu.S) %&gt;% select(S, Surv)
     Mu_S_data &lt;-  tibble(S = Mu_S$S/Mu_S1$S, Surv = &quot;S2&quot;) %&gt;% bind_rows(., Mu_S1, Mu_S)
     
     # Detection parameters
-    Mu_dd &lt;- IDSM.out %&gt;% spread_draws(mu.dd) %&gt;% mutate(lab_code = &quot;mu.dd&quot;)
-    sigmaT_dd &lt;- IDSM.out %&gt;% spread_draws(sigmaT.dd) %&gt;% mutate(lab_code = &quot;sigmaT.dd&quot;)
-    esw_year &lt;- IDSM.out %&gt;% spread_draws(esw[year])
-    p_year &lt;- IDSM.out %&gt;% spread_draws(p[year])
+    Mu_dd &lt;- IDSM.out %&gt;% tidybayes::spread_draws(mu.dd) %&gt;% mutate(lab_code = &quot;mu.dd&quot;)
+    sigmaT_dd &lt;- IDSM.out %&gt;% tidybayes::spread_draws(sigmaT.dd) %&gt;% mutate(lab_code = &quot;sigmaT.dd&quot;)
+    esw_year &lt;- IDSM.out %&gt;% tidybayes::spread_draws(esw[year])
+    p_year &lt;- IDSM.out %&gt;% tidybayes::spread_draws(p[year])
     
     # Population sizes
-    N_tot &lt;- IDSM.out %&gt;% spread_draws(N_tot_exp[year]) 
+    N_tot &lt;- IDSM.out %&gt;% tidybayes::spread_draws(N_tot_exp[year]) 
     
     # Population densities
     A_temp &lt;- apply(input_data$nim.data$L, 2, sum) * input_data$nim.constants$W*2 / (1000 *1000)
-    Density_year &lt;- IDSM.out %&gt;% spread_draws(N_tot_exp[year]) %&gt;% 
+    Density_year &lt;- IDSM.out %&gt;% tidybayes::spread_draws(N_tot_exp[year]) %&gt;% 
       dplyr::mutate(density = (N_tot_exp/A_temp))
     
     ## Collate and save summarized posteriors
@@ -798,7 +804,7 @@ for(i in 1:length(simSeed.list)){
 }
 
 ## Save complete seed information
-saveRDS(runSeed.list, file = &quot;simModelFits_sum/seedInfo.rds&quot;)</code></pre>
+saveRDS(runSeed.list, file = &quot;simModelFits/seedInfo.rds&quot;)</code></pre>
 <p><em>A common error that can arise at this stage is NIMBLE reporting
 on a “failure to create shared library”. It’s a well-known but somewhat
 uninformative error that typically indicates that something is wrong
@@ -814,14 +820,16 @@ group)[<a href="https://groups.google.com/g/nimble-users" class="uri">https://gr
 resulting model estimates with each other and with the true simulation
 parameters that we set in the start. Memory is typically limited, so we
 are going to want to do the comparison based on a subset of the total
-posterior samples (hence thinning by 100 here):</p>
+posterior samples (hence thinning by 100 here for the full runs. If you
+are running tests, set thin = 1 instead):</p>
 <pre class="r"><code>plotSimCheck_replicates(&quot;Temps&quot;, thin = 100)</code></pre>
 <p>The function <code>plotSimCheck_replicates()</code> will create a
-folder “Plots” in the project directory (unless it exists already), and
-save the graphs it creates as PDF files in that folder. These graphs
-will be equivalent to what is presented in the study (Figures 2 &amp; 3
-in Nilsen &amp; Nater 2024) and deposited as supplementary materials on
-the study’s OSF repository: <a href="https://osf.io/bc3en/files/osfstorage" class="uri">https://osf.io/bc3en/files/osfstorage</a>.</p>
+folder “Plots” with subfolder “SimCheck_replicates” in the project
+directory (unless it exists already), and save the graphs it creates as
+PDF files in that subfolder. These graphs will be equivalent to what is
+presented in the study (Figures 2 &amp; 3 in Nilsen &amp; Nater 2024)
+and deposited as supplementary materials on the study’s OSF repository:
+<a href="https://osf.io/bc3en/files/osfstorage" class="uri">https://osf.io/bc3en/files/osfstorage</a>.</p>
 </div>
 
 

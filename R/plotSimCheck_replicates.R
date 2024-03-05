@@ -28,7 +28,7 @@ plotSimCheck_replicates <- function(plotColors = "customRainbow", thin = 1) {
   
   ## Load information on simulation and run seeds
   simSeeds <- readRDS("simData/seedList.rds")
-  runSeeds <- readRDS("simModelFits_sum/seedInfo.rds")
+  runSeeds <- readRDS("simModelFits/seedInfo.rds")
   
   ## Set up tibbles to collate simulated data and model posteriors
   N_simData <- D_simData <-  R_simData <- det_simData <- simParams <- tibble()
@@ -135,7 +135,14 @@ plotSimCheck_replicates <- function(plotColors = "customRainbow", thin = 1) {
   #---------------------#
   
   ## Plotting directory
-  ifelse(!dir.exists("Plots/SimCheck_replicates"), dir.create("Plots/SimCheck_replicates"), FALSE) ## Check if folder exists, if not create folder
+  if(!dir.exists("Plots")){
+    dir.create("Plots")
+    dir.create("Plots/SimCheck_replicates")
+  }
+  
+  if(!dir.exists("Plots/SimCheck_replicates")){
+    dir.create("Plots/SimCheck_replicates")
+  }
   
   ## List of plot names (required for targets integration)
   plot.paths <- c()
