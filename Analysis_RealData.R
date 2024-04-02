@@ -47,6 +47,9 @@ survVarT <- TRUE
 # Rodent covariate on reproduction
 fitRodentCov <- TRUE
 
+# Use of telemetry data from Lierne
+telemetryData <- TRUE
+
 # Run MCMC in parallel
 parallelMCMC <- FALSE
 
@@ -126,7 +129,12 @@ input_data <- prepareInputData(d_trans = LT_data$d_trans,
 #-------------#
 
 ## Write model code
-modelCode <- writeModelCode(survVarT = survVarT)
+modelCode <- writeModelCode(survVarT = survVarT,
+                            telemetryData = telemetryData)
+
+## Expand seeds for simulating initial values
+MCMC.seeds <- expandSeed_MCMC(seed = mySeed, 
+                              nchains = nchains)
 
 ## Setup for model using nimbleDistance::dHN
 model_setup <- setupModel(modelCode = modelCode,
@@ -136,8 +144,8 @@ model_setup <- setupModel(modelCode = modelCode,
                           nim.data = input_data$nim.data,
                           nim.constants = input_data$nim.constants,
                           testRun = FALSE, 
-                          nchains = 6,
-                          initVals.seed = mySeed)
+                          nchains = nchains,
+                          initVals.seed = MCMC.seeds)
 
 
 ## Expand seed to get MCMC seeds

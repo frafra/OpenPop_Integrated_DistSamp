@@ -39,6 +39,7 @@ R_parent_drop0 <- TRUE # Drop observations of juveniles with no adults present
 sumR.Level <- "line" # Aggregation level for reproduction data (line vs. group)
 survVarT <- TRUE # Time variation in survival
 fitRodentCov <- TRUE # Rodent covariate on reproduction
+telemetryData <- TRUE # Include telemetry data
 
 parallelMCMC <- TRUE
 
@@ -115,7 +116,8 @@ list(
   
   tar_target(
     modelCode,
-    writeModelCode(survVarT = survVarT)
+    writeModelCode(survVarT = survVarT,
+                   telemetryData = telemetryData)
   ),
   
   

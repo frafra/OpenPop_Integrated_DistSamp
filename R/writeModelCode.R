@@ -3,14 +3,15 @@
 #' @param survVarT logical. If TRUE, writes code for a model including random
 #' year variation in survival probability. If FALSE, assumed constant survival
 #' probability across time. 
-#'
+#' @param telemetryData logical. If TRUE, uses information from telemetry data
+#' from Lierne. If FALSE, only line transect data is used. 
 #' @return an R call object specifying the model structure for integrated 
 #' distance sampling model. 
 #' @export
 #'
 #' @examples
 
-writeModelCode <- function(survVarT){
+writeModelCode <- function(survVarT, telemetryData){
   
   IDSM.code <- nimble::nimbleCode({
     
@@ -131,19 +132,21 @@ writeModelCode <- function(survVarT){
     } # x
     
     
-    ## Known-fate telemetry data
-    # N_years_RT = number of yeard for which radio-telemetry data is available
-    # Survs1[t, z] = numbers of collared individuals released (z = 1) and 
-    # recovered alive (z = 2) during season 1 of year t
-    # Survs2[t, z] = numbers of collared individuals released (z = 1) and 
-    # recovered alive (z = 2) during season 2 of year t
-    # S1[t] = survival probability through season 1 of year t
-    # S2[t] = survival probability through season 2 of year t
-    
-    for (t in 1:N_years_RT){
+    if(telemetryData){
+      ## Known-fate telemetry data
+      # N_years_RT = number of yeard for which radio-telemetry data is available
+      # Survs1[t, z] = numbers of collared individuals released (z = 1) and 
+      # recovered alive (z = 2) during season 1 of year t
+      # Survs2[t, z] = numbers of collared individuals released (z = 1) and 
+      # recovered alive (z = 2) during season 2 of year t
+      # S1[t] = survival probability through season 1 of year t
+      # S2[t] = survival probability through season 2 of year t
       
-      Survs1[t, 2] ~ dbinom(S1[year_Survs[t]], Survs1[t, 1])
-      Survs2[t, 2] ~ dbinom(S2[year_Survs[t]], Survs2[t, 1])
+      for (t in 1:N_years_RT){
+        
+        Survs1[t, 2] ~ dbinom(S1[year_Survs[t]], Survs1[t, 1])
+        Survs2[t, 2] ~ dbinom(S2[year_Survs[t]], Survs2[t, 1])
+      }
     }
 
     
