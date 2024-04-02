@@ -188,9 +188,9 @@ writeModelCode <- function(survVarT, telemetryData){
       logit(Mu.S[x]) <- mu.S[x]
       
       if(survVarT){
-        logit(S[x, 1:N_years]) <- logit(Mu.S[x]) + epsT.S[1:N_years] + epsR.S[x, 1:N_years]
+        logit(S[x, 1:(N_years-1)]) <- logit(Mu.S[x]) + epsT.S[1:(N_years-1)] + epsR.S[x, 1:(N_years-1)]
       }else{
-        S[x, 1:N_years] <- Mu.S[x]
+        S[x, 1:(N_years-1)] <- Mu.S[x]
       }
     } # x
     
@@ -198,13 +198,13 @@ writeModelCode <- function(survVarT, telemetryData){
     ## Seasonal survival probabilities in area with radiotelemetry data
     # Season 1
     if(survVarT){
-      logit(S1[1:N_years]) <- logit(Mu.S1) + eps.S1.prop*(epsT.S[1:N_years] + epsR.S[SurvAreaIdx, 1:N_years])
+      logit(S1[1:(N_years-1)]) <- logit(Mu.S1) + eps.S1.prop*(epsT.S[1:(N_years-1)] + epsR.S[SurvAreaIdx, 1:(N_years-1)])
     }else{
-      S1[1:N_years] <- Mu.S1
+      S1[1:(N_years-1)] <- Mu.S1
     }
     
     # Season 2
-    S2[1:N_years] <- S[SurvAreaIdx, 1:N_years] / S1[1:N_years]
+    S2[1:(N_years-1)] <- S[SurvAreaIdx, 1:(N_years-1)] / S1[1:(N_years-1)]
     
     
     ###########
@@ -278,7 +278,7 @@ writeModelCode <- function(survVarT, telemetryData){
       
       epsT.R[t] ~ dnorm(0, sd = sigmaT.R) # Recruitment
       
-      if(survVarT){
+      if(survVarT & t < N_years){
         epsT.S[t] ~ dnorm(0, sd = sigmaT.S) # Survival
       }
       
@@ -291,7 +291,7 @@ writeModelCode <- function(survVarT, telemetryData){
         
         epsR.R[x, t] ~ dnorm(0, sd = sigmaR.R)
         
-        if(survVarT){
+        if(survVarT & t < N_years){
           epsR.S[x, t] ~ dnorm(0, sd = sigmaR.S)
         }
         

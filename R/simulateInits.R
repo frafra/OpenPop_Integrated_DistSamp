@@ -73,23 +73,23 @@ simulateInits <- function(nim.data, nim.constants, R_perF, survVarT, fitRodentCo
   eps.S1.prop <- runif(1, 0.3, 0.8)
   
   if(survVarT){
-    epsT.S <- rep(0, N_years)
-    #epsT.S <- rnorm(N_years, 0, sigmaT.S)
-    epsR.S <- matrix(0, nrow = N_areas, ncol = N_years)
+    epsT.S <- rep(0, N_years-1)
+    #epsT.S <- rnorm(N_years-1, 0, sigmaT.S)
+    epsR.S <- matrix(0, nrow = N_areas, ncol = N_years-1)
     #epsR.S <- matrix(rnorm(N_areas*N_years, 0, sigmaR.S), nrow = N_areas, ncol = N_years)
     
   }else{
-    epsT.S <- rep(0, N_years)
-    epsR.S <- matrix(0, nrow = N_areas, ncol = N_years)
+    epsT.S <- rep(0, N_years-1)
+    epsR.S <- matrix(0, nrow = N_areas, ncol = N_years-1)
   }
   
   for(x in 1:N_areas){
     Mu.S[x] <- plogis(mu.S[x])
-    S[x, 1:N_years] <- plogis(qlogis(Mu.S[x]) + epsT.S[1:N_years] + epsR.S[x, 1:N_years])
+    S[x, 1:(N_years-1)] <- plogis(qlogis(Mu.S[x]) + epsT.S[1:(N_years-1)] + epsR.S[x, 1:(N_years-1)])
   }
 
-  S1[1:N_years] <- plogis(qlogis(Mu.S1) + eps.S1.prop*(epsT.S[1:N_years] + epsR.S[nim.constants$SurvAreaIdx, 1:N_years]))
-  S2[1:N_years] <- S[nim.constants$SurvAreaIdx, 1:N_years] / S1[1:N_years]
+  S1[1:(N_years-1)] <- plogis(qlogis(Mu.S1) + eps.S1.prop*(epsT.S[1:(N_years-1)] + epsR.S[nim.constants$SurvAreaIdx, 1:(N_years-1)]))
+  S2[1:(N_years-1)] <- S[nim.constants$SurvAreaIdx, 1:(N_years-1)] / S1[1:(N_years-1)]
   
   ## Area-specific reproductive parameters
   h.Mu.R  <- runif(1, 1.5, 3)
