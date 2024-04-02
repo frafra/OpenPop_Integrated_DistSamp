@@ -14,7 +14,7 @@ library(parallel)
 mySeed <- 32
 set.seed(mySeed)
 
-nchains <- 6
+nchains <- 5
 
 ## Source all functions in "R" folder
 sourceDir <- function(path, trace = TRUE, ...) {

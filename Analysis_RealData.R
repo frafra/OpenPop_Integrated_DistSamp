@@ -11,6 +11,9 @@ library(nimble)
 mySeed <- 32
 set.seed(mySeed)
 
+## Set number of chains
+nchains <- 5
+
 ## Source all functions in "R" folder
 sourceDir <- function(path, trace = TRUE, ...) {
   for (nm in list.files(path, pattern = "[.][RrSsQq]$")) {
