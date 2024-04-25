@@ -277,12 +277,14 @@ writeModelCode <- function(survVarT, telemetryData){
     for(t in 1:N_years){
       
       epsT.R[t] ~ dnorm(0, sd = sigmaT.R) # Recruitment
-      
-      if(survVarT & t < N_years){
+      epsT.dd[t] ~ dnorm(0, sd = sigmaT.dd) # Detection
+    }
+    
+    for(t in 1:(N_years-1)){
+
+      if(survVarT){
         epsT.S[t] ~ dnorm(0, sd = sigmaT.S) # Survival
       }
-      
-      epsT.dd[t] ~ dnorm(0, sd = sigmaT.dd) # Detection
     }
     
     # Residual variation
@@ -290,12 +292,16 @@ writeModelCode <- function(survVarT, telemetryData){
       for (t in 1:N_years){
         
         epsR.R[x, t] ~ dnorm(0, sd = sigmaR.R)
+        epsR.dd[x, t] ~ dnorm(0, sd = sigmaR.dd)
+      }
+    }
+    
+    for(x in 1:N_areas){
+      for (t in 1:(N_years-1)){
         
-        if(survVarT & t < N_years){
+        if(survVarT){
           epsR.S[x, t] ~ dnorm(0, sd = sigmaR.S)
         }
-        
-        epsR.dd[x, t] ~ dnorm(0, sd = sigmaR.dd)
       }
     }
     

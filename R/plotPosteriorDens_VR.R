@@ -107,8 +107,8 @@ plotPosteriorDens_VR <- function(mcmc.out, N_areas, area_names, N_years, minYear
     if(survVarT){
       p_S[[i]] <- ggplot(subset(out.data, AreaIdx == i & VRcat == "Survival" & Season == "Annual")) + 
         geom_density(aes(x = Value, colour = plotYear, fill = plotYear), alpha = 0.5) + 
-        scale_fill_manual(name = "Year", values = c(rev(colorspace::sequential_hcl(N_years, palette = "Peach")), viridis::mako(5)[3])) + 
-        scale_color_manual(name = "Year", values = c(rev(colorspace::sequential_hcl(N_years, palette = "Peach")), viridis::mako(5)[3])) +
+        scale_fill_manual(name = "Year", values = c(rev(colorspace::sequential_hcl(N_years-1, palette = "Peach")), viridis::mako(5)[3])) + 
+        scale_color_manual(name = "Year", values = c(rev(colorspace::sequential_hcl(N_years-1, palette = "Peach")), viridis::mako(5)[3])) +
         xlab("") + ylab("Density") + 
         ggtitle("Survival probability") + 
         theme_classic()

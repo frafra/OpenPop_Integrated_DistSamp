@@ -383,7 +383,8 @@ prepareInputData <- function(d_trans, d_obs, d_cmr, d_rodent, localities = NULL,
                         SurvAreaIdx = input.data$SurvAreaIdx,
                         year_Survs = input.data$year_Survs, N_years_RT = input.data$N_years_RT,
                         sumR_obs_year = input.data$sumR_obs_year, N_sumR_obs = input.data$N_sumR_obs,
-                        N_ageC = N_ageC)
+                        N_ageC = N_ageC,
+                        telemetryData = telemetryData)
   
   ## Make final data list to return
   if(dataVSconstants){

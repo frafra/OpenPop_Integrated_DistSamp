@@ -57,11 +57,20 @@ plotTimeSeries <- function(mcmc.out,
       
       # Summarize annual survival rates
       pSurv_name <- paste0("S[",  i, ", ", area_yearIdxs[t], "]")
-      pSurv_add <- data.frame(Area = area_names[i],
-                              Year = area_years[t], 
-                              Median = median(out.mat[, pSurv_name]),
-                              lCI = unname(quantile(out.mat[, pSurv_name], probs = 0.025)),
-                              uCI = unname(quantile(out.mat[, pSurv_name], probs = 0.975)))
+      
+      if(t < max_years[i]){
+        pSurv_add <- data.frame(Area = area_names[i],
+                                Year = area_years[t], 
+                                Median = median(out.mat[, pSurv_name]),
+                                lCI = unname(quantile(out.mat[, pSurv_name], probs = 0.025)),
+                                uCI = unname(quantile(out.mat[, pSurv_name], probs = 0.975)))
+      }else{
+        pSurv_add <- data.frame(Area = area_names[i],
+                                Year = area_years[t], 
+                                Median = NA,
+                                lCI = NA,
+                                uCI = NA)
+      }
       pSurv.sum <- rbind(pSurv.sum, pSurv_add)
       
       # Summarize annual detection probabilities
@@ -157,8 +166,8 @@ plotTimeSeries <- function(mcmc.out,
       
       if(showDataWindow){
         p_pSurv <- p_pSurv + 
-          geom_rect(xmin = min_years[i] + minYear - 1, xmax = max_years[i] + minYear - 1,
-                    ymin = min(pSurv$lCI), ymax = max(pSurv$uCI), 
+          geom_rect(xmin = min_years[i] + minYear - 1, xmax = max_years[i] - 1 + minYear - 1,
+                    ymin = min(pSurv$lCI, na.rm = TRUE), ymax = max(pSurv$uCI, na.rm = TRUE), 
                     alpha = 0.01, fill = "cornflowerblue") 
       }
       

@@ -177,6 +177,7 @@ if(!parallelMCMC){
   input_data$nim.constants$fitRodentCov <- fitRodentCov
   input_data$nim.constants$survVarT <- survVarT
   input_data$nim.constants$R_perF <- R_perF
+  input_data$nim.constants$telemetryData <- telemetryData
   
   ## Set up cluster
   this_cluster <- makeCluster(model_setup$mcmcParams$nchains)

@@ -27,7 +27,8 @@ checkDD <- function(mcmc.out,
     
     # Determine area-specific year range
     area_yearIdxs <- (min_years[x]:max_years[x])
-    
+    area_yearIdxs_surv <- (min_years[x]:(max_years[x]-1))
+      
     # Set up vector for storing correlation coefficients
     corr_lambda <- corr_rep <- corr_surv <- rep(NA, nrow(out.mat))
     
@@ -43,12 +44,12 @@ checkDD <- function(mcmc.out,
       
       lambdaT <- c(densT[2:length(densT)]/densT[1:(length(densT)-1)], NA)
       repT <- unname(out.mat[i, paste0("R_year[",  x, ", ", area_yearIdxs, "]")])
-      survT <- unname(out.mat[i, paste0("S[",  x, ", ", area_yearIdxs, "]")])
+      survT <- unname(out.mat[i, paste0("S[",  x, ", ", area_yearIdxs_surv, "]")])
       
       # Calculate correlation coefficients
       corr_lambda[i] <- cor.test(lambdaT, densT)$estimate
       corr_rep[i] <- cor.test(repT, densT)$estimate
-      corr_surv[i] <- cor.test(survT, densT)$estimate
+      corr_surv[i] <- cor.test(survT, densT[1:(length(densT)-1)])$estimate
     }
     
     # Summarize posteriors in data frame
