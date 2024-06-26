@@ -207,9 +207,9 @@ The new IDSM framework presented here is relevant for many wildlife populations 
 
 ### Author contributions
 
-EBN Lead - Drafted the model code; Lead - Wrote first version of ms; Lead - Data collection; Contributed - Modelling and analyses
+**Erlend B. Nilsen**: Conceptualization, Methodology, Software, Formal analysis, Investigation, Data Curation, Writing - Original Draft, Writing - Review & Editing, Project administration, Funding acquisition.
 
-CRN Lead - Updated, further developed, and finalized model code; Lead - Modelling and analyses; Contributed - Wrote first version of ms
+**Chloé R. Nater**: Conceptualization, Methodology, Software, Validation, Formal analysis, Investigation, Data Curation, Writing - Original Draft, Writing - Review & Editing, Visualization.
 
 ### Acknowledgements
 
