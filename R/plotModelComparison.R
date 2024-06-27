@@ -80,7 +80,7 @@ plotModelComparison <- function(modelPaths, modelChars,
   ## Plot overlapping posterior densities for different parameter groups
   
   # Hyper parameters
-  mains <- hyperParams[which(!(hyperParams) %in% c("Mu.S1", "Mu.S2"))]
+  mains <- hyperParams[which(!(hyperParams %in% c("Mu.S1", "Mu.S2")))]
   
   pdf(paste0(plotPath, '/ModelComp_HyperParams.pdf'), width = 8, height = 5)
   print(
