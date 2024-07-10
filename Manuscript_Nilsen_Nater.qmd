@@ -65,7 +65,7 @@ $$
 
 Note that recruitment rate $R$ is defined as juveniles/adult (not juveniles/female). We also make the simplifying assumption that there is no age- or sex-dependence of vital rates, but this assumption could be relaxed by including additional auxiliary data [@Israelsen2020; @Sandercock2011].
 
-![Graphical representation of the annual ptarmigan life cycle with two age classes and the data sources included in the integrated distance sampling model. Juvenile~t~ = juveniles in year $t$. Adult~t~ = adults in year $t$. $R_t$ = recruitment rate in year $t$. $S_t$ = survival probability from year $t$ to $t+1$.](Figures/RypeIDSM_structure.png){#fig-model}
+![Graphical representation of the annual ptarmigan life cycle with two age classes and the data sources included in the integrated distance sampling model. Solid arrows represent relationships within the ptarmigan life cycle; dotted arrows visualize information flow from data sources to parameters. Juvenile~t~ = juveniles in year $t$. Adult~t~ = adults in year $t$. $R_t$ = recruitment rate in year $t$. $S_t$ = survival probability from year $t$ to $t+1$.](Figures/RypeIDSM_structure.png){#fig-model}
 
 #### 2.1.2 Likelihoods for distance sampling data
 
