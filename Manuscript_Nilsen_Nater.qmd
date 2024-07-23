@@ -63,7 +63,7 @@ D_{ad,t}
 \end{array}\right]
 $$
 
-Note that recruitment rate $R$ is defined as juveniles/adult (not juveniles/female). We also make the simplifying assumption that there is no age- or sex-dependence of vital rates, but this assumption could be relaxed by including additional auxiliary data [@Israelsen2020; @Sandercock2011].
+Note that recruitment rate $R$ is defined as juveniles/adult (not juveniles/female). We assume no stochasticity beyond time-variation in vital rates in the model for population density itself, but instead treat local population sizes (numbers of birds in age class $a$ in year $t$ within the area of each transect $j$, $N_{a,j,t}$), as outcomes of a Poisson process with an expected average equaling $D_{a,t}$ times the transect area (see below). We also make the simplifying assumption that there is no age- or sex-dependence of vital rates, but this assumption could be relaxed by including additional auxiliary data [@Israelsen2020; @Sandercock2011].
 
 ![Graphical representation of the annual ptarmigan life cycle with two age classes under a post-breeding census and the data sources included in the integrated distance sampling model. Solid arrows represent relationships within the ptarmigan life cycle; dotted arrows visualize information flow from data sources to parameters. Blue and pink data nodes originate from distance sampling and line transect surveys, respectively. Juvenile~t~ = juveniles in year $t$. Adult~t~ = adults in year $t$. $R_t$ = recruitment rate in year $t$. $S_t$ = survival probability from year $t$ to $t+1$.](Figures/RypeIDSM_structure.png){#fig-model}
 
