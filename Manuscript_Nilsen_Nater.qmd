@@ -69,11 +69,11 @@ Note that recruitment rate $R$ is defined as juveniles/adult (not juveniles/fema
 
 #### 2.1.2 Likelihoods for distance sampling data
 
-The implementation of the modelling framework we present makes three assumptions about the distance sampling survey: 1) the survey consists of line transects, 2) animals may be detected alone or in groups, and 3) juveniles and adults can be distinguished during surveys. These assumptions are inspired by our willow ptarmigan case study (details below). Our model includes three likelihoods for different components of the age-structured distance sampling data. First is the likelihood for the perpendicular detection distances from line transect, $y$, which are linked to distance-dependent detection probability $p$ through a half-normal detection function:
+The implementation of the modelling framework we present makes three assumptions about the distance sampling survey: 1) the survey consists of line transects, 2) animals may be detected alone or in groups, and 3) juveniles and adults can be distinguished during surveys. These assumptions are inspired by our willow ptarmigan case study (details below). Our model includes three likelihoods for different components of the age-structured distance sampling data. First is the likelihood for the perpendicular detection distances from line transect, $y$, which are linked to distance-dependent detection probability $p_y$ through a half-normal detection function:
 
 $$
 \begin{equation}
-p = exp(-\frac{y^2}{2\sigma^2})
+p_y = exp(-\frac{y^2}{2\sigma^2})
 \end{equation}
 $$ where $\sigma$ is the half-normal detection parameter. We assumed $\sigma$ to vary among years (index $t$) but not between transect lines or animal group size. Following @moore2011, the resulting $\sigma_t$ can be used to calculate effective strip width ($esw_{t}$) and, consequently, average detection probability per line transect with a truncation distance $W$ according to:
 
