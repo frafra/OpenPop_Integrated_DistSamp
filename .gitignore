@@ -25,3 +25,9 @@ data/NorgeKommuner_clipped_kystkontor
 manuscript
 
 
+
+*.dbf
+
+*.prj
+
+*.shx
