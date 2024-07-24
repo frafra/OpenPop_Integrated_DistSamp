@@ -115,12 +115,37 @@ betaR.R_tidy <- out.mcmc %>% tidybayes::spread_draws(betaR.R[area],
             upper = quantile(betaR.R, probs = 0.975)) %>%
   mutate(model_parameter = "betaR.R")
 
+################################################################################
+### Summarize detection
+
+# By year
+detect_year_tidy <- out.mcmc %>% tidybayes::spread_draws(p[area, year], sep = "[,]", regex = FALSE) %>%
+  group_by(year) %>%
+  summarise(Mean = mean(p), 
+            std = sd(p), 
+            Median = median(p), 
+            lower = quantile(p, probs = 0.025), 
+            upper = quantile(p, probs = 0.975)) %>%
+  ungroup() %>%
+  mutate(model_parameter = "p_year")
+
+# Average parameters
+out.mat <- as.matrix(out.mcmc)
+p_avg <- rowMeans(out.mat[, paste0("p[1, ", 1:15, "]")])
+sigma_avg <- exp(out.mat[, "mu.dd[1]"])
+detect_avg_tidy <- data.frame(Mean = c(mean(p_avg), mean(sigma_avg)),
+                              std = c(sd(p_avg), sd(sigma_avg)),
+                              Median = c(median(p_avg), median(sigma_avg)), 
+                              lower = c(quantile(p_avg, probs = 0.025), quantile(sigma_avg, probs = 0.025)), 
+                              upper = c(quantile(p_avg, probs = 0.975), quantile(sigma_avg, probs = 0.975)),
+                              model_parameter = c("p_mean", "sigma_mean"))
 
 ################################################################################
 #### Putting together output
 
 pooled_results <- bind_rows(dens_tidy, R_year_tidy, muR_tidy, 
-                            muS_tidy, muS1_tidy, muS2_tidy, betaR.R_tidy)
+                            muS_tidy, muS1_tidy, muS2_tidy, betaR.R_tidy,
+                            detect_year_tidy, detect_avg_tidy)
 
 
 pooled_results
