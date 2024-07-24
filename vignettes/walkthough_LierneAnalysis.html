@@ -470,10 +470,10 @@ functions has roxygen documentation, which we can consult to learn more
 about its purpose and use.</p>
 <pre class="r"><code>library(tidyverse)</code></pre>
 <pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-## ✔ dplyr     1.1.3     ✔ readr     2.1.4
-## ✔ forcats   1.0.0     ✔ stringr   1.5.0
-## ✔ ggplot2   3.4.4     ✔ tibble    3.2.1
-## ✔ lubridate 1.9.3     ✔ tidyr     1.3.0
+## ✔ dplyr     1.1.4     ✔ readr     2.1.5
+## ✔ forcats   1.0.0     ✔ stringr   1.5.1
+## ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+## ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
 ## ✔ purrr     1.0.2     
 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
@@ -500,6 +500,7 @@ sourceDir(&#39;R&#39;)</code></pre>
 ## listDuplTransects.R :
 ## listLocations.R :
 ## plotCovPrediction.R :
+## plotDetectFunction.R :
 ## plotMaps.R :
 ## plotMCMCTraces.R :
 ## plotModelComparison.R :
@@ -772,6 +773,12 @@ if(fitRodentCov){
                     fitRodentCov = fitRodentCov)
 }</code></pre>
 <pre><code>## [1] &quot;Plots/CovPredictions/Rep_betaR.R.pdf&quot;</code></pre>
+<pre class="r"><code>## Distance-sampling detection function
+plotDetectFunction(mcmc.out = IDSM.out.tidy,
+                   maxDist = input_data$nim.constants$W,
+                   N_areas = input_data$nim.constant$N_areas, 
+                   area_names = input_data$nim.constant$area_names)</code></pre>
+<pre><code>## [1] &quot;Plots/DetectFunction/DetectionProb_distance.pdf&quot;</code></pre>
 </div>
 
 

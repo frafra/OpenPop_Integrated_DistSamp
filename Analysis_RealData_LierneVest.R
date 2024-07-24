@@ -214,4 +214,11 @@ if(fitRodentCov){
 }
 
 
+# OPTIONAL: PLOT DETECTION FUNCTIONS #
+#------------------------------------#
+
+plotDetectFunction(mcmc.out = IDSM.out.tidy,
+                   maxDist = input_data$nim.constants$W,
+                   N_areas = input_data$nim.constant$N_areas, 
+                   area_names = input_data$nim.constant$area_names)
 
