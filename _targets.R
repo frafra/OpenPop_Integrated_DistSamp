@@ -227,6 +227,16 @@ list(
   ),
   
   tar_target(
+    VRcorr.checks,
+    checkVRcorr(mcmc.out = IDSM.out.tidy, 
+                N_areas = input_data$nim.constant$N_areas, 
+                area_names = input_data$nim.constant$area_names, 
+                area_coord = LT_data$d_coord,
+                min_years = input_data$nim.constant$min_years, 
+                max_years = input_data$nim.constant$max_years)
+  ),
+  
+  tar_target(
     VarDecomp,
     plotVarDecomposition(mcmc.out = IDSM.out.tidy, 
                          N_areas = input_data$nim.constants$N_areas, 
