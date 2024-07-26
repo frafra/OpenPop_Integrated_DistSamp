@@ -13,6 +13,7 @@
 #' standardization).
 #' @param sdCov numeric. Standard deviation of the original covariate (used for 
 #' z-standardization).
+#' @param covData numeric. Matrix of covariate values used in analysis (columns = years, rows = areas).
 #' @param N_areas integer. Number of areas included in analyses. 
 #' @param area_names character vector containing area/location names.
 #' @param fitRodentCov logical. If TRUE, plots are made for predictions with 
@@ -27,6 +28,7 @@ plotCovPrediction <- function(mcmc.out,
                               effectParam, covName,
                               minCov, maxCov,
                               meanCov, sdCov,
+                              covData,
                               N_areas, area_names,
                               fitRodentCov){
   
@@ -57,15 +59,43 @@ plotCovPrediction <- function(mcmc.out,
       }
     }
     
+    ## Write covariate data into a data frame
+    cov.raw.data <- data.frame()
+    for(i in 1:N_areas){
+      
+      # Assemble data
+      raw.data <- data.frame(Area = area_names[i],
+                             covValue_z = covData[i,],
+                             covValue = (covData[i,] * sdCov) + meanCov,
+                             yearIdx = 1:length(covData[i,]))
+      # Count number of times same value appears (for spacing in plot)
+      raw.data <- raw.data %>%
+        dplyr::add_count(covValue) %>%
+        dplyr::mutate(occur_n = 1)
+
+      for(j in 1:nrow(raw.data)){
+        if(raw.data$n[j] > 1){
+          raw.data$occur_n[j] <- nrow(subset(raw.data[1:j,], covValue == covValue[j]))
+        }
+      }
+      cov.raw.data <- rbind(cov.raw.data, raw.data)
+    }
+    
+    
     ## Plot predictions
     ifelse(!dir.exists("Plots/CovPredictions"), dir.create("Plots/CovPredictions"), FALSE) ## Check if folder exists, if not create folder
     
     pdf(paste0("Plots/CovPredictions/Rep_", effectParam, ".pdf"), width = 6, height = 4) 
     for(i in 1:N_areas){
+      pred.max <- max(subset(cov.pred.data, Area == area_names[i])$pred_uCI)
+      sub.cov.data <- subset(cov.raw.data, Area == area_names[i]) %>%
+        dplyr::mutate(y_pos = pred.max -(0.1*(occur_n-1)))
+      
       print(
         ggplot(subset(cov.pred.data, Area == area_names[i]), aes(x = covValue, y = pred_Median)) +
           geom_line(color = "forestgreen") + 
           geom_ribbon(aes(ymin = pred_lCI, ymax = pred_uCI), alpha = 0.5, fill = "forestgreen") + 
+          geom_point(data = sub.cov.data, aes(x = covValue, y = y_pos)) + 
           xlab(covName) +
           ylab("Recruitment rate") + 
           ggtitle(area_names[i]) + 
