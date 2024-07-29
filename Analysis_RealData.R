@@ -283,15 +283,6 @@ if(fitRodentCov){
 }
 
 
-# OPTIONAL: PLOT DETECTION FUNCTIONS #
-#------------------------------------#
-
-plotDetectFunction(mcmc.out = IDSM.out.tidy,
-                   maxDist = input_data$nim.constants$W,
-                   N_areas = input_data$nim.constant$N_areas, 
-                   area_names = input_data$nim.constant$area_names)
-
-  
 # OPTIONAL: CHECK WITHIN-AREA DENSITY DEPENDENCE #
 #------------------------------------------------#
 
@@ -347,6 +338,17 @@ plotLatitude(PostSum.list = PostSum.list,
              area_coord = LT_data$d_coord,
              minYear = minYear, maxYear = maxYear,
              fitRodentCov = fitRodentCov)
+
+
+# OPTIONAL: GENERATION TIME #
+#---------------------------#
+
+GT_estimates <- extract_GenTime(mcmc.out = IDSM.out.tidy, 
+                                N_areas = input_data$nim.constants$N_areas, 
+                                area_names = input_data$nim.constant$area_names, 
+                                area_coord = LT_data$d_coord,
+                                mapNM = NorwayMunic.map,
+                                save = TRUE)
 
 
 # OPTIONAL: MODEL COMPARISON (PLOTS) #
