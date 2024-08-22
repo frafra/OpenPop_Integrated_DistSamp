@@ -112,6 +112,7 @@ if(!dir.exists("simData")){
 
 ## Select seeds randomly
 seed.list <- sample(1:1000, size = N_datasets, replace = FALSE)
+#seed.list <- c(120, 199, 216, 365, 541, 596, 706, 794, 919, 956)
 
 for(i in 1:N_datasets){
   
@@ -201,8 +202,8 @@ for(i in 1:length(simSeed.list)){
                               fitRodentCov = fitRodentCov,
                               nim.data = input_data$nim.data,
                               nim.constants = input_data$nim.constants,
-                              niter = 500000, nthin = 5, nburn = 300000, nchains = 3,
-                              testRun = TRUE,
+                              #niter = 500000, nthin = 5, nburn = 300000, nchains = 3,
+                              testRun = FALSE,
                               initVals.seed = mySeed)
     
     ## Run model
@@ -282,4 +283,6 @@ saveRDS(runSeed.list, file = "simModelFits_sum/seedInfo.rds")
 plotSimCheck_replicates(thin = 100)
 plotSimCheck_replicates("Temps", thin = 100)
 plotSimCheck_replicates("Zissou1", thin = 100)
+
+plotSimCheckMetrics_replicates("Temps", thin = 1)
 

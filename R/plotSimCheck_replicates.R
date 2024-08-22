@@ -28,7 +28,7 @@ plotSimCheck_replicates <- function(plotColors = "customRainbow", thin = 1) {
   
   ## Load information on simulation and run seeds
   simSeeds <- readRDS("simData/seedList.rds")
-  runSeeds <- readRDS("simModelFits/seedInfo.rds")
+  runSeeds <- readRDS("simModelFits_sum/seedInfo.rds")
   
   ## Set up tibbles to collate simulated data and model posteriors
   N_simData <- D_simData <-  R_simData <- det_simData <- simParams <- tibble()
@@ -161,9 +161,12 @@ plotSimCheck_replicates <- function(plotColors = "customRainbow", thin = 1) {
     plot.cols <- hcl.colors(length(simSeeds), palette = "Zissou1")
   }
   
+  #################
+  # DENSITY PLOTS #
+  #################
+  
   # Plotting vital rates (all replicates) #
   #---------------------------------------#
-  
   
   ## Plot average survival probabilities (Mu.S)
   p1 <- ggplot(data = Mu_S, aes(x = Surv, y = S)) +
