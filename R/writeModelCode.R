@@ -93,6 +93,13 @@ writeModelCode <- function(survVarT, telemetryData){
       for (t in 1:N_years){
         N_tot_exp[x, t] <- sum(N_exp[x, 1, 1:N_sites[x], t] + N_exp[x, 2, 1:N_sites[x], t])
       }
+      
+      ## Area-, year-, and age-class specific density (for monitoring)
+      for(a in 1:N_ageC){
+        for(t in 1:N_years){
+          meanDens[x, a, t] <- mean(Density[x, a, 1:N_sites[x], t])
+        } # t
+      } # a
     } # x
     
     

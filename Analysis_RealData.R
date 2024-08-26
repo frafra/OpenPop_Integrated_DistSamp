@@ -143,7 +143,7 @@ model_setup <- setupModel(modelCode = modelCode,
                           fitRodentCov = fitRodentCov,
                           nim.data = input_data$nim.data,
                           nim.constants = input_data$nim.constants,
-                          testRun = FALSE, 
+                          testRun = TRUE, 
                           nchains = nchains,
                           initVals.seed = MCMC.seeds)
 

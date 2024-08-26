@@ -210,6 +210,18 @@ simulateInits <- function(nim.data, nim.constants, R_perF, survVarT, fitRodentCo
     }
   }
   
+  ## Area-, year-, and age-class specific density (for monitoring)
+  meanDens <- array(NA, dim = c(N_areas, N_ageC, N_years))
+  
+  for(x in 1:N_areas){
+    for(a in 1:N_ageC){
+      for(t in 1:N_years){
+        meanDens[x, a, t] <- mean(Density[x, a, 1:N_sites[x], t])
+      }
+    } 
+  }
+
+  
   # Assembly #
   #----------#
   
@@ -248,6 +260,7 @@ simulateInits <- function(nim.data, nim.constants, R_perF, survVarT, fitRodentCo
     S1 = S1, S2 = S2, S = S,
     
     Density = Density,
+    meanDens = meanDens,
     N_exp = N_exp,
     N_tot_exp = N_tot_exp
   )
