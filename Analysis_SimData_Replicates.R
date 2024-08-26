@@ -284,5 +284,5 @@ plotSimCheck_replicates(thin = 100)
 plotSimCheck_replicates("Temps", thin = 100)
 plotSimCheck_replicates("Zissou1", thin = 100)
 
-plotSimCheckMetrics_replicates("Temps", thin = 1)
+plotSimCheckMetrics_replicates("Temps", thin = 100)
 
