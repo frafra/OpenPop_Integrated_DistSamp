@@ -41,8 +41,7 @@ setupModel <- function(modelCode, customDist,
               "Density", 
               "Mu.D1", "sigma.D",
               "S", "Mu.S", "h.Mu.S", "h.sigma.S",
-              "Mu.S1", 
-              "ratio.JA1")
+              "Mu.S1")
   
   if(survVarT){
     params <- c(params, "sigmaT.S", "sigmaR.S", "eps.S1.prop")
