@@ -15,7 +15,7 @@ rypeIDSM_GNUwrapper <- function(originSeed, chainSeed){
   source("R/simulateInits.R")
   
   ## Load input data
-  input_data <- readRDS("rypeData_forIM.rds")
+  input_data <- readRDS("RypeData_forIM.rds")
   
   ## Load stored model switches/toggles
   toggles <- readRDS("ModelRunToggles.rds")
