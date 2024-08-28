@@ -25,7 +25,7 @@ sourceDir <- function(path, trace = TRUE, ...) {
 sourceDir('R')
 
 
-## Set switches 
+## Set and store switches/toggles 
 
 # (Re-)downloading data
 # downloadData <- FALSE
@@ -50,8 +50,22 @@ fitRodentCov <- TRUE
 # Use of telemetry data from Lierne
 telemetryData <- TRUE
 
+# Test run or not
+testRun <- TRUE
+
 # Run MCMC in parallel
 parallelMCMC <- FALSE
+
+# Store as .RDS
+storeToggles(downloadData = downloadData,
+             R_perF = R_perF,
+             R_parent_drop0 = R_parent_drop0,
+             sumR.Level = sumR.Level,
+             survVarT = survVarT,
+             fitRodentCov = fitRodentCov,
+             telemetryData = telemetryData,
+             testRun = testRun,
+             parallelMCMC = parallelMCMC)
 
 
 # DOWNLOAD/FETCH DATA #
@@ -143,7 +157,7 @@ model_setup <- setupModel(modelCode = modelCode,
                           fitRodentCov = fitRodentCov,
                           nim.data = input_data$nim.data,
                           nim.constants = input_data$nim.constants,
-                          testRun = TRUE, 
+                          testRun = testRun, 
                           nchains = nchains,
                           initVals.seed = MCMC.seeds)
 
