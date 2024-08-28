@@ -1,7 +1,4 @@
 library(tidyverse)
-library(sf)
-library(terra)
-library(parallel)
 library(nimble)
 
 # SETUP #
@@ -146,6 +143,18 @@ input_data <- prepareInputData(d_trans = LT_data$d_trans,
 MCMC.seeds <- expandSeed_MCMC(seed = mySeed, 
                               nchains = nchains)
 
+# --> write seed combinations into a .txt file (tab-delimited)
+
+seedList <- list()
+seedList <- c()
+
+for(i in 1:length(MCMC.seeds)){
+  #seedList[[i]] <- paste0(mySeed, "\t", MCMC.seeds[i]) 
+  seedList <- c(seedList, paste0(mySeed, "\t", MCMC.seeds[i]) )
+}
+
+writeLines(seedList, 
+           "inputSeeds.txt")
 
 # MODEL SETUP AND RUN #
 #---------------------#

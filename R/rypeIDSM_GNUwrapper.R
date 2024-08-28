@@ -1,4 +1,5 @@
-
+library("tidyverse")
+library("nimble")
 
 rypeIDSM_GNUwrapper <- function(originSeed, chainSeed){
   
@@ -20,10 +21,10 @@ rypeIDSM_GNUwrapper <- function(originSeed, chainSeed){
   toggles <- readRDS("ModelRunToggles.rds")
   
   ## Add definition-time if-else toggles to constants
-  input_data$nim.constants$fitRodentCov <- fitRodentCov
-  input_data$nim.constants$survVarT <- survVarT
-  input_data$nim.constants$R_perF <- R_perF
-  input_data$nim.constants$telemetryData <- telemetryData
+  input_data$nim.constants$fitRodentCov <- toggles$fitRodentCov
+  input_data$nim.constants$survVarT <- toggles$survVarT
+  input_data$nim.constants$R_perF <- toggles$R_perF
+  input_data$nim.constants$telemetryData <- toggles$telemetryData
   
   ## Write model code
   modelCode <- writeModelCode(survVarT = toggles$survVarT,
@@ -57,3 +58,10 @@ rypeIDSM_GNUwrapper <- function(originSeed, chainSeed){
           file = paste0("rypeIDSM_dHN_multiArea_realData_allAreas_GNU_", originSeed, "_", chainSeed, ".rds"))
   
 }
+
+args <- commandArgs(TRUE)
+
+#print(as.integer(args))
+
+rypeIDSM_GNUwrapper(originSeed = as.integer(args[1]),
+                    chainSeed = as.integer(args[2]))
