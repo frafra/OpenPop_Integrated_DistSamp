@@ -48,7 +48,7 @@ fitRodentCov <- TRUE
 telemetryData <- TRUE
 
 # Test run or not
-testRun <- TRUE
+testRun <- FALSE
 
 # Run MCMC in parallel
 parallelMCMC <- FALSE
@@ -82,8 +82,8 @@ if(downloadData){
 
 ## Set localities/areas and time period of interest
 localities <- listLocations()
-#areas <- listAreas()
-areas <- listAreas()[c(5, 17, 34)]
+areas <- listAreas()
+#areas <- listAreas()[c(5, 17, 34)]
 minYear <- 2007
 maxYear <- 2021
 
