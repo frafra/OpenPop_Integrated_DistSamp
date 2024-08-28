@@ -153,7 +153,26 @@ IDSM.out <- nimbleMCMC(code = model_setup$modelCode,
                        setSeed = mySeed)
 Sys.time() - t.start
 
-saveRDS(IDSM.out, file = 'rypeIDSM_dHN_multiArea_realData_Lierne.rds')
+saveRDS(IDSM.out, file = 'rypeIDSM_dHN_multiArea_realData_Lierne_alt.rds')
+
+
+# COMPARE MODELS #
+#----------------#
+
+
+plotModelComparison(modelPaths = c("rypeIDSM_dHN_multiArea_realData_Lierne_alt.rds",
+                                   "P:/41201480_lirypedemografi_analyser_av_honsefuglportal_data/Lierne_ModelFit/rypeIDSM_dHN_multiArea_realData_Lierne.rds"), 
+                    modelChars = c("R_year[1]",
+                                   "ratio.JA1"), 
+                    N_areas = input_data$nim.constants$N_areas, 
+                    area_names = areas, 
+                    N_sites = input_data$nim.constants$N_sites, 
+                    N_years = input_data$nim.constants$N_years, 
+                    minYear = minYear, 
+                    max_years = input_data$nim.constants$max_years, 
+                    survAreaIdx = input_data$nim.constants$SurvAreaIdx, 
+                    plotPath = "Plots/Comp_Lierne_R1", 
+                    returnData = FALSE)
 
 
 # TIDY UP POSTERIOR SAMPLES #
