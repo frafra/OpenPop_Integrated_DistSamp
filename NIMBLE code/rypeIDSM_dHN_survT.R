@@ -95,10 +95,6 @@ rypeIDSM <- nimbleCode({
   ## State model
   for (j in 1:N_sites){
     
-    #for(a in 1:N_ageC){
-    #  N_exp[a, j, 1] ~ dpois(Density[a, j, 1]*L[j, 1]*W*2)      ## Expected number of birds
-    #}  
-    
     N_exp[1, j, 1] ~ dpois(Density[1, j, 1]*L[j, 1]*W*2) 
     N_exp[2, j, 1] ~ dpois(Density[2, j, 1]*L[j, 1]*W*2) 
     

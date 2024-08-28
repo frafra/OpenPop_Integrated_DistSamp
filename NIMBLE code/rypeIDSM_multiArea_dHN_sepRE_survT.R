@@ -29,8 +29,6 @@ rypeIDSM <- nimbleCode({
   
   sigmaT.dd ~ dunif(0, 20)
   
-  #TODO: Implement spatial correlation in temporal RE (epsT.dd[x, t])
-  
   
   ########################################################
   for(x in 1:N_areas){
@@ -81,8 +79,7 @@ rypeIDSM <- nimbleCode({
     for (t in 1:N_years){
       epsT.R[x, t] ~ dnorm(0, sd = sigmaT.R) # Temporal RE
     }
-    #TODO: Implement spatial correlation in temporal RE (epsT.R[x, t])
-    
+
     Mu.R[x]  ~ dlnorm(meanlog = log(h.Mu.R), sdlog = h.sigma.R)
     
     if(fitRodentCov){
@@ -161,8 +158,7 @@ rypeIDSM <- nimbleCode({
   
   for(x in 1:N_areas){
     mu.S[x] ~ dnorm(logit(h.Mu.S), sd = h.sigma.S)
-    #TODO: Implement spatial correlation in survival averages
-    
+
     ## Constraints
     logit(Mu.S[x]) <- mu.S[x]
     logit(S[x, 1:N_years]) <- logit(Mu.S[x]) + epsT.S[x, 1:N_years]
@@ -170,8 +166,6 @@ rypeIDSM <- nimbleCode({
     for(t in 1:N_years){
       epsT.S[x, t] ~ dnorm(0, sd = sigmaT.S) # Temporal RE
     }
-    #TODO: Consider implementing spatially correlated random year variation
-    
   }
   
   logit(S1[1:N_years]) <- logit(Mu.S1) + epsT.S1.prop*epsT.S[SurvAreaIdx, 1:N_years]
