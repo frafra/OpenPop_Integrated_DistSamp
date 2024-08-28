@@ -90,20 +90,19 @@ rypeIDSM <- nimbleCode({
   Mu.D1 ~ dunif(0, 10)
   sigma.D ~ dunif(0, 20)
   
-  ratio.JA1 ~ dunif(0, 1)
   
   ## State model
   for (j in 1:N_sites){
+
+    Density[2, j, 1] <- exp(log(Mu.D1) + eps.D1[j])
     
-    #for(a in 1:N_ageC){
-    #  N_exp[a, j, 1] ~ dpois(Density[a, j, 1]*L[j, 1]*W*2)      ## Expected number of birds
-    #}  
+    if(R_perF){
+      Density[1, j, 1] <- (Density[2, j, 1]/2)*R_year[1] 
+    }else{
+      Density[1, j, 1] <- Density[2, j, 1]*R_year[1]
+    }
     
-    N_exp[1, j, 1] ~ dpois(Density[1, j, 1]*L[j, 1]*W*2) 
-    N_exp[2, j, 1] ~ dpois(Density[2, j, 1]*L[j, 1]*W*2) 
-    
-    Density[1, j, 1] <- exp(log(Mu.D1) + eps.D1[j])*ratio.JA1             ## random effects model for spatial variation in density for year 1
-    Density[2, j, 1] <- exp(log(Mu.D1) + eps.D1[j])*(1-ratio.JA1)
+    N_exp[1:N_ageC, j, 1] <- Density[1:N_ageC, j, 1]*L[j, 1]*W*2
     
     ## Detection model year 1
     for(x in 1:N_ageC){

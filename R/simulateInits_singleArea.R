@@ -106,18 +106,22 @@ simulateInits_singleArea <- function(nim.data, nim.constants, R_perF, survVarT, 
   
   ## Initial densities / population sizes
   sigma.D <- runif(1, 0.05, 2)
-  ratio.JA1 <- runif(1, 0.2, 0.6)
   
   N_exp <- Density <- array(0, dim = c(N_ageC, max(N_sites), N_years))
   
-  D_x_sum <- apply(nim.data$N_a_line_year, c(2,3), sum) / (L*W*2)
+  D_x_sum <- nim.data$N_a_line_year[2,,] / (L*W*2)
   D_data <- D_x_sum[which(!is.na(D_x_sum) & D_x_sum > 0)]
   Mu.D1 <- runif(1, quantile(D_data, 0.25), quantile(D_data, 0.75))  
   
   for(j in 1:N_sites){
     
-    Density[1, j, 1] <- Mu.D1*ratio.JA1
-    Density[2, j, 1] <- Mu.D1*(1-ratio.JA1)
+    Density[2, j, 1] <- Mu.D1
+    
+    if(R_perF){
+      Density[1, j, 1] <- (Density[2, j, 1]/2)*R_year[1] 
+    }else{
+      Density[1, j, 1] <- Density[2, j, 1]*R_year[1]
+    }
     
     N_exp[1, j, 1] <- extraDistr::rtpois(1, lambda = Density[1, j, 1]*L[j, 1]*W*2, a = 1)
     N_exp[2, j, 1] <- extraDistr::rtpois(1, lambda = Density[2, j, 1]*L[j, 1]*W*2, a = 1)
@@ -154,7 +158,6 @@ simulateInits_singleArea <- function(nim.data, nim.constants, R_perF, survVarT, 
     Mu.D1 = Mu.D1, 
     sigma.D = sigma.D,
     eps.D1 = rep(0, max(N_sites)),
-    ratio.JA1 = ratio.JA1,
     
     Mu.R = Mu.R,
     sigmaT.R = sigmaT.R,
