@@ -1,4 +1,8 @@
 library(tidyverse)
+library(coda)
+library(nimble)
+library(ggplot2)
+library(viridis)
 
 # SETUP #
 #-------#
