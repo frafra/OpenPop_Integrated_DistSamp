@@ -352,6 +352,14 @@ plotSimCheckMetrics_replicates <- function(plotColors = "customRainbow", thin = 
                                                Parameter == "D" ~ "D[t]")) %>%
     dplyr::mutate(ParamName = factor(ParamName, levels = c("R[t]", "esw[t]", "p[t]", "N[t]", "D[t]")))
   
+  
+  ## Drop derived parameters for simples representation
+  out.annual <- out.annual %>%
+    dplyr::filter(Parameter %in% c("R", "D", "p"))
+  
+  metrics.annual <- metrics.annual %>%
+    dplyr::filter(Parameter %in% c("R", "D", "p"))
+  
   ## Calculate metric means
   metricMeans.annual <- metrics.annual %>%
     dplyr::group_by(ParamName) %>%
@@ -455,7 +463,7 @@ plotSimCheckMetrics_replicates <- function(plotColors = "customRainbow", thin = 
   p_comb2 <- plot_grid(p_a2, p_b, p_c, nrow = 1, rel_widths = c(1.33, 1, 1))
   
   ## Plot to pdf
-  pdf(paste0("Plots/SimCheck_replicates/SimCheckMetrics_annualParams_", plotColors, ".pdf"), width = 9, height = 14)
+  pdf(paste0("Plots/SimCheck_replicates/SimCheckMetrics_annualParams_", plotColors, ".pdf"), width = 9, height = 7)
   suppressWarnings(
     print(p_comb)
   )
@@ -465,13 +473,13 @@ plotSimCheckMetrics_replicates <- function(plotColors = "customRainbow", thin = 
   dev.off()
   
   ## Plot to png
-  png(paste0("Plots/SimCheck_replicates/SimCheckMetrics_annualParams_", plotColors, ".png"), width = 9, height = 14, units = "in", res = 300)
+  png(paste0("Plots/SimCheck_replicates/SimCheckMetrics_annualParams_", plotColors, ".png"), width = 9, height = 7, units = "in", res = 300)
   suppressWarnings(
     print(p_comb)
   )
   dev.off()
 
-  png(paste0("Plots/SimCheck_replicates/SimCheckMetrics_annualParams_median_", plotColors, ".png"), width = 9, height = 14, units = "in", res = 300)
+  png(paste0("Plots/SimCheck_replicates/SimCheckMetrics_annualParams_median_", plotColors, ".png"), width = 9, height = 7, units = "in", res = 300)
   suppressWarnings(
     print(p_comb2)
   )
