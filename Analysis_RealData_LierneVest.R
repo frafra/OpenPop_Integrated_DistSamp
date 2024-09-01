@@ -8,7 +8,7 @@ library(viridis)
 #-------#
 
 ## Define seed for initial value simulation and MCMC
-mySeed <- 0
+mySeed <- 32
 
 ## Source all functions in "R" folder
 sourceDir <- function(path, trace = TRUE, ...) {
@@ -157,17 +157,16 @@ IDSM.out <- nimbleMCMC(code = model_setup$modelCode,
                        setSeed = mySeed)
 Sys.time() - t.start
 
-saveRDS(IDSM.out, file = 'rypeIDSM_dHN_multiArea_realData_Lierne_alt.rds')
+saveRDS(IDSM.out, file = 'rypeIDSM_dHN_multiArea_realData_Lierne.rds')
 
 
 # COMPARE MODELS #
 #----------------#
 
-
-plotModelComparison(modelPaths = c("rypeIDSM_dHN_multiArea_realData_Lierne_alt.rds",
-                                   "P:/41201480_lirypedemografi_analyser_av_honsefuglportal_data/Lierne_ModelFit/rypeIDSM_dHN_multiArea_realData_Lierne.rds"), 
-                    modelChars = c("R_year[1]",
-                                   "ratio.JA1"), 
+plotModelComparison(modelPaths = c("rypeIDSM_dHN_multiArea_realData_Lierne.rds",
+                                   "rypeIDSM_dHN_multiArea_realData_Lierne_alt.rds"), 
+                    modelChars = c("Main model",
+                                   "Alternative model"), 
                     N_areas = input_data$nim.constants$N_areas, 
                     area_names = areas, 
                     N_sites = input_data$nim.constants$N_sites, 
@@ -175,7 +174,7 @@ plotModelComparison(modelPaths = c("rypeIDSM_dHN_multiArea_realData_Lierne_alt.r
                     minYear = minYear, 
                     max_years = input_data$nim.constants$max_years, 
                     survAreaIdx = input_data$nim.constants$SurvAreaIdx, 
-                    plotPath = "Plots/Comp_Lierne_R1", 
+                    plotPath = "Plots/Comp_LierneModels", 
                     returnData = FALSE)
 
 
