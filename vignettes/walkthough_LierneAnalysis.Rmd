@@ -1,7 +1,7 @@
 ---
 title: "Walkthrough of model application to data from Lierne"
 output: html_document
-date: "2024-02-22"
+date: "2024-09-01"
 ---
 
 ```{r setup, include=FALSE}
@@ -12,7 +12,7 @@ knitr::opts_knit$set(root.dir = "..")
 ## About this document
 In this document, we walk you through the application of the integrated distance sampling model (IDSM) to line transect and telemetry data collected from willow ptarmigans (*Lagopus lagopus*) in the western part of Lierne Municipality, Norway, as presented in:
 
-Nilsen, E. B., & Nater, C. R. (2024). An integrated open population distance sampling approach for modelling age-structured populations. *EcoEvoRxiv*. DOI: <https://doi.org/10.32942/X2Q899>
+Nilsen, E. B., & Nater, C. R. (2024). Open integrated distance sampling for modelling age-structured population dynamics. *EcoEvoRxiv*. DOI: <https://doi.org/10.32942/X2Q899>
 
 In essence, this document a version of the workflow in "Analysis_RealData_LierneVest.R" with additional annotation and documentation. 
 
@@ -54,7 +54,7 @@ if(!("LivingNorwayR" %in% installed.packages())){
 Then, we have to ensure that we have all other R packages needed for wrangling data, visualizing results, etc. For each one, the code below checks if it is available, and installs it if not.
 
 ```{r, message = FALSE, warning = FALSE}
-pkg.list <- c("coda", "cowplot", "extraDistr", "ggforce", "MCMCvis", "RJSONIO", "see", "tidyverse", "tidybayes")
+pkg.list <- c("coda", "cowplot", "extraDistr", "ggforce", "ggplot2", "MCMCvis", "RJSONIO", "see", "tidyverse", "tidybayes", "viridis")
 for(i in 1:length(pkg.list)){
   if(!(pkg.list[i] %in% installed.packages())){
     install.packages(pkg.list[i])
@@ -85,9 +85,13 @@ We get started by loading the `tidyverse` package, setting the seed (to ensure r
 
 ```{r, warning = FALSE}
 library(tidyverse)
+library(coda)
+library(nimble)
+library(ggplot2)
+library(viridis)
 
 ## Define seed for initial value simulation and MCMC
-mySeed <- 0
+mySeed <- 32
 
 ## Source all functions in "R" folder
 sourceDir <- function(path, trace = TRUE, ...) {

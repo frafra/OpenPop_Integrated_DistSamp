@@ -1,10 +1,14 @@
 library(tidyverse)
+library(coda)
+library(nimble)
+library(ggplot2)
+library(viridis)
 
 # SETUP #
 #-------#
 
 ## Define seed for initial value simulation and MCMC
-mySeed <- 0
+mySeed <- 32
 
 ## Source all functions in "R" folder
 sourceDir <- function(path, trace = TRUE, ...) {
@@ -154,6 +158,24 @@ IDSM.out <- nimbleMCMC(code = model_setup$modelCode,
 Sys.time() - t.start
 
 saveRDS(IDSM.out, file = 'rypeIDSM_dHN_multiArea_realData_Lierne.rds')
+
+
+# COMPARE MODELS #
+#----------------#
+
+plotModelComparison(modelPaths = c("rypeIDSM_dHN_multiArea_realData_Lierne.rds",
+                                   "rypeIDSM_dHN_multiArea_realData_Lierne_alt.rds"), 
+                    modelChars = c("Main model",
+                                   "Alternative model"), 
+                    N_areas = input_data$nim.constants$N_areas, 
+                    area_names = areas, 
+                    N_sites = input_data$nim.constants$N_sites, 
+                    N_years = input_data$nim.constants$N_years, 
+                    minYear = minYear, 
+                    max_years = input_data$nim.constants$max_years, 
+                    survAreaIdx = input_data$nim.constants$SurvAreaIdx, 
+                    plotPath = "Plots/Comp_LierneModels", 
+                    returnData = FALSE)
 
 
 # TIDY UP POSTERIOR SAMPLES #

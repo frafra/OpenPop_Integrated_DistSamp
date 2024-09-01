@@ -16,7 +16,7 @@ plotMCMCTraces <- function(mcmc.out, fitRodentCov, VitalRates = TRUE, DetectPara
   
   ## Make parameter lists
   mVR_params <- c("Mu.R", "h.Mu.R", "h.sigma.R", "sigmaT.R",
-                  "Mu.D1", "sigma.D", "ratio.JA1",
+                  "Mu.D1", "sigma.D",
                   "Mu.S", "Mu.S1", "h.Mu.S", "h.sigma.S")
   if(fitRodentCov){
     mVR_params <- c(mVR_params, "betaR.R", "h.Mu.betaR.R", "h.sigma.betaR.R")
