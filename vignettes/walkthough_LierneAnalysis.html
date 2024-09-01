@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2024-02-22" />
+<meta name="date" content="2024-09-01" />
 
 <title>Walkthrough of model application to data from Lierne</title>
 
@@ -351,7 +351,7 @@ display: none;
 
 <h1 class="title toc-ignore">Walkthrough of model application to data
 from Lierne</h1>
-<h4 class="date">2024-02-22</h4>
+<h4 class="date">2024-09-01</h4>
 
 </div>
 
@@ -362,9 +362,9 @@ from Lierne</h1>
 integrated distance sampling model (IDSM) to line transect and telemetry
 data collected from willow ptarmigans (<em>Lagopus lagopus</em>) in the
 western part of Lierne Municipality, Norway, as presented in:</p>
-<p>Nilsen, E. B., &amp; Nater, C. R. (2024). An integrated open
-population distance sampling approach for modelling age-structured
-populations. <em>EcoEvoRxiv</em>. DOI: <a href="https://doi.org/10.32942/X2Q899" class="uri">https://doi.org/10.32942/X2Q899</a></p>
+<p>Nilsen, E. B., &amp; Nater, C. R. (2024). Open integrated distance
+sampling for modelling age-structured population dynamics.
+<em>EcoEvoRxiv</em>. DOI: <a href="https://doi.org/10.32942/X2Q899" class="uri">https://doi.org/10.32942/X2Q899</a></p>
 <p>In essence, this document a version of the workflow in
 “Analysis_RealData_LierneVest.R” with additional annotation and
 documentation.</p>
@@ -434,7 +434,7 @@ if(!(&quot;LivingNorwayR&quot; %in% installed.packages())){
 <p>Then, we have to ensure that we have all other R packages needed for
 wrangling data, visualizing results, etc. For each one, the code below
 checks if it is available, and installs it if not.</p>
-<pre class="r"><code>pkg.list &lt;- c(&quot;coda&quot;, &quot;cowplot&quot;, &quot;extraDistr&quot;, &quot;ggforce&quot;, &quot;MCMCvis&quot;, &quot;RJSONIO&quot;, &quot;see&quot;, &quot;tidyverse&quot;, &quot;tidybayes&quot;)
+<pre class="r"><code>pkg.list &lt;- c(&quot;coda&quot;, &quot;cowplot&quot;, &quot;extraDistr&quot;, &quot;ggforce&quot;, &quot;ggplot2&quot;, &quot;MCMCvis&quot;, &quot;RJSONIO&quot;, &quot;see&quot;, &quot;tidyverse&quot;, &quot;tidybayes&quot;, &quot;viridis&quot;)
 for(i in 1:length(pkg.list)){
   if(!(pkg.list[i] %in% installed.packages())){
     install.packages(pkg.list[i])
@@ -470,17 +470,41 @@ functions has roxygen documentation, which we can consult to learn more
 about its purpose and use.</p>
 <pre class="r"><code>library(tidyverse)</code></pre>
 <pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-## ✔ dplyr     1.1.4     ✔ readr     2.1.5
+## ✔ dplyr     1.1.3     ✔ readr     2.1.5
 ## ✔ forcats   1.0.0     ✔ stringr   1.5.1
 ## ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
 ## ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
 ## ✔ purrr     1.0.2     
 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ purrr::%||%()   masks base::%||%()
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
 ## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<pre class="r"><code>library(coda)
+library(nimble)</code></pre>
+<pre><code>## nimble version 1.2.1 is loaded.
+## For more information on NIMBLE and a User Manual,
+## please visit https://R-nimble.org.
+## 
+## Note for advanced users who have written their own MCMC samplers:
+##   As of version 0.13.0, NIMBLE&#39;s protocol for handling posterior
+##   predictive nodes has changed in a way that could affect user-defined
+##   samplers in some situations. Please see Section 15.5.1 of the User Manual.
+## 
+## Attaching package: &#39;nimble&#39;
+## 
+## The following object is masked from &#39;package:stats&#39;:
+## 
+##     simulate
+## 
+## The following object is masked from &#39;package:base&#39;:
+## 
+##     declare</code></pre>
+<pre class="r"><code>library(ggplot2)
+library(viridis)</code></pre>
+<pre><code>## Loading required package: viridisLite</code></pre>
 <pre class="r"><code>## Define seed for initial value simulation and MCMC
-mySeed &lt;- 0
+mySeed &lt;- 32
 
 ## Source all functions in &quot;R&quot; folder
 sourceDir &lt;- function(path, trace = TRUE, ...) {
@@ -503,14 +527,16 @@ sourceDir(&#39;R&#39;)</code></pre>
 ## plotDetectFunction.R :
 ## plotMaps.R :
 ## plotMCMCTraces.R :
+## plotModelComparison_singleArea.R :
 ## plotModelComparison.R :
 ## plotPosteriorDens_VR.R :
 ## plotRepDist.R :
-## plotSimCheck.R :
 ## plotSimCheck_replicates.R :
+## plotSimCheck.R :
+## plotSimCheckMetrics_replicates.R :
 ## plotTimeSeries.R :
-## prepareInputData.R :
 ## prepareInputData_Sim.R :
+## prepareInputData.R :
 ## selectCodePath.R :
 ## setupMap_NorwayMunic.R :
 ## setupModel.R :
@@ -518,8 +544,8 @@ sourceDir(&#39;R&#39;)</code></pre>
 ## simulateData_Nests.R :
 ## simulateData_RT.R :
 ## simulateGroups.R :
-## simulateInits.R :
 ## simulateInits_singleArea.R :
+## simulateInits.R :
 ## simulatePopDyn.R :
 ## simulateVRs.R :
 ## tidySamples.R :

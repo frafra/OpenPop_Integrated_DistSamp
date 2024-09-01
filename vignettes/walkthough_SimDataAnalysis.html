@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2024-02-22" />
+<meta name="date" content="2024-09-01" />
 
 <title>Walkthrough of model application to simulated data</title>
 
@@ -351,7 +351,7 @@ display: none;
 
 <h1 class="title toc-ignore">Walkthrough of model application to
 simulated data</h1>
-<h4 class="date">2024-02-22</h4>
+<h4 class="date">2024-09-01</h4>
 
 </div>
 
@@ -361,9 +361,9 @@ simulated data</h1>
 <p>In this document, we walk you through the application of the
 integrated distance sampling model (IDSM) to several replicate simulated
 datasets, as presented in:</p>
-<p>Nilsen, E. B., &amp; Nater, C. R. (2024). An integrated open
-population distance sampling approach for modelling age-structured
-populations. <em>EcoEvoRxiv</em>. DOI: <a href="https://doi.org/10.32942/X2Q899" class="uri">https://doi.org/10.32942/X2Q899</a></p>
+<p>Nilsen, E. B., &amp; Nater, C. R. (2024). Open integrated distance
+sampling for modelling age-structured population dynamics.
+<em>EcoEvoRxiv</em>. DOI: <a href="https://doi.org/10.32942/X2Q899" class="uri">https://doi.org/10.32942/X2Q899</a></p>
 <p>In essence, this document a version of the workflow in
 “Analysis_SimData_Replicates.R” with additional annotation and
 documentation. It is also consistens with the single dataset
@@ -411,7 +411,7 @@ installed.</p>
 <p>First, we have to ensure that we have all other R packages needed for
 simulating and wrangling data, visualizing results, etc. For each one,
 the code below checks if it is available, and installs it if not.</p>
-<pre class="r"><code>pkg.list &lt;- c(&quot;coda&quot;, &quot;cowplot&quot;, &quot;extraDistr&quot;, &quot;ggforce&quot;, &quot;MCMCvis&quot;, &quot;paletteer&quot;, &quot;see&quot;, &quot;tidyverse&quot;, &quot;tidybayes&quot;)
+<pre class="r"><code>pkg.list &lt;- c(&quot;coda&quot;, &quot;cowplot&quot;, &quot;extraDistr&quot;, &quot;ggforce&quot;, &quot;ggplot2&quot;, &quot;MCMCvis&quot;, &quot;paletteer&quot;, &quot;see&quot;, &quot;tidyverse&quot;, &quot;tidybayes&quot;)
 for(i in 1:length(pkg.list)){
   if(!(pkg.list[i] %in% installed.packages())){
     install.packages(pkg.list[i])
@@ -453,12 +453,13 @@ function. Each of the functions has roxygen documentation, which we can
 consult to learn more about its purpose and use.</p>
 <pre class="r"><code>library(tidyverse)</code></pre>
 <pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-## ✔ dplyr     1.1.3     ✔ readr     2.1.4
-## ✔ forcats   1.0.0     ✔ stringr   1.5.0
-## ✔ ggplot2   3.4.4     ✔ tibble    3.2.1
-## ✔ lubridate 1.9.3     ✔ tidyr     1.3.0
+## ✔ dplyr     1.1.3     ✔ readr     2.1.5
+## ✔ forcats   1.0.0     ✔ stringr   1.5.1
+## ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+## ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
 ## ✔ purrr     1.0.2     
 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ purrr::%||%()   masks base::%||%()
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
 ## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
@@ -483,16 +484,19 @@ sourceDir(&#39;R&#39;)</code></pre>
 ## listDuplTransects.R :
 ## listLocations.R :
 ## plotCovPrediction.R :
+## plotDetectFunction.R :
 ## plotMaps.R :
 ## plotMCMCTraces.R :
+## plotModelComparison_singleArea.R :
 ## plotModelComparison.R :
 ## plotPosteriorDens_VR.R :
 ## plotRepDist.R :
-## plotSimCheck.R :
 ## plotSimCheck_replicates.R :
+## plotSimCheck.R :
+## plotSimCheckMetrics_replicates.R :
 ## plotTimeSeries.R :
-## prepareInputData.R :
 ## prepareInputData_Sim.R :
+## prepareInputData.R :
 ## selectCodePath.R :
 ## setupMap_NorwayMunic.R :
 ## setupModel.R :
@@ -500,8 +504,8 @@ sourceDir(&#39;R&#39;)</code></pre>
 ## simulateData_Nests.R :
 ## simulateData_RT.R :
 ## simulateGroups.R :
-## simulateInits.R :
 ## simulateInits_singleArea.R :
+## simulateInits.R :
 ## simulatePopDyn.R :
 ## simulateVRs.R :
 ## tidySamples.R :
@@ -696,12 +700,12 @@ subsequently reformat and summarise the outputs. We are using NIMBLE’s
 wrapper function <code>nimbleMCMC</code>, and subsequently save the full
 posterior samples, summarised posteriors, and list of seeds in RDS
 format.</p>
-<p>Note that each model run can take up to 2 hours depending on your
-resources, and running through all 30 replicate fits will therefore take
-quite a while. If you are just looking to test the workflow, you can set
-<code>testRun = TRUE</code> in the call to <code>nimbleMCMC</code> to
-perform a dummy run of only 50 iterations instead of a full 500 000
-iterations run.</p>
+<p>Note that each model run (3 chains run sequentially) takes around
+half an hour depending on your resources, and running through all 30
+replicate fits will therefore take quite a while. If you are just
+looking to test the workflow, you can set <code>testRun = TRUE</code> in
+the call to <code>nimbleMCMC</code> to perform a dummy run of only 50
+iterations instead of a full 150 000 iterations run.</p>
 <pre class="r"><code>simSeed.list &lt;- seed.list
 
 for(i in 1:length(simSeed.list)){
@@ -734,7 +738,6 @@ for(i in 1:length(simSeed.list)){
                               fitRodentCov = fitRodentCov,
                               nim.data = input_data$nim.data,
                               nim.constants = input_data$nim.constants,
-                              niter = 500000, nthin = 5, nburn = 300000, nchains = 3,
                               testRun = TRUE,
                               initVals.seed = mySeed)
     
@@ -822,14 +825,15 @@ parameters that we set in the start. Memory is typically limited, so we
 are going to want to do the comparison based on a subset of the total
 posterior samples (hence thinning by 100 here for the full runs. If you
 are running tests, set thin = 1 instead):</p>
-<pre class="r"><code>plotSimCheck_replicates(&quot;Temps&quot;, thin = 100)</code></pre>
-<p>The function <code>plotSimCheck_replicates()</code> will create a
-folder “Plots” with subfolder “SimCheck_replicates” in the project
-directory (unless it exists already), and save the graphs it creates as
-PDF files in that subfolder. These graphs will be equivalent to what is
-presented in the study (Figures 2 &amp; 3 in Nilsen &amp; Nater 2024)
-and deposited as supplementary materials on the study’s OSF repository:
-<a href="https://osf.io/bc3en/files/osfstorage" class="uri">https://osf.io/bc3en/files/osfstorage</a>.</p>
+<pre class="r"><code>plotSimCheck_replicates(&quot;Temps&quot;, thin = 100)
+plotSimCheckMetrics_replicates(&quot;Temps&quot;, thin = 100)</code></pre>
+<p>The functions <code>plotSimCheck_replicates()</code> and
+<code>plotSimCheckMetrics_replicates()</code> will create a folder
+“Plots” with subfolder “SimCheck_replicates” in the project directory
+(unless it exists already), and save the graphs they create as PDF files
+in that subfolder. These graphs will be equivalent to what is presented
+in the study (Figures 2 &amp; 3 in Nilsen &amp; Nater 2024) and
+deposited as supplementary materials on the study’s OSF repository: <a href="https://osf.io/bc3en/files/osfstorage" class="uri">https://osf.io/bc3en/files/osfstorage</a>.</p>
 </div>
 
 

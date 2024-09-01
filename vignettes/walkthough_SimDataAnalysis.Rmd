@@ -1,7 +1,7 @@
 ---
 title: "Walkthrough of model application to simulated data"
 output: html_document
-date: "2024-02-22"
+date: "2024-09-01"
 ---
 
 ```{r setup, include=FALSE}
@@ -12,7 +12,7 @@ knitr::opts_knit$set(root.dir = "..")
 ## About this document
 In this document, we walk you through the application of the integrated distance sampling model (IDSM) to several replicate simulated datasets, as presented in:
 
-Nilsen, E. B., & Nater, C. R. (2024). An integrated open population distance sampling approach for modelling age-structured populations. *EcoEvoRxiv*. DOI: <https://doi.org/10.32942/X2Q899>
+Nilsen, E. B., & Nater, C. R. (2024). Open integrated distance sampling for modelling age-structured population dynamics. *EcoEvoRxiv*. DOI: <https://doi.org/10.32942/X2Q899>
 
 In essence, this document a version of the workflow in "Analysis_SimData_Replicates.R" with additional annotation and documentation. It is also consistens with the single dataset implementation in "Analysis_SimData.R". 
 
@@ -39,7 +39,7 @@ Next, we want to make sure you have all the dependencies installed.
 First, we have to ensure that we have all other R packages needed for simulating and wrangling data, visualizing results, etc. For each one, the code below checks if it is available, and installs it if not.
 
 ```{r, message = FALSE, warning = FALSE}
-pkg.list <- c("coda", "cowplot", "extraDistr", "ggforce", "MCMCvis", "paletteer", "see", "tidyverse", "tidybayes")
+pkg.list <- c("coda", "cowplot", "extraDistr", "ggforce", "ggplot2", "MCMCvis", "paletteer", "see", "tidyverse", "tidybayes")
 for(i in 1:length(pkg.list)){
   if(!(pkg.list[i] %in% installed.packages())){
     install.packages(pkg.list[i])
@@ -271,7 +271,7 @@ runSeed.list <- list()
 
 The remainder of the workflow, bar graphical comparison of outputs, happens within two big nested loops: for each simulated dataset (i, 10 in total), we load the correct data, then fit the model 3 times (k) and subsequently reformat and summarise the outputs. We are using NIMBLE's wrapper function `nimbleMCMC`, and subsequently save the full posterior samples, summarised posteriors, and list of seeds in RDS format.
 
-Note that each model run can take up to 2 hours depending on your resources, and running through all 30 replicate fits will therefore take quite a while. If you are just looking to test the workflow, you can set `testRun = TRUE` in the call to `nimbleMCMC` to perform a dummy run of only 50 iterations instead of a full 500 000 iterations run. 
+Note that each model run (3 chains run sequentially) takes around half an hour depending on your resources, and running through all 30 replicate fits will therefore take quite a while. If you are just looking to test the workflow, you can set `testRun = TRUE` in the call to `nimbleMCMC` to perform a dummy run of only 50 iterations instead of a full 150 000 iterations run. 
 
 ```{r, message = FALSE, warning = FALSE, eval = FALSE}
 simSeed.list <- seed.list
@@ -306,7 +306,6 @@ for(i in 1:length(simSeed.list)){
                               fitRodentCov = fitRodentCov,
                               nim.data = input_data$nim.data,
                               nim.constants = input_data$nim.constants,
-                              niter = 500000, nthin = 5, nburn = 300000, nchains = 3,
                               testRun = TRUE,
                               initVals.seed = mySeed)
     
@@ -388,8 +387,9 @@ Once we have run all the replicate model fits, we can compare the resulting mode
 
 ```{r, message = FALSE, warning = FALSE, eval = FALSE}
 plotSimCheck_replicates("Temps", thin = 100)
+plotSimCheckMetrics_replicates("Temps", thin = 100)
 ```
 
-The function `plotSimCheck_replicates()` will create a folder "Plots" with subfolder "SimCheck_replicates" in the project directory (unless it exists already), and save the graphs it creates as PDF files in that subfolder. These graphs will be equivalent to what is presented in the study (Figures 2 & 3 in Nilsen & Nater 2024) and deposited as supplementary materials on the study's OSF repository: <https://osf.io/bc3en/files/osfstorage>.
+The functions `plotSimCheck_replicates()` and `plotSimCheckMetrics_replicates()` will create a folder "Plots" with subfolder "SimCheck_replicates" in the project directory (unless it exists already), and save the graphs they create as PDF files in that subfolder. These graphs will be equivalent to what is presented in the study (Figures 2 & 3 in Nilsen & Nater 2024) and deposited as supplementary materials on the study's OSF repository: <https://osf.io/bc3en/files/osfstorage>.
 
 
