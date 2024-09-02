@@ -158,15 +158,16 @@ IDSM.out <- nimbleMCMC(code = model_setup$modelCode,
 Sys.time() - t.start
 
 saveRDS(IDSM.out, file = 'rypeIDSM_dHN_multiArea_realData_Lierne.rds')
+#saveRDS(IDSM.out, file = 'rypeIDSM_dHN_multiArea_realData_Lierne_ukukRremoved.rds')
 
 
 # COMPARE MODELS #
 #----------------#
 
 plotModelComparison(modelPaths = c("rypeIDSM_dHN_multiArea_realData_Lierne.rds",
-                                   "rypeIDSM_dHN_multiArea_realData_Lierne_alt.rds"), 
+                                   "rypeIDSM_dHN_multiArea_realData_Lierne_ukukRemoved.rds"), 
                     modelChars = c("Main model",
-                                   "Alternative model"), 
+                                   "Unknown removed"), 
                     N_areas = input_data$nim.constants$N_areas, 
                     area_names = areas, 
                     N_sites = input_data$nim.constants$N_sites, 
@@ -174,7 +175,7 @@ plotModelComparison(modelPaths = c("rypeIDSM_dHN_multiArea_realData_Lierne.rds",
                     minYear = minYear, 
                     max_years = input_data$nim.constants$max_years, 
                     survAreaIdx = input_data$nim.constants$SurvAreaIdx, 
-                    plotPath = "Plots/Comp_LierneModels", 
+                    plotPath = "Plots/Comp_ukukRemoved", 
                     returnData = FALSE)
 
 
