@@ -102,7 +102,7 @@ list(
     prepareInputData(d_trans = LT_data$d_trans, 
                      d_obs = LT_data$d_obs,
                      d_cmr = d_cmr,
-                     d_rodent = d_rodent$rodentAvg,
+                     d_rodent = d_rodent,
                      #localities = localities,
                      areas = areas,
                      areaAggregation = areaAggregation,
