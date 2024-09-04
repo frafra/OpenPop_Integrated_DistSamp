@@ -61,7 +61,5 @@ rypeIDSM_GNUwrapper <- function(originSeed, chainSeed){
 
 args <- commandArgs(TRUE)
 
-#print(as.integer(args))
-
 rypeIDSM_GNUwrapper(originSeed = as.integer(args[1]),
                     chainSeed = as.integer(args[2]))
