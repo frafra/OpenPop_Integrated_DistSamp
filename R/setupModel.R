@@ -11,6 +11,9 @@
 #' @param addDummyDim logical. If TRUE (default) adds a dummy "area" dimension when 
 #' simulating initial values for a single area implementation. This is necessary 
 #' for the multi-area setup/model to run with data from only one area. 
+#' @param reduceDim logical. If FALSE (default), sets up for a model with population
+#' dynamics realized at the transect level. If TRUE, drops transect dimension and 
+#' models average population dynamics for the area only. 
 #' @param niter integer. Number of MCMC iterations (default = 25000)
 #' @param nthin integer. Thinning factor (default = 5)
 #' @param nburn integer. Number of iterations to discard as burn-in (default = 5000)
@@ -27,7 +30,7 @@
 
 setupModel <- function(modelCode, customDist,
                        nim.data, nim.constants,
-                       R_perF, survVarT, fitRodentCov, addDummyDim = TRUE,
+                       R_perF, survVarT, fitRodentCov, addDummyDim = TRUE, reduceDim = FALSE,
                        niter = 150000, nthin = 25, nburn = 75000, nchains = 3,
                        testRun = FALSE, initVals.seed){
   
@@ -38,8 +41,7 @@ setupModel <- function(modelCode, customDist,
   params <- c("esw", "p", #"D",
               "R_year", "Mu.R", "h.Mu.R", "h.sigma.R", "sigmaT.R", "sigmaR.R",
               "sigma", "mu.dd", "h.mu.dd", "h.sigma.dd", "sigmaT.dd", "sigmaR.dd",
-              "meanDens", 
-              "Mu.D1", "sigma.D",
+              "Mu.D1", "sigma.D", "meanDens",
               "S", "Mu.S", "h.Mu.S", "h.sigma.S",
               "Mu.S1")
   
@@ -70,14 +72,29 @@ setupModel <- function(modelCode, customDist,
                                                 fitRodentCov = fitRodentCov)
     }else{
       
-      initVals[[c]] <- simulateInits(nim.data = nim.data, 
-                                     nim.constants = nim.constants, 
-                                     R_perF = R_perF, 
-                                     survVarT = survVarT,
-                                     fitRodentCov = fitRodentCov,
-                                     initVals.seed = initVals.seed[c])
+      if(!reduceDim){
+        initVals[[c]] <- simulateInits(nim.data = nim.data, 
+                                       nim.constants = nim.constants, 
+                                       R_perF = R_perF, 
+                                       survVarT = survVarT,
+                                       fitRodentCov = fitRodentCov,
+                                       initVals.seed = initVals.seed[c])
+      }else{
+        initVals[[c]] <- simulateInits_reduceDim(nim.data = nim.data, 
+                                                 nim.constants = nim.constants, 
+                                                 R_perF = R_perF, 
+                                                 survVarT = survVarT,
+                                                 fitRodentCov = fitRodentCov,
+                                                 initVals.seed = initVals.seed[c])
+      }
+
     }
 
+  }
+  
+  if(nim.constants$N_areas == 1 & !addDummyDim & reduceDim){
+    stop("Reduced dimension representation is only supported in the multi-area setup.
+         Specify addDummyDim = TRUE for using reduced dimensions in an analysis of one area only.")
   }
   
   ## Adjust MCMC parameters if doing a test run
