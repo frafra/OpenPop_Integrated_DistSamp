@@ -67,7 +67,7 @@ simulateInits <- function(nim.data, nim.constants, R_perF, survVarT, fitRodentCo
   sigmaR.S <- runif(1, 0.05, 0.2)
   
   Mu.S <- rep(NA, N_areas)
-  S <-  matrix(NA, nrow = N_areas, ncol = N_years)
+  S <-  matrix(NA, nrow = N_areas, ncol = N_years-1)
   S1 <- S2 <- rep(NA, N_years)
   
   eps.S1.prop <- runif(1, 0.3, 0.8)

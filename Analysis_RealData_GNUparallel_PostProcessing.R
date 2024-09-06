@@ -25,6 +25,8 @@ sourceDir <- function(path, trace = TRUE, ...) {
 }
 sourceDir('R')
 
+## Create plotting directory
+dir.create("Plots")
 
 # RETRIEVE INPUT DATA AND POSTERIOR SAMPLES #
 #-------------------------------------------#
