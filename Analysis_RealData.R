@@ -275,21 +275,13 @@ if(fitRodentCov){
                     maxCov = 1,
                     meanCov = d_rodent$meanCov,
                     sdCov = d_rodent$sdCov,
+                    covData = d_rodent$rodentAvg,
                     N_areas = input_data$nim.constant$N_areas, 
                     area_names = input_data$nim.constant$area_names,
                     fitRodentCov = fitRodentCov)
 }
 
 
-# OPTIONAL: PLOT DETECTION FUNCTIONS #
-#------------------------------------#
-
-plotDetectFunction(mcmc.out = IDSM.out.tidy,
-                   maxDist = input_data$nim.constants$W,
-                   N_areas = input_data$nim.constant$N_areas, 
-                   area_names = input_data$nim.constant$area_names)
-
-  
 # OPTIONAL: CHECK WITHIN-AREA DENSITY DEPENDENCE #
 #------------------------------------------------#
 
@@ -299,6 +291,17 @@ checkDD(mcmc.out = IDSM.out.tidy,
         N_sites = input_data$nim.constant$N_sites, 
         min_years = input_data$nim.constant$min_years, 
         max_years = input_data$nim.constant$max_years)
+
+
+# OPTIONAL: CHECK VITAL RATE SAMPLING CORRELATIONS #
+#--------------------------------------------------#
+
+checkVRcorr(mcmc.out = IDSM.out.tidy, 
+            N_areas = input_data$nim.constant$N_areas, 
+            area_names = input_data$nim.constant$area_names, 
+            area_coord = LT_data$d_coord,
+            min_years = input_data$nim.constant$min_years, 
+            max_years = input_data$nim.constant$max_years)
 
 
 # OPTIONAL: CALCULATE AND PLOT VARIANCE DECOMPOSITION #
@@ -336,6 +339,17 @@ plotLatitude(PostSum.list = PostSum.list,
              fitRodentCov = fitRodentCov)
 
 
+# OPTIONAL: GENERATION TIME #
+#---------------------------#
+
+GT_estimates <- extract_GenTime(mcmc.out = IDSM.out.tidy, 
+                                N_areas = input_data$nim.constants$N_areas, 
+                                area_names = input_data$nim.constant$area_names, 
+                                area_coord = LT_data$d_coord,
+                                mapNM = NorwayMunic.map,
+                                save = TRUE)
+
+
 # OPTIONAL: MODEL COMPARISON (PLOTS) #
 #------------------------------------#
 
@@ -352,4 +366,19 @@ plotModelComparison(modelPaths = c("rypeIDSM_dHN_multiArea_realData_allAreas_tid
                     max_years = input_data$nim.constants$max_years, 
                     survAreaIdx = input_data$nim.constants$SurvAreaIdx, 
                     plotPath = "Plots/Comp_noTelemetry", 
+                    returnData = FALSE)
+
+plotModelComparison(modelPaths = c("rypeIDSM_dHN_multiArea_realData_allAreas_tidy.rds",
+                                   "rypeIDSM_dHN_multiArea_realData_allAreas_tidy_main.rds"), 
+                    modelChars = c("Using year 1 R",
+                                   "Original"), 
+                    N_areas = input_data$nim.constants$N_areas, 
+                    area_names = areas, 
+                    N_sites = input_data$nim.constants$N_sites, 
+                    N_years = input_data$nim.constants$N_years, 
+                    minYear = minYear, 
+                    #maxYear = maxYear, 
+                    max_years = input_data$nim.constants$max_years, 
+                    survAreaIdx = input_data$nim.constants$SurvAreaIdx, 
+                    plotPath = "Plots/Comp_year1R", 
                     returnData = FALSE)

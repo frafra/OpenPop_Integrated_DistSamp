@@ -135,7 +135,7 @@ list(
                nim.constants = input_data$nim.constants,
                survVarT = survVarT,
                fitRodentCov = fitRodentCov,
-               testRun = FALSE, 
+               testRun = TRUE, 
                nchains = nchains,
                initVals.seed = MCMC.seeds)
   ),
@@ -216,14 +216,6 @@ list(
   ),
   
   tar_target(
-    detect.funPlots,
-    plotDetectFunction(mcmc.out = IDSM.out.tidy,
-                       maxDist = input_data$nim.constants$W,
-                       N_areas = input_data$nim.constant$N_areas, 
-                       area_names = input_data$nim.constant$area_names)
-  ),
-  
-  tar_target(
     DD.checks,
     checkDD(mcmc.out = IDSM.out.tidy, 
             N_areas = input_data$nim.constant$N_areas, 
@@ -232,6 +224,16 @@ list(
             min_years = input_data$nim.constant$min_years, 
             max_years = input_data$nim.constant$max_years),
     format = "file"
+  ),
+  
+  tar_target(
+    VRcorr.checks,
+    checkVRcorr(mcmc.out = IDSM.out.tidy, 
+                N_areas = input_data$nim.constant$N_areas, 
+                area_names = input_data$nim.constant$area_names, 
+                area_coord = LT_data$d_coord,
+                min_years = input_data$nim.constant$min_years, 
+                max_years = input_data$nim.constant$max_years)
   ),
   
   tar_target(
@@ -266,6 +268,16 @@ list(
                  minYear = minYear, maxYear = maxYear,
                  fitRodentCov = fitRodentCov),
     format = "file"
+  ),
+  
+  tar_target(
+    GT_estimates,
+    extract_GenTime(mcmc.out = IDSM.out.tidy, 
+                    N_areas = input_data$nim.constants$N_areas, 
+                    area_names = input_data$nim.constant$area_names, 
+                    area_coord = LT_data$d_coord,
+                    mapNM = NorwayMunic.map,
+                    save = TRUE)
   )
 )
 

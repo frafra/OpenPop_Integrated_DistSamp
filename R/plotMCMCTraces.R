@@ -30,7 +30,7 @@ plotMCMCTraces <- function(mcmc.out, fitRodentCov, survVarT, VitalRates = TRUE, 
   
   tVR_params <- c("R_year", "S")
   
-  mDet_params <- c("mu.dd", "sigmaT.dd", "sigmaR.dd")
+  mDet_params <- c("mu.dd", "sigmaT.dd", "sigmaR.dd", "h.mu.dd", "h.sigma.dd")
   
   tDet_params <- c("esw", "p", "sigma")
   
