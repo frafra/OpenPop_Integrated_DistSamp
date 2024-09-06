@@ -31,6 +31,9 @@ sourceDir('R')
 # downloadData <- FALSE
 downloadData <- TRUE
 
+# Aggregation to area level
+areaAggregation <- TRUE 
+
 # Recruitment per adult or per adult female
 R_perF <- FALSE
 
