@@ -177,21 +177,12 @@ plotLatitude(PostSum.list = PostSum.list,
              minYear = minYear, maxYear = maxYear,
              fitRodentCov = fitRodentCov)
 
+# OPTIONAL: GENERATION TIME #
+#---------------------------#
 
-# OPTIONAL: MODEL COMPARISON (PLOTS) #
-#------------------------------------#
-
-# plotModelComparison(modelPaths = c("rypeIDSM_dHN_multiArea_realData_allAreas_tidy.rds",
-#                                    "rypeIDSM_dHN_multiArea_realData_allAreas_tidy_noTelemetry.rds"), 
-#                     modelChars = c("Including telemetry",
-#                                    "Without telemetry"), 
-#                     N_areas = input_data$nim.constants$N_areas, 
-#                     area_names = areas, 
-#                     N_sites = input_data$nim.constants$N_sites, 
-#                     N_years = input_data$nim.constants$N_years, 
-#                     minYear = minYear, 
-#                     maxYear = maxYear, 
-#                     max_years = input_data$nim.constants$max_years, 
-#                     survAreaIdx = input_data$nim.constants$SurvAreaIdx, 
-#                     plotPath = "Plots/Comp_noTelemetry", 
-#                     returnData = FALSE)
+GT_estimates <- extract_GenTime(mcmc.out = IDSM.out.tidy, 
+                                N_areas = input_data$nim.constants$N_areas, 
+                                area_names = input_data$nim.constant$area_names, 
+                                area_coord = LT_data$d_coord,
+                                mapNM = NorwayMunic.map,
+                                save = TRUE)

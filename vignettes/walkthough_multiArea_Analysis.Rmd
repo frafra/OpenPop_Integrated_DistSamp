@@ -130,7 +130,7 @@ In addition to functions, the workflow also makes use of "toggles" (or "switches
 downloadData <- TRUE
 
 # Aggregation to area level
-AreaAggregation <- TRUE 
+areaAggregation <- TRUE 
 
 # Recruitment per adult or per adult female
 R_perF <- FALSE
@@ -425,7 +425,7 @@ plotLatitude(PostSum.list = PostSum.list,
 
 ## Follow-up analyses
 
-Finally, there are a couple of follow-up analyses based on the posterior distributions from the model.
+Finally, there are a few short follow-up analyses based on the posterior distributions from the model.
 
 In the first, we calculate sample-level correlation coefficients between vital rates / population growth rate and population density to look for evidence for potential density-dependence. It's important to remember that this is "potential" indeed, as this kind of post-hoc assessment cannot separate true process correlation (density feedbacks) from MCMC sampling correlation. 
 The function `checkDD()` calculates posterior distribution of correlation coefficients in each area and saves them to RDS and CSV: 
@@ -448,4 +448,15 @@ plotVarDecomposition(mcmc.out = IDSM.out.tidy,
                      fitRodentCov = fitRodentCov, 
                      RodentOcc_data = input_data$nim.data$RodentOcc,
                      saveResults = TRUE)
+```
+
+The third is the calculation and visualization of area-specific generation time (following two different approaches, see function documentation for details).
+
+```{r, eval = FALSE}
+GT_estimates <- extract_GenTime(mcmc.out = IDSM.out.tidy, 
+                                N_areas = input_data$nim.constants$N_areas, 
+                                area_names = input_data$nim.constant$area_names, 
+                                area_coord = LT_data$d_coord,
+                                mapNM = NorwayMunic.map,
+                                save = TRUE)
 ```
