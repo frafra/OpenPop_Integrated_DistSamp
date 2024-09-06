@@ -87,7 +87,7 @@ LT_data <- wrangleData_LineTrans(DwC_archive_list = Rype_arkiv,
                                  duplTransects = duplTransects,
                                  #localities = localities,
                                  areas = areas,
-                                 areaAggregation = TRUE,
+                                 areaAggregation = areaAggregation,
                                  minYear = minYear, maxYear = maxYear)
 
 
@@ -105,7 +105,7 @@ d_cmr <- wrangleData_CMR(minYear = minYear)
 d_rodent <- wrangleData_Rodent(duplTransects = duplTransects,
                                #localities = localities,
                                areas = areas,
-                               areaAggregation = TRUE,
+                               areaAggregation = areaAggregation,
                                minYear = minYear, maxYear = maxYear)
 
 
@@ -119,7 +119,7 @@ input_data <- prepareInputData(d_trans = LT_data$d_trans,
                                d_rodent = d_rodent,
                                #localities = localities, 
                                areas = areas,
-                               areaAggregation = TRUE,
+                               areaAggregation = areaAggregation,
                                excl_neverObs = TRUE,
                                R_perF = R_perF,
                                R_parent_drop0 = R_parent_drop0,
@@ -149,10 +149,6 @@ model_setup <- setupModel(modelCode = modelCode,
                           testRun = testRun, 
                           nchains = nchains,
                           initVals.seed = MCMC.seeds)
-
-
-## Expand seed to get MCMC seeds
-MCMC.seeds <- expandSeed_MCMC(seed = mySeed, nchains = model_setup$mcmcParams$nchains)
 
 
 # MODEL (TEST) RUN #
@@ -322,7 +318,7 @@ plotVarDecomposition(mcmc.out = IDSM.out.tidy,
 ## Make map of Norwegian municipalities ("fylke")
 NorwayMunic.map <- setupMap_NorwayMunic(shp.path = "data/norway_municipalities/norway_municipalities.shp",
                                         d_trans = LT_data$d_trans,
-                                        areas = areas, areaAggregation = TRUE)
+                                        areas = areas, areaAggregation = areaAggregation)
 
 ## Plot population growth rate, density, and vital rates on map
 plotMaps(PostSum.list = PostSum.list, 
