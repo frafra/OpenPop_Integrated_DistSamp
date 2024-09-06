@@ -98,6 +98,8 @@ LT_data <- wrangleData_LineTrans(DwC_archive_list = Rype_arkiv,
                                  areaAggregation = TRUE,
                                  minYear = minYear, maxYear = maxYear)
 
+## Save line transect data for use in post-processing
+saveRDS(LT_data, file = "LT_data.rds")
 
 # WRANGLE KNOWN FATE CMR DATA #
 #-----------------------------#

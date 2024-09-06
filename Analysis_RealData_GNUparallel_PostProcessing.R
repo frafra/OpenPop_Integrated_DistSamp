@@ -33,6 +33,7 @@ dir.create("Plots")
 
 ## Read in input data
 input_data <- readRDS("RypeData_forIM.rds")
+LT_data <- readRDS("LT_data.rds")
 
 ## Reinstate model toggles
 toggles <- readRDS("ModelRunToggles.rds")
