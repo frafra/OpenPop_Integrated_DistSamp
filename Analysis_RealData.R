@@ -370,18 +370,3 @@ plotModelComparison(modelPaths = c("rypeIDSM_dHN_multiArea_realData_allAreas_tid
                     survAreaIdx = input_data$nim.constants$SurvAreaIdx, 
                     plotPath = "Plots/Comp_noTelemetry", 
                     returnData = FALSE)
-
-plotModelComparison(modelPaths = c("rypeIDSM_dHN_multiArea_realData_allAreas_tidy.rds",
-                                   "rypeIDSM_dHN_multiArea_realData_allAreas_tidy_main.rds"), 
-                    modelChars = c("Using year 1 R",
-                                   "Original"), 
-                    N_areas = input_data$nim.constants$N_areas, 
-                    area_names = areas, 
-                    N_sites = input_data$nim.constants$N_sites, 
-                    N_years = input_data$nim.constants$N_years, 
-                    minYear = minYear, 
-                    #maxYear = maxYear, 
-                    max_years = input_data$nim.constants$max_years, 
-                    survAreaIdx = input_data$nim.constants$SurvAreaIdx, 
-                    plotPath = "Plots/Comp_year1R", 
-                    returnData = FALSE)

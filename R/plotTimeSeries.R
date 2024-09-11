@@ -98,11 +98,7 @@ plotTimeSeries <- function(mcmc.out,
       popDens.sum <- rbind(popDens.sum, popDens_add)
       
       # Summarize annual population age structure (proportion juveniles)
-      if(N_sites[i] > 1){
-        ageStr_mean <- rowMeans(popDens_juv/(popDens_juv + popDens_ad))
-      }else{
-        ageStr_mean <- popDens_juv/(popDens_juv + popDens_ad)
-      }
+      ageStr_mean <- popDens_juv/(popDens_juv + popDens_ad)
       
       ageStr_add <- data.frame(Area = area_names[i],
                                  Year = area_years[t], 

@@ -20,7 +20,7 @@
 
 plotModelComparison <- function(modelPaths, modelChars, 
                                 N_areas, area_names, N_sites, N_years, 
-                                minYear, maxYera, max_years, survAreaIdx, 
+                                minYear, maxYear, max_years, survAreaIdx, 
                                 plotPath, returnData = FALSE){
 
   if(length(modelPaths) != length(modelChars)){
@@ -224,8 +224,8 @@ plotModelComparison <- function(modelPaths, modelChars,
         pDetect.sum <- rbind(pDetect.sum, pDetect_add)
         
         # Summarize annual average population densities
-        popDens_juv <- out.mat[, paste0("Density[",  i, ", 1, ", area_yearIdxs[t], "]")]
-        popDens_ad <- out.mat[, paste0("Density[",  i, ", 2, ", area_yearIdxs[t], "]")]
+        popDens_juv <- out.mat[, paste0("meanDens[",  i, ", 1, ", area_yearIdxs[t], "]")]
+        popDens_ad <- out.mat[, paste0("meanDens[",  i, ", 2, ", area_yearIdxs[t], "]")]
 
         popDens_mean <- popDens_juv + popDens_ad
         

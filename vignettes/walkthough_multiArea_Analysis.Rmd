@@ -62,9 +62,9 @@ Then, we have to ensure that we have all other R packages needed for wrangling d
 ```{r, eval = FALSE}
 pkg.list <- c("coda", "colorspace", "cowplot", "EnvStats", "extraDistr", 
               "ggforce", "ggplot2", "ggpubr", "grDevices", "knitr", 
-              "MCMCvis", "paletteer", "parallel", "qs", "reshape2", "RJSONIO", 
-              "sf", "see", "targets", "terra", "tidybayes", 
-              "tidyverse", "tmap", "viridis", "visNetwork")
+              "MCMCvis", "paletteer", "parallel", "popbio", "qs", "Rage", 
+              "reshape2", "RJSONIO", "sf", "see", "targets", "terra", 
+              "tidybayes", "tidyverse", "tmap", "viridis", "visNetwork")
 for(i in 1:length(pkg.list)){
   if(!(pkg.list[i] %in% installed.packages())){
     install.packages(pkg.list[i])

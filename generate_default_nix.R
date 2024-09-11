@@ -18,8 +18,10 @@ rix(
         "ggplot2", 
         "ggpubr", 
         "MCMCvis", 
-        "paletteer",  
+        "paletteer", 
+        "popbio",
         "qs", 
+        "Rage",
         "reshape2",
         "RJSONIO", # https://github.com/LivingNorway/LivingNorwayR/issues/75
         "sf", 
