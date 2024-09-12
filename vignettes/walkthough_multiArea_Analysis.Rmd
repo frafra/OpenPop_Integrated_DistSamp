@@ -1,7 +1,7 @@
 ---
 title: "Walkthrough of model application to multiple areas"
 output: html_document
-date: "2024-09-05"
+date: "2024-09-12"
 ---
 
 ```{r setup, include=FALSE}
@@ -427,7 +427,7 @@ plotLatitude(PostSum.list = PostSum.list,
 
 Finally, there are a few short follow-up analyses based on the posterior distributions from the model.
 
-In the first, we calculate sample-level correlation coefficients between vital rates / population growth rate and population density to look for evidence for potential density-dependence. It's important to remember that this is "potential" indeed, as this kind of post-hoc assessment cannot separate true process correlation (density feedbacks) from MCMC sampling correlation. 
+In the first, we calculate within-sample correlation coefficients between vital rates / population growth rate and population density to look for evidence for potential density-dependence. It's important to remember that this is "potential" indeed, as this kind of post-hoc assessment cannot separate true process correlation (density feedbacks) from MCMC sampling correlation. 
 The function `checkDD()` calculates posterior distribution of correlation coefficients in each area and saves them to RDS and CSV: 
 
 ```{r, eval = FALSE}
@@ -439,7 +439,19 @@ checkDD(mcmc.out = IDSM.out.tidy,
         max_years = input_data$nim.constant$max_years)
 ```
 
-The second follow-up analysis is a decomposition of variation in vital rates and detection parameters into the four modelled components covariates, temporal variation, spatial variation, and residual variation. The corresponding function handles both calculation and plotting of results: 
+MCMC sampling correlation is the focus of the second follow-up analysis. For this model, sampling correlation between survival and recruitment parameters is of particular interest. To make some inference about spatio-temporal variation in vital rates requires that we account for the fact that the model's structure makes is prone to sampling correlations between those parameters in particular. 
+The function `checkVRcorrs()` calculates sampling correlation between survival and recruitment both with ($S_t ~ R_{t+1}$) and without ($S_t ~ R_t$) a time lag for each area seperately and pooled across all areas: 
+
+```{r, eval = FALSE}
+checkVRcorrs(mcmc.out = IDSM.out.tidy, 
+             N_areas = input_data$nim.constant$N_areas, 
+             area_names = input_data$nim.constant$area_names, 
+             area_coord = LT_data$d_coord,
+             min_years = input_data$nim.constant$min_years, 
+             max_years = input_data$nim.constant$max_years)
+```
+             
+The third follow-up analysis is a decomposition of variation in vital rates and detection parameters into the four modelled components covariates, temporal variation, spatial variation, and residual variation. The corresponding function handles both calculation and plotting of results: 
 
 ```{r, eval = FALSE}
 plotVarDecomposition(mcmc.out = IDSM.out.tidy, 
@@ -450,7 +462,7 @@ plotVarDecomposition(mcmc.out = IDSM.out.tidy,
                      saveResults = TRUE)
 ```
 
-The third is the calculation and visualization of area-specific generation time (following two different approaches, see function documentation for details).
+The fourth is the calculation and visualization of area-specific generation time (following two different approaches, see function documentation for details).
 
 ```{r, eval = FALSE}
 GT_estimates <- extract_GenTime(mcmc.out = IDSM.out.tidy, 

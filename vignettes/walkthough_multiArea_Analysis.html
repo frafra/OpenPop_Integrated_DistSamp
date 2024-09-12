@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2024-09-05" />
+<meta name="date" content="2024-09-12" />
 
 <title>Walkthrough of model application to multiple areas</title>
 
@@ -351,7 +351,7 @@ display: none;
 
 <h1 class="title toc-ignore">Walkthrough of model application to
 multiple areas</h1>
-<h4 class="date">2024-09-05</h4>
+<h4 class="date">2024-09-12</h4>
 
 </div>
 
@@ -446,9 +446,9 @@ one, the code below checks if it is available, and installs it if
 not.</p>
 <pre class="r"><code>pkg.list &lt;- c(&quot;coda&quot;, &quot;colorspace&quot;, &quot;cowplot&quot;, &quot;EnvStats&quot;, &quot;extraDistr&quot;, 
               &quot;ggforce&quot;, &quot;ggplot2&quot;, &quot;ggpubr&quot;, &quot;grDevices&quot;, &quot;knitr&quot;, 
-              &quot;MCMCvis&quot;, &quot;paletteer&quot;, &quot;parallel&quot;, &quot;qs&quot;, &quot;reshape2&quot;, &quot;RJSONIO&quot;, 
-              &quot;sf&quot;, &quot;see&quot;, &quot;targets&quot;, &quot;terra&quot;, &quot;tidybayes&quot;, 
-              &quot;tidyverse&quot;, &quot;tmap&quot;, &quot;viridis&quot;, &quot;visNetwork&quot;)
+              &quot;MCMCvis&quot;, &quot;paletteer&quot;, &quot;parallel&quot;, &quot;popbio&quot;, &quot;qs&quot;, &quot;Rage&quot;, 
+              &quot;reshape2&quot;, &quot;RJSONIO&quot;, &quot;sf&quot;, &quot;see&quot;, &quot;targets&quot;, &quot;terra&quot;, 
+              &quot;tidybayes&quot;, &quot;tidyverse&quot;, &quot;tmap&quot;, &quot;viridis&quot;, &quot;visNetwork&quot;)
 for(i in 1:length(pkg.list)){
   if(!(pkg.list[i] %in% installed.packages())){
     install.packages(pkg.list[i])
@@ -517,8 +517,10 @@ sourceDir(&#39;R&#39;)</code></pre>
 <pre><code>## addDummyDimension.R :
 ## assembleSimData.R :
 ## checkDD.R :
+## checkVRcorrs.R :
 ## downloadLN.R :
 ## expandSeed_MCMC.R :
+## extract_GenTime.R :
 ## extractSimData_Rep.R :
 ## findHighP.R :
 ## listAreas.R :
@@ -557,7 +559,8 @@ sourceDir(&#39;R&#39;)</code></pre>
 ## wrangleData_CMR.R :
 ## wrangleData_LineTrans.R :
 ## wrangleData_Rodent.R :
-## writeModelCode.R :</code></pre>
+## writeModelCode.R :
+## writeResultsTables.R :</code></pre>
 <p>In addition to functions, the workflow also makes use of “toggles”
 (or “switches”). These are a series (mostly) logical variables that we
 use to specify the “settings” of our run of the workflow.</p>
@@ -566,7 +569,7 @@ use to specify the “settings” of our run of the workflow.</p>
 downloadData &lt;- TRUE
 
 # Aggregation to area level
-AreaAggregation &lt;- TRUE 
+areaAggregation &lt;- TRUE 
 
 # Recruitment per adult or per adult female
 R_perF &lt;- FALSE
@@ -927,9 +930,9 @@ plotLatitude(PostSum.list = PostSum.list,
 </div>
 <div id="follow-up-analyses" class="section level2">
 <h2>Follow-up analyses</h2>
-<p>Finally, there are a couple of follow-up analyses based on the
+<p>Finally, there are a few short follow-up analyses based on the
 posterior distributions from the model.</p>
-<p>In the first, we calculate sample-level correlation coefficients
+<p>In the first, we calculate within-sample correlation coefficients
 between vital rates / population growth rate and population density to
 look for evidence for potential density-dependence. It’s important to
 remember that this is “potential” indeed, as this kind of post-hoc
@@ -943,8 +946,25 @@ area and saves them to RDS and CSV:</p>
         N_sites = input_data$nim.constant$N_sites, 
         min_years = input_data$nim.constant$min_years, 
         max_years = input_data$nim.constant$max_years)</code></pre>
-<p>The second follow-up analysis is a decomposition of variation in
-vital rates and detection parameters into the four modelled components
+<p>MCMC sampling correlation is the focus of the second follow-up
+analysis. For this model, sampling correlation between survival and
+recruitment parameters is of particular interest. To make some inference
+about spatio-temporal variation in vital rates requires that we account
+for the fact that the model’s structure makes is prone to sampling
+correlations between those parameters in particular. The function
+<code>checkVRcorrs()</code> calculates sampling correlation between
+survival and recruitment both with (<span class="math inline">\(S_t ~
+R_{t+1}\)</span>) and without (<span class="math inline">\(S_t ~
+R_t\)</span>) a time lag for each area seperately and pooled across all
+areas:</p>
+<pre class="r"><code>checkVRcorrs(mcmc.out = IDSM.out.tidy, 
+             N_areas = input_data$nim.constant$N_areas, 
+             area_names = input_data$nim.constant$area_names, 
+             area_coord = LT_data$d_coord,
+             min_years = input_data$nim.constant$min_years, 
+             max_years = input_data$nim.constant$max_years)</code></pre>
+<p>The third follow-up analysis is a decomposition of variation in vital
+rates and detection parameters into the four modelled components
 covariates, temporal variation, spatial variation, and residual
 variation. The corresponding function handles both calculation and
 plotting of results:</p>
@@ -954,6 +974,15 @@ plotting of results:</p>
                      fitRodentCov = fitRodentCov, 
                      RodentOcc_data = input_data$nim.data$RodentOcc,
                      saveResults = TRUE)</code></pre>
+<p>The fourth is the calculation and visualization of area-specific
+generation time (following two different approaches, see function
+documentation for details).</p>
+<pre class="r"><code>GT_estimates &lt;- extract_GenTime(mcmc.out = IDSM.out.tidy, 
+                                N_areas = input_data$nim.constants$N_areas, 
+                                area_names = input_data$nim.constant$area_names, 
+                                area_coord = LT_data$d_coord,
+                                mapNM = NorwayMunic.map,
+                                save = TRUE)</code></pre>
 </div>
 
 
