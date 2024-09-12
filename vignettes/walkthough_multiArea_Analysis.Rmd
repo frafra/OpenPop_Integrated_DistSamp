@@ -1,7 +1,8 @@
 ---
 title: "Walkthrough of model application to multiple areas"
+author: "Chloé R. Nater"
 output: html_document
-date: "2024-09-12"
+date: "`r Sys.Date()`"
 ---
 
 ```{r setup, include=FALSE}
@@ -20,7 +21,7 @@ Nater, C. R., Martin, J. A, Frassinelli, F., and Nilsen, E. B. (2024). Large-sca
 In essence, this document is a version of the workflow in "Analysis_RealData.R" with additional annotation and documentation.
 It is also nearly identical to the contents of "Analysis_RealData_LierneVest.R", which carries out an equivalent analysis but only for a single locality (Lierne Vest) instead of for a larger number of reporting districts. 
 
-There are three ways to run this workflow, two from "within" R and a third one using Nix and GNUparallel from a terminal. For the latter, refer to the second vignette "workflow_Nix_GNUparallell.Rmd".
+There are three ways to run this workflow, two from "within" R and a third one using Nix and GNUparallel from a terminal. For the latter, refer to the second vignette "workflow_Nix_GNUparallel.Rmd".
 
 
 ## Before you start
