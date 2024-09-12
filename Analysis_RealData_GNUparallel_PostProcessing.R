@@ -146,6 +146,17 @@ checkDD(mcmc.out = IDSM.out.tidy,
         max_years = input_data$nim.constant$max_years)
 
 
+# OPTIONAL: CHECK VITAL RATE SAMPLING CORRELATIONS #
+#--------------------------------------------------#
+
+checkVRcorrs(mcmc.out = IDSM.out.tidy, 
+             N_areas = input_data$nim.constant$N_areas, 
+             area_names = input_data$nim.constant$area_names, 
+             area_coord = LT_data$d_coord,
+             min_years = input_data$nim.constant$min_years, 
+             max_years = input_data$nim.constant$max_years)
+
+
 # OPTIONAL: CALCULATE AND PLOT VARIANCE DECOMPOSITION #
 #-----------------------------------------------------#
 
